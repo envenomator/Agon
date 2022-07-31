@@ -46,3 +46,7 @@ A proper sequence of events in creating bitmaps and/or sprites should be:
 7. Activate NUMBER of adjacent sprites (starting at 0) to the GDU - sprite_activateTotal(number)
 
 Bitmaps can be drawn on the background canvas by using bitmap_draw(id), regardless of being (re)used by any sprites on the foreground.
+
+## AgonLight case
+All case files are present in the repository.
+Check out my [printables page](https://www.printables.com/model/235402-agonlight-case) for additional descriptions to print it yourself.

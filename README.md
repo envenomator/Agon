@@ -1,7 +1,5 @@
 # Agon
-Agon stuff
-
-## ESP32 Video changes
+## Proposed ESP32 Video changes
 In anticipation to Dean Belfeld's Quark GA version, I added a few routines to handle sprite VDU commands.
 It looks like sprite VDU have always been platform dependent, so it wouldn't hurt compatiblity to add specific sprite commands to Agon.
 My proposal is to add an additional command structure to existing VDU 23/0x17, where most SYS commands live. Extension 27/0x1B has been used by the Acorn BBC Basic, so this seems like a natural fit.
@@ -31,6 +29,20 @@ The following commands are structured in such a way to reflect this, and build u
 |             14            |          Move   sprite by offset        |                    x   (16bit), y (16bit)                   |     Move to   relative coordinates                                                                                    |
 
 ### Example commands
-1. Select sprite 7  - transmit byte sequence 23,27,4,7
-2. Send bitmap data - transmit byte sequence 23,27,1,WidthLSB,WidthMSB,HeightLSB,HeightMSB, width x height x 4 byte of data
-3. Show sprite      - transmit byte sequence 23,27,11 
+- Select sprite 7  - transmit byte sequence 23,27,4,7
+- Send bitmap data - transmit byte sequence 23,27,1,WidthLSB,WidthMSB,HeightLSB,HeightMSB, width x height x 4 byte of data
+- Show sprite      - transmit byte sequence 23,27,11 
+
+## Proposed C client library
+Include vdu.c and vdu.h in your ez80 project, and include the latter in your main project files to use the necessary routines.
+
+A proper sequence of events in creating bitmaps and/or sprites should be:
+1. select a bitmap - bitmap_select(id). Any number 0-255 will do
+2. send one or more bitmaps data in ABGR format - bitmap_sendData(width, height, *data)
+3. select a sprite, starting with id 0 - sprite_select(id)
+4. Potentially clear out old frames on this sprite, left by previous programs - sprite_clearFrames(id)
+5. add one or more frames to a sprite - sprite_addFrame(id, bitmap_id), using previously created bitmaps
+6. Set sprite to show immediately on activation, hidden by default - sprite_show(id), sprite_hide(id)
+7. Activate NUMBER of adjacent sprites (starting at 0) to the GDU - sprite_activateTotal(number)
+
+Bitmaps can be drawn on the background canvas by using bitmap_draw(id), regardless of being (re)used by any sprites on the foreground.

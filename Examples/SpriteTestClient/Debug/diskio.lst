@@ -1,0 +1,847 @@
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)31-Jul-22     12:44:13     page:   1
+
+
+PC     Object              I  Line    Source 
+                           A     1    ; Zilog eZ80 ANSI C Compiler Release 3.4
+                           A     2    ; -nomodsect -optspeed -noreduceopt -nopadbranc
+                           A     3    ; -peephole -globalopt -localcse -const=ROM 
+                           A     4    	FILE	"..\src_fatfs\diskio.c"
+                           A     5    	.assume ADL=1
+                           A     6    .DEBUG "C"
+                           A     7    	SEGMENT CODE
+                           A     8    .BEGREC "NONAME0",562
+                           A     9    .DEFINE "fs_type"
+                           A    10    .VALUE 0
+                           A    11    .CLASS 8
+                           A    12    .TYPE 12
+                           A    13    .ENDEF
+                           A    14    .DEFINE "pdrv"
+                           A    15    .VALUE 1
+                           A    16    .CLASS 8
+                           A    17    .TYPE 12
+                           A    18    .ENDEF
+                           A    19    .DEFINE "n_fats"
+                           A    20    .VALUE 2
+                           A    21    .CLASS 8
+                           A    22    .TYPE 12
+                           A    23    .ENDEF
+                           A    24    .DEFINE "wflag"
+                           A    25    .VALUE 3
+                           A    26    .CLASS 8
+                           A    27    .TYPE 12
+                           A    28    .ENDEF
+                           A    29    .DEFINE "fsi_flag"
+                           A    30    .VALUE 4
+                           A    31    .CLASS 8
+                           A    32    .TYPE 12
+                           A    33    .ENDEF
+                           A    34    .DEFINE "id"
+                           A    35    .VALUE 5
+                           A    36    .CLASS 8
+                           A    37    .TYPE 13
+                           A    38    .ENDEF
+                           A    39    .DEFINE "n_rootdir"
+                           A    40    .VALUE 7
+                           A    41    .CLASS 8
+                           A    42    .TYPE 13
+                           A    43    .ENDEF
+                           A    44    .DEFINE "csize"
+                           A    45    .VALUE 9
+                           A    46    .CLASS 8
+                           A    47    .TYPE 13
+                           A    48    .ENDEF
+                           A    49    .DEFINE "lfnbuf"
+                           A    50    .VALUE 11
+                           A    51    .CLASS 8
+                           A    52    .TYPE 45
+                           A    53    .ENDEF
+                           A    54    .DEFINE "last_clst"
+                           A    55    .VALUE 14
+                           A    56    .CLASS 8
+                           A    57    .TYPE 15
+                           A    58    .ENDEF
+                           A    59    .DEFINE "free_clst"
+                           A    60    .VALUE 18
+                           A    61    .CLASS 8
+                           A    62    .TYPE 15
+                           A    63    .ENDEF
+                           A    64    .DEFINE "n_fatent"
+                           A    65    .VALUE 22
+                           A    66    .CLASS 8
+                           A    67    .TYPE 15
+                           A    68    .ENDEF
+                           A    69    .DEFINE "fsize"
+                           A    70    .VALUE 26
+                           A    71    .CLASS 8
+                           A    72    .TYPE 15
+                           A    73    .ENDEF
+                           A    74    .DEFINE "volbase"
+                           A    75    .VALUE 30
+                           A    76    .CLASS 8
+                           A    77    .TYPE 15
+                           A    78    .ENDEF
+                           A    79    .DEFINE "fatbase"
+                           A    80    .VALUE 34
+                           A    81    .CLASS 8
+                           A    82    .TYPE 15
+                           A    83    .ENDEF
+                           A    84    .DEFINE "dirbase"
+                           A    85    .VALUE 38
+                           A    86    .CLASS 8
+                           A    87    .TYPE 15
+                           A    88    .ENDEF
+                           A    89    .DEFINE "database"
+                           A    90    .VALUE 42
+                           A    91    .CLASS 8
+                           A    92    .TYPE 15
+                           A    93    .ENDEF
+                           A    94    .DEFINE "winsect"
+                           A    95    .VALUE 46
+                           A    96    .CLASS 8
+                           A    97    .TYPE 15
+                           A    98    .ENDEF
+                           A    99    .DEFINE "win"
+                           A   100    .VALUE 50
+                           A   101    .CLASS 8
+                           A   102    .DIM 512
+                           A   103    .TYPE 108
+                           A   104    .ENDEF
+                           A   105    .ENDREC "NONAME0"
+                           A   106    .BEGREC "NONAME1",15
+                           A   107    .DEFINE "fs"
+                           A   108    .VALUE 0
+                           A   109    .CLASS 8
+                           A   110    .TAG "NONAME0"
+                           A   111    .TYPE 40
+                           A   112    .ENDEF
+                           A   113    .DEFINE "id"
+                           A   114    .VALUE 3
+                           A   115    .CLASS 8
+                           A   116    .TYPE 13
+                           A   117    .ENDEF
+                           A   118    .DEFINE "attr"
+                           A   119    .VALUE 5
+                           A   120    .CLASS 8
+                           A   121    .TYPE 12
+                           A   122    .ENDEF
+                           A   123    .DEFINE "stat"
+                           A   124    .VALUE 6
+                           A   125    .CLASS 8
+                           A   126    .TYPE 12
+                           A   127    .ENDEF
+                           A   128    .DEFINE "sclust"
+                           A   129    .VALUE 7
+                           A   130    .CLASS 8
+                           A   131    .TYPE 15
+                           A   132    .ENDEF
+                           A   133    .DEFINE "objsize"
+                           A   134    .VALUE 11
+                           A   135    .CLASS 8
+                           A   136    .TYPE 15
+                           A   137    .ENDEF
+                           A   138    .ENDREC "NONAME1"
+                           A   139    .BEGREC "NONAME2",548
+                           A   140    .DEFINE "obj"
+                           A   141    .VALUE 0
+                           A   142    .CLASS 8
+                           A   143    .TAG "NONAME1"
+                           A   144    .TYPE 8
+                           A   145    .ENDEF
+                           A   146    .DEFINE "flag"
+                           A   147    .VALUE 15
+                           A   148    .CLASS 8
+                           A   149    .TYPE 12
+                           A   150    .ENDEF
+                           A   151    .DEFINE "err"
+                           A   152    .VALUE 16
+                           A   153    .CLASS 8
+                           A   154    .TYPE 12
+                           A   155    .ENDEF
+                           A   156    .DEFINE "fptr"
+                           A   157    .VALUE 17
+                           A   158    .CLASS 8
+                           A   159    .TYPE 15
+                           A   160    .ENDEF
+                           A   161    .DEFINE "clust"
+                           A   162    .VALUE 21
+                           A   163    .CLASS 8
+                           A   164    .TYPE 15
+                           A   165    .ENDEF
+                           A   166    .DEFINE "sect"
+                           A   167    .VALUE 25
+                           A   168    .CLASS 8
+                           A   169    .TYPE 15
+                           A   170    .ENDEF
+                           A   171    .DEFINE "dir_sect"
+                           A   172    .VALUE 29
+                           A   173    .CLASS 8
+                           A   174    .TYPE 15
+                           A   175    .ENDEF
+                           A   176    .DEFINE "dir_ptr"
+                           A   177    .VALUE 33
+                           A   178    .CLASS 8
+                           A   179    .TYPE 44
+                           A   180    .ENDEF
+                           A   181    .DEFINE "buf"
+                           A   182    .VALUE 36
+                           A   183    .CLASS 8
+                           A   184    .DIM 512
+                           A   185    .TYPE 108
+                           A   186    .ENDEF
+                           A   187    .ENDREC "NONAME2"
+                           A   188    .BEGREC "NONAME3",46
+                           A   189    .DEFINE "obj"
+                           A   190    .VALUE 0
+                           A   191    .CLASS 8
+                           A   192    .TAG "NONAME1"
+                           A   193    .TYPE 8
+                           A   194    .ENDEF
+                           A   195    .DEFINE "dptr"
+                           A   196    .VALUE 15
+                           A   197    .CLASS 8
+                           A   198    .TYPE 15
+                           A   199    .ENDEF
+                           A   200    .DEFINE "clust"
+                           A   201    .VALUE 19
+                           A   202    .CLASS 8
+                           A   203    .TYPE 15
+                           A   204    .ENDEF
+                           A   205    .DEFINE "sect"
+                           A   206    .VALUE 23
+                           A   207    .CLASS 8
+                           A   208    .TYPE 15
+                           A   209    .ENDEF
+                           A   210    .DEFINE "dir"
+                           A   211    .VALUE 27
+                           A   212    .CLASS 8
+                           A   213    .TYPE 44
+                           A   214    .ENDEF
+                           A   215    .DEFINE "fn"
+                           A   216    .VALUE 30
+                           A   217    .CLASS 8
+                           A   218    .DIM 12
+                           A   219    .TYPE 108
+                           A   220    .ENDEF
+                           A   221    .DEFINE "blk_ofs"
+                           A   222    .VALUE 42
+                           A   223    .CLASS 8
+                           A   224    .TYPE 15
+                           A   225    .ENDEF
+                           A   226    .ENDREC "NONAME3"
+                           A   227    .BEGREC "NONAME4",278
+                           A   228    .DEFINE "fsize"
+                           A   229    .VALUE 0
+                           A   230    .CLASS 8
+                           A   231    .TYPE 15
+                           A   232    .ENDEF
+                           A   233    .DEFINE "fdate"
+                           A   234    .VALUE 4
+                           A   235    .CLASS 8
+                           A   236    .TYPE 13
+                           A   237    .ENDEF
+                           A   238    .DEFINE "ftime"
+                           A   239    .VALUE 6
+                           A   240    .CLASS 8
+                           A   241    .TYPE 13
+                           A   242    .ENDEF
+                           A   243    .DEFINE "fattrib"
+                           A   244    .VALUE 8
+                           A   245    .CLASS 8
+                           A   246    .TYPE 12
+                           A   247    .ENDEF
+                           A   248    .DEFINE "altname"
+                           A   249    .VALUE 9
+                           A   250    .CLASS 8
+                           A   251    .DIM 13
+                           A   252    .TYPE 98
+                           A   253    .ENDEF
+                           A   254    .DEFINE "fname"
+                           A   255    .VALUE 22
+                           A   256    .CLASS 8
+                           A   257    .DIM 256
+                           A   258    .TYPE 98
+                           A   259    .ENDEF
+                           A   260    .ENDREC "NONAME4"
+                           A   261    .BEGREC "NONAME5",12
+                           A   262    .DEFINE "fmt"
+                           A   263    .VALUE 0
+                           A   264    .CLASS 8
+                           A   265    .TYPE 12
+                           A   266    .ENDEF
+                           A   267    .DEFINE "n_fat"
+                           A   268    .VALUE 1
+                           A   269    .CLASS 8
+                           A   270    .TYPE 12
+                           A   271    .ENDEF
+                           A   272    .DEFINE "align"
+                           A   273    .VALUE 2
+                           A   274    .CLASS 8
+                           A   275    .TYPE 14
+                           A   276    .ENDEF
+                           A   277    .DEFINE "n_root"
+                           A   278    .VALUE 5
+                           A   279    .CLASS 8
+                           A   280    .TYPE 14
+                           A   281    .ENDEF
+                           A   282    .DEFINE "au_size"
+                           A   283    .VALUE 8
+                           A   284    .CLASS 8
+                           A   285    .TYPE 15
+                           A   286    .ENDEF
+                           A   287    .ENDREC "NONAME5"
+                           A   288    ;    1	/*-------------------------------------
+                           A   289    ;    2	/* Low level disk I/O module SKELETON f
+                           A   290    ;    3	/*-------------------------------------
+                           A   291    ;    4	/* If a working storage control module 
+                           A   292    ;    5	/* attached to the FatFs via a glue fun
+                           A   293    ;    6	/* This is an example of glue functions
+                           A   294    ;    7	/* storage control modules to the FatFs
+                           A   295    ;    8	/*-------------------------------------
+                           A   296    ;    9	
+                           A   297    ;   10	#include "ff.h"			/* Obtains inte
+                           A   298    ;   11	#include "diskio.h"		/* Declarations
+                           A   299    ;   12	
+                           A   300    ;   13	#include "sd.h"			/* Phyiscal SD 
+                           A   301    ;   14	
+                           A   302    ;   15	/* Definitions of physical drive number
+                           A   303    ;   16	
+                           A   304    ;   17	#define DEV_RAM		0	/* Example: Map
+                           A   305    ;   18	#define DEV_MMC		1	/* Example: Map
+                           A   306    ;   19	#define DEV_USB		2	/* Example: Map
+                           A   307    ;   20	
+                           A   308    ;   21	/*-------------------------------------
+                           A   309    ;   22	/* Get Drive Status                    
+                           A   310    ;   23	/*-------------------------------------
+                           A   311    ;   24	
+                           A   312    ;   25	DSTATUS disk_status (
+                           A   313    ;   26		BYTE pdrv		/* Physical drive n
+                           A   314    ;   27	)
+                           A   315    ;   28	{
+000000                     A   316    _disk_status:
+                           A   317    .DEFINE "_disk_status"
+                           A   318    
+                           A   319    .VALUE _disk_status
+                           A   320    
+                           A   321    .CLASS 2
+                           A   322    
+                           A   323    .TYPE 76
+                           A   324    
+                           A   325    .ENDEF
+                           A   326    
+                           A   327    .BEGFUNC "disk_status",28,"_disk_status"
+                           A   328    
+                           A   329    .LINE 28
+                           A   330    
+                           A   331    .DEFINE "pdrv"
+                           A   332    
+                           A   333    .CLASS 65
+                           A   334    
+                           A   335    .VALUE 6
+                           A   336    
+                           A   337    .TYPE 12
+                           A   338    
+                           A   339    .ENDEF
+                           A   340    
+000000 DDE5                A   341    	PUSH	IX
+000002 DD210000 00         A   342    	LD	IX,0
+000007 DD39                A   343    	ADD	IX,SP
+                           A   344    ;   29		return 0;
+                           A   345    .LINE 29
+                           A   346    
+000009 AF                  A   347    	XOR	A,A
+                           A   348    ;   30	}
+                           A   349    .LINE 30
+                           A   350    
+00000A DDF9                A   351    	LD	SP,IX
+00000C DDE1                A   352    	POP	IX
+00000E C9                  A   353    	RET	
+                           A   354    
+                           A   355    
+                           A   356    ;**************************** _disk_status ****
+                           A   357    ;Name                         Addr/Register   S
+                           A   358    ;pdrv                                  IX+6    
+                           A   359    
+                           A   360    
+                           A   361    ; Stack Frame Size: 9 (bytes)
+                           A   362    ;       Spill Code: 0 (instruction)
+                           A   363    
+                           A   364    
+                           A   365    .ENDFUNC "disk_status",30,"_disk_status"
+                           A   366    ;   31	
+                           A   367    ;   32	/*-------------------------------------
+                           A   368    ;   33	/* Initialize a Drive                  
+                           A   369    ;   34	/*-------------------------------------
+                           A   370    ;   35	
+                           A   371    ;   36	DSTATUS disk_initialize (
+                           A   372    ;   37		BYTE pdrv				/* Physical
+                           A   373    ;   38	)
+                           A   374    ;   39	{
+00000F                     A   375    _disk_initialize:
+                           A   376    .DEFINE "_disk_initialize"
+                           A   377    
+                           A   378    .VALUE _disk_initialize
+                           A   379    
+                           A   380    .CLASS 2
+                           A   381    
+                           A   382    .TYPE 76
+                           A   383    
+                           A   384    .ENDEF
+                           A   385    
+                           A   386    .BEGFUNC "disk_initialize",39,"_disk_initialize
+                           A   387    
+                           A   388    .LINE 39
+                           A   389    
+                           A   390    .DEFINE "pdrv"
+                           A   391    
+                           A   392    .CLASS 65
+                           A   393    
+                           A   394    .VALUE 6
+                           A   395    
+                           A   396    .TYPE 12
+                           A   397    
+                           A   398    .ENDEF
+                           A   399    
+                           A   400    .DEFINE "err"
+                           A   401    
+                           A   402    .CLASS 65
+                           A   403    
+                           A   404    .VALUE -1
+                           A   405    
+                           A   406    .TYPE 12
+                           A   407    
+                           A   408    .ENDEF
+                           A   409    
+00000F DDE5                A   410    	PUSH	IX
+000011 DD210000 00         A   411    	LD	IX,0
+000016 DD39                A   412    	ADD	IX,SP
+000018 3B                  A   413    	DEC	SP
+                           A   414    ;   40		BYTE err = SD_init();
+                           A   415    .LINE 40
+                           A   416    
+000019 CD 00 00 00         A   417    	CALL	_SD_init
+00001D DD77FF              A   418    	LD	(IX+%FFFFFFFF),A
+                           A   419    ;   41		if(err == SD_SUCCESS) {
+                           A   420    .LINE 41
+                           A   421    
+000020 B7                  A   422    	OR	A,A
+000021 20 03               A   423    	JR	NZ,L_2
+                           A   424    ;   42			return RES_OK;
+                           A   425    .LINE 42
+                           A   426    
+000023 AF                  A   427    	XOR	A,A
+000024 18 02               A   428    	JR	L_3
+                           A   429    ;   43		}
+000026                     A   430    L_2:
+                           A   431    .LINE 43
+                           A   432    
+                           A   433    ;   44		return RES_ERROR;
+                           A   434    .LINE 44
+                           A   435    
+000026 3E01                A   436    	LD	A,%1
+                           A   437    ;   45	}
+000028                     A   438    L_3:
+                           A   439    .LINE 45
+                           A   440    
+000028 DDF9                A   441    	LD	SP,IX
+00002A DDE1                A   442    	POP	IX
+00002C C9                  A   443    	RET	
+                           A   444    
+                           A   445    
+                           A   446    ;**************************** _disk_initialize 
+                           A   447    ;Name                         Addr/Register   S
+                           A   448    ;_SD_init                            IMPORT  --
+                           A   449    ;err                                   IX-1    
+                           A   450    ;pdrv                                  IX+6    
+                           A   451    
+                           A   452    
+                           A   453    ; Stack Frame Size: 10 (bytes)
+                           A   454    ;       Spill Code: 0 (instruction)
+                           A   455    
+                           A   456    
+                           A   457    .ENDFUNC "disk_initialize",45,"_disk_initialize
+                           A   458    ;   46	
+                           A   459    ;   47	/*-------------------------------------
+                           A   460    ;   48	/* Read Sector(s)                      
+                           A   461    ;   49	/*-------------------------------------
+                           A   462    ;   50	
+                           A   463    ;   51	DRESULT disk_read (
+                           A   464    ;   52		BYTE pdrv,		/* Physical drive n
+                           A   465    ;   53		BYTE *buff,		/* Data buffer to s
+                           A   466    ;   54		LBA_t sector,	/* Start sector in 
+                           A   467    ;   55		UINT count		/* Number of sector
+                           A   468    ;   56	)
+                           A   469    ;   57	{
+00002D                     A   470    _disk_read:
+                           A   471    .DEFINE "_disk_read"
+                           A   472    
+                           A   473    .VALUE _disk_read
+                           A   474    
+                           A   475    .CLASS 2
+                           A   476    
+                           A   477    .TYPE 68
+                           A   478    
+                           A   479    .ENDEF
+                           A   480    
+                           A   481    .BEGFUNC "disk_read",57,"_disk_read"
+                           A   482    
+                           A   483    .LINE 57
+                           A   484    
+                           A   485    .DEFINE "pdrv"
+                           A   486    
+                           A   487    .CLASS 65
+                           A   488    
+                           A   489    .VALUE 6
+                           A   490    
+                           A   491    .TYPE 12
+                           A   492    
+                           A   493    .ENDEF
+                           A   494    
+                           A   495    .DEFINE "buff"
+                           A   496    
+                           A   497    .CLASS 65
+                           A   498    
+                           A   499    .VALUE 9
+                           A   500    
+                           A   501    .TYPE 44
+                           A   502    
+                           A   503    .ENDEF
+                           A   504    
+                           A   505    .DEFINE "sector"
+                           A   506    
+                           A   507    .CLASS 65
+                           A   508    
+                           A   509    .VALUE 12
+                           A   510    
+                           A   511    .TYPE 15
+                           A   512    
+                           A   513    .ENDEF
+                           A   514    
+                           A   515    .DEFINE "count"
+                           A   516    
+                           A   517    .CLASS 65
+                           A   518    
+                           A   519    .VALUE 18
+                           A   520    
+                           A   521    .TYPE 14
+                           A   522    
+                           A   523    .ENDEF
+                           A   524    
+                           A   525    .DEFINE "err"
+                           A   526    
+                           A   527    .CLASS 65
+                           A   528    
+                           A   529    .VALUE -1
+                           A   530    
+                           A   531    .TYPE 12
+                           A   532    
+                           A   533    .ENDEF
+                           A   534    
+00002D DDE5                A   535    	PUSH	IX
+00002F DD210000 00         A   536    	LD	IX,0
+000034 DD39                A   537    	ADD	IX,SP
+000036 3B                  A   538    	DEC	SP
+                           A   539    ;   58		BYTE err = SD_readBlocks(sector, bu
+                           A   540    .LINE 58
+                           A   541    
+000037 DD0712              A   542    	LD	BC,(IX+%12)
+00003A C5                  A   543    	PUSH	BC
+00003B DD0709              A   544    	LD	BC,(IX+%9)
+00003E C5                  A   545    	PUSH	BC
+00003F DD4E0F              A   546    	LD	C,(IX+%F)
+000042 0600                A   547    	LD	B,%0
+000044 C5                  A   548    	PUSH	BC
+000045 DD070C              A   549    	LD	BC,(IX+%C)
+000048 C5                  A   550    	PUSH	BC
+000049 CD 00 00 00         A   551    	CALL	_SD_readBlocks
+00004D C1                  A   552    	POP	BC
+00004E C1                  A   553    	POP	BC
+00004F C1                  A   554    	POP	BC
+000050 C1                  A   555    	POP	BC
+000051 DD77FF              A   556    	LD	(IX+%FFFFFFFF),A
+                           A   557    ;   59		if(err == SD_SUCCESS) {
+                           A   558    .LINE 59
+                           A   559    
+000054 B7                  A   560    	OR	A,A
+000055 20 05               A   561    	JR	NZ,L_5
+                           A   562    ;   60			return RES_OK;
+                           A   563    .LINE 60
+                           A   564    
+000057 B7                  A   565    	OR	A,A
+000058 ED62                A   566    	SBC	HL,HL
+00005A 18 04               A   567    	JR	L_6
+                           A   568    ;   61		}
+00005C                     A   569    L_5:
+                           A   570    .LINE 61
+                           A   571    
+                           A   572    ;   62		return RES_ERROR;
+                           A   573    .LINE 62
+                           A   574    
+00005C 21010000            A   575    	LD	HL,1
+                           A   576    ;   63	}
+000060                     A   577    L_6:
+                           A   578    .LINE 63
+                           A   579    
+000060 DDF9                A   580    	LD	SP,IX
+000062 DDE1                A   581    	POP	IX
+000064 C9                  A   582    	RET	
+                           A   583    
+                           A   584    
+                           A   585    ;**************************** _disk_read ******
+                           A   586    ;Name                         Addr/Register   S
+                           A   587    ;_SD_readBlocks                      IMPORT  --
+                           A   588    ;err                                   IX-1    
+                           A   589    ;count                                IX+18    
+                           A   590    ;sector                               IX+12    
+                           A   591    ;buff                                  IX+9    
+                           A   592    ;pdrv                                  IX+6    
+                           A   593    
+                           A   594    
+                           A   595    ; Stack Frame Size: 22 (bytes)
+                           A   596    ;       Spill Code: 0 (instruction)
+                           A   597    
+                           A   598    
+                           A   599    .ENDFUNC "disk_read",63,"_disk_read"
+                           A   600    ;   64	
+                           A   601    ;   65	/*-------------------------------------
+                           A   602    ;   66	/* Write Sector(s)                     
+                           A   603    ;   67	/*-------------------------------------
+                           A   604    ;   68	
+                           A   605    ;   69	#if FF_FS_READONLY == 0
+                           A   606    ;   70	
+                           A   607    ;   71	DRESULT disk_write (
+                           A   608    ;   72		BYTE pdrv,			/* Physical dri
+                           A   609    ;   73		const BYTE *buff,	/* Data to be w
+                           A   610    ;   74		LBA_t sector,		/* Start sector
+                           A   611    ;   75		UINT count			/* Number of se
+                           A   612    ;   76	)
+                           A   613    ;   77	{
+000065                     A   614    _disk_write:
+                           A   615    .DEFINE "_disk_write"
+                           A   616    
+                           A   617    .VALUE _disk_write
+                           A   618    
+                           A   619    .CLASS 2
+                           A   620    
+                           A   621    .TYPE 68
+                           A   622    
+                           A   623    .ENDEF
+                           A   624    
+                           A   625    .BEGFUNC "disk_write",77,"_disk_write"
+                           A   626    
+                           A   627    .LINE 77
+                           A   628    
+                           A   629    .DEFINE "pdrv"
+                           A   630    
+                           A   631    .CLASS 65
+                           A   632    
+                           A   633    .VALUE 6
+                           A   634    
+                           A   635    .TYPE 12
+                           A   636    
+                           A   637    .ENDEF
+                           A   638    
+                           A   639    .DEFINE "buff"
+                           A   640    
+                           A   641    .CLASS 65
+                           A   642    
+                           A   643    .VALUE 9
+                           A   644    
+                           A   645    .TYPE 204
+                           A   646    
+                           A   647    .ENDEF
+                           A   648    
+                           A   649    .DEFINE "sector"
+                           A   650    
+                           A   651    .CLASS 65
+                           A   652    
+                           A   653    .VALUE 12
+                           A   654    
+                           A   655    .TYPE 15
+                           A   656    
+                           A   657    .ENDEF
+                           A   658    
+                           A   659    .DEFINE "count"
+                           A   660    
+                           A   661    .CLASS 65
+                           A   662    
+                           A   663    .VALUE 18
+                           A   664    
+                           A   665    .TYPE 14
+                           A   666    
+                           A   667    .ENDEF
+                           A   668    
+                           A   669    .DEFINE "err"
+                           A   670    
+                           A   671    .CLASS 65
+                           A   672    
+                           A   673    .VALUE -1
+                           A   674    
+                           A   675    .TYPE 12
+                           A   676    
+                           A   677    .ENDEF
+                           A   678    
+000065 DDE5                A   679    	PUSH	IX
+000067 DD210000 00         A   680    	LD	IX,0
+00006C DD39                A   681    	ADD	IX,SP
+00006E 3B                  A   682    	DEC	SP
+                           A   683    ;   78		BYTE err = SD_writeBlocks(sector, b
+                           A   684    .LINE 78
+                           A   685    
+00006F DD0712              A   686    	LD	BC,(IX+%12)
+000072 C5                  A   687    	PUSH	BC
+000073 DD0709              A   688    	LD	BC,(IX+%9)
+000076 C5                  A   689    	PUSH	BC
+000077 DD4E0F              A   690    	LD	C,(IX+%F)
+00007A 0600                A   691    	LD	B,%0
+00007C C5                  A   692    	PUSH	BC
+00007D DD070C              A   693    	LD	BC,(IX+%C)
+000080 C5                  A   694    	PUSH	BC
+000081 CD 00 00 00         A   695    	CALL	_SD_writeBlocks
+000085 C1                  A   696    	POP	BC
+000086 C1                  A   697    	POP	BC
+000087 C1                  A   698    	POP	BC
+000088 C1                  A   699    	POP	BC
+000089 DD77FF              A   700    	LD	(IX+%FFFFFFFF),A
+                           A   701    ;   79		if(err == SD_SUCCESS) {
+                           A   702    .LINE 79
+                           A   703    
+00008C B7                  A   704    	OR	A,A
+00008D 20 05               A   705    	JR	NZ,L_8
+                           A   706    ;   80			return RES_OK;
+                           A   707    .LINE 80
+                           A   708    
+00008F B7                  A   709    	OR	A,A
+000090 ED62                A   710    	SBC	HL,HL
+000092 18 04               A   711    	JR	L_9
+                           A   712    ;   81		}
+000094                     A   713    L_8:
+                           A   714    .LINE 81
+                           A   715    
+                           A   716    ;   82		
+                           A   717    ;   83		return RES_ERROR;
+                           A   718    .LINE 83
+                           A   719    
+000094 21010000            A   720    	LD	HL,1
+                           A   721    ;   84	}
+000098                     A   722    L_9:
+                           A   723    .LINE 84
+                           A   724    
+000098 DDF9                A   725    	LD	SP,IX
+00009A DDE1                A   726    	POP	IX
+00009C C9                  A   727    	RET	
+                           A   728    
+                           A   729    
+                           A   730    ;**************************** _disk_write *****
+                           A   731    ;Name                         Addr/Register   S
+                           A   732    ;_SD_writeBlocks                     IMPORT  --
+                           A   733    ;err                                   IX-1    
+                           A   734    ;count                                IX+18    
+                           A   735    ;sector                               IX+12    
+                           A   736    ;buff                                  IX+9    
+                           A   737    ;pdrv                                  IX+6    
+                           A   738    
+                           A   739    
+                           A   740    ; Stack Frame Size: 22 (bytes)
+                           A   741    ;       Spill Code: 0 (instruction)
+                           A   742    
+                           A   743    
+                           A   744    .ENDFUNC "disk_write",84,"_disk_write"
+                           A   745    ;   85	
+                           A   746    ;   86	#endif
+                           A   747    ;   87	
+                           A   748    ;   88	/*-------------------------------------
+                           A   749    ;   89	/* Miscellaneous Functions             
+                           A   750    ;   90	/*-------------------------------------
+                           A   751    ;   91	
+                           A   752    ;   92	DRESULT disk_ioctl (
+                           A   753    ;   93		BYTE pdrv,		/* Physical drive n
+                           A   754    ;   94		BYTE cmd,		/* Control code */
+                           A   755    ;   95		void *buff		/* Buffer to send/r
+                           A   756    ;   96	)
+                           A   757    ;   97	{
+00009D                     A   758    _disk_ioctl:
+                           A   759    .DEFINE "_disk_ioctl"
+                           A   760    
+                           A   761    .VALUE _disk_ioctl
+                           A   762    
+                           A   763    .CLASS 2
+                           A   764    
+                           A   765    .TYPE 68
+                           A   766    
+                           A   767    .ENDEF
+                           A   768    
+                           A   769    .BEGFUNC "disk_ioctl",97,"_disk_ioctl"
+                           A   770    
+                           A   771    .LINE 97
+                           A   772    
+                           A   773    .DEFINE "pdrv"
+                           A   774    
+                           A   775    .CLASS 65
+                           A   776    
+                           A   777    .VALUE 6
+                           A   778    
+                           A   779    .TYPE 12
+                           A   780    
+                           A   781    .ENDEF
+                           A   782    
+                           A   783    .DEFINE "cmd"
+                           A   784    
+                           A   785    .CLASS 65
+                           A   786    
+                           A   787    .VALUE 9
+                           A   788    
+                           A   789    .TYPE 12
+                           A   790    
+                           A   791    .ENDEF
+                           A   792    
+                           A   793    .DEFINE "buff"
+                           A   794    
+                           A   795    .CLASS 65
+                           A   796    
+                           A   797    .VALUE 12
+                           A   798    
+                           A   799    .TYPE 33
+                           A   800    
+                           A   801    .ENDEF
+                           A   802    
+00009D DDE5                A   803    	PUSH	IX
+00009F DD210000 00         A   804    	LD	IX,0
+0000A4 DD39                A   805    	ADD	IX,SP
+                           A   806    ;   98		return RES_OK;
+                           A   807    .LINE 98
+                           A   808    
+0000A6 B7                  A   809    	OR	A,A
+0000A7 ED62                A   810    	SBC	HL,HL
+                           A   811    .LINE 99
+                           A   812    
+0000A9 DDF9                A   813    	LD	SP,IX
+0000AB DDE1                A   814    	POP	IX
+0000AD C9                  A   815    	RET	
+                           A   816    
+                           A   817    
+                           A   818    ;**************************** _disk_ioctl *****
+                           A   819    ;Name                         Addr/Register   S
+                           A   820    ;buff                                 IX+12    
+                           A   821    ;cmd                                   IX+9    
+                           A   822    ;pdrv                                  IX+6    
+                           A   823    
+                           A   824    
+                           A   825    ; Stack Frame Size: 15 (bytes)
+                           A   826    ;       Spill Code: 0 (instruction)
+                           A   827    
+                           A   828    
+                           A   829    .ENDFUNC "disk_ioctl",99,"_disk_ioctl"
+                           A   830    	XREF _SD_init:ROM
+                           A   831    	XREF _SD_writeBlocks:ROM
+                           A   832    	XREF _SD_readBlocks:ROM
+                           A   833    	XDEF _disk_ioctl
+                           A   834    	XDEF _disk_write
+                           A   835    	XDEF _disk_read
+                           A   836    	XDEF _disk_initialize
+                           A   837    	XDEF _disk_status
+                           A   838    	END
+
+
+Errors: 0
+Warnings: 0
+Lines Assembled: 839

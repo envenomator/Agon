@@ -1,0 +1,497 @@
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)31-Jul-22     12:44:13     page:   1
+
+
+PC     Object              I  Line    Source 
+                           A     1    ; Zilog eZ80 ANSI C Compiler Release 3.4
+                           A     2    ; -nomodsect -optspeed -noreduceopt -nopadbranc
+                           A     3    ; -peephole -globalopt -localcse -const=ROM 
+                           A     4    	FILE	"..\src\spi.c"
+                           A     5    	.assume ADL=1
+                           A     6    .DEBUG "C"
+                           A     7    	SEGMENT CODE
+                           A     8    ;    1	/*
+                           A     9    ;    2	 * Title:			AGON MOS - SPI
+                           A    10    ;    3	 * Author:			Cocoacrumbs
+                           A    11    ;    4	 * Modified by:		Dean Belfield
+                           A    12    ;    5	 * Created:			19/06/2022
+                           A    13    ;    6	 * Last Updated:	11/07/2022
+                           A    14    ;    7	 * 
+                           A    15    ;    8	 * Thank you to @CoCoaCrumbs fo this co
+                           A    16    ;    9	 *
+                           A    17    ;   10	 * Modinfo:
+                           A    18    ;   11	 * 11/07/2022:		Now includes define
+                           A    19    ;   12	 */
+                           A    20    ;   13	
+                           A    21    ;   14	#include <ez80.h>
+                           A    22    ;   15	#include <defines.h>
+                           A    23    ;   16	
+                           A    24    ;   17	#include "spi.h"
+                           A    25    ;   18	#include "timer.h"
+                           A    26    ;   19	
+                           A    27    ;   20	// Delays, SPI and SD card retry consta
+                           A    28    ;   21	//
+                           A    29    ;   22	#define WAIT4RESET  8000
+                           A    30    ;   23	#define SPIRETRY    1000
+                           A    31    ;   24	
+                           A    32    ;   25	#define SD_CS       4	// PB4, was PB0
+                           A    33    ;   26	
+                           A    34    ;   27	#define SPI_MOSI    7   // PB7
+                           A    35    ;   28	#define SPI_MISO    6   // PB6
+                           A    36    ;   29	#define SPI_CLK     3   // PB3
+                           A    37    ;   30	
+                           A    38    ;   31	
+                           A    39    ;   32	// Clear, set bits in registers
+                           A    40    ;   33	//
+                           A    41    ;   34	#define BIT(n)              (1 << n)
+                           A    42    ;   35	#define CLEAR_BIT(reg, n)   (reg &= ~(1
+                           A    43    ;   36	#define SET_BIT(reg, n)     (reg |=  (1
+                           A    44    ;   37	
+                           A    45    ;   38	void SD_CS_enable() {
+000000                     A    46    _SD_CS_enable:
+                           A    47    .DEFINE "_SD_CS_enable"
+                           A    48    
+                           A    49    .VALUE _SD_CS_enable
+                           A    50    
+                           A    51    .CLASS 2
+                           A    52    
+                           A    53    .TYPE 65
+                           A    54    
+                           A    55    .ENDEF
+                           A    56    
+                           A    57    .BEGFUNC "SD_CS_enable",38,"_SD_CS_enable"
+                           A    58    
+000000 DDE5                A    59    	PUSH	IX
+000002 DD210000 00         A    60    	LD	IX,0
+000007 DD39                A    61    	ADD	IX,SP
+                           A    62    ;   39	     PB_DR &= ~BIT(SD_CS);
+                           A    63    .LINE 39
+                           A    64    
+000009 ED389A              A    65    	IN0	A,(154)
+00000C CBA7                A    66    	RES	%4,A
+00000E ED399A              A    67    	OUT0	(154),A
+                           A    68    ;   40	} 
+                           A    69    .LINE 40
+                           A    70    
+000011 DDF9                A    71    	LD	SP,IX
+000013 DDE1                A    72    	POP	IX
+000015 C9                  A    73    	RET	
+                           A    74    
+                           A    75    
+                           A    76    ;**************************** _SD_CS_enable ***
+                           A    77    ;Name                         Addr/Register   S
+                           A    78    
+                           A    79    
+                           A    80    ; Stack Frame Size: 6 (bytes)
+                           A    81    ;       Spill Code: 0 (instruction)
+                           A    82    
+                           A    83    
+                           A    84    .ENDFUNC "SD_CS_enable",40,"_SD_CS_enable"
+                           A    85    ;   41	
+                           A    86    ;   42	void SD_CS_disable() {
+000016                     A    87    _SD_CS_disable:
+                           A    88    .DEFINE "_SD_CS_disable"
+                           A    89    
+                           A    90    .VALUE _SD_CS_disable
+                           A    91    
+                           A    92    .CLASS 2
+                           A    93    
+                           A    94    .TYPE 65
+                           A    95    
+                           A    96    .ENDEF
+                           A    97    
+                           A    98    .BEGFUNC "SD_CS_disable",42,"_SD_CS_disable"
+                           A    99    
+000016 DDE5                A   100    	PUSH	IX
+000018 DD210000 00         A   101    	LD	IX,0
+00001D DD39                A   102    	ADD	IX,SP
+                           A   103    ;   43	     PB_DR |= BIT(SD_CS); 
+                           A   104    .LINE 43
+                           A   105    
+00001F ED389A              A   106    	IN0	A,(154)
+000022 CBE7                A   107    	SET	%4,A
+000024 ED399A              A   108    	OUT0	(154),A
+                           A   109    ;   44	} 
+                           A   110    .LINE 44
+                           A   111    
+000027 DDF9                A   112    	LD	SP,IX
+000029 DDE1                A   113    	POP	IX
+00002B C9                  A   114    	RET	
+                           A   115    
+                           A   116    
+                           A   117    ;**************************** _SD_CS_disable **
+                           A   118    ;Name                         Addr/Register   S
+                           A   119    
+                           A   120    
+                           A   121    ; Stack Frame Size: 6 (bytes)
+                           A   122    ;       Spill Code: 0 (instruction)
+                           A   123    
+                           A   124    
+                           A   125    .ENDFUNC "SD_CS_disable",44,"_SD_CS_disable"
+                           A   126    ;   45	
+                           A   127    ;   46	BYTE spi_transfer(BYTE d) {
+00002C                     A   128    _spi_transfer:
+                           A   129    .DEFINE "_spi_transfer"
+                           A   130    
+                           A   131    .VALUE _spi_transfer
+                           A   132    
+                           A   133    .CLASS 2
+                           A   134    
+                           A   135    .TYPE 76
+                           A   136    
+                           A   137    .ENDEF
+                           A   138    
+                           A   139    .BEGFUNC "spi_transfer",46,"_spi_transfer"
+                           A   140    
+                           A   141    .LINE 46
+                           A   142    
+                           A   143    .DEFINE "d"
+                           A   144    
+                           A   145    .CLASS 65
+                           A   146    
+                           A   147    .VALUE 6
+                           A   148    
+                           A   149    .TYPE 12
+                           A   150    
+                           A   151    .ENDEF
+                           A   152    
+                           A   153    .DEFINE "i"
+                           A   154    
+                           A   155    .CLASS 65
+                           A   156    
+                           A   157    .VALUE -3
+                           A   158    
+                           A   159    .TYPE 4
+                           A   160    
+                           A   161    .ENDEF
+                           A   162    
+00002C DDE5                A   163    	PUSH	IX
+00002E DD210000 00         A   164    	LD	IX,0
+000033 DD39                A   165    	ADD	IX,SP
+000035 C5                  A   166    	PUSH	BC
+                           A   167    ;   47	    int i = 0;
+                           A   168    .LINE 47
+                           A   169    
+000036 01000000            A   170    	LD	BC,0
+00003A DD0FFD              A   171    	LD	(IX+%FFFFFFFD),BC
+                           A   172    ;   48	
+                           A   173    ;   49	    // Write the data to exchange 
+                           A   174    ;   50		//
+                           A   175    ;   51	    SPI_TSR = d;
+                           A   176    .LINE 51
+                           A   177    
+00003D DD7E06              A   178    	LD	A,(IX+%6)
+000040 ED39BC              A   179    	OUT0	(188),A
+                           A   180    ;   52	    do {
+000043                     A   181    L_5:
+                           A   182    .LINE 52
+                           A   183    
+                           A   184    ;   53	        if (SPI_SR & (1 << 7))  {
+                           A   185    .LINE 53
+                           A   186    
+000043 ED38BB              A   187    	IN0	A,(187)
+000046 E680                A   188    	AND	A,%80
+000048 20 15               A   189    	JR	NZ,L_7
+                           A   190    ;   54	            break;
+                           A   191    ;   55	        } 
+                           A   192    ;   56	        i++;
+                           A   193    .LINE 56
+                           A   194    
+00004A DD07FD              A   195    	LD	BC,(IX+%FFFFFFFD)
+00004D 03                  A   196    	INC	BC
+00004E DD0FFD              A   197    	LD	(IX+%FFFFFFFD),BC
+                           A   198    ;   57	    } while (i < SPIRETRY);
+                           A   199    .LINE 57
+                           A   200    
+000051 01E80300            A   201    	LD	BC,1000
+000055 DD27FD              A   202    	LD	HL,(IX+%FFFFFFFD)
+000058 B7                  A   203    	OR	A,A
+000059 ED42                A   204    	SBC	HL,BC
+00005B FA 43 00 00         A   205    	JP	M,L_5
+00005F                     A   206    L_7:
+                           A   207    ;   58	    return SPI_RBR;
+                           A   208    .LINE 58
+                           A   209    
+00005F ED38BC              A   210    	IN0	A,(188)
+                           A   211    ;   59	} 
+                           A   212    .LINE 59
+                           A   213    
+000062 DDF9                A   214    	LD	SP,IX
+000064 DDE1                A   215    	POP	IX
+000066 C9                  A   216    	RET	
+                           A   217    
+                           A   218    
+                           A   219    ;**************************** _spi_transfer ***
+                           A   220    ;Name                         Addr/Register   S
+                           A   221    ;i                                     IX-3    
+                           A   222    ;d                                     IX+6    
+                           A   223    
+                           A   224    
+                           A   225    ; Stack Frame Size: 12 (bytes)
+                           A   226    ;       Spill Code: 0 (instruction)
+                           A   227    
+                           A   228    
+                           A   229    .ENDFUNC "spi_transfer",59,"_spi_transfer"
+                           A   230    ;   60	
+                           A   231    ;   61	
+                           A   232    ;   62	// Reset system devices
+                           A   233    ;   63	void init_spi() {
+000067                     A   234    _init_spi:
+                           A   235    .DEFINE "_init_spi"
+                           A   236    
+                           A   237    .VALUE _init_spi
+                           A   238    
+                           A   239    .CLASS 2
+                           A   240    
+                           A   241    .TYPE 65
+                           A   242    
+                           A   243    .ENDEF
+                           A   244    
+                           A   245    .BEGFUNC "init_spi",63,"_init_spi"
+                           A   246    
+                           A   247    .LINE 63
+                           A   248    
+                           A   249    .DEFINE "i"
+                           A   250    
+                           A   251    .CLASS 65
+                           A   252    
+                           A   253    .VALUE -4
+                           A   254    
+                           A   255    .TYPE 5
+                           A   256    
+                           A   257    .ENDEF
+                           A   258    
+000067 DDE5                A   259    	PUSH	IX
+000069 DD210000 00         A   260    	LD	IX,0
+00006E DD39                A   261    	ADD	IX,SP
+000070 C5                  A   262    	PUSH	BC
+000071 3B                  A   263    	DEC	SP
+                           A   264    ;   64	    long i;
+                           A   265    ;   65	
+                           A   266    ;   66	    // SS must remain high for SPI to w
+                           A   267    ;   67		//
+                           A   268    ;   68	    PB_DR   |=  BIT(2);
+                           A   269    .LINE 68
+                           A   270    
+000072 ED389A              A   271    	IN0	A,(154)
+000075 CBD7                A   272    	SET	%2,A
+000077 ED399A              A   273    	OUT0	(154),A
+                           A   274    ;   69	    PB_ALT1 &= ~BIT(2);
+                           A   275    .LINE 69
+                           A   276    
+00007A ED389C              A   277    	IN0	A,(156)
+00007D CB97                A   278    	RES	%2,A
+00007F ED399C              A   279    	OUT0	(156),A
+                           A   280    ;   70	    PB_ALT2 &= ~BIT(2);
+                           A   281    .LINE 70
+                           A   282    
+000082 ED389D              A   283    	IN0	A,(157)
+000085 CB97                A   284    	RES	%2,A
+000087 ED399D              A   285    	OUT0	(157),A
+                           A   286    ;   71	    PB_DDR  &= ~BIT(2);
+                           A   287    .LINE 71
+                           A   288    
+00008A ED389B              A   289    	IN0	A,(155)
+00008D CB97                A   290    	RES	%2,A
+00008F ED399B              A   291    	OUT0	(155),A
+                           A   292    ;   72	
+                           A   293    ;   73	    // Enable the chip select outputs a
+                           A   294    ;   74		//
+                           A   295    ;   75	    PB_DR   |=  BIT(SD_CS);
+                           A   296    .LINE 75
+                           A   297    
+000092 ED389A              A   298    	IN0	A,(154)
+000095 CBE7                A   299    	SET	%4,A
+000097 ED399A              A   300    	OUT0	(154),A
+                           A   301    ;   76	    PB_ALT1 &= ~BIT(SD_CS);
+                           A   302    .LINE 76
+                           A   303    
+00009A ED389C              A   304    	IN0	A,(156)
+00009D CBA7                A   305    	RES	%4,A
+00009F ED399C              A   306    	OUT0	(156),A
+                           A   307    ;   77	    PB_ALT2 &= ~BIT(SD_CS);
+                           A   308    .LINE 77
+                           A   309    
+0000A2 ED389D              A   310    	IN0	A,(157)
+0000A5 CBA7                A   311    	RES	%4,A
+0000A7 ED399D              A   312    	OUT0	(157),A
+                           A   313    ;   78	    PB_DDR  &= ~BIT(SD_CS);
+                           A   314    .LINE 78
+                           A   315    
+0000AA ED389B              A   316    	IN0	A,(155)
+0000AD CBA7                A   317    	RES	%4,A
+0000AF ED399B              A   318    	OUT0	(155),A
+                           A   319    ;   79		
+                           A   320    ;   80	    // Set port B pins 7 (MOSI), 6 (MIS
+                           A   321    ;   81		//
+                           A   322    ;   82	    PB_ALT1 &= ~(BIT(SPI_MOSI) | BIT(SP
+                           A   323    .LINE 82
+                           A   324    
+0000B2 ED389C              A   325    	IN0	A,(156)
+0000B5 E637                A   326    	AND	A,%37
+0000B7 ED399C              A   327    	OUT0	(156),A
+                           A   328    ;   83	    PB_ALT2 |=  (BIT(SPI_MOSI) | BIT(SP
+                           A   329    .LINE 83
+                           A   330    
+0000BA ED389D              A   331    	IN0	A,(157)
+0000BD F6C8                A   332    	OR	A,%C8
+0000BF ED399D              A   333    	OUT0	(157),A
+                           A   334    ;   84		
+                           A   335    ;   85	    mode_spi(4);
+                           A   336    .LINE 85
+                           A   337    
+0000C2 01040000            A   338    	LD	BC,4
+0000C6 C5                  A   339    	PUSH	BC
+0000C7 CD 0D 01 00         A   340    	CALL	_mode_spi
+0000CB C1                  A   341    	POP	BC
+                           A   342    ;   86	
+                           A   343    ;   87	    i = 0;
+                           A   344    .LINE 87
+                           A   345    
+0000CC 01000000            A   346    	LD	BC,0
+0000D0 AF                  A   347    	XOR	A,A
+0000D1 DD0FFC              A   348    	LD	(IX+%FFFFFFFC),BC
+0000D4 DD77FF              A   349    	LD	(IX+%FFFFFFFF),A
+                           A   350    ;   88	    while (i < WAIT4RESET)
+                           A   351    .LINE 88
+                           A   352    
+0000D7 18 12               A   353    	JR	L_10
+0000D9                     A   354    L_11:
+                           A   355    ;   89	        i++;
+                           A   356    .LINE 89
+                           A   357    
+0000D9 DD27FC              A   358    	LD	HL,(IX+%FFFFFFFC)
+0000DC DD5EFF              A   359    	LD	E,(IX+%FFFFFFFF)
+0000DF 3E01                A   360    	LD	A,%1
+0000E1 CD 00 00 00         A   361    	CALL	__ladd_b
+0000E5 DD2FFC              A   362    	LD	(IX+%FFFFFFFC),HL
+0000E8 DD73FF              A   363    	LD	(IX+%FFFFFFFF),E
+0000EB                     A   364    L_10:
+0000EB DD27FC              A   365    	LD	HL,(IX+%FFFFFFFC)
+0000EE DD5EFF              A   366    	LD	E,(IX+%FFFFFFFF)
+0000F1 01401F00            A   367    	LD	BC,8000
+0000F5 AF                  A   368    	XOR	A,A
+0000F6 CD 00 00 00         A   369    	CALL	__lcmps
+0000FA FA 04 01 00         A   370    	JP	M,L__6
+0000FE EA D9 00 00         A   371    	JP	PE,L_11
+000102 18 04               A   372    	JR	L__7
+000104                     A   373    L__6:
+000104 E2 D9 00 00         A   374    	JP	PO,L_11
+000108                     A   375    L__7:
+                           A   376    ;   90	} 
+                           A   377    .LINE 90
+                           A   378    
+000108 DDF9                A   379    	LD	SP,IX
+00010A DDE1                A   380    	POP	IX
+00010C C9                  A   381    	RET	
+                           A   382    
+                           A   383    
+                           A   384    ;**************************** _init_spi *******
+                           A   385    ;Name                         Addr/Register   S
+                           A   386    ;_mode_spi                           IMPORT  --
+                           A   387    ;i                                     IX-4    
+                           A   388    
+                           A   389    
+                           A   390    ; Stack Frame Size: 10 (bytes)
+                           A   391    ;       Spill Code: 0 (instruction)
+                           A   392    
+                           A   393    
+                           A   394    .ENDFUNC "init_spi",90,"_init_spi"
+                           A   395    ;   91	
+                           A   396    ;   92	
+                           A   397    ;   93	void mode_spi(int d) {
+00010D                     A   398    _mode_spi:
+                           A   399    .DEFINE "_mode_spi"
+                           A   400    
+                           A   401    .VALUE _mode_spi
+                           A   402    
+                           A   403    .CLASS 2
+                           A   404    
+                           A   405    .TYPE 65
+                           A   406    
+                           A   407    .ENDEF
+                           A   408    
+                           A   409    .BEGFUNC "mode_spi",93,"_mode_spi"
+                           A   410    
+                           A   411    .LINE 93
+                           A   412    
+                           A   413    .DEFINE "d"
+                           A   414    
+                           A   415    .CLASS 65
+                           A   416    
+                           A   417    .VALUE 6
+                           A   418    
+                           A   419    .TYPE 4
+                           A   420    
+                           A   421    .ENDEF
+                           A   422    
+00010D DDE5                A   423    	PUSH	IX
+00010F DD210000 00         A   424    	LD	IX,0
+000114 DD39                A   425    	ADD	IX,SP
+                           A   426    ;   94	    // Disable SPI
+                           A   427    ;   95		//
+                           A   428    ;   96	    SPI_CTL = 0;
+                           A   429    .LINE 96
+                           A   430    
+000116 AF                  A   431    	XOR	A,A
+000117 ED39BA              A   432    	OUT0	(186),A
+                           A   433    ;   97	
+                           A   434    ;   98	    // SPI Data Rate (bps) = System Clo
+                           A   435    ;   99		//
+                           A   436    ;  100	    SPI_BRG_H = d / 256;
+                           A   437    .LINE 100
+                           A   438    
+00011A 01000100            A   439    	LD	BC,256
+00011E DD2706              A   440    	LD	HL,(IX+%6)
+000121 CD 00 00 00         A   441    	CALL	__idivs
+000125 7D                  A   442    	LD	A,L
+000126 ED39B9              A   443    	OUT0	(185),A
+                           A   444    ;  101	    SPI_BRG_L = d % 256;
+                           A   445    .LINE 101
+                           A   446    
+000129 01000100            A   447    	LD	BC,256
+00012D DD2706              A   448    	LD	HL,(IX+%6)
+000130 CD 00 00 00         A   449    	CALL	__irems
+000134 7D                  A   450    	LD	A,L
+000135 ED39B8              A   451    	OUT0	(184),A
+                           A   452    ;  102	
+                           A   453    ;  103	    // Enable SPI
+                           A   454    ;  104		//
+                           A   455    ;  105	    SPI_CTL = 0x30;         // [5] SPI 
+                           A   456    .LINE 105
+                           A   457    
+000138 3E30                A   458    	LD	A,%30
+00013A ED39BA              A   459    	OUT0	(186),A
+                           A   460    ;  106	                            // [4] When
+                           A   461    ;  107	} 
+                           A   462    .LINE 107
+                           A   463    
+00013D DDF9                A   464    	LD	SP,IX
+00013F DDE1                A   465    	POP	IX
+000141 C9                  A   466    	RET	
+                           A   467    
+                           A   468    
+                           A   469    ;**************************** _mode_spi *******
+                           A   470    ;Name                         Addr/Register   S
+                           A   471    ;d                                     IX+6    
+                           A   472    
+                           A   473    
+                           A   474    ; Stack Frame Size: 9 (bytes)
+                           A   475    ;       Spill Code: 0 (instruction)
+                           A   476    
+                           A   477    
+                           A   478    .ENDFUNC "mode_spi",107,"_mode_spi"
+                           A   479    	XREF __lcmps:ROM
+                           A   480    	XREF __idivs:ROM
+                           A   481    	XREF __irems:ROM
+                           A   482    	XREF __ladd_b:ROM
+                           A   483    	XDEF _mode_spi
+                           A   484    	XDEF _init_spi
+                           A   485    	XDEF _spi_transfer
+                           A   486    	XDEF _SD_CS_disable
+                           A   487    	XDEF _SD_CS_enable
+                           A   488    	END
+
+
+Errors: 0
+Warnings: 0
+Lines Assembled: 489

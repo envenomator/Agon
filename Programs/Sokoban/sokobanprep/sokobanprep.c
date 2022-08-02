@@ -18,8 +18,9 @@ int get_goalsfromline(char *string);
 int get_takengoalsfromline(char *string);
 int get_cratesfromline(char *string);
 bool isdataline(char *string);
-void trim_validright(char *string);     // replaces non-playfield characters at the right of the string to 0
+void trim_validright(char *string, int length);     // replaces non-playfield characters at the right of the string to 0
 void trim_validleft(char *string);      // replaces non-playfield characters at the left of the string to 0
+void purge_string(char *string, int length);
 
 int main(int argc, char *argv[])
 {
@@ -215,7 +216,7 @@ int main(int argc, char *argv[])
                     {
                         if(isdataline(linebuffer)) // line without comments, just the data
                         {
-                            trim_validright(linebuffer);
+                            trim_validright(linebuffer, BUFFERSIZE);
                             trim_validleft(linebuffer);
                             for(n = 0; n < MAXWIDTH; n++) levelbuffer.data[y][n] = linebuffer[n];
                             //strncpy(levelbuffer.data[y],linebuffer,MAXWIDTH);
@@ -301,13 +302,13 @@ bool isdataline(char *string)
     return data;
 }
 
-void trim_validright(char *string)
+void trim_validright(char *string, int length)
 {
     int n;
-    int length;
+    //int length;
     char c;
 
-    length = strlen(string);
+    //length = strlen(string);
 
     n = length - 1;
 
@@ -337,4 +338,10 @@ void trim_validleft(char *string)
         string[n] = 0;
         n++;
     }
+}
+
+void purge_string(char *string, int length)
+{
+    for(int n = 0; n < length; n++) string[n] = 0;
+    return;
 }

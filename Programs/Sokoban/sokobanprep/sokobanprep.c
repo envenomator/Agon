@@ -9,6 +9,8 @@
 #define HEADERSIZE 12
 #define BUFFERSIZE 128
 
+#define DEBUG   0
+
 char linebuffer[BUFFERSIZE];
 
 struct sokobanlevel levelbuffer;
@@ -21,6 +23,7 @@ bool isdataline(char *string);
 void trim_validright(char *string, int length);     // replaces non-playfield characters at the right of the string to 0
 void trim_validleft(char *string);      // replaces non-playfield characters at the left of the string to 0
 void purge_string(char *string, int length);
+void remove_lfcrchars(char *string);
 
 int main(int argc, char *argv[])
 {
@@ -84,6 +87,7 @@ int main(int argc, char *argv[])
     xpos = malloc(numlevels *sizeof(unsigned int));
     ypos = malloc(numlevels *sizeof(unsigned int));
 
+    purge_string(linebuffer, BUFFERSIZE);
     while(fgets(linebuffer, sizeof(linebuffer), fptr) != NULL)
     {
         if(strncmp(linebuffer,"Level",5) == 0)
@@ -93,19 +97,21 @@ int main(int argc, char *argv[])
             levelwidth[level-1] = 0;
             levelgoals[level-1] = 0;
             levelgoalstaken[level-1] = 0;
-            levelgoalsopen[level -1] = 0;
+            levelgoalsopen[level-1] = 0;
             leveloffset[level-1] = 0;
             levelcrates[level-1] = 0;
         }
         else
         {
-            outputlength = strlen(linebuffer) - 1;  // remove EOL character at the end of the string
+            remove_lfcrchars(linebuffer);
+            outputlength = strlen(linebuffer);  // remove EOL character at the end of the string
             if(outputlength) // line has payload data
             {
                 if(isdataline(linebuffer)) // line without comments, just the data
                 {
                     // store maximum width at this level
-                    if(levelwidth[level-1] < outputlength) levelwidth[level-1] = outputlength - 1; // skip LF/CR
+                    if(DEBUG) printf("%d\n",outputlength);
+                    if(levelwidth[level-1] < outputlength) levelwidth[level-1] = outputlength; // skip LF/CR
 
                     levelheight[level-1]++; // add another line to this level
                     levelgoals[level-1] += get_goalsfromline(linebuffer);
@@ -115,6 +121,7 @@ int main(int argc, char *argv[])
                 }
             }
         }
+        purge_string(linebuffer, BUFFERSIZE);
     }
     rewind(fptr);
 
@@ -122,6 +129,8 @@ int main(int argc, char *argv[])
     // we will calculate the actual load address later, after we know which levels are valid
     level = 0;
     playerfound = false;
+
+    purge_string(linebuffer, BUFFERSIZE);
     while(fgets(linebuffer, sizeof(linebuffer), fptr) != NULL)
     {
         if(strncmp(linebuffer,"Level",5) == 0)
@@ -133,7 +142,8 @@ int main(int argc, char *argv[])
         }
         else
         {
-            outputlength = strlen(linebuffer) - 1; //compensate EOL / CR/LF
+            remove_lfcrchars(linebuffer);
+            outputlength = strlen(linebuffer); //compensate EOL / CR/LF
             if(outputlength) // line has payload
             {
                 if(isdataline(linebuffer)) // line without comments, just the data
@@ -152,6 +162,8 @@ int main(int argc, char *argv[])
                 }
             }
         }
+        purge_string(linebuffer, BUFFERSIZE);
+
     }
     rewind(fptr);
 
@@ -192,6 +204,7 @@ int main(int argc, char *argv[])
     {
         // now transform the input to the output file and pad memory space
         level = 0;
+        purge_string(linebuffer, BUFFERSIZE);
         while(fgets(linebuffer, sizeof(linebuffer), fptr) != NULL)
         {
             if(strncmp(linebuffer,"Level",5) == 0)
@@ -211,7 +224,8 @@ int main(int argc, char *argv[])
             {
                 if((level > 0) && (validlevel[level-1])) // only output valid level(s) - ignore the rest
                 {
-                    outputlength = strlen(linebuffer) - 1; //compensate EOL / CR/LF
+                    remove_lfcrchars(linebuffer);
+                    outputlength = strlen(linebuffer); //compensate EOL / CR/LF
                     if(outputlength) // line has payload
                     {
                         if(isdataline(linebuffer)) // line without comments, just the data
@@ -225,6 +239,7 @@ int main(int argc, char *argv[])
                     }
                 }
             }
+            purge_string(linebuffer, BUFFERSIZE);
         }
         fwrite(&levelbuffer, sizeof(levelbuffer),1, outptr); // write LAST record to out
     }
@@ -344,4 +359,27 @@ void purge_string(char *string, int length)
 {
     for(int n = 0; n < length; n++) string[n] = 0;
     return;
+}
+
+void remove_lfcrchars(char *string)
+{
+    int length = strlen(string);
+    int n = length - 1;
+    char c;
+
+    while(n >= 0)
+    {
+        c = string[n];
+        switch(c)
+        {
+            case 0x0a: // LF
+            case 0x0d: // CR
+                string[n] = 0;
+                n = n - 1;
+                break;
+            default:
+                n = -1;
+                break;
+        }
+    }
 }

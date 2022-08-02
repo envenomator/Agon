@@ -18,7 +18,8 @@ int get_goalsfromline(char *string);
 int get_takengoalsfromline(char *string);
 int get_cratesfromline(char *string);
 bool isdataline(char *string);
-void trim_validright(char *string);
+void trim_validright(char *string);     // replaces non-playfield characters at the right of the string to 0
+void trim_validleft(char *string);      // replaces non-playfield characters at the left of the string to 0
 
 int main(int argc, char *argv[])
 {
@@ -215,6 +216,7 @@ int main(int argc, char *argv[])
                         if(isdataline(linebuffer)) // line without comments, just the data
                         {
                             trim_validright(linebuffer);
+                            trim_validleft(linebuffer);
                             for(n = 0; n < MAXWIDTH; n++) levelbuffer.data[y][n] = linebuffer[n];
                             //strncpy(levelbuffer.data[y],linebuffer,MAXWIDTH);
                             y++;
@@ -315,5 +317,24 @@ void trim_validright(char *string)
         if((c == '#') || (c == '@') || (c == '$') || (c == '.') || (c == '+') || (c == '*')) break; // valid character found
         string[n] = 0;
         n--;
+    }
+}
+
+void trim_validleft(char *string)
+{
+    int n;
+    int length;
+    char c;
+
+    length = strlen(string);
+
+    n = 0;
+
+    while(n < length)
+    {
+        c = string[n];
+        if((c == '#') || (c == '@') || (c == '$') || (c == '.') || (c == '+') || (c == '*')) break; // valid character found
+        string[n] = 0;
+        n++;
     }
 }

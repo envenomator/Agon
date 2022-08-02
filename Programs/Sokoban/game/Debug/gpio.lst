@@ -1,0 +1,240 @@
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)02-Aug-22     20:52:09     page:   1
+
+
+PC     Object              I  Line    Source 
+                           A     1    ;
+                           A     2    ; Title:	AGON MOS - gpio code
+                           A     3    ; Author:	Dean Belfield
+                           A     4    ; Created:	15/07/2022
+                           A     5    ; Last Updated:	15/07/2022
+                           A     6    ;
+                           A     7    ; Modinfo:
+                           A     8    
+                           B     0    			INCLUDE	"macros.inc"
+                           B     1    ;
+                           B     2    ; Title:	AGON MOS - Useful Macros
+                           B     3    ; Author:	Dean Belfield
+                           B     4    ; Created:	15/07/2022
+                           B     5    ; Last Updated:	15/07/2022
+                           B     6    ;
+                           B     7    ; Modinfo:
+                           B     8    
+                           B     9    ADD8U_HL:		MACRO 
+                           B    10    			ADD	A, L 
+                           B    11    			LD	L, A 
+                           B    12    			ADC	A, H
+                           B    13    			SUB	L
+                           B    14    			LD	H, A 
+                           B    15    			ENDMACRO 
+                           B    16    
+                           B    17    SET_GPIO:		MACRO	REG, VAL
+                           B    18    			IN0	A,(REG)
+                           B    19    			OR	VAL
+                           B    20    			OUT0	(REG),A
+                           B    21    			ENDMACRO
+                           B    22    				
+                           B    23    RES_GPIO:		MACRO	REG, VAL
+                           B    24    			PUSH	BC
+                           B    25    			LD	A, VAL
+                           B    26    			CPL
+                           B    27    			LD	C, A
+                           B    28    			IN0	A,(REG)
+                           B    29    			AND	C
+                           B    30    			OUT0	(REG),A
+                           B    31    			POP	BC
+                           B    32    			ENDMACRO
+                           B    33    			
+                           B     0    			INCLUDE	"equs.inc"
+                           B     1    ;
+                           B     2    ; Title:	AGON MOS - Equs
+                           B     3    ; Author:	Dean Belfield
+                           B     4    ; Created:	15/07/2022
+                           B     5    ; Last Updated:	15/07/2022
+                           B     6    ;
+                           B     7    ; Modinfo:
+                           B     8    
+                           B     9    ; For GPIO
+                           B    10    ; PA not available on eZ80F92
+                           B    11    ;
+       00000096            B    12    PA_DR:			EQU		96h
+       00000097            B    13    PA_DDR:			EQU		97h
+       00000098            B    14    PA_ALT1:		EQU		98h
+       00000099            B    15    PA_ALT2:		EQU		99h
+       0000009A            B    16    PB_DR:          	EQU		9Ah
+       0000009B            B    17    PB_DDR:        	 	EQU		9Bh
+       0000009C            B    18    PB_ALT1:        	EQU		9Ch
+       0000009D            B    19    PB_ALT2:        	EQU		9Dh
+       0000009E            B    20    PC_DR:          	EQU		9Eh
+       0000009F            B    21    PC_DDR:         	EQU		9Fh
+       000000A0            B    22    PC_ALT1:        	EQU		A0h
+       000000A1            B    23    PC_ALT2:        	EQU		A1h
+       000000A2            B    24    PD_DR:          	EQU		A2h
+       000000A3            B    25    PD_DDR:			EQU		A3h
+       000000A4            B    26    PD_ALT1:		EQU		A4h
+       000000A5            B    27    PD_ALT2:		EQU		A5h
+                           B    28    	
+       00000000            B    29    GPIOMODE_OUT:		EQU		0	; Output
+       00000001            B    30    GPIOMODE_IN:		EQU		1	; Input
+       00000002            B    31    GPIOMODE_DIO:		EQU		2	; Open Drain IO
+       00000003            B    32    GPIOMODE_SIO:		EQU		3	; Open Source I
+       00000004            B    33    GPIOMODE_INTD:		EQU		4	; Interrupt, Du
+       00000005            B    34    GPIOMODE_ALTF:		EQU		5;	; Alt Function
+       00000006            B    35    GPIOMODE_INTAL:		EQU		6	; Interrupt, Ac
+       00000007            B    36    GPIOMODE_INTAH:		EQU		7	; Interrupt, Ac
+       00000008            B    37    GPIOMODE_INTFE:		EQU		8	; Interrupt, Fa
+       00000009            B    38    GPIOMODE_INTRE:		EQU		9	; Interrupt, Ri
+                           B    39    	
+                           B    40    ; For interrupts.asm
+                           B    41    ;
+                           B    42    
+                           B    43    ;UARTs
+                           B    44    ;
+       00000018            B    45    UART0_IVECT		EQU	18h
+       0000001A            B    46    UART1_IVECT		EQU	1Ah
+                           B    47    
+                           B    48    ;Ports
+                           B    49    ;
+       00000030            B    50    PB0_IVECT   		EQU   	30h	; AGON ITRP Int
+       00000032            B    51    PB1_IVECT  	  	EQU  	32h	; AGON VBLANK Inter
+       00000034            B    52    PB2_IVECT  	  	EQU   	34h
+       00000036            B    53    PB3_IVECT  	  	EQU   	36h
+       00000038            B    54    PB4_IVECT    		EQU   	38h
+       0000003A            B    55    PB5_IVECT    		EQU   	3Ah
+       0000003C            B    56    PB6_IVECT    		EQU   	3Ch
+       0000003E            B    57    PB7_IVECT    		EQU   	3Eh
+                           B    58                           
+       00000040            B    59    PC0_IVECT    		EQU   	40h
+       00000042            B    60    PC1_IVECT    		EQU   	42h
+       00000044            B    61    PC2_IVECT    		EQU   	44h
+       00000046            B    62    PC3_IVECT    		EQU   	46h
+       00000048            B    63    PC4_IVECT    		EQU   	48h
+       0000004A            B    64    PC5_IVECT    		EQU   	4Ah
+       0000004C            B    65    PC6_IVECT    		EQU   	4Ch
+       0000004E            B    66    PC7_IVECT    		EQU   	4Eh
+                           B    67                           
+       00000050            B    68    PD0_IVECT    		EQU   	50h
+       00000052            B    69    PD1_IVECT    		EQU   	52h
+       00000054            B    70    PD2_IVECT    		EQU   	54h
+       00000056            B    71    PD3_IVECT    		EQU   	56h
+       00000058            B    72    PD4_IVECT    		EQU   	58h
+       0000005A            B    73    PD5_IVECT    		EQU   	5Ah
+       0000005C            B    74    PD6_IVECT    		EQU   	5Ch
+       0000005E            B    75    PD7_IVECT    		EQU   	5Eh
+                           A    11    
+                           A    12    			.ASSUME	ADL = 1
+                           A    13    
+                           A    14    			DEFINE .STARTUP, SPACE = ROM
+                           A    15    			SEGMENT .STARTUP
+                           A    16    				
+                           A    17    			XDEF	GPIOB_SETMODE				
+                           A    18    			XDEF	SWITCH_A
+                           A    19    			
+                           A    20    ; Switch on A - lookup table immediately after 
+                           A    21    ;  A: Index into lookup table
+                           A    22    ;
+000000 E3                  A    23    SWITCH_A:		EX	(SP), HL		; Swap HL w
+000001 87                  A    24    			ADD	A, A			; Multiply A by
+                           A    25    			ADD8U_HL 			; Add to HL (ma
+000007 7E                  A    26    			LD	A, (HL)			; follow the ca
+000008 23                  A    27    			INC	HL 			; table.
+000009 66                  A    28    			LD	H, (HL)
+00000A 6F                  A    29    			LD	L, A
+00000B E3                  A    30    			EX	(SP), HL		; Swap this new
+00000C C9                  A    31    			RET				; Return program co
+                           A    32    
+                           A    33    ;  A: Mode
+                           A    34    ;  B: Pins
+                           A    35    ;  				
+00000D CD 00 00 00         A    36    GPIOB_SETMODE:		CALL	SWITCH_A
+000011 2500                A    37    			DW	GPIOB_M0	; Output
+000013 4A00                A    38    			DW	GPIOB_M1	; Input
+000015 6A00                A    39    			DW	GPIOB_M2	; Open Drain IO
+000017 8A00                A    40    			DW	GPIOB_M3	; Open Source IO
+000019 A500                A    41    			DW	GPIOB_M4	; Interrupt, Dual E
+00001B D100                A    42    			DW	GPIOB_M5	; Alt Function
+00001D EC00                A    43    			DW	GPIOB_M6	; Interrupt, Active
+00001F 1301                A    44    			DW	GPIOB_M7	; Interrupt, Active
+000021 3501                A    45    			DW	GPIOB_M8	; Interrupt, Fallin
+000023 5701                A    46    			DW	GPIOB_M9	; Interrupt, Rising
+                           A    47    
+                           A    48    ; Output
+                           A    49    ;
+000025                     A    50    GPIOB_M0:		RES_GPIO PB_DDR,  B
+                           A    51    			RES_GPIO PB_ALT1, B
+                           A    52    			RES_GPIO PB_ALT2, B
+000049 C9                  A    53    			RET
+                           A    54    
+                           A    55    ; Input
+                           A    56    ;
+00004A                     A    57    GPIOB_M1:		SET_GPIO PB_DDR,  B
+                           A    58    			RES_GPIO PB_ALT1, B
+                           A    59    			RES_GPIO PB_ALT2, B
+000069 C9                  A    60    			RET
+                           A    61    
+                           A    62    ; Open Drain IO
+                           A    63    ;
+00006A                     A    64    GPIOB_M2:		RES_GPIO PB_DDR,  B
+                           A    65    			SET_GPIO PB_ALT1, B
+                           A    66    			RES_GPIO PB_ALT2, B
+000089 C9                  A    67    			RET
+                           A    68    
+                           A    69    ; Open Source IO
+                           A    70    ;
+00008A                     A    71    GPIOB_M3:		SET_GPIO PB_DDR,  B
+                           A    72    			SET_GPIO PB_ALT1, B
+                           A    73    			RES_GPIO PB_ALT2, B
+0000A4 C9                  A    74    			RET
+                           A    75    
+                           A    76    ; Interrupt, Dual Edge
+                           A    77    ;
+0000A5                     A    78    GPIOB_M4:		SET_GPIO PB_DR,   B
+                           A    79    			RES_GPIO PB_DDR,  B
+                           A    80    			RES_GPIO PB_ALT1, B
+                           A    81    			RES_GPIO PB_ALT2, B
+0000D0 C9                  A    82    			RET
+                           A    83    
+                           A    84    ; Alt Function
+                           A    85    ;
+0000D1                     A    86    GPIOB_M5:		SET_GPIO PB_DDR,  B
+                           A    87    			RES_GPIO PB_ALT1, B
+                           A    88    			SET_GPIO PB_ALT2, B
+0000EB C9                  A    89    			RET
+                           A    90    
+                           A    91    ; Interrupt, Active Low
+                           A    92    ;
+0000EC                     A    93    GPIOB_M6:		RES_GPIO PB_DR,   B
+                           A    94    			RES_GPIO PB_DDR,  B
+                           A    95    			SET_GPIO PB_ALT1, B
+                           A    96    			SET_GPIO PB_ALT2, B
+000112 C9                  A    97    			RET
+                           A    98    
+                           A    99    
+                           A   100    ; Interrupt, Active High
+                           A   101    ;
+000113                     A   102    GPIOB_M7:		SET_GPIO PB_DR,   B
+                           A   103    			RES_GPIO PB_DDR,  B
+                           A   104    			SET_GPIO PB_ALT1, B
+                           A   105    			SET_GPIO PB_ALT2, B
+000134 C9                  A   106    			RET
+                           A   107    
+                           A   108    
+                           A   109    ; Interrupt, Falling Edge
+                           A   110    ;
+000135                     A   111    GPIOB_M8:		RES_GPIO PB_DR,   B
+                           A   112    			SET_GPIO PB_DDR,  B
+                           A   113    			SET_GPIO PB_ALT1, B
+                           A   114    			SET_GPIO PB_ALT2, B
+000156 C9                  A   115    			RET
+                           A   116    	
+                           A   117    ; Interrupt, Rising Edge
+                           A   118    ;
+000157                     A   119    GPIOB_M9:		SET_GPIO PB_DR,   B
+                           A   120    			SET_GPIO PB_DDR,  B
+                           A   121    			SET_GPIO PB_ALT1, B
+                           A   122    			SET_GPIO PB_ALT2, B
+000173 C9                  A   123    			RET	
+
+
+Errors: 0
+Warnings: 0
+Lines Assembled: 458

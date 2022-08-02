@@ -1,0 +1,95 @@
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)02-Aug-22     20:52:09     page:   1
+
+
+PC     Object              I  Line    Source 
+                           A     1    ;
+                           A     2    ; Title:	AGON MOS - UART code
+                           A     3    ; Author:	Dean Belfield
+                           A     4    ; Created:	11/07/2022
+                           A     5    ; Last Updated:	11/07/2022
+                           A     6    ;
+                           A     7    ; Modinfo:
+                           A     8    
+                           A     9    			.ASSUME	ADL = 0
+                           A    10    			
+                           A    11    			DEFINE .STARTUP, SPACE = ROM
+                           A    12    			SEGMENT .STARTUP
+                           A    13    			
+                           A    14    			XDEF	serial_TX
+                           A    15    			XDEF	serial_RX
+                           A    16    			XDEF	serial_RX_WAIT
+                           A    17    				
+       000000C0            A    18    PORT			EQU	%C0		; UART0
+                           A    19    				
+       000000C0            A    20    REG_RBR:		EQU	PORT+0		; Receive buffe
+       000000C0            A    21    REG_THR:		EQU	PORT+0		; Transmitter h
+       000000C0            A    22    REG_DLL:		EQU	PORT+0		; Divisor latch
+       000000C1            A    23    REG_IER:		EQU	PORT+1		; Interrupt ena
+       000000C1            A    24    REG_DLH:		EQU	PORT+1		; Divisor latch
+       000000C2            A    25    REG_IIR:		EQU	PORT+2		; Interrupt ide
+       000000C2            A    26    REG_FCT			EQU	PORT+2;		; Flow control
+       000000C3            A    27    REG_LCR:		EQU	PORT+3		; Line control
+       000000C4            A    28    REG_MCR:		EQU	PORT+4		; Modem control
+       000000C5            A    29    REG_LSR:		EQU	PORT+5		; Line status
+       000000C6            A    30    REG_MSR:		EQU	PORT+6		; Modem status
+                           A    31    
+       000000C7            A    32    REG_SCR:		EQU 	PORT+7		; Scratch
+                           A    33    
+       00000800            A    34    TX_WAIT			EQU	2048		; Count before 
+                           A    35    
+       00000080            A    36    UART_LSR_ERR		EQU 	%80		; Error
+       00000040            A    37    UART_LSR_ETX		EQU 	%40		; Transmit 
+       00000020            A    38    UART_LSR_ETH		EQU	%20		; Transmit hold
+       00000001            A    39    UART_LSR_RDY		EQU	%01		; Data ready
+                           A    40    
+                           A    41    ; Write a character to the UART
+                           A    42    ; A: Data to write
+                           A    43    ; Returns:
+                           A    44    ; F = C if written
+                           A    45    ; F = NC if timed out
+                           A    46    ;
+000000 C5                  A    47    serial_TX:		PUSH		BC		; Stack BC
+000001 F5                  A    48    			PUSH		AF 		; Stack AF
+000002 010008              A    49    			LD		BC,TX_WAIT	; Set CB to the
+000005 ED38C5              A    50    serial_TX1:		IN0		A,(REG_LSR)	; Get the l
+000008 E640                A    51    			AND 		UART_LSR_ETX	; Check
+00000A 20 09               A    52    			JR		NZ, serial_TX2	; If set, t
+00000C 0B                  A    53    			DEC		BC
+00000D 78                  A    54    			LD		A, B
+00000E B1                  A    55    			OR		C
+00000F 20 F4               A    56    			JR		NZ, serial_TX1
+000011 F1                  A    57    			POP		AF		; We've timed out a
+000012 C1                  A    58    			POP		BC		; Restore the stack
+000013 B7                  A    59    			OR		A		; Clear the carry f
+000014 C9                  A    60    			RET	
+000015 F1                  A    61    serial_TX2:		POP		AF		; Good to send 
+000016 ED39C0              A    62    			OUT0		(REG_THR),A	; Write the
+000019 C1                  A    63    			POP		BC		; Restore BC
+00001A 37                  A    64    			SCF				; Set the carry fla
+00001B C9                  A    65    			RET 
+                           A    66    
+                           A    67    ; As RX, but wil wait until a character is rece
+                           A    68    ; A: Data read
+                           A    69    ;
+00001C CD 22 00            A    70    serial_RX_WAIT:		CALL 		serial_RX
+00001F 30 FB               A    71    			JR		NC,serial_RX_WAIT 
+000021 C9                  A    72    			RET 
+                           A    73    
+                           A    74    ; Read a character from the UART
+                           A    75    ; A: Data read
+                           A    76    ; Returns:
+                           A    77    ; F = C if character read
+                           A    78    ; F = NC if no character read
+                           A    79    ;
+000022 ED38C5              A    80    serial_RX:		IN0		A,(REG_LSR)	; Get the l
+000025 E601                A    81    			AND 		UART_LSR_RDY	; Check
+000027 C8                  A    82    			RET		Z		; Just ret (with ca
+000028 ED38C0              A    83    			IN0		A,(REG_RBR)	; Read the char
+00002B 37                  A    84    			SCF 				; Set the carry
+00002C C9                  A    85    			RET
+                           A    86    				
+
+
+Errors: 0
+Warnings: 0
+Lines Assembled: 87

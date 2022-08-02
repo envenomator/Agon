@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
     int x,y;
     int n;
     int level;
+    char c;
 
     if(argc <= 1)
     {
@@ -47,7 +48,8 @@ int main(int argc, char *argv[])
         {
             for(x = 0; x < levelbuffer.width; x++)
             {
-                printf("%c",levelbuffer.data[y][x]);
+                c = levelbuffer.data[y][x];
+                printf("%c",c?c:' ');
             }
             printf("\n");
         }

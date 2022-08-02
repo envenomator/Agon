@@ -1,0 +1,198 @@
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)19-Jul-22     21:22:34     page:   1
+
+
+PC     Object              I  Line    Source 
+                           A     1    ; Zilog eZ80 ANSI C Compiler Release 3.4
+                           A     2    ; -nomodsect -optsize -noreduceopt -nopadbranch
+                           A     3    ; -globalopt -localcse -const=ROM 
+                           A     4    	FILE	"..\src\timer.c"
+                           A     5    	.assume ADL=1
+                           A     6    	SEGMENT DATA
+000000                     A     7    _g_timer:
+000000 0000                A     8    	DW	0
+000002 00                  A     9    	DB	0
+                           A    10    ;    1	/*
+                           A    11    ;    2	 * Title:			AGON MOS - Timer
+                           A    12    ;    3	 * Author:			Cocoacrumbs
+                           A    13    ;    4	 * Modified by:		Dean Belfield
+                           A    14    ;    5	 * Created:			19/06/2022
+                           A    15    ;    6	 * Last Updated:	19/06/2022
+                           A    16    ;    7	 * 
+                           A    17    ;    8	 * Thank you to @CoCoaCrumbs fo this co
+                           A    18    ;    9	 *
+                           A    19    ;   10	 * Modinfo:
+                           A    20    ;   11	 * 11/07/2022:		Removed unused func
+                           A    21    ;   12	 */
+                           A    22    ;   13	
+                           A    23    ;   14	#include <eZ80.h>
+                           A    24    ;   15	
+                           A    25    ;   16	#define TMR2_IVECT 0x0e
+                           A    26    ;   17	
+                           A    27    ;   18	static unsigned int volatile g_timer = 
+                           A    28    	SEGMENT CODE
+                           A    29    ;   19	
+                           A    30    ;   20	extern long SysClkFreq;
+                           A    31    ;   21	
+                           A    32    ;   22	void * set_vector(unsigned int vector, 
+                           A    33    ;   23	
+                           A    34    ;   24	void interrupt timer2_isr(void) {
+000000                     A    35    _timer2_isr:
+000000 FDE5                A    36    	PUSH	IY
+000002 D9                  A    37    	EXX	
+000003 08                  A    38    	EX	AF,AF'
+000004 DDE5                A    39    	PUSH	IX
+000006 DD210000 00         A    40    	LD	IX,0
+00000B DD39                A    41    	ADD	IX,SP
+00000D 3B                  A    42    	DEC	SP
+                           A    43    ;   25		unsigned char tmp;
+                           A    44    ;   26		tmp = TMR2_CTL;
+00000E ED3886              A    45    	IN0	A,(134)
+000011 DD77FF              A    46    	LD	(IX+%FFFFFFFF),A
+                           A    47    ;   27	    g_timer++;
+000014 ED4B 00 00 00       A    48    	LD	BC,(_g_timer)
+000019 ED4B 00 00 00       A    49    	LD	BC,(_g_timer)
+00001E 03                  A    50    	INC	BC
+00001F ED43 00 00 00       A    51    	LD	(_g_timer),BC
+                           A    52    ;   28	} 
+000024 D9                  A    53    	EXX	
+000025 08                  A    54    	EX	AF,AF'
+000026 DDF9                A    55    	LD	SP,IX
+000028 DDE1                A    56    	POP	IX
+00002A FDE1                A    57    	POP	IY
+00002C FB                  A    58    	EI	
+00002D ED4D                A    59    	RETI	
+                           A    60    
+                           A    61    
+                           A    62    ;**************************** _timer2_isr *****
+                           A    63    ;Name                         Addr/Register   S
+                           A    64    ;_g_timer                            STATIC    
+                           A    65    ;tmp                                   IX-1    
+                           A    66    
+                           A    67    
+                           A    68    ; Stack Frame Size: 7 (bytes)
+                           A    69    ;       Spill Code: 0 (instruction)
+                           A    70    
+                           A    71    
+                           A    72    ;   29	
+                           A    73    ;   30	void init_timer2(int interval) {
+00002F                     A    74    _init_timer2:
+00002F 21FDFFFF            A    75    	LD	HL,-3
+000033 CD 00 00 00         A    76    	CALL	__frameset
+                           A    77    ;   31		unsigned char tmp;
+                           A    78    ;   32		unsigned short rr;
+                           A    79    ;   33	
+                           A    80    ;   34		TMR2_CTL = 0x00;
+000037 AF                  A    81    	XOR	A,A
+000038 ED3986              A    82    	OUT0	(134),A
+                           A    83    ;   35	
+                           A    84    ;   36		// Set Timer 2 interrupt vector 
+                           A    85    ;   37		//
+                           A    86    ;   38	    set_vector(TMR2_IVECT, timer2_isr);
+00003B 01 00 00 00         A    87    	LD	BC,_timer2_isr
+00003F C5                  A    88    	PUSH	BC
+000040 010E0000            A    89    	LD	BC,14
+000044 C5                  A    90    	PUSH	BC
+000045 CD 00 00 00         A    91    	CALL	_set_vector
+000049 C1                  A    92    	POP	BC
+00004A C1                  A    93    	POP	BC
+                           A    94    ;   39	
+                           A    95    ;   40		rr = (unsigned short)(((SysClkFreq 
+00004B 2A 00 00 00         A    96    	LD	HL,(_SysClkFreq)
+00004F 3A 03 00 00         A    97    	LD	A,(_SysClkFreq+3)
+000053 5F                  A    98    	LD	E,A
+000054 01E80300            A    99    	LD	BC,1000
+000058 AF                  A   100    	XOR	A,A
+000059 CD 00 00 00         A   101    	CALL	__ldivs
+00005D DD0706              A   102    	LD	BC,(IX+%6)
+000060 CD 00 00 00         A   103    	CALL	__itol
+000064 CD 00 00 00         A   104    	CALL	__lmuls
+000068 01100000            A   105    	LD	BC,16
+00006C AF                  A   106    	XOR	A,A
+00006D CD 00 00 00         A   107    	CALL	__ldivs
+000071 DD75FE              A   108    	LD	(IX+%FFFFFFFE),L
+000074 DD74FF              A   109    	LD	(IX+%FFFFFFFF),H
+                           A   110    ;   41	
+                           A   111    ;   42		TMR2_RR_H = (unsigned char)(rr >> 8
+000077 DD07FE              A   112    	LD	BC,(IX+%FFFFFFFE)
+00007A CD 00 00 00         A   113    	CALL	__stoiu
+00007E 3E08                A   114    	LD	A,%8
+000080 CD 00 00 00         A   115    	CALL	__ishrs_b
+000084 7D                  A   116    	LD	A,L
+000085 ED3988              A   117    	OUT0	(136),A
+                           A   118    ;   43		TMR2_RR_L = (unsigned char)(rr);
+000088 DD7EFE              A   119    	LD	A,(IX+%FFFFFFFE)
+00008B ED3987              A   120    	OUT0	(135),A
+                           A   121    ;   44	
+                           A   122    ;   45		tmp = TMR2_CTL;
+00008E ED3886              A   123    	IN0	A,(134)
+000091 DD77FD              A   124    	LD	(IX+%FFFFFFFD),A
+                           A   125    ;   46	    TMR2_CTL = 0x57;
+000094 3E57                A   126    	LD	A,%57
+000096 ED3986              A   127    	OUT0	(134),A
+                           A   128    ;   47	}
+000099 DDF9                A   129    	LD	SP,IX
+00009B DDE1                A   130    	POP	IX
+00009D C9                  A   131    	RET	
+                           A   132    
+                           A   133    
+                           A   134    ;**************************** _init_timer2 ****
+                           A   135    ;Name                         Addr/Register   S
+                           A   136    ;_SysClkFreq                         IMPORT    
+                           A   137    ;_set_vector                         IMPORT  --
+                           A   138    ;tmp                                   IX-3    
+                           A   139    ;rr                                    IX-2    
+                           A   140    ;interval                              IX+6    
+                           A   141    
+                           A   142    
+                           A   143    ; Stack Frame Size: 12 (bytes)
+                           A   144    ;       Spill Code: 0 (instruction)
+                           A   145    
+                           A   146    
+                           A   147    ;   48	
+                           A   148    ;   49	void delayms(int ms) {  
+00009E                     A   149    _delayms:
+00009E CD 00 00 00         A   150    	CALL	__frameset0
+                           A   151    ;   50	    g_timer = 0;
+0000A2 01000000            A   152    	LD	BC,0
+0000A6 ED43 00 00 00       A   153    	LD	(_g_timer),BC
+                           A   154    ;   51		while (g_timer < ms); 
+0000AB                     A   155    L_4:
+0000AB DD0706              A   156    	LD	BC,(IX+%6)
+0000AE 2A 00 00 00         A   157    	LD	HL,(_g_timer)
+0000B2 B7                  A   158    	OR	A,A
+0000B3 ED42                A   159    	SBC	HL,BC
+0000B5 38 F4               A   160    	JR	C,L_4
+                           A   161    ;   52	} 
+0000B7 DDF9                A   162    	LD	SP,IX
+0000B9 DDE1                A   163    	POP	IX
+0000BB C9                  A   164    	RET	
+                           A   165    
+                           A   166    
+                           A   167    ;**************************** _delayms ********
+                           A   168    ;Name                         Addr/Register   S
+                           A   169    ;_g_timer                            STATIC    
+                           A   170    ;ms                                    IX+6    
+                           A   171    
+                           A   172    
+                           A   173    ; Stack Frame Size: 9 (bytes)
+                           A   174    ;       Spill Code: 0 (instruction)
+                           A   175    
+                           A   176    
+                           A   177    	XREF _set_vector:ROM
+                           A   178    	XREF _SysClkFreq:ROM
+                           A   179    	XREF __ldivs:ROM
+                           A   180    	XREF __lmuls:ROM
+                           A   181    	XREF __stoiu:ROM
+                           A   182    	XREF __itol:ROM
+                           A   183    	XREF __frameset0:ROM
+                           A   184    	XREF __frameset:ROM
+                           A   185    	XREF __ishrs_b:ROM
+                           A   186    	XDEF _delayms
+                           A   187    	XDEF _init_timer2
+                           A   188    	XDEF _timer2_isr
+                           A   189    	END
+
+
+Errors: 0
+Warnings: 0
+Lines Assembled: 190

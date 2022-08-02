@@ -1,0 +1,433 @@
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)19-Jul-22     21:22:36     page:   1
+
+
+PC     Object              I  Line    Source 
+                           A     1    ; Zilog eZ80 ANSI C Compiler Release 3.4
+                           A     2    ; -nomodsect -optsize -noreduceopt -nopadbranch
+                           A     3    ; -globalopt -localcse -const=ROM 
+                           A     4    	FILE	"..\src\uart.c"
+                           A     5    	.assume ADL=1
+                           A     6    	SEGMENT CODE
+                           A     7    ;    1	/*
+                           A     8    ;    2	 * Title:			AGON MOS - UART cod
+                           A     9    ;    3	 * Author:			Dean Belfield
+                           A    10    ;    4	 * Created:			06/07/2022
+                           A    11    ;    5	 * Last Updated:	06/07/2022
+                           A    12    ;    6	 * 
+                           A    13    ;    7	 * Modinfo:
+                           A    14    ;    8	 */
+                           A    15    ;    9	 
+                           A    16    ;   10	#include <stddef.h>
+                           A    17    ;   11	#include <stdio.h>
+                           A    18    ;   12	#include <eZ80.h>
+                           A    19    ;   13	#include <defines.h>
+                           A    20    ;   14	#include <gpio.h>
+                           A    21    ;   15	
+                           A    22    ;   16	#include "uart.h"
+                           A    23    ;   17	 
+                           A    24    ;   18	// Set the Line Control Register for da
+                           A    25    ;   19	//
+                           A    26    ;   20	#define SETREG_LCR0(data, stop, parity)
+                           A    27    ;   21	
+                           A    28    ;   22	VOID init_UART0() {
+000000                     A    29    _init_UART0:
+                           A    30    ;   23		PD_DR = PORTD_DRVAL_DEF ;
+000000 3EFF                A    31    	LD	A,%FF
+000002 ED39A2              A    32    	OUT0	(162),A
+                           A    33    ;   24		PD_DDR = PORTD_DDRVAL_DEF ;
+000005 ED39A3              A    34    	OUT0	(163),A
+                           A    35    ;   25		#ifdef _EZ80F91
+                           A    36    ;   26		PD_ALT0 = PORTD_ALT0VAL_DEF ;
+                           A    37    ;   27		#endif
+                           A    38    ;   28		PD_ALT1 = PORTD_ALT1VAL_DEF ;
+000008 AF                  A    39    	XOR	A,A
+000009 ED39A4              A    40    	OUT0	(164),A
+                           A    41    ;   29		PD_ALT2 = PORTD_ALT2VAL_DEF ;
+00000C AF                  A    42    	XOR	A,A
+00000D ED39A5              A    43    	OUT0	(165),A
+                           A    44    ;   30		return ;
+                           A    45    ;   31	}
+000010 C9                  A    46    	RET	
+                           A    47    
+                           A    48    
+                           A    49    ;**************************** _init_UART0 *****
+                           A    50    ;Name                         Addr/Register   S
+                           A    51    
+                           A    52    
+                           A    53    ; Stack Frame Size: 6 (bytes)
+                           A    54    ;       Spill Code: 0 (instruction)
+                           A    55    
+                           A    56    
+                           A    57    ;   32	
+                           A    58    ;   33	UCHAR open_UART0(UART *pUART) {
+000011                     A    59    _open_UART0:
+000011 21FEFFFF            A    60    	LD	HL,-2
+000015 CD 00 00 00         A    61    	CALL	__frameset
+                           A    62    ;   34		UINT16	br = MASTERCLOCK / (CLOCK_D
+000019 DD3106              A    63    	LD	IY,(IX+%6)
+00001C FD2700              A    64    	LD	HL,(IY+%0)
+00001F 29                  A    65    	ADD	HL,HL
+000020 29                  A    66    	ADD	HL,HL
+000021 29                  A    67    	ADD	HL,HL
+000022 29                  A    68    	ADD	HL,HL
+000023 E5C1                A    69    	LD	BC,HL
+000025 CD 00 00 00         A    70    	CALL	__itol
+000029 21002D31            A    71    	LD	HL,3222784
+00002D 1E01                A    72    	LD	E,%1
+00002F CD 00 00 00         A    73    	CALL	__ldivs
+000033 DD75FE              A    74    	LD	(IX+%FFFFFFFE),L
+000036 DD74FF              A    75    	LD	(IX+%FFFFFFFF),H
+                           A    76    ;   35		UCHAR	pins = PORTPIN_ZERO | PORTP
+                           A    77    ;   36		
+                           A    78    ;   37		SETREG( PD_DDR, pins ) ;			
+000039 ED38A3              A    79    	IN0	A,(163)
+00003C F603                A    80    	OR	A,%3
+00003E ED39A3              A    81    	OUT0	(163),A
+                           A    82    ;   38		RESETREG( PD_ALT1, pins ) ;
+000041 ED38A4              A    83    	IN0	A,(164)
+000044 E6FC                A    84    	AND	A,%FC
+000046 ED39A4              A    85    	OUT0	(164),A
+                           A    86    ;   39		SETREG( PD_ALT2, pins ) ;
+000049 ED38A5              A    87    	IN0	A,(165)
+00004C F603                A    88    	OR	A,%3
+00004E ED39A5              A    89    	OUT0	(165),A
+                           A    90    ;   40	
+                           A    91    ;   41		UART0_LCTL |= UART_LCTL_DLAB ;		
+000051 ED38C3              A    92    	IN0	A,(195)
+000054 CBFF                A    93    	SET	%7,A
+000056 ED39C3              A    94    	OUT0	(195),A
+                           A    95    ;   42		UART0_BRG_L = (br & 0xFF) ;			
+000059 DD7EFE              A    96    	LD	A,(IX+%FFFFFFFE)
+00005C ED39C0              A    97    	OUT0	(192),A
+                           A    98    ;   43		UART0_BRG_H = (CHAR)(( br & 0xFF00 
+00005F DD27FE              A    99    	LD	HL,(IX+%FFFFFFFE)
+000062 6C                  A   100    	LD	L,H
+000063 2600                A   101    	LD	H,%0
+000065 E5C1                A   102    	LD	BC,HL
+000067 CD 00 00 00         A   103    	CALL	__stoiu
+00006B 7D                  A   104    	LD	A,L
+00006C ED39C1              A   105    	OUT0	(193),A
+                           A   106    ;   44		UART0_LCTL &= (~UART_LCTL_DLAB) ; 	
+00006F ED38C3              A   107    	IN0	A,(195)
+000072 CBBF                A   108    	RES	%7,A
+000074 ED39C3              A   109    	OUT0	(195),A
+                           A   110    ;   45		UART0_MCTL = 0x00 ;					
+000077 AF                  A   111    	XOR	A,A
+000078 ED39C4              A   112    	OUT0	(196),A
+                           A   113    ;   46		UART0_FCTL = 0x07 ;					
+00007B 3E07                A   114    	LD	A,%7
+00007D ED39C2              A   115    	OUT0	(194),A
+                           A   116    ;   47		UART0_IER = 0x00 ;					
+000080 AF                  A   117    	XOR	A,A
+000081 ED39C1              A   118    	OUT0	(193),A
+                           A   119    ;   48		
+                           A   120    ;   49		SETREG_LCR0(pUART->dataBits, pUART-
+000084 FD7E04              A   121    	LD	A,(IY+%4)
+000087 3D                  A   122    	DEC	A
+000088 E601                A   123    	AND	A,%1
+00008A 87                  A   124    	ADD	A,A
+00008B 87                  A   125    	ADD	A,A
+00008C 4F                  A   126    	LD	C,A
+00008D FD7E03              A   127    	LD	A,(IY+%3)
+000090 D605                A   128    	SUB	A,%5
+000092 E603                A   129    	AND	A,%3
+000094 47                  A   130    	LD	B,A
+000095 79                  A   131    	LD	A,C
+000096 B0                  A   132    	OR	A,B
+000097 4F                  A   133    	LD	C,A
+000098 FD7E05              A   134    	LD	A,(IY+%5)
+00009B 87                  A   135    	ADD	A,A
+00009C 87                  A   136    	ADD	A,A
+00009D 87                  A   137    	ADD	A,A
+00009E 47                  A   138    	LD	B,A
+00009F 79                  A   139    	LD	A,C
+0000A0 B0                  A   140    	OR	A,B
+0000A1 ED39C3              A   141    	OUT0	(195),A
+                           A   142    ;   50		
+                           A   143    ;   51		return UART_ERR_NONE ;
+0000A4 AF                  A   144    	XOR	A,A
+                           A   145    ;   52	}
+0000A5 DDF9                A   146    	LD	SP,IX
+0000A7 DDE1                A   147    	POP	IX
+0000A9 C9                  A   148    	RET	
+                           A   149    
+                           A   150    
+                           A   151    ;**************************** _open_UART0 *****
+                           A   152    ;Name                         Addr/Register   S
+                           A   153    ;br                                    IX-2    
+                           A   154    ;pUART                                 IX+6    
+                           A   155    
+                           A   156    
+                           A   157    ; Stack Frame Size: 11 (bytes)
+                           A   158    ;       Spill Code: 0 (instruction)
+                           A   159    
+                           A   160    
+                           A   161    ;   53	
+                           A   162    ;   54	UCHAR write_UART0(CHAR *pData, int nByt
+0000AA                     A   163    _write_UART0:
+0000AA 21FDFFFF            A   164    	LD	HL,-3
+0000AE CD 00 00 00         A   165    	CALL	__frameset
+                           A   166    ;   55		int		i;
+                           A   167    ;   56		for(i = 0; i < nBytes; i++) {
+0000B2 01000000            A   168    	LD	BC,0
+0000B6 DD0FFD              A   169    	LD	(IX+%FFFFFFFD),BC
+0000B9 18 21               A   170    	JR	L_8
+                           A   171    ;   57			while ((UART0_LSR & UART_LSR_TE
+0000BB                     A   172    L_4:
+0000BB ED38C5              A   173    	IN0	A,(197)
+0000BE E640                A   174    	AND	A,%40
+0000C0 B7ED62              A   175    	UEXT	HL
+0000C3 6F                  A   176    	LD	L,A
+0000C4 CD 00 00 00         A   177    	CALL	__icmpzero
+0000C8 28 F1               A   178    	JR	Z,L_4
+                           A   179    ;   58			UART0_THR = pData[i];
+0000CA DD07FD              A   180    	LD	BC,(IX+%FFFFFFFD)
+0000CD DD2706              A   181    	LD	HL,(IX+%6)
+0000D0 09                  A   182    	ADD	HL,BC
+0000D1 7E                  A   183    	LD	A,(HL)
+0000D2 ED39C0              A   184    	OUT0	(192),A
+0000D5 DD07FD              A   185    	LD	BC,(IX+%FFFFFFFD)
+0000D8 03                  A   186    	INC	BC
+0000D9 DD0FFD              A   187    	LD	(IX+%FFFFFFFD),BC
+                           A   188    ;   59		}
+0000DC                     A   189    L_8:
+0000DC DD0709              A   190    	LD	BC,(IX+%9)
+0000DF DD27FD              A   191    	LD	HL,(IX+%FFFFFFFD)
+0000E2 B7                  A   192    	OR	A,A
+0000E3 ED42                A   193    	SBC	HL,BC
+0000E5 CD 00 00 00         A   194    	CALL	__setflag
+0000E9 FA BB 00 00         A   195    	JP	M,L_4
+                           A   196    ;   60		return UART_ERR_NONE;
+0000ED AF                  A   197    	XOR	A,A
+                           A   198    ;   61	}
+0000EE DDF9                A   199    	LD	SP,IX
+0000F0 DDE1                A   200    	POP	IX
+0000F2 C9                  A   201    	RET	
+                           A   202    
+                           A   203    
+                           A   204    ;**************************** _write_UART0 ****
+                           A   205    ;Name                         Addr/Register   S
+                           A   206    ;i                                     IX-3    
+                           A   207    ;nBytes                                IX+9    
+                           A   208    ;pData                                 IX+6    
+                           A   209    
+                           A   210    
+                           A   211    ; Stack Frame Size: 15 (bytes)
+                           A   212    ;       Spill Code: 0 (instruction)
+                           A   213    
+                           A   214    
+                           A   215    ;   62	
+                           A   216    ;   63	UCHAR read_UART0(CHAR *pData, int *nbyt
+0000F3                     A   217    _read_UART0:
+0000F3 21FBFFFF            A   218    	LD	HL,-5
+0000F7 CD 00 00 00         A   219    	CALL	__frameset
+                           A   220    ;   64		UCHAR lsr ;
+                           A   221    ;   65		UCHAR status = UART_ERR_NONE ;
+0000FB DD36FF00            A   222    	LD	(IX+%FFFFFFFF),%0
+                           A   223    ;   66		int   index = 0 ;
+0000FF 01000000            A   224    	LD	BC,0
+000103 DD0FFB              A   225    	LD	(IX+%FFFFFFFB),BC
+                           A   226    ;   67	
+                           A   227    ;   68		while( UART_ERR_NONE == status ) {
+000106 18 55               A   228    	JR	L_23
+000108                     A   229    L_24:
+                           A   230    ;   69			lsr = UART0_LSR ;				
+000108 ED38C5              A   231    	IN0	A,(197)
+00010B DD77FE              A   232    	LD	(IX+%FFFFFFFE),A
+                           A   233    ;   70			
+                           A   234    ;   71			if( 0 != (lsr & UART_LSR_BREAKI
+00010E E610                A   235    	AND	A,%10
+000110 28 04               A   236    	JR	Z,L_13
+                           A   237    ;   72				status = UART_ERR_BREAKINDI
+000112 DD36FF05            A   238    	LD	(IX+%FFFFFFFF),%5
+                           A   239    ;   73			}
+000116                     A   240    L_13:
+                           A   241    ;   74			if( 0 != (lsr & UART_LSR_FRAMIN
+000116 DD7EFE              A   242    	LD	A,(IX+%FFFFFFFE)
+000119 E608                A   243    	AND	A,%8
+00011B 28 04               A   244    	JR	Z,L_15
+                           A   245    ;   75				status = UART_ERR_FRAMINGER
+00011D DD36FF02            A   246    	LD	(IX+%FFFFFFFF),%2
+                           A   247    ;   76			}
+000121                     A   248    L_15:
+                           A   249    ;   77			if( 0 != (lsr & UART_LSR_PARITY
+000121 DD7EFE              A   250    	LD	A,(IX+%FFFFFFFE)
+000124 E604                A   251    	AND	A,%4
+000126 28 04               A   252    	JR	Z,L_17
+                           A   253    ;   78				status = UART_ERR_PARITYERR
+000128 DD36FF03            A   254    	LD	(IX+%FFFFFFFF),%3
+                           A   255    ;   79			}
+00012C                     A   256    L_17:
+                           A   257    ;   80			if( 0 != (lsr & UART_LSR_OVERRR
+00012C DD7EFE              A   258    	LD	A,(IX+%FFFFFFFE)
+00012F E602                A   259    	AND	A,%2
+000131 28 04               A   260    	JR	Z,L_20
+                           A   261    ;   81				status = UART_ERR_OVERRUNER
+000133 DD36FF04            A   262    	LD	(IX+%FFFFFFFF),%4
+                           A   263    ;   82			}
+000137                     A   264    L_20:
+                           A   265    ;   83			if( 0 != (lsr & UART_LSR_DATA_R
+000137 DD7EFE              A   266    	LD	A,(IX+%FFFFFFFE)
+00013A E601                A   267    	AND	A,%1
+00013C 28 12               A   268    	JR	Z,L_22
+                           A   269    ;   84				pData[ index++ ] = UART0_RB
+00013E DD07FB              A   270    	LD	BC,(IX+%FFFFFFFB)
+000141 DD2706              A   271    	LD	HL,(IX+%6)
+000144 09                  A   272    	ADD	HL,BC
+000145 ED38C0              A   273    	IN0	A,(192)
+000148 77                  A   274    	LD	(HL),A
+000149 DD07FB              A   275    	LD	BC,(IX+%FFFFFFFB)
+00014C 03                  A   276    	INC	BC
+00014D DD0FFB              A   277    	LD	(IX+%FFFFFFFB),BC
+                           A   278    ;   85			}
+000150                     A   279    L_22:
+                           A   280    ;   86			if( index == (*nbytes) ) {		
+000150 DD2709              A   281    	LD	HL,(IX+%9)
+000153 DD07FB              A   282    	LD	BC,(IX+%FFFFFFFB)
+000156 ED27                A   283    	LD	HL,(HL)
+000158 B7                  A   284    	OR	A,A
+000159 ED42                A   285    	SBC	HL,BC
+00015B 28 06               A   286    	JR	Z,L_25
+                           A   287    ;   87				break ;
+                           A   288    ;   88			}
+                           A   289    ;   89		}
+00015D                     A   290    L_23:
+00015D DD7EFF              A   291    	LD	A,(IX+%FFFFFFFF)
+000160 B7                  A   292    	OR	A,A
+000161 28 A5               A   293    	JR	Z,L_24
+000163                     A   294    L_25:
+                           A   295    ;   90		*nbytes = index ;
+000163 DD2709              A   296    	LD	HL,(IX+%9)
+000166 DD07FB              A   297    	LD	BC,(IX+%FFFFFFFB)
+000169 ED0F                A   298    	LD	(HL),BC
+                           A   299    ;   91		return status ;
+00016B DD7EFF              A   300    	LD	A,(IX+%FFFFFFFF)
+                           A   301    ;   92		
+                           A   302    ;   93	}
+00016E DDF9                A   303    	LD	SP,IX
+000170 DDE1                A   304    	POP	IX
+000172 C9                  A   305    	RET	
+                           A   306    
+                           A   307    
+                           A   308    ;**************************** _read_UART0 *****
+                           A   309    ;Name                         Addr/Register   S
+                           A   310    ;index                                 IX-5    
+                           A   311    ;lsr                                   IX-2    
+                           A   312    ;status                                IX-1    
+                           A   313    ;nbytes                                IX+9    
+                           A   314    ;pData                                 IX+6    
+                           A   315    
+                           A   316    
+                           A   317    ; Stack Frame Size: 17 (bytes)
+                           A   318    ;       Spill Code: 0 (instruction)
+                           A   319    
+                           A   320    
+                           A   321    ;   94	
+                           A   322    ;   95	INT putch(INT ich) {
+000173                     A   323    _putch:
+000173 21FFFFFF            A   324    	LD	HL,-1
+000177 CD 00 00 00         A   325    	CALL	__frameset
+                           A   326    ;   96		CHAR ch = ich;
+00017B DD7E06              A   327    	LD	A,(IX+%6)
+00017E DD77FF              A   328    	LD	(IX+%FFFFFFFF),A
+                           A   329    ;   97		return write_UART0(&ch, 1) ;		
+000181 01010000            A   330    	LD	BC,1
+000185 C5                  A   331    	PUSH	BC
+000186 ED65FF              A   332    	PEA	IX+%FFFFFFFF
+000189 CD AA 00 00         A   333    	CALL	_write_UART0
+00018D C1                  A   334    	POP	BC
+00018E C1                  A   335    	POP	BC
+00018F B7ED62              A   336    	UEXT	HL
+000192 6F                  A   337    	LD	L,A
+                           A   338    ;   98	} 
+000193 DDF9                A   339    	LD	SP,IX
+000195 DDE1                A   340    	POP	IX
+000197 C9                  A   341    	RET	
+                           A   342    
+                           A   343    
+                           A   344    ;**************************** _putch **********
+                           A   345    ;Name                         Addr/Register   S
+                           A   346    ;_write_UART0                        IMPORT  --
+                           A   347    ;ch                                    IX-1    
+                           A   348    ;ich                                   IX+6    
+                           A   349    
+                           A   350    
+                           A   351    ; Stack Frame Size: 10 (bytes)
+                           A   352    ;       Spill Code: 0 (instruction)
+                           A   353    
+                           A   354    
+                           A   355    ;   99	
+                           A   356    ;  100	INT getch(VOID) {
+000198                     A   357    _getch:
+000198 21F8FFFF            A   358    	LD	HL,-8
+00019C CD 00 00 00         A   359    	CALL	__frameset
+                           A   360    ;  101		CHAR ch;
+                           A   361    ;  102		int nbytes = 1;
+0001A0 01010000            A   362    	LD	BC,1
+0001A4 DD0FFD              A   363    	LD	(IX+%FFFFFFFD),BC
+                           A   364    ;  103		UCHAR status = read_UART0(&ch, &nby
+0001A7 ED65FD              A   365    	PEA	IX+%FFFFFFFD
+0001AA ED65FC              A   366    	PEA	IX+%FFFFFFFC
+0001AD CD F3 00 00         A   367    	CALL	_read_UART0
+0001B1 C1                  A   368    	POP	BC
+0001B2 C1                  A   369    	POP	BC
+0001B3 DD77FB              A   370    	LD	(IX+%FFFFFFFB),A
+                           A   371    ;  104		nbytes = (UINT)ch;
+0001B6 DD7EFC              A   372    	LD	A,(IX+%FFFFFFFC)
+0001B9 17ED62              A   373    	SEXT	HL
+0001BC DD6EFC              A   374    	LD	L,(IX+%FFFFFFFC)
+0001BF DD2FFD              A   375    	LD	(IX+%FFFFFFFD),HL
+                           A   376    ;  105		nbytes = (nbytes & 0x0000FF);
+0001C2 DD7EFD              A   377    	LD	A,(IX+%FFFFFFFD)
+0001C5 B7ED62              A   378    	UEXT	HL
+0001C8 6F                  A   379    	LD	L,A
+0001C9 DD2FFD              A   380    	LD	(IX+%FFFFFFFD),HL
+                           A   381    ;  106		return (UART_ERR_NONE!=status) ? EO
+0001CC DD7EFB              A   382    	LD	A,(IX+%FFFFFFFB)
+0001CF B7                  A   383    	OR	A,A
+0001D0 28 09               A   384    	JR	Z,L_30
+0001D2 01FFFFFF            A   385    	LD	BC,16777215
+0001D6 DD0FF8              A   386    	LD	(IX+%FFFFFFF8),BC
+0001D9 18 06               A   387    	JR	L_31
+0001DB                     A   388    L_30:
+0001DB DD07FD              A   389    	LD	BC,(IX+%FFFFFFFD)
+0001DE DD0FF8              A   390    	LD	(IX+%FFFFFFF8),BC
+0001E1                     A   391    L_31:
+0001E1 DD27F8              A   392    	LD	HL,(IX+%FFFFFFF8)
+                           A   393    ;  107	}
+0001E4 DDF9                A   394    	LD	SP,IX
+0001E6 DDE1                A   395    	POP	IX
+0001E8 C9                  A   396    	RET	
+                           A   397    
+                           A   398    
+                           A   399    ;**************************** _getch **********
+                           A   400    ;Name                         Addr/Register   S
+                           A   401    ;_read_UART0                         IMPORT  --
+                           A   402    ;temp28                                IX-8    
+                           A   403    ;status                                IX-5    
+                           A   404    ;ch                                    IX-4    
+                           A   405    ;nbytes                                IX-3    
+                           A   406    
+                           A   407    
+                           A   408    ; Stack Frame Size: 14 (bytes)
+                           A   409    ;       Spill Code: 0 (instruction)
+                           A   410    
+                           A   411    
+                           A   412    	XREF __ldivs:ROM
+                           A   413    	XREF __stoiu:ROM
+                           A   414    	XREF __itol:ROM
+                           A   415    	XREF __frameset:ROM
+                           A   416    	XREF __setflag:ROM
+                           A   417    	XREF __icmpzero:ROM
+                           A   418    	XDEF _getch
+                           A   419    	XDEF _putch
+                           A   420    	XDEF _read_UART0
+                           A   421    	XDEF _write_UART0
+                           A   422    	XDEF _open_UART0
+                           A   423    	XDEF _init_UART0
+                           A   424    	END
+
+
+Errors: 0
+Warnings: 0
+Lines Assembled: 425

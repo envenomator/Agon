@@ -4,50 +4,37 @@
 #include <string.h>
 #include <math.h>
 #include "sokobanprep.h"
-
-#define LOADADDRESSIZE 2
-#define HEADERSIZE 12
 #define BUFFERSIZE 128
 
 #define DEBUG   0
-
-char linebuffer[BUFFERSIZE];
-
-struct sokobanlevel levelbuffer;
 
 int getplayerpos(char *string);
 int get_goalsfromline(char *string);
 int get_takengoalsfromline(char *string);
 int get_cratesfromline(char *string);
-bool isdataline(char *string);
 void trim_validright(char *string, int length);     // replaces non-playfield characters at the right of the string to 0
 void trim_validleft(char *string);      // replaces non-playfield characters at the left of the string to 0
 void purge_string(char *string, int length);
 void remove_lfcrchars(char *string);
+bool close_level(FILE *outptr, int levelwidth, int levelheight, bool playerfound, struct sokobanlevel *levelbuffer, int numlevels, int numlevels_valid);
+bool isLevelLine(char *string);
 
 int main(int argc, char *argv[])
 {
-    unsigned int numlevels = 0, level = 0,n;
-    unsigned int fieldptr = 0;  // will point to the start of each field in memory
-    unsigned int previouspayloadsize = 0;
-    unsigned int outputlength = 0;
-    unsigned int y = 0;
-    unsigned int playerpos = 0;
-    unsigned int * xpos;
-    unsigned int * ypos;
-    unsigned int * levelheight;
-    unsigned int * levelwidth;
-    unsigned int * levelgoals;
-    unsigned int * levelgoalstaken; // the number of crates on goals in each level
-    unsigned int * levelgoalsopen;  // the number of still to be completed goals in each level
-    unsigned int * leveloffset;
-    unsigned int * levelcrates;
-    bool * validlevel;          // record if each level is valid or not
-    unsigned int errorlevels;   // record number of error levels, due to too high or too wide
-    bool playerfound = false;
+    char linebuffer[BUFFERSIZE];
+    struct sokobanlevel levelbuffer;
+
+    bool levelline;
+    int levelheight;
+    int levelwidth;
+    int n;
+    int playerpos;
+    bool playerfound;
+    int numlevels, numlevels_valid;
+
     FILE *fptr,*outptr;
     
-    if(argc <= 2)
+    if(argc != 3)
     {
         printf("Usage:\n\nsokobanprep inputfile outputfile\n");
         exit(1);
@@ -66,195 +53,86 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    // Determine the number of levels in this file
-    while(fgets(linebuffer, sizeof(linebuffer), fptr) != NULL)
-    {
-        if(strncmp(linebuffer,"Level",5) == 0) numlevels++;
-    }
-    rewind(fptr);
+    printf("Inputfile \"%s\"\n", argv[1]);
+    printf("Max width  : %d\n", MAXWIDTH);
+    printf("Max height : %d\n", MAXHEIGHT);
 
-    
-    // determine max width / height per level
-    // prepare arrays to store counters per level
-    levelheight = malloc(numlevels * sizeof(unsigned int));
-    levelwidth = malloc(numlevels * sizeof(unsigned int));
-    levelgoals = malloc(numlevels * sizeof(unsigned int));
-    levelgoalstaken = malloc(numlevels * sizeof(unsigned int));
-    levelgoalsopen = malloc(numlevels * sizeof(unsigned int));
-    levelcrates = malloc(numlevels * sizeof(unsigned int));
-    leveloffset = malloc(numlevels * sizeof(unsigned int));
-    validlevel = malloc(numlevels * sizeof(bool));
-    xpos = malloc(numlevels *sizeof(unsigned int));
-    ypos = malloc(numlevels *sizeof(unsigned int));
+    // total counters
+    numlevels = 0;
+    numlevels_valid = 0;
 
-    purge_string(linebuffer, BUFFERSIZE);
-    while(fgets(linebuffer, sizeof(linebuffer), fptr) != NULL)
-    {
-        if(strncmp(linebuffer,"Level",5) == 0)
-        {
-            level++; // first level is 0, but marked at '1'
-            levelheight[level-1] = 0;
-            levelwidth[level-1] = 0;
-            levelgoals[level-1] = 0;
-            levelgoalstaken[level-1] = 0;
-            levelgoalsopen[level-1] = 0;
-            leveloffset[level-1] = 0;
-            levelcrates[level-1] = 0;
-        }
-        else
-        {
-            remove_lfcrchars(linebuffer);
-            outputlength = strlen(linebuffer);  // remove EOL character at the end of the string
-            if(outputlength) // line has payload data
-            {
-                if(isdataline(linebuffer)) // line without comments, just the data
-                {
-                    // store maximum width at this level
-                    if(DEBUG) printf("%d\n",outputlength);
-                    if(levelwidth[level-1] < outputlength) levelwidth[level-1] = outputlength; // skip LF/CR
-
-                    levelheight[level-1]++; // add another line to this level
-                    levelgoals[level-1] += get_goalsfromline(linebuffer);
-                    levelgoalstaken[level-1] += get_takengoalsfromline(linebuffer);
-                    levelcrates[level-1] += get_cratesfromline(linebuffer);
-
-                }
-            }
-        }
-        purge_string(linebuffer, BUFFERSIZE);
-    }
-    rewind(fptr);
-
-    // now determine the player's position as an offset at each level and store it in the array
-    // we will calculate the actual load address later, after we know which levels are valid
-    level = 0;
+    // per level counters, reset for first level
+    levelline = false;
+    levelheight = 0;
+    levelwidth = 0;
     playerfound = false;
 
-    purge_string(linebuffer, BUFFERSIZE);
+    memset(&levelbuffer, 0, sizeof(struct sokobanlevel));        // clear out level before start
+    memset(&linebuffer, 0, BUFFERSIZE);                           // clear out linebuffer
+
     while(fgets(linebuffer, sizeof(linebuffer), fptr) != NULL)
     {
-        if(strncmp(linebuffer,"Level",5) == 0)
-        {
-            level++; // first level is 0, but marked at '1'
-            leveloffset[level-1] = 0; // reset offset for the player at this level
-            playerfound = false;
-            y = 0;
-        }
-        else
-        {
-            remove_lfcrchars(linebuffer);
-            outputlength = strlen(linebuffer); //compensate EOL / CR/LF
-            if(outputlength) // line has payload
+        remove_lfcrchars(linebuffer);
+        if(isLevelLine(linebuffer))
+        {   
+            levelline = true;
+            levelwidth = strlen(linebuffer) > levelwidth? strlen(linebuffer):levelwidth;    // maximum of either
+            // copy line to buffer at max length. invalidated level will be ignored later on
+            if(levelheight < MAXHEIGHT)
             {
-                if(isdataline(linebuffer)) // line without comments, just the data
+                // note stats from each line, while the buffer is still a 'normal' string
+                playerpos = getplayerpos(linebuffer);
+                levelbuffer.goals += get_goalsfromline(linebuffer);
+                levelbuffer.goalstaken += get_takengoalsfromline(linebuffer);
+                levelbuffer.crates += get_cratesfromline(linebuffer);
+
+                // prepare line for output formatting, with leading and trailing 0's
+                trim_validright(linebuffer, MAXWIDTH);
+                trim_validleft(linebuffer);
+                // store line
+                for(n = 0; n < MAXWIDTH; n++) levelbuffer.data[levelheight][n] = linebuffer[n];
+ 
+                // check if this line has a player in it
+                if(playerpos != -1)
                 {
-                    if(playerfound == false)
-                    {
-                        playerpos = getplayerpos(linebuffer);
-                        if(playerpos)
-                        {
-                            xpos[level-1] = playerpos - 1;
-                            ypos[level-1] = y;
-                            playerfound = true;
-                        }
-                    }
-                    y++; // next line
+                    levelbuffer.xpos = playerpos;
+                    levelbuffer.ypos = levelheight;
+                    playerfound = true;
                 }
             }
+            levelheight++;
         }
-        purge_string(linebuffer, BUFFERSIZE);
-
+        else // this is a comment line. Do we need to close a previous level?
+        {
+            if(levelline)
+            {
+                if(close_level(outptr, levelwidth, levelheight, playerfound, &levelbuffer, numlevels, numlevels_valid)) numlevels_valid++;
+                numlevels++;
+                // reset for next level(s)
+                memset(&levelbuffer, 0, sizeof(struct sokobanlevel));        // clear out level before start
+                levelheight = 0;
+                levelwidth = 0;
+                playerfound = false;
+            }
+            levelline = false;
+            // ignore comment line
+        }
+        memset(&linebuffer, 0, BUFFERSIZE); // clear out linebuffer for next line
     }
-    rewind(fptr);
-
-    printf("%d levels present in \"%s\"\n",numlevels,argv[1]);
-    // check the validity of each level and record for later use in calculating headers and level data
-    errorlevels = 0;
-    for(int n = 0; n < numlevels; n++)
+    // done
+    if(levelline)
     {
-        validlevel[n] = true; // set as default, unless either width or height is out of spec
-        if((levelwidth[n] > MAXWIDTH) || (levelheight[n] > MAXHEIGHT))
+        // close previous level, if valid
         {
-            printf("Removed level %d -",n+1);
-            if(levelwidth[n] > MAXWIDTH)
-            {
-                printf(" wider than %d cols",MAXWIDTH);
-                validlevel[n] = false;
-            }
-            if((levelwidth[n] > MAXWIDTH) && (levelheight[n] > MAXHEIGHT)) printf (" and");
-            if(levelheight[n] > MAXHEIGHT)
-            {
-                printf(" higher than %d rows",MAXHEIGHT);
-                validlevel[n] = false;
-            }
-            printf("\n");
+            if(close_level(outptr, levelwidth, levelheight, playerfound, &levelbuffer, numlevels, numlevels_valid)) numlevels_valid++;
+            numlevels++;
         }
-        if(levelgoals[n] > levelcrates[n])
-        {
-            printf("Removed level %d - too many goals\n",n+1);
-            validlevel[n] = false;
-        }
-        if(validlevel[n] == false) errorlevels++; // record for later use in calculating resulting levels
     }
-    if(errorlevels) printf("Removed %d invalid levels\n",errorlevels);
-    printf("Written %d valid levels to \"%s\"\n",numlevels - errorlevels,argv[2]);
 
-    // produce output file as array of struct sokobanlevel
-    if((numlevels - errorlevels) > 0)
-    {
-        // now transform the input to the output file and pad memory space
-        level = 0;
-        purge_string(linebuffer, BUFFERSIZE);
-        while(fgets(linebuffer, sizeof(linebuffer), fptr) != NULL)
-        {
-            if(strncmp(linebuffer,"Level",5) == 0)
-            {
-                if(level) fwrite(&levelbuffer, sizeof(levelbuffer),1, outptr); // write PREVIOUS record to out
-                level++; // first level is 0, but marked at '1'
-                levelbuffer.xpos = xpos[level-1];
-                levelbuffer.ypos = ypos[level-1];
-                levelbuffer.height = levelheight[level-1];
-                levelbuffer.width = levelwidth[level-1];
-                levelbuffer.goals = levelgoals[level-1];
-                levelbuffer.goalstaken = levelgoalstaken[level-1];
-                levelbuffer.crates = levelcrates[level-1];
-                y = 0;
-            }
-            else
-            {
-                if((level > 0) && (validlevel[level-1])) // only output valid level(s) - ignore the rest
-                {
-                    remove_lfcrchars(linebuffer);
-                    outputlength = strlen(linebuffer); //compensate EOL / CR/LF
-                    if(outputlength) // line has payload
-                    {
-                        if(isdataline(linebuffer)) // line without comments, just the data
-                        {
-                            trim_validright(linebuffer, BUFFERSIZE);
-                            trim_validleft(linebuffer);
-                            for(n = 0; n < MAXWIDTH; n++) levelbuffer.data[y][n] = linebuffer[n];
-                            //strncpy(levelbuffer.data[y],linebuffer,MAXWIDTH);
-                            y++;
-                        }
-                    }
-                }
-            }
-            purge_string(linebuffer, BUFFERSIZE);
-        }
-        fwrite(&levelbuffer, sizeof(levelbuffer),1, outptr); // write LAST record to out
-    }
-    else printf("No valid levels in input file\n");
+    printf("%d Total levels present, %d error levels\n", numlevels, numlevels - numlevels_valid);
+    //printf("%d Error levels present\n", numlevels - numlevels_valid);
+    printf("%d Valid levels output to \"%s\"\n", numlevels_valid, argv[2]);
 
-    free(levelheight);
-    free(levelwidth);
-    free(levelgoals);
-    free(levelgoalstaken);
-    free(levelgoalsopen);
-    free(leveloffset);
-    free(validlevel);
-    free(levelcrates);
-    free(xpos);
-    free(ypos);
     fclose(fptr);
     fclose(outptr);
     exit(EXIT_SUCCESS);
@@ -273,8 +151,8 @@ int getplayerpos(char *string)
         if(string[pos] == '@' || string[pos] == '+') break;
         pos++;
     }
-    if(pos < length) return pos + 1; // non-zero based position
-    else return 0;
+    if(pos < length) return pos;
+    else return -1;
 }
 int get_goalsfromline(char *string)
 {
@@ -310,27 +188,39 @@ int get_cratesfromline(char *string)
     return cratenum;
 }
 
-bool isdataline(char *string)
+bool isLevelLine(char *string)
 {
-    bool data;
-    data = (*string == ' ') || (*string == '#') || (*string == '@') || (*string == '$') || (*string == '.') || (*string == '+') || (*string == '*');
-    return data;
+    // 0-n characters ' ', followed by at least 1 character '#'
+    int length = strlen(string);
+    int n = 0;
+
+    while(n < length)
+    {
+        switch (string[n])
+        {
+            case ' ':
+                break;
+            case '#':
+                return true;
+                break;
+            default:
+                return false;
+        }
+        n++;
+    }
+    return false;
 }
 
 void trim_validright(char *string, int length)
 {
     int n;
-    //int length;
     char c;
-
-    //length = strlen(string);
-
     n = length - 1;
 
     while(n >= 0)
     {
         c = string[n];
-        if((c == '#') || (c == '@') || (c == '$') || (c == '.') || (c == '+') || (c == '*')) break; // valid character found
+        if((c == '#') || (c == '@') || (c == '$') || (c == '.') || (c == '+') || (c == '*')) break; // valid character found. space is invalid outside the walls
         string[n] = 0;
         n--;
     }
@@ -349,37 +239,46 @@ void trim_validleft(char *string)
     while(n < length)
     {
         c = string[n];
-        if((c == '#') || (c == '@') || (c == '$') || (c == '.') || (c == '+') || (c == '*')) break; // valid character found
+        if((c == '#') || (c == '@') || (c == '$') || (c == '.') || (c == '+') || (c == '*')) break; // valid character found. space is invalid outside the walls
         string[n] = 0;
         n++;
     }
 }
 
-void purge_string(char *string, int length)
-{
-    for(int n = 0; n < length; n++) string[n] = 0;
-    return;
-}
-
 void remove_lfcrchars(char *string)
 {
     int length = strlen(string);
-    int n = length - 1;
-    char c;
+    int n;
 
-    while(n >= 0)
+    for(n = length - 1; n >= 0; n--)
     {
-        c = string[n];
-        switch(c)
+        if((string[n] == 0x0a) || (string[n] == 0x0d)) string[n] = 0;
+        else break;
+    }
+}
+
+bool close_level(FILE *outptr, int levelwidth, int levelheight, bool playerfound, struct sokobanlevel *levelbuffer, int numlevels, int numlevels_valid)
+{
+    // output level, if valid
+    if((levelwidth <= MAXWIDTH) && (levelheight <= MAXHEIGHT) && (playerfound) && (levelbuffer->goals) && (levelbuffer->crates) && (levelbuffer->goals == levelbuffer->crates))
+    {
+        levelbuffer->width = levelwidth;
+        levelbuffer->height = levelheight;
+        fwrite(levelbuffer, sizeof(struct sokobanlevel),1, outptr);
+        return true;
+    }
+    else // print error(s) for this level
+    {
+        if(levelwidth > MAXWIDTH) printf("Removed level %02d - too wide\n", numlevels);
+        if(levelheight> MAXHEIGHT)printf("Removed level %02d - too high\n", numlevels);
+        if((levelwidth < MAXWIDTH) && (levelheight < MAXHEIGHT))
         {
-            case 0x0a: // LF
-            case 0x0d: // CR
-                string[n] = 0;
-                n = n - 1;
-                break;
-            default:
-                n = -1;
-                break;
+            // levelheight was correct, so we should have noted these stats, which could be in error now
+            if(!playerfound) printf("Removed level %02d - no player found\n", numlevels);
+            if(levelbuffer->goals == 0) printf("Removed level %02d - no goals found\n", numlevels);
+            if(levelbuffer->crates == 0) printf("Removed level %02d - no crates found\n", numlevels);
+            if(levelbuffer->goals != levelbuffer->crates) printf("Removed level %02d - number of crates doesn't match number of goals\n", numlevels);
         }
     }
+    return false;
 }

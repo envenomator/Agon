@@ -3,8 +3,8 @@
 
 #include <defines.h>
 
-#define MAXWIDTH 20
-#define MAXHEIGHT 15
+#define MAXWIDTH 40
+#define MAXHEIGHT 30
 
 struct sokobanlevel
 {

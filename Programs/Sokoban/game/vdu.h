@@ -36,5 +36,6 @@ VOID vdu_plotPoint(UINT16 x, UINT16 y);
 VOID vdu_cls(VOID);
 VOID vdu_gcol(UINT8 mode, UINT8 r, UINT8 g, UINT8 b);
 VOID vdu_box(UINT16 topleftx, UINT16 toplefty, UINT16 bottomrightx, UINT16 bottomrighty);
+VOID vdu_setmode(UINT8 mode);
 
 #endif 

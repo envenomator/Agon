@@ -1,4 +1,4 @@
-Zilog eZ80 Macro Assembler Version 4.3 (19073001)02-Aug-22     20:52:09     page:   1
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)05-Aug-22     21:36:43     page:   1
 
 
 PC     Object              I  Line    Source 
@@ -9,7 +9,7 @@ PC     Object              I  Line    Source
                            A     5    	.assume ADL=1
                            A     6    .DEBUG "C"
                            A     7    	SEGMENT CODE
-                           A     8    .BEGREC "sokobanlevel",307
+                           A     8    .BEGREC "sokobanlevel",1207
                            A     9    .DEFINE "xpos"
                            A    10    .VALUE 0
                            A    11    .CLASS 8
@@ -48,8 +48,8 @@ PC     Object              I  Line    Source
                            A    44    .DEFINE "data"
                            A    45    .VALUE 7
                            A    46    .CLASS 8
-                           A    47    .DIM 15
-                           A    48    .DIM 20
+                           A    47    .DIM 30
+                           A    48    .DIM 40
                            A    49    .TYPE 876
                            A    50    .ENDEF
                            A    51    .ENDREC "sokobanlevel"
@@ -492,517 +492,3117 @@ PC     Object              I  Line    Source
                            A   488    .TYPE 548
                            A   489    .ENDEF
                            A   490    .ENDREC "NONAME10"
-                           A   491    	SEGMENT TEXT
-000000                     A   492    _lookup:
-000000 23                  A   493    	DB	35
-000001 00                  A   494    	DB	0
-000002 40                  A   495    	DB	64
-000003 01                  A   496    	DB	1
-000004 2B                  A   497    	DB	43
-000005 02                  A   498    	DB	2
-000006 24                  A   499    	DB	36
-000007 03                  A   500    	DB	3
-000008 2A                  A   501    	DB	42
-000009 04                  A   502    	DB	4
-00000A 2E                  A   503    	DB	46
-00000B 05                  A   504    	DB	5
-00000C 20                  A   505    	DB	32
-00000D 06                  A   506    	DB	6
-                           A   507    .DEFINE "lookup"
-                           A   508    .ALIAS "_lookup"
-                           A   509    .CLASS 84
-                           A   510    .VALUE _lookup
-                           A   511    .DIM 7
-                           A   512    .TAG "NONAME0"
-                           A   513    .TYPE 104
-                           A   514    .ENDEF
-                           A   515    ;    1	#include "game.h"
-                           A   516    ;    2	#include "sokobanprep.h"
-                           A   517    ;    3	#include <defines.h>
-                           A   518    ;    4	#include <stdio.h>
-                           A   519    ;    5	#include <stdlib.h>
-                           A   520    ;    6	
-                           A   521    ;    7	#include "ff.h"
-                           A   522    ;    8	#include "mos.h"
-                           A   523    ;    9	
-                           A   524    ;   10	const chartotile lookup[] =
-                           A   525    ;   11	{
-                           A   526    	SEGMENT CODE
-                           A   527    ;   12		{CHAR_WALL, TILE_WALL},
-                           A   528    ;   13		{CHAR_PLAYER, TILE_PLAYER},
-                           A   529    ;   14		{CHAR_PLAYERONGOAL, TILE_PLAYERONGO
-                           A   530    ;   15		{CHAR_BOX, TILE_BOX},
-                           A   531    ;   16		{CHAR_BOXONGOAL, TILE_BOXONGOAL},
-                           A   532    ;   17		{CHAR_GOAL, TILE_GOAL},
-                           A   533    ;   18		{CHAR_FLOOR, TILE_FLOOR}
-                           A   534    ;   19	};
-                           A   535    ;   20	
-                           A   536    ;   21	void print_playfieldText(struct sokoban
-                           A   537    ;   22	{
-000000                     A   538    _print_playfieldText:
-                           A   539    .DEFINE "_print_playfieldText"
-                           A   540    
-                           A   541    .VALUE _print_playfieldText
-                           A   542    
-                           A   543    .CLASS 2
-                           A   544    
-                           A   545    .TYPE 65
-                           A   546    
-                           A   547    .ENDEF
-                           A   548    
-                           A   549    .BEGFUNC "print_playfieldText",22,"_print_playf
-                           A   550    
-                           A   551    .LINE 22
-                           A   552    
-                           A   553    .DEFINE "level"
-                           A   554    
-                           A   555    .CLASS 65
-                           A   556    
-                           A   557    .VALUE 6
-                           A   558    
-                           A   559    .TAG "sokobanlevel"
-                           A   560    
-                           A   561    .TYPE 40
-                           A   562    
-                           A   563    .ENDEF
-                           A   564    
-                           A   565    .DEFINE "width"
-                           A   566    
-                           A   567    .CLASS 65
-                           A   568    
-                           A   569    .VALUE -2
-                           A   570    
-                           A   571    .TYPE 13
-                           A   572    
-                           A   573    .ENDEF
-                           A   574    
-                           A   575    .DEFINE "height"
-                           A   576    
-                           A   577    .CLASS 65
-                           A   578    
-                           A   579    .VALUE -4
-                           A   580    
-                           A   581    .TYPE 13
-                           A   582    
-                           A   583    .ENDEF
-                           A   584    
-                           A   585    .DEFINE "c"
-                           A   586    
-                           A   587    .CLASS 65
-                           A   588    
-                           A   589    .VALUE -5
-                           A   590    
-                           A   591    .TYPE 2
-                           A   592    
-                           A   593    .ENDEF
-                           A   594    
-000000 DDE5                A   595    	PUSH	IX
-000002 DD210000 00         A   596    	LD	IX,0
-000007 DD39                A   597    	ADD	IX,SP
-000009 C5                  A   598    	PUSH	BC
-00000A C5                  A   599    	PUSH	BC
-00000B 3B                  A   600    	DEC	SP
-00000C 3B                  A   601    	DEC	SP
-                           A   602    ;   23		UINT16 width, height;
-                           A   603    ;   24		char c;
-                           A   604    ;   25		
-                           A   605    ;   26		for(height = 0; height < level->hei
-                           A   606    .LINE 26
-                           A   607    
-00000D DD36FC00            A   608    	LD	(IX+%FFFFFFFC),%0
-000011 DD36FD00            A   609    	LD	(IX+%FFFFFFFD),%0
-000015 C3 AB 00 00         A   610    	JR	L_12
-000019                     A   611    L_10:
-                           A   612    ;   27		{
-                           A   613    ;   28			for(width = 0; width < level->w
-                           A   614    .LINE 28
-                           A   615    
-000019 DD36FE00            A   616    	LD	(IX+%FFFFFFFE),%0
-00001D DD36FF00            A   617    	LD	(IX+%FFFFFFFF),%0
-000021 18 5A               A   618    	JR	L_8
-000023                     A   619    L_6:
-                           A   620    ;   29			{
-                           A   621    ;   30				c = level->data[height][wid
-                           A   622    .LINE 30
-                           A   623    
-000023 DD07FC              A   624    	LD	BC,(IX+%FFFFFFFC)
-000026 CD 00 00 00         A   625    	CALL	__stoiu
-00002A 3E14                A   626    	LD	A,%14
-00002C CD 00 00 00         A   627    	CALL	__imul_b
-000030 E5C1                A   628    	LD	BC,HL
-000032 DD3106              A   629    	LD	IY,(IX+%6)
-000035 ED2307              A   630    	LEA	HL,IY+%7
-000038 09                  A   631    	ADD	HL,BC
-000039 E5D1                A   632    	LD	DE,HL
-00003B DD07FE              A   633    	LD	BC,(IX+%FFFFFFFE)
-00003E CD 00 00 00         A   634    	CALL	__stoiu
-000042 19                  A   635    	ADD	HL,DE
-000043 7E                  A   636    	LD	A,(HL)
-000044 DD77FB              A   637    	LD	(IX+%FFFFFFFB),A
-                           A   638    ;   31				printf("%c",c?c:' ');
-                           A   639    .LINE 31
-                           A   640    
-000047 B7                  A   641    	OR	A,A
-000048 28 0E               A   642    	JR	Z,L_4
-00004A DD7EFB              A   643    	LD	A,(IX+%FFFFFFFB)
-00004D 17ED62              A   644    	SEXT	HL
-000050 DD6EFB              A   645    	LD	L,(IX+%FFFFFFFB)
-000053 DD2FF8              A   646    	LD	(IX+%FFFFFFF8),HL
-000056 18 07               A   647    	JR	L_5
-000058                     A   648    L_4:
-000058 01200000            A   649    	LD	BC,32
-00005C DD0FF8              A   650    	LD	(IX+%FFFFFFF8),BC
-00005F                     A   651    L_5:
-00005F 01 00 00 00         A   652    	LD	BC,___print_uputch
-000063 ED43 00 00 00       A   653    	LD	(___print_xputch),BC
-000068 DD4EF8              A   654    	LD	C,(IX+%FFFFFFF8)
-00006B 0600                A   655    	LD	B,%0
-00006D C5                  A   656    	PUSH	BC
-00006E CD 00 00 00         A   657    	CALL	___print_uputch
-000072 C1                  A   658    	POP	BC
-000073 DD27FE              A   659    	LD	HL,(IX+%FFFFFFFE)
-000076 23                  A   660    	INC	HL
-000077 DD75FE              A   661    	LD	(IX+%FFFFFFFE),L
-00007A DD74FF              A   662    	LD	(IX+%FFFFFFFF),H
-                           A   663    ;   32			}
-00007D                     A   664    L_8:
-                           A   665    .LINE 32
-                           A   666    
-00007D DD3106              A   667    	LD	IY,(IX+%6)
-000080 FD4E02              A   668    	LD	C,(IY+%2)
-000083 0600                A   669    	LD	B,%0
-000085 DD27FE              A   670    	LD	HL,(IX+%FFFFFFFE)
-000088 B7                  A   671    	OR	A,A
-000089 40ED42              A   672    	SBC.SIS	HL,BC
-00008C 38 95               A   673    	JR	C,L_6
-                           A   674    ;   33			printf("\n\r");
-                           A   675    .LINE 33
-                           A   676    
-00008E 01 00 00 00         A   677    	LD	BC,___print_uputch
-000092 ED43 00 00 00       A   678    	LD	(___print_xputch),BC
-000097 01 00 00 00         A   679    	LD	BC,L__2
-00009B C5                  A   680    	PUSH	BC
-00009C CD 00 00 00         A   681    	CALL	___print_sendstring
-0000A0 C1                  A   682    	POP	BC
-0000A1 DD27FC              A   683    	LD	HL,(IX+%FFFFFFFC)
-0000A4 23                  A   684    	INC	HL
-0000A5 DD75FC              A   685    	LD	(IX+%FFFFFFFC),L
-0000A8 DD74FD              A   686    	LD	(IX+%FFFFFFFD),H
-                           A   687    ;   34		}
-0000AB                     A   688    L_12:
-                           A   689    .LINE 34
-                           A   690    
-0000AB DD3106              A   691    	LD	IY,(IX+%6)
-0000AE FD4E03              A   692    	LD	C,(IY+%3)
-0000B1 0600                A   693    	LD	B,%0
-0000B3 DD27FC              A   694    	LD	HL,(IX+%FFFFFFFC)
-0000B6 B7                  A   695    	OR	A,A
-0000B7 40ED42              A   696    	SBC.SIS	HL,BC
-0000BA DA 19 00 00         A   697    	JR	C,L_10
-                           A   698    ;   35		
-                           A   699    ;   36	}
-                           A   700    .LINE 36
-                           A   701    
-0000BE DDF9                A   702    	LD	SP,IX
-0000C0 DDE1                A   703    	POP	IX
-0000C2 C9                  A   704    	RET	
-                           A   705    
-                           A   706    
-                           A   707    ;**************************** _print_playfieldT
-                           A   708    ;Name                         Addr/Register   S
-                           A   709    ;___print_sendstring                 IMPORT  --
-                           A   710    ;___print_xputch                     IMPORT    
-                           A   711    ;___print_uputch                     IMPORT  --
-                           A   712    ;temp2                                 IX-8    
-                           A   713    ;c                                     IX-5    
-                           A   714    ;height                                IX-4    
-                           A   715    ;width                                 IX-2    
-                           A   716    ;level                                 IX+6    
-                           A   717    
-                           A   718    
-                           A   719    ; Stack Frame Size: 17 (bytes)
-                           A   720    ;       Spill Code: 0 (instruction)
-                           A   721    
-                           A   722    
-                           A   723    .ENDFUNC "print_playfieldText",36,"_print_playf
-                           A   724    	SEGMENT STRSECT
-000000                     A   725    L__2:
-000000 0A0D00              A   726    	DB	10,13,0
-                           A   727    	SEGMENT CODE
-                           A   728    ;   37	
-                           A   729    ;   38	UINT16 read_levels(char *filename, stru
-                           A   730    ;   39	{
-0000C3                     A   731    _read_levels:
-                           A   732    .DEFINE "_read_levels"
-                           A   733    
-                           A   734    .VALUE _read_levels
-                           A   735    
-                           A   736    .CLASS 2
-                           A   737    
-                           A   738    .TYPE 77
-                           A   739    
-                           A   740    .ENDEF
-                           A   741    
-                           A   742    .BEGFUNC "read_levels",39,"_read_levels"
-                           A   743    
-                           A   744    .LINE 39
-                           A   745    
-                           A   746    .DEFINE "filename"
-                           A   747    
-                           A   748    .CLASS 65
-                           A   749    
-                           A   750    .VALUE 6
-                           A   751    
-                           A   752    .TYPE 34
-                           A   753    
-                           A   754    .ENDEF
-                           A   755    
-                           A   756    .DEFINE "levelbuffer"
-                           A   757    
-                           A   758    .CLASS 65
-                           A   759    
-                           A   760    .VALUE 9
-                           A   761    
-                           A   762    .TAG "sokobanlevel"
-                           A   763    
-                           A   764    .TYPE 296
-                           A   765    
-                           A   766    .ENDEF
-                           A   767    
-                           A   768    .DEFINE "fr"
-                           A   769    
-                           A   770    .CLASS 65
-                           A   771    
-                           A   772    .VALUE -3
-                           A   773    
-                           A   774    .TYPE 4
-                           A   775    
-                           A   776    .ENDEF
-                           A   777    
-                           A   778    .DEFINE "fSize"
-                           A   779    
-                           A   780    .CLASS 65
-                           A   781    
-                           A   782    .VALUE -7
-                           A   783    
-                           A   784    .TYPE 15
-                           A   785    
-                           A   786    .ENDEF
-                           A   787    
-                           A   788    .DEFINE "levels"
-                           A   789    
-                           A   790    .CLASS 65
-                           A   791    
-                           A   792    .VALUE -9
-                           A   793    
-                           A   794    .TYPE 13
-                           A   795    
-                           A   796    .ENDEF
-                           A   797    
-                           A   798    .DEFINE "br"
-                           A   799    
-                           A   800    .CLASS 65
-                           A   801    
-                           A   802    .VALUE -12
-                           A   803    
-                           A   804    .TYPE 14
-                           A   805    
-                           A   806    .ENDEF
-                           A   807    
-                           A   808    .DEFINE "fil"
-                           A   809    
-                           A   810    .CLASS 65
-                           A   811    
-                           A   812    .VALUE -560
-                           A   813    
-                           A   814    .TAG "NONAME6"
-                           A   815    
-                           A   816    .TYPE 8
-                           A   817    
-                           A   818    .ENDEF
-                           A   819    
-0000C3 DDE5                A   820    	PUSH	IX
-0000C5 DD210000 00         A   821    	LD	IX,0
-0000CA DD39                A   822    	ADD	IX,SP
-0000CC 21D0FDFF            A   823    	LD	HL,-560
-0000D0 39                  A   824    	ADD	HL,SP
-0000D1 F9                  A   825    	LD	SP,HL
-                           A   826    ;   40		FIL	   	fil;
-                           A   827    ;   41		UINT   	br;	
-                           A   828    ;   42		FSIZE_t fSize;
-                           A   829    ;   43		UINT16	levels;
-                           A   830    ;   44		FRESULT	fr;
-                           A   831    ;   45	
-                           A   832    ;   46		fr = f_open(&fil, filename, FA_READ
-                           A   833    .LINE 46
-                           A   834    
-0000D2 01010000            A   835    	LD	BC,1
-0000D6 C5                  A   836    	PUSH	BC
-0000D7 DD0706              A   837    	LD	BC,(IX+%6)
-0000DA C5                  A   838    	PUSH	BC
-0000DB DDE5E1              A   839    	LD	HL,IX
-0000DE 01D0FDFF            A   840    	LD	BC,-560
-0000E2 09                  A   841    	ADD	HL,BC
-0000E3 E5C1                A   842    	LD	BC,HL
-0000E5 C5                  A   843    	PUSH	BC
-0000E6 CD 00 00 00         A   844    	CALL	_f_open
-0000EA C1                  A   845    	POP	BC
-0000EB C1                  A   846    	POP	BC
-0000EC C1                  A   847    	POP	BC
-0000ED DD2FFD              A   848    	LD	(IX+%FFFFFFFD),HL
-                           A   849    ;   47		if(fr == FR_OK) {
-                           A   850    .LINE 47
-                           A   851    
-0000F0 01000000            A   852    	LD	BC,0
-0000F4 DD27FD              A   853    	LD	HL,(IX+%FFFFFFFD)
-0000F7 B7                  A   854    	OR	A,A
-0000F8 ED42                A   855    	SBC	HL,BC
-0000FA 20 5D               A   856    	JR	NZ,L_15
-                           A   857    ;   48			fSize = f_size(&fil);
-                           A   858    .LINE 48
-                           A   859    
-0000FC 21DBFDFF            A   860    	LD	HL,-549
-000100 DDE5C1              A   861    	LD	BC,IX
-000103 09                  A   862    	ADD	HL,BC
-000104 ED07                A   863    	LD	BC,(HL)
-000106 23                  A   864    	INC	HL
-000107 23                  A   865    	INC	HL
-000108 23                  A   866    	INC	HL
-000109 7E                  A   867    	LD	A,(HL)
-00010A DD0FF9              A   868    	LD	(IX+%FFFFFFF9),BC
-00010D DD77FC              A   869    	LD	(IX+%FFFFFFFC),A
-                           A   870    ;   49			*levelbuffer = (struct sokobanl
-                           A   871    .LINE 49
-                           A   872    
-000110 DD07F9              A   873    	LD	BC,(IX+%FFFFFFF9)
-000113 C5                  A   874    	PUSH	BC
-000114 CD 00 00 00         A   875    	CALL	_malloc
-000118 C1                  A   876    	POP	BC
-000119 DD3109              A   877    	LD	IY,(IX+%9)
-00011C FD2F00              A   878    	LD	(IY),HL
-                           A   879    ;   50			fr = f_read(&fil, *levelbuffer,
-                           A   880    .LINE 50
-                           A   881    
-00011F ED65F4              A   882    	PEA	IX+%FFFFFFF4
-000122 DD07F9              A   883    	LD	BC,(IX+%FFFFFFF9)
-000125 C5                  A   884    	PUSH	BC
-000126 DD2709              A   885    	LD	HL,(IX+%9)
-000129 ED07                A   886    	LD	BC,(HL)
-00012B C5                  A   887    	PUSH	BC
-00012C DDE5E1              A   888    	LD	HL,IX
-00012F 01D0FDFF            A   889    	LD	BC,-560
-000133 09                  A   890    	ADD	HL,BC
-000134 E5C1                A   891    	LD	BC,HL
-000136 C5                  A   892    	PUSH	BC
-000137 CD 00 00 00         A   893    	CALL	_f_read
-00013B C1                  A   894    	POP	BC
-00013C C1                  A   895    	POP	BC
-00013D C1                  A   896    	POP	BC
-00013E C1                  A   897    	POP	BC
-00013F DD2FFD              A   898    	LD	(IX+%FFFFFFFD),HL
-                           A   899    ;   51			levels = fSize / sizeof(struct 
-                           A   900    .LINE 51
-                           A   901    
-000142 DD27F9              A   902    	LD	HL,(IX+%FFFFFFF9)
-000145 DD5EFC              A   903    	LD	E,(IX+%FFFFFFFC)
-000148 01330100            A   904    	LD	BC,307
-00014C AF                  A   905    	XOR	A,A
-00014D CD 00 00 00         A   906    	CALL	__ldivu
-000151 DD75F7              A   907    	LD	(IX+%FFFFFFF7),L
-000154 DD74F8              A   908    	LD	(IX+%FFFFFFF8),H
-                           A   909    ;   52		}
-                           A   910    ;   53		else {
-                           A   911    .LINE 53
-                           A   912    
-000157 18 17               A   913    	JR	L_16
-000159                     A   914    L_15:
-                           A   915    ;   54			mos_fileError(fr);
-                           A   916    .LINE 54
-                           A   917    
-000159 DD07FD              A   918    	LD	BC,(IX+%FFFFFFFD)
-00015C C5                  A   919    	PUSH	BC
-00015D CD 00 00 00         A   920    	CALL	_mos_fileError
-000161 C1                  A   921    	POP	BC
-                           A   922    ;   55			free(levelbuffer);
-                           A   923    .LINE 55
-                           A   924    
-000162 DD0709              A   925    	LD	BC,(IX+%9)
-000165 C5                  A   926    	PUSH	BC
-000166 CD 00 00 00         A   927    	CALL	_free
-00016A C1                  A   928    	POP	BC
-                           A   929    ;   56			return 0;
-                           A   930    .LINE 56
-                           A   931    
-00016B B7                  A   932    	OR	A,A
-00016C ED62                A   933    	SBC	HL,HL
-00016E 18 13               A   934    	JR	L_17
-                           A   935    ;   57		}
-000170                     A   936    L_16:
-                           A   937    .LINE 57
-                           A   938    
-                           A   939    ;   58		f_close(&fil);
-                           A   940    .LINE 58
-                           A   941    
-000170 DDE5E1              A   942    	LD	HL,IX
-000173 01D0FDFF            A   943    	LD	BC,-560
-000177 09                  A   944    	ADD	HL,BC
-000178 E5C1                A   945    	LD	BC,HL
-00017A C5                  A   946    	PUSH	BC
-00017B CD 00 00 00         A   947    	CALL	_f_close
-00017F C1                  A   948    	POP	BC
-                           A   949    ;   59		return levels;	
-                           A   950    .LINE 59
-                           A   951    
-000180 DD27F7              A   952    	LD	HL,(IX+%FFFFFFF7)
-                           A   953    ;   60	}
-000183                     A   954    L_17:
-                           A   955    .LINE 60
-                           A   956    
-000183 DDF9                A   957    	LD	SP,IX
-000185 DDE1                A   958    	POP	IX
-000187 C9                  A   959    	RET	
-                           A   960    
-                           A   961    
-                           A   962    ;**************************** _read_levels ****
-                           A   963    ;Name                         Addr/Register   S
-                           A   964    ;_f_close                            IMPORT  --
-                           A   965    ;_free                               IMPORT  --
-                           A   966    ;_mos_fileError                      IMPORT  --
-                           A   967    ;_f_read                             IMPORT  --
-                           A   968    ;_malloc                             IMPORT  --
-                           A   969    ;_f_open                             IMPORT  --
-                           A   970    ;fil                                 IX-560    
-                           A   971    ;br                                   IX-12    
-                           A   972    ;levels                                IX-9    
-                           A   973    ;fSize                                 IX-7    
-                           A   974    ;fr                                    IX-3    
-                           A   975    ;levelbuffer                           IX+9    
-                           A   976    ;filename                              IX+6    
-                           A   977    
-                           A   978    
-                           A   979    ; Stack Frame Size: 572 (bytes)
-                           A   980    ;       Spill Code: 0 (instruction)
-                           A   981    
-                           A   982    
-                           A   983    .ENDFUNC "read_levels",60,"_read_levels"
-                           A   984    	XREF _mos_fileError:ROM
-                           A   985    	XREF _f_read:ROM
-                           A   986    	XREF _f_close:ROM
-                           A   987    	XREF _f_open:ROM
-                           A   988    	XREF _malloc:ROM
-                           A   989    	XREF _free:ROM
-                           A   990    	XREF ___print_sendstring:ROM
-                           A   991    	XREF ___print_xputch:ROM
-                           A   992    	XREF ___print_uputch:ROM
-                           A   993    	XREF __ldivu:ROM
-                           A   994    	XREF __stoiu:ROM
-                           A   995    	XREF __imul_b:ROM
-                           A   996    	XDEF _read_levels
-                           A   997    	XDEF _print_playfieldText
-                           A   998    	XDEF _lookup
-                           A   999    	END
+                           A   491    	SEGMENT BSS
+000000                     A   492    _bitmapbuffer:
+000000                     A   493    	DS	1024
+                           A   494    .DEFINE "bitmapbuffer"
+                           A   495    .ALIAS "_bitmapbuffer"
+                           A   496    .CLASS 83
+                           A   497    .VALUE _bitmapbuffer
+                           A   498    .DIM 256
+                           A   499    .TYPE 111
+                           A   500    .ENDEF
+000400                     A   501    _sprites:
+000400                     A   502    	DS	1200
+                           A   503    .DEFINE "sprites"
+                           A   504    .ALIAS "_sprites"
+                           A   505    .CLASS 83
+                           A   506    .VALUE _sprites
+                           A   507    .DIM 30
+                           A   508    .DIM 40
+                           A   509    .TYPE 876
+                           A   510    .ENDEF
+0008B0                     A   511    _currentlevel:
+0008B0                     A   512    	DS	1207
+                           A   513    .DEFINE "currentlevel"
+                           A   514    .ALIAS "_currentlevel"
+                           A   515    .CLASS 83
+                           A   516    .VALUE _currentlevel
+                           A   517    .TAG "sokobanlevel"
+                           A   518    .TYPE 8
+                           A   519    .ENDEF
+                           A   520    	SEGMENT TEXT
+000000                     A   521    _wall_data:
+000000 808000FF            A   522    	DL	-16744320
+000004 808000FF            A   523    	DL	-16744320
+000008 808000FF            A   524    	DL	-16744320
+00000C 808000FF            A   525    	DL	-16744320
+000010 808000FF            A   526    	DL	-16744320
+000014 808000FF            A   527    	DL	-16744320
+000018 808000FF            A   528    	DL	-16744320
+00001C 404040FF            A   529    	DL	-12566464
+000020 808000FF            A   530    	DL	-16744320
+000024 808000FF            A   531    	DL	-16744320
+000028 808000FF            A   532    	DL	-16744320
+00002C 808000FF            A   533    	DL	-16744320
+000030 808000FF            A   534    	DL	-16744320
+000034 808000FF            A   535    	DL	-16744320
+000038 808000FF            A   536    	DL	-16744320
+00003C 808000FF            A   537    	DL	-16744320
+000040 800000FF            A   538    	DL	-16777088
+000044 800000FF            A   539    	DL	-16777088
+000048 800000FF            A   540    	DL	-16777088
+00004C 800000FF            A   541    	DL	-16777088
+000050 800000FF            A   542    	DL	-16777088
+000054 800000FF            A   543    	DL	-16777088
+000058 808080FF            A   544    	DL	-8355712
+00005C 404040FF            A   545    	DL	-12566464
+000060 808000FF            A   546    	DL	-16744320
+000064 800000FF            A   547    	DL	-16777088
+000068 800000FF            A   548    	DL	-16777088
+00006C 800000FF            A   549    	DL	-16777088
+000070 800000FF            A   550    	DL	-16777088
+000074 800000FF            A   551    	DL	-16777088
+000078 800000FF            A   552    	DL	-16777088
+00007C 800000FF            A   553    	DL	-16777088
+000080 800000FF            A   554    	DL	-16777088
+000084 800000FF            A   555    	DL	-16777088
+000088 800000FF            A   556    	DL	-16777088
+00008C 800000FF            A   557    	DL	-16777088
+000090 800000FF            A   558    	DL	-16777088
+000094 800000FF            A   559    	DL	-16777088
+000098 808080FF            A   560    	DL	-8355712
+00009C 404040FF            A   561    	DL	-12566464
+0000A0 808000FF            A   562    	DL	-16744320
+0000A4 800000FF            A   563    	DL	-16777088
+0000A8 808080FF            A   564    	DL	-8355712
+0000AC 800000FF            A   565    	DL	-16777088
+0000B0 800000FF            A   566    	DL	-16777088
+0000B4 800000FF            A   567    	DL	-16777088
+0000B8 800000FF            A   568    	DL	-16777088
+0000BC 800000FF            A   569    	DL	-16777088
+0000C0 800000FF            A   570    	DL	-16777088
+0000C4 800000FF            A   571    	DL	-16777088
+0000C8 808080FF            A   572    	DL	-8355712
+0000CC 808080FF            A   573    	DL	-8355712
+0000D0 800000FF            A   574    	DL	-16777088
+0000D4 800000FF            A   575    	DL	-16777088
+0000D8 808080FF            A   576    	DL	-8355712
+0000DC 404040FF            A   577    	DL	-12566464
+0000E0 808000FF            A   578    	DL	-16744320
+0000E4 800000FF            A   579    	DL	-16777088
+0000E8 800000FF            A   580    	DL	-16777088
+0000EC 800000FF            A   581    	DL	-16777088
+0000F0 800000FF            A   582    	DL	-16777088
+0000F4 800000FF            A   583    	DL	-16777088
+0000F8 800000FF            A   584    	DL	-16777088
+0000FC 800000FF            A   585    	DL	-16777088
+000100 800000FF            A   586    	DL	-16777088
+000104 800000FF            A   587    	DL	-16777088
+000108 800000FF            A   588    	DL	-16777088
+00010C 800000FF            A   589    	DL	-16777088
+000110 800000FF            A   590    	DL	-16777088
+000114 800000FF            A   591    	DL	-16777088
+000118 808080FF            A   592    	DL	-8355712
+00011C 404040FF            A   593    	DL	-12566464
+000120 808000FF            A   594    	DL	-16744320
+000124 800000FF            A   595    	DL	-16777088
+000128 800000FF            A   596    	DL	-16777088
+00012C 800000FF            A   597    	DL	-16777088
+000130 800000FF            A   598    	DL	-16777088
+000134 800000FF            A   599    	DL	-16777088
+000138 800000FF            A   600    	DL	-16777088
+00013C 800000FF            A   601    	DL	-16777088
+000140 800000FF            A   602    	DL	-16777088
+000144 800000FF            A   603    	DL	-16777088
+000148 800000FF            A   604    	DL	-16777088
+00014C 800000FF            A   605    	DL	-16777088
+000150 800000FF            A   606    	DL	-16777088
+000154 800000FF            A   607    	DL	-16777088
+000158 808080FF            A   608    	DL	-8355712
+00015C 404040FF            A   609    	DL	-12566464
+000160 808000FF            A   610    	DL	-16744320
+000164 800000FF            A   611    	DL	-16777088
+000168 800000FF            A   612    	DL	-16777088
+00016C 800000FF            A   613    	DL	-16777088
+000170 800000FF            A   614    	DL	-16777088
+000174 808080FF            A   615    	DL	-8355712
+000178 808080FF            A   616    	DL	-8355712
+00017C 800000FF            A   617    	DL	-16777088
+000180 808080FF            A   618    	DL	-8355712
+000184 808080FF            A   619    	DL	-8355712
+000188 808080FF            A   620    	DL	-8355712
+00018C 808080FF            A   621    	DL	-8355712
+000190 808080FF            A   622    	DL	-8355712
+000194 808080FF            A   623    	DL	-8355712
+000198 808080FF            A   624    	DL	-8355712
+00019C 404040FF            A   625    	DL	-12566464
+0001A0 808000FF            A   626    	DL	-16744320
+0001A4 808080FF            A   627    	DL	-8355712
+0001A8 808080FF            A   628    	DL	-8355712
+0001AC 808080FF            A   629    	DL	-8355712
+0001B0 808080FF            A   630    	DL	-8355712
+0001B4 808080FF            A   631    	DL	-8355712
+0001B8 808080FF            A   632    	DL	-8355712
+0001BC 808080FF            A   633    	DL	-8355712
+0001C0 404040FF            A   634    	DL	-12566464
+0001C4 404040FF            A   635    	DL	-12566464
+0001C8 404040FF            A   636    	DL	-12566464
+0001CC 404040FF            A   637    	DL	-12566464
+0001D0 404040FF            A   638    	DL	-12566464
+0001D4 404040FF            A   639    	DL	-12566464
+0001D8 404040FF            A   640    	DL	-12566464
+0001DC 404040FF            A   641    	DL	-12566464
+0001E0 404040FF            A   642    	DL	-12566464
+0001E4 404040FF            A   643    	DL	-12566464
+0001E8 404040FF            A   644    	DL	-12566464
+0001EC 404040FF            A   645    	DL	-12566464
+0001F0 404040FF            A   646    	DL	-12566464
+0001F4 404040FF            A   647    	DL	-12566464
+0001F8 404040FF            A   648    	DL	-12566464
+0001FC 404040FF            A   649    	DL	-12566464
+000200 404040FF            A   650    	DL	-12566464
+000204 808000FF            A   651    	DL	-16744320
+000208 808000FF            A   652    	DL	-16744320
+00020C 808000FF            A   653    	DL	-16744320
+000210 808000FF            A   654    	DL	-16744320
+000214 808000FF            A   655    	DL	-16744320
+000218 808000FF            A   656    	DL	-16744320
+00021C 808000FF            A   657    	DL	-16744320
+000220 808000FF            A   658    	DL	-16744320
+000224 808000FF            A   659    	DL	-16744320
+000228 808000FF            A   660    	DL	-16744320
+00022C 808000FF            A   661    	DL	-16744320
+000230 808000FF            A   662    	DL	-16744320
+000234 808000FF            A   663    	DL	-16744320
+000238 808000FF            A   664    	DL	-16744320
+00023C 808000FF            A   665    	DL	-16744320
+000240 404040FF            A   666    	DL	-12566464
+000244 808000FF            A   667    	DL	-16744320
+000248 808000FF            A   668    	DL	-16744320
+00024C 800000FF            A   669    	DL	-16777088
+000250 808080FF            A   670    	DL	-8355712
+000254 808080FF            A   671    	DL	-8355712
+000258 800000FF            A   672    	DL	-16777088
+00025C 800000FF            A   673    	DL	-16777088
+000260 800000FF            A   674    	DL	-16777088
+000264 800000FF            A   675    	DL	-16777088
+000268 800000FF            A   676    	DL	-16777088
+00026C 800000FF            A   677    	DL	-16777088
+000270 800000FF            A   678    	DL	-16777088
+000274 800000FF            A   679    	DL	-16777088
+000278 800000FF            A   680    	DL	-16777088
+00027C 808080FF            A   681    	DL	-8355712
+000280 404040FF            A   682    	DL	-12566464
+000284 808000FF            A   683    	DL	-16744320
+000288 800000FF            A   684    	DL	-16777088
+00028C 800000FF            A   685    	DL	-16777088
+000290 800000FF            A   686    	DL	-16777088
+000294 800000FF            A   687    	DL	-16777088
+000298 800000FF            A   688    	DL	-16777088
+00029C 800000FF            A   689    	DL	-16777088
+0002A0 800000FF            A   690    	DL	-16777088
+0002A4 800000FF            A   691    	DL	-16777088
+0002A8 800000FF            A   692    	DL	-16777088
+0002AC 800000FF            A   693    	DL	-16777088
+0002B0 800000FF            A   694    	DL	-16777088
+0002B4 800000FF            A   695    	DL	-16777088
+0002B8 800000FF            A   696    	DL	-16777088
+0002BC 808080FF            A   697    	DL	-8355712
+0002C0 404040FF            A   698    	DL	-12566464
+0002C4 808000FF            A   699    	DL	-16744320
+0002C8 800000FF            A   700    	DL	-16777088
+0002CC 800000FF            A   701    	DL	-16777088
+0002D0 800000FF            A   702    	DL	-16777088
+0002D4 800000FF            A   703    	DL	-16777088
+0002D8 808080FF            A   704    	DL	-8355712
+0002DC 808080FF            A   705    	DL	-8355712
+0002E0 800000FF            A   706    	DL	-16777088
+0002E4 800000FF            A   707    	DL	-16777088
+0002E8 800000FF            A   708    	DL	-16777088
+0002EC 800000FF            A   709    	DL	-16777088
+0002F0 800000FF            A   710    	DL	-16777088
+0002F4 800000FF            A   711    	DL	-16777088
+0002F8 800000FF            A   712    	DL	-16777088
+0002FC 808080FF            A   713    	DL	-8355712
+000300 404040FF            A   714    	DL	-12566464
+000304 808000FF            A   715    	DL	-16744320
+000308 800000FF            A   716    	DL	-16777088
+00030C 800000FF            A   717    	DL	-16777088
+000310 800000FF            A   718    	DL	-16777088
+000314 800000FF            A   719    	DL	-16777088
+000318 800000FF            A   720    	DL	-16777088
+00031C 800000FF            A   721    	DL	-16777088
+000320 800000FF            A   722    	DL	-16777088
+000324 800000FF            A   723    	DL	-16777088
+000328 800000FF            A   724    	DL	-16777088
+00032C 800000FF            A   725    	DL	-16777088
+000330 800000FF            A   726    	DL	-16777088
+000334 808080FF            A   727    	DL	-8355712
+000338 800000FF            A   728    	DL	-16777088
+00033C 808080FF            A   729    	DL	-8355712
+000340 404040FF            A   730    	DL	-12566464
+000344 808000FF            A   731    	DL	-16744320
+000348 800000FF            A   732    	DL	-16777088
+00034C 800000FF            A   733    	DL	-16777088
+000350 800000FF            A   734    	DL	-16777088
+000354 800000FF            A   735    	DL	-16777088
+000358 800000FF            A   736    	DL	-16777088
+00035C 800000FF            A   737    	DL	-16777088
+000360 800000FF            A   738    	DL	-16777088
+000364 800000FF            A   739    	DL	-16777088
+000368 800000FF            A   740    	DL	-16777088
+00036C 800000FF            A   741    	DL	-16777088
+000370 800000FF            A   742    	DL	-16777088
+000374 800000FF            A   743    	DL	-16777088
+000378 800000FF            A   744    	DL	-16777088
+00037C 808080FF            A   745    	DL	-8355712
+000380 404040FF            A   746    	DL	-12566464
+000384 808000FF            A   747    	DL	-16744320
+000388 808080FF            A   748    	DL	-8355712
+00038C 808080FF            A   749    	DL	-8355712
+000390 808080FF            A   750    	DL	-8355712
+000394 808080FF            A   751    	DL	-8355712
+000398 808080FF            A   752    	DL	-8355712
+00039C 808080FF            A   753    	DL	-8355712
+0003A0 808080FF            A   754    	DL	-8355712
+0003A4 808080FF            A   755    	DL	-8355712
+0003A8 808080FF            A   756    	DL	-8355712
+0003AC 808080FF            A   757    	DL	-8355712
+0003B0 808080FF            A   758    	DL	-8355712
+0003B4 808080FF            A   759    	DL	-8355712
+0003B8 808080FF            A   760    	DL	-8355712
+0003BC 808080FF            A   761    	DL	-8355712
+0003C0 404040FF            A   762    	DL	-12566464
+0003C4 404040FF            A   763    	DL	-12566464
+0003C8 404040FF            A   764    	DL	-12566464
+0003CC 404040FF            A   765    	DL	-12566464
+0003D0 404040FF            A   766    	DL	-12566464
+0003D4 404040FF            A   767    	DL	-12566464
+0003D8 404040FF            A   768    	DL	-12566464
+0003DC 404040FF            A   769    	DL	-12566464
+0003E0 404040FF            A   770    	DL	-12566464
+0003E4 404040FF            A   771    	DL	-12566464
+0003E8 404040FF            A   772    	DL	-12566464
+0003EC 404040FF            A   773    	DL	-12566464
+0003F0 404040FF            A   774    	DL	-12566464
+0003F4 404040FF            A   775    	DL	-12566464
+0003F8 404040FF            A   776    	DL	-12566464
+0003FC 404040FF            A   777    	DL	-12566464
+                           A   778    .DEFINE "wall_data"
+                           A   779    .ALIAS "_wall_data"
+                           A   780    .CLASS 69
+                           A   781    .VALUE _wall_data
+                           A   782    .DIM 1
+                           A   783    .DIM 256
+                           A   784    .TYPE 879
+                           A   785    .ENDEF
+000400                     A   786    _player_data:
+000400 00000000            A   787    	DL	0
+000404 00000000            A   788    	DL	0
+000408 00000000            A   789    	DL	0
+00040C 00000000            A   790    	DL	0
+000410 00000000            A   791    	DL	0
+000414 000000FF            A   792    	DL	-16777216
+000418 000000FF            A   793    	DL	-16777216
+00041C 000000FF            A   794    	DL	-16777216
+000420 000000FF            A   795    	DL	-16777216
+000424 404040FF            A   796    	DL	-12566464
+000428 00000000            A   797    	DL	0
+00042C 00000000            A   798    	DL	0
+000430 00000000            A   799    	DL	0
+000434 00000000            A   800    	DL	0
+000438 00000000            A   801    	DL	0
+00043C 00000000            A   802    	DL	0
+000440 00000000            A   803    	DL	0
+000444 00000000            A   804    	DL	0
+000448 00000000            A   805    	DL	0
+00044C 00000000            A   806    	DL	0
+000450 000000FF            A   807    	DL	-16777216
+000454 000000FF            A   808    	DL	-16777216
+000458 000000FF            A   809    	DL	-16777216
+00045C 000000FF            A   810    	DL	-16777216
+000460 000000FF            A   811    	DL	-16777216
+000464 000000FF            A   812    	DL	-16777216
+000468 000000FF            A   813    	DL	-16777216
+00046C 00000000            A   814    	DL	0
+000470 00000000            A   815    	DL	0
+000474 00000000            A   816    	DL	0
+000478 00000000            A   817    	DL	0
+00047C 00000000            A   818    	DL	0
+000480 00000000            A   819    	DL	0
+000484 00000000            A   820    	DL	0
+000488 00000000            A   821    	DL	0
+00048C 404040FF            A   822    	DL	-12566464
+000490 000000FF            A   823    	DL	-16777216
+000494 404040FF            A   824    	DL	-12566464
+000498 808000FF            A   825    	DL	-16744320
+00049C 808000FF            A   826    	DL	-16744320
+0004A0 808000FF            A   827    	DL	-16744320
+0004A4 404040FF            A   828    	DL	-12566464
+0004A8 000000FF            A   829    	DL	-16777216
+0004AC 404040FF            A   830    	DL	-12566464
+0004B0 00000000            A   831    	DL	0
+0004B4 00000000            A   832    	DL	0
+0004B8 00000000            A   833    	DL	0
+0004BC 00000000            A   834    	DL	0
+0004C0 00000000            A   835    	DL	0
+0004C4 00000000            A   836    	DL	0
+0004C8 00000000            A   837    	DL	0
+0004CC 000000FF            A   838    	DL	-16777216
+0004D0 404040FF            A   839    	DL	-12566464
+0004D4 808000FF            A   840    	DL	-16744320
+0004D8 808000FF            A   841    	DL	-16744320
+0004DC 808000FF            A   842    	DL	-16744320
+0004E0 808000FF            A   843    	DL	-16744320
+0004E4 808000FF            A   844    	DL	-16744320
+0004E8 404040FF            A   845    	DL	-12566464
+0004EC 000000FF            A   846    	DL	-16777216
+0004F0 00000000            A   847    	DL	0
+0004F4 00000000            A   848    	DL	0
+0004F8 00000000            A   849    	DL	0
+0004FC 00000000            A   850    	DL	0
+000500 00000000            A   851    	DL	0
+000504 00000000            A   852    	DL	0
+000508 00000000            A   853    	DL	0
+00050C 404040FF            A   854    	DL	-12566464
+000510 808080FF            A   855    	DL	-8355712
+000514 000000FF            A   856    	DL	-16777216
+000518 000000FF            A   857    	DL	-16777216
+00051C 808000FF            A   858    	DL	-16744320
+000520 000000FF            A   859    	DL	-16777216
+000524 000000FF            A   860    	DL	-16777216
+000528 808080FF            A   861    	DL	-8355712
+00052C 404040FF            A   862    	DL	-12566464
+000530 00000000            A   863    	DL	0
+000534 00000000            A   864    	DL	0
+000538 00000000            A   865    	DL	0
+00053C 00000000            A   866    	DL	0
+000540 00000000            A   867    	DL	0
+000544 00000000            A   868    	DL	0
+000548 00000000            A   869    	DL	0
+00054C 00000000            A   870    	DL	0
+000550 000000FF            A   871    	DL	-16777216
+000554 808000FF            A   872    	DL	-16744320
+000558 808000FF            A   873    	DL	-16744320
+00055C 808000FF            A   874    	DL	-16744320
+000560 808000FF            A   875    	DL	-16744320
+000564 808000FF            A   876    	DL	-16744320
+000568 000000FF            A   877    	DL	-16777216
+00056C 00000000            A   878    	DL	0
+000570 00000000            A   879    	DL	0
+000574 00000000            A   880    	DL	0
+000578 00000000            A   881    	DL	0
+00057C 00000000            A   882    	DL	0
+000580 00000000            A   883    	DL	0
+000584 00000000            A   884    	DL	0
+000588 00000000            A   885    	DL	0
+00058C 00000000            A   886    	DL	0
+000590 00000000            A   887    	DL	0
+000594 000000FF            A   888    	DL	-16777216
+000598 808080FF            A   889    	DL	-8355712
+00059C 808080FF            A   890    	DL	-8355712
+0005A0 808080FF            A   891    	DL	-8355712
+0005A4 000000FF            A   892    	DL	-16777216
+0005A8 00000000            A   893    	DL	0
+0005AC 00000000            A   894    	DL	0
+0005B0 00000000            A   895    	DL	0
+0005B4 00000000            A   896    	DL	0
+0005B8 00000000            A   897    	DL	0
+0005BC 00000000            A   898    	DL	0
+0005C0 00000000            A   899    	DL	0
+0005C4 00000000            A   900    	DL	0
+0005C8 00000000            A   901    	DL	0
+0005CC 00000000            A   902    	DL	0
+0005D0 000000FF            A   903    	DL	-16777216
+0005D4 800000FF            A   904    	DL	-16777088
+0005D8 000000FF            A   905    	DL	-16777216
+0005DC 000000FF            A   906    	DL	-16777216
+0005E0 000000FF            A   907    	DL	-16777216
+0005E4 800000FF            A   908    	DL	-16777088
+0005E8 000000FF            A   909    	DL	-16777216
+0005EC 00000000            A   910    	DL	0
+0005F0 00000000            A   911    	DL	0
+0005F4 00000000            A   912    	DL	0
+0005F8 00000000            A   913    	DL	0
+0005FC 00000000            A   914    	DL	0
+000600 00000000            A   915    	DL	0
+000604 00000000            A   916    	DL	0
+000608 00000000            A   917    	DL	0
+00060C 000000FF            A   918    	DL	-16777216
+000610 800000FF            A   919    	DL	-16777088
+000614 FF0000FF            A   920    	DL	-16776961
+000618 FF0000FF            A   921    	DL	-16776961
+00061C FF0000FF            A   922    	DL	-16776961
+000620 FF0000FF            A   923    	DL	-16776961
+000624 FF0000FF            A   924    	DL	-16776961
+000628 800000FF            A   925    	DL	-16777088
+00062C 000000FF            A   926    	DL	-16777216
+000630 00000000            A   927    	DL	0
+000634 00000000            A   928    	DL	0
+000638 00000000            A   929    	DL	0
+00063C 00000000            A   930    	DL	0
+000640 00000000            A   931    	DL	0
+000644 00000000            A   932    	DL	0
+000648 000000FF            A   933    	DL	-16777216
+00064C FF0000FF            A   934    	DL	-16776961
+000650 FF0000FF            A   935    	DL	-16776961
+000654 FF0000FF            A   936    	DL	-16776961
+000658 FF0000FF            A   937    	DL	-16776961
+00065C FF0000FF            A   938    	DL	-16776961
+000660 FF0000FF            A   939    	DL	-16776961
+000664 FF0000FF            A   940    	DL	-16776961
+000668 FF0000FF            A   941    	DL	-16776961
+00066C FF0000FF            A   942    	DL	-16776961
+000670 000000FF            A   943    	DL	-16777216
+000674 00000000            A   944    	DL	0
+000678 00000000            A   945    	DL	0
+00067C 00000000            A   946    	DL	0
+000680 00000000            A   947    	DL	0
+000684 00000000            A   948    	DL	0
+000688 404040FF            A   949    	DL	-12566464
+00068C 800000FF            A   950    	DL	-16777088
+000690 FF0000FF            A   951    	DL	-16776961
+000694 800000FF            A   952    	DL	-16777088
+000698 FF0000FF            A   953    	DL	-16776961
+00069C FF0000FF            A   954    	DL	-16776961
+0006A0 FF0000FF            A   955    	DL	-16776961
+0006A4 800000FF            A   956    	DL	-16777088
+0006A8 FF0000FF            A   957    	DL	-16776961
+0006AC 800000FF            A   958    	DL	-16777088
+0006B0 404040FF            A   959    	DL	-12566464
+0006B4 00000000            A   960    	DL	0
+0006B8 00000000            A   961    	DL	0
+0006BC 00000000            A   962    	DL	0
+0006C0 00000000            A   963    	DL	0
+0006C4 000000FF            A   964    	DL	-16777216
+0006C8 808000FF            A   965    	DL	-16744320
+0006CC 808000FF            A   966    	DL	-16744320
+0006D0 800000FF            A   967    	DL	-16777088
+0006D4 800000FF            A   968    	DL	-16777088
+0006D8 FF0000FF            A   969    	DL	-16776961
+0006DC FF0000FF            A   970    	DL	-16776961
+0006E0 FF0000FF            A   971    	DL	-16776961
+0006E4 800000FF            A   972    	DL	-16777088
+0006E8 800000FF            A   973    	DL	-16777088
+0006EC 808000FF            A   974    	DL	-16744320
+0006F0 808000FF            A   975    	DL	-16744320
+0006F4 000000FF            A   976    	DL	-16777216
+0006F8 00000000            A   977    	DL	0
+0006FC 00000000            A   978    	DL	0
+000700 00000000            A   979    	DL	0
+000704 000000FF            A   980    	DL	-16777216
+000708 808000FF            A   981    	DL	-16744320
+00070C 808000FF            A   982    	DL	-16744320
+000710 000000FF            A   983    	DL	-16777216
+000714 000080FF            A   984    	DL	-8388608
+000718 000080FF            A   985    	DL	-8388608
+00071C 000080FF            A   986    	DL	-8388608
+000720 000080FF            A   987    	DL	-8388608
+000724 000080FF            A   988    	DL	-8388608
+000728 000000FF            A   989    	DL	-16777216
+00072C 808000FF            A   990    	DL	-16744320
+000730 808000FF            A   991    	DL	-16744320
+000734 000000FF            A   992    	DL	-16777216
+000738 00000000            A   993    	DL	0
+00073C 00000000            A   994    	DL	0
+000740 00000000            A   995    	DL	0
+000744 00000000            A   996    	DL	0
+000748 000000FF            A   997    	DL	-16777216
+00074C 000000FF            A   998    	DL	-16777216
+000750 000080FF            A   999    	DL	-8388608
+000754 0000FFFF            A  1000    	DL	-65536
+000758 0000FFFF            A  1001    	DL	-65536
+00075C 0000FFFF            A  1002    	DL	-65536
+000760 0000FFFF            A  1003    	DL	-65536
+000764 0000FFFF            A  1004    	DL	-65536
+000768 000080FF            A  1005    	DL	-8388608
+00076C 000000FF            A  1006    	DL	-16777216
+000770 000000FF            A  1007    	DL	-16777216
+000774 00000000            A  1008    	DL	0
+000778 00000000            A  1009    	DL	0
+00077C 00000000            A  1010    	DL	0
+000780 00000000            A  1011    	DL	0
+000784 00000000            A  1012    	DL	0
+000788 00000000            A  1013    	DL	0
+00078C 000000FF            A  1014    	DL	-16777216
+000790 000080FF            A  1015    	DL	-8388608
+000794 0000FFFF            A  1016    	DL	-65536
+000798 0000FFFF            A  1017    	DL	-65536
+00079C 000080FF            A  1018    	DL	-8388608
+0007A0 0000FFFF            A  1019    	DL	-65536
+0007A4 0000FFFF            A  1020    	DL	-65536
+0007A8 000080FF            A  1021    	DL	-8388608
+0007AC 000000FF            A  1022    	DL	-16777216
+0007B0 00000000            A  1023    	DL	0
+0007B4 00000000            A  1024    	DL	0
+0007B8 00000000            A  1025    	DL	0
+0007BC 00000000            A  1026    	DL	0
+0007C0 00000000            A  1027    	DL	0
+0007C4 00000000            A  1028    	DL	0
+0007C8 00000000            A  1029    	DL	0
+0007CC 000000FF            A  1030    	DL	-16777216
+0007D0 0000FFFF            A  1031    	DL	-65536
+0007D4 0000FFFF            A  1032    	DL	-65536
+0007D8 000080FF            A  1033    	DL	-8388608
+0007DC 000000FF            A  1034    	DL	-16777216
+0007E0 0000FFFF            A  1035    	DL	-65536
+0007E4 0000FFFF            A  1036    	DL	-65536
+0007E8 0000FFFF            A  1037    	DL	-65536
+0007EC 000000FF            A  1038    	DL	-16777216
+0007F0 00000000            A  1039    	DL	0
+0007F4 00000000            A  1040    	DL	0
+0007F8 00000000            A  1041    	DL	0
+0007FC 00000000            A  1042    	DL	0
+                           A  1043    .DEFINE "player_data"
+                           A  1044    .ALIAS "_player_data"
+                           A  1045    .CLASS 69
+                           A  1046    .VALUE _player_data
+                           A  1047    .DIM 1
+                           A  1048    .DIM 256
+                           A  1049    .TYPE 879
+                           A  1050    .ENDEF
+000800                     A  1051    _goal_data:
+000800 00000000            A  1052    	DL	0
+000804 00000000            A  1053    	DL	0
+000808 00000000            A  1054    	DL	0
+00080C 00000000            A  1055    	DL	0
+000810 00000000            A  1056    	DL	0
+000814 00000000            A  1057    	DL	0
+000818 00000000            A  1058    	DL	0
+00081C 00000000            A  1059    	DL	0
+000820 00000000            A  1060    	DL	0
+000824 00000000            A  1061    	DL	0
+000828 00000000            A  1062    	DL	0
+00082C 00000000            A  1063    	DL	0
+000830 00000000            A  1064    	DL	0
+000834 00000000            A  1065    	DL	0
+000838 00000000            A  1066    	DL	0
+00083C 00000000            A  1067    	DL	0
+000840 00000000            A  1068    	DL	0
+000844 00000000            A  1069    	DL	0
+000848 00000000            A  1070    	DL	0
+00084C 00000000            A  1071    	DL	0
+000850 00000000            A  1072    	DL	0
+000854 00000000            A  1073    	DL	0
+000858 00000000            A  1074    	DL	0
+00085C 00000000            A  1075    	DL	0
+000860 00000000            A  1076    	DL	0
+000864 00000000            A  1077    	DL	0
+000868 00000000            A  1078    	DL	0
+00086C 00000000            A  1079    	DL	0
+000870 00000000            A  1080    	DL	0
+000874 00000000            A  1081    	DL	0
+000878 00000000            A  1082    	DL	0
+00087C 00000000            A  1083    	DL	0
+000880 00000000            A  1084    	DL	0
+000884 00000000            A  1085    	DL	0
+000888 00000000            A  1086    	DL	0
+00088C 00000000            A  1087    	DL	0
+000890 00000000            A  1088    	DL	0
+000894 00000000            A  1089    	DL	0
+000898 00000000            A  1090    	DL	0
+00089C 00000000            A  1091    	DL	0
+0008A0 00000000            A  1092    	DL	0
+0008A4 00000000            A  1093    	DL	0
+0008A8 00000000            A  1094    	DL	0
+0008AC 00000000            A  1095    	DL	0
+0008B0 00000000            A  1096    	DL	0
+0008B4 00000000            A  1097    	DL	0
+0008B8 00000000            A  1098    	DL	0
+0008BC 00000000            A  1099    	DL	0
+0008C0 00000000            A  1100    	DL	0
+0008C4 00000000            A  1101    	DL	0
+0008C8 00000000            A  1102    	DL	0
+0008CC 00000000            A  1103    	DL	0
+0008D0 00000000            A  1104    	DL	0
+0008D4 00000000            A  1105    	DL	0
+0008D8 008000FF            A  1106    	DL	-16744448
+0008DC 00000000            A  1107    	DL	0
+0008E0 00000000            A  1108    	DL	0
+0008E4 008000FF            A  1109    	DL	-16744448
+0008E8 00000000            A  1110    	DL	0
+0008EC 00000000            A  1111    	DL	0
+0008F0 00000000            A  1112    	DL	0
+0008F4 00000000            A  1113    	DL	0
+0008F8 00000000            A  1114    	DL	0
+0008FC 00000000            A  1115    	DL	0
+000900 00000000            A  1116    	DL	0
+000904 00000000            A  1117    	DL	0
+000908 00000000            A  1118    	DL	0
+00090C 00000000            A  1119    	DL	0
+000910 00000000            A  1120    	DL	0
+000914 00000000            A  1121    	DL	0
+000918 00000000            A  1122    	DL	0
+00091C 008000FF            A  1123    	DL	-16744448
+000920 008000FF            A  1124    	DL	-16744448
+000924 00000000            A  1125    	DL	0
+000928 00000000            A  1126    	DL	0
+00092C 00000000            A  1127    	DL	0
+000930 00000000            A  1128    	DL	0
+000934 00000000            A  1129    	DL	0
+000938 00000000            A  1130    	DL	0
+00093C 00000000            A  1131    	DL	0
+000940 00000000            A  1132    	DL	0
+000944 00000000            A  1133    	DL	0
+000948 00000000            A  1134    	DL	0
+00094C 00000000            A  1135    	DL	0
+000950 00000000            A  1136    	DL	0
+000954 00000000            A  1137    	DL	0
+000958 00000000            A  1138    	DL	0
+00095C 00000000            A  1139    	DL	0
+000960 00000000            A  1140    	DL	0
+000964 00000000            A  1141    	DL	0
+000968 00000000            A  1142    	DL	0
+00096C 00000000            A  1143    	DL	0
+000970 00000000            A  1144    	DL	0
+000974 00000000            A  1145    	DL	0
+000978 00000000            A  1146    	DL	0
+00097C 00000000            A  1147    	DL	0
+000980 00000000            A  1148    	DL	0
+000984 00000000            A  1149    	DL	0
+000988 00000000            A  1150    	DL	0
+00098C 008000FF            A  1151    	DL	-16744448
+000990 00000000            A  1152    	DL	0
+000994 00000000            A  1153    	DL	0
+000998 00000000            A  1154    	DL	0
+00099C 00000000            A  1155    	DL	0
+0009A0 00000000            A  1156    	DL	0
+0009A4 00000000            A  1157    	DL	0
+0009A8 00000000            A  1158    	DL	0
+0009AC 00000000            A  1159    	DL	0
+0009B0 008000FF            A  1160    	DL	-16744448
+0009B4 00000000            A  1161    	DL	0
+0009B8 00000000            A  1162    	DL	0
+0009BC 00000000            A  1163    	DL	0
+0009C0 00000000            A  1164    	DL	0
+0009C4 00000000            A  1165    	DL	0
+0009C8 00000000            A  1166    	DL	0
+0009CC 00000000            A  1167    	DL	0
+0009D0 008000FF            A  1168    	DL	-16744448
+0009D4 00000000            A  1169    	DL	0
+0009D8 00000000            A  1170    	DL	0
+0009DC 00FF00FF            A  1171    	DL	-16711936
+0009E0 00FF00FF            A  1172    	DL	-16711936
+0009E4 00000000            A  1173    	DL	0
+0009E8 00000000            A  1174    	DL	0
+0009EC 008000FF            A  1175    	DL	-16744448
+0009F0 00000000            A  1176    	DL	0
+0009F4 00000000            A  1177    	DL	0
+0009F8 00000000            A  1178    	DL	0
+0009FC 00000000            A  1179    	DL	0
+000A00 00000000            A  1180    	DL	0
+000A04 00000000            A  1181    	DL	0
+000A08 00000000            A  1182    	DL	0
+000A0C 00000000            A  1183    	DL	0
+000A10 008000FF            A  1184    	DL	-16744448
+000A14 00000000            A  1185    	DL	0
+000A18 00000000            A  1186    	DL	0
+000A1C 00FF00FF            A  1187    	DL	-16711936
+000A20 00FF00FF            A  1188    	DL	-16711936
+000A24 00000000            A  1189    	DL	0
+000A28 00000000            A  1190    	DL	0
+000A2C 008000FF            A  1191    	DL	-16744448
+000A30 00000000            A  1192    	DL	0
+000A34 00000000            A  1193    	DL	0
+000A38 00000000            A  1194    	DL	0
+000A3C 00000000            A  1195    	DL	0
+000A40 00000000            A  1196    	DL	0
+000A44 00000000            A  1197    	DL	0
+000A48 00000000            A  1198    	DL	0
+000A4C 008000FF            A  1199    	DL	-16744448
+000A50 00000000            A  1200    	DL	0
+000A54 00000000            A  1201    	DL	0
+000A58 00000000            A  1202    	DL	0
+000A5C 00000000            A  1203    	DL	0
+000A60 00000000            A  1204    	DL	0
+000A64 00000000            A  1205    	DL	0
+000A68 00000000            A  1206    	DL	0
+000A6C 00000000            A  1207    	DL	0
+000A70 008000FF            A  1208    	DL	-16744448
+000A74 00000000            A  1209    	DL	0
+000A78 00000000            A  1210    	DL	0
+000A7C 00000000            A  1211    	DL	0
+000A80 00000000            A  1212    	DL	0
+000A84 00000000            A  1213    	DL	0
+000A88 00000000            A  1214    	DL	0
+000A8C 00000000            A  1215    	DL	0
+000A90 00000000            A  1216    	DL	0
+000A94 00000000            A  1217    	DL	0
+000A98 00000000            A  1218    	DL	0
+000A9C 00000000            A  1219    	DL	0
+000AA0 00000000            A  1220    	DL	0
+000AA4 00000000            A  1221    	DL	0
+000AA8 00000000            A  1222    	DL	0
+000AAC 00000000            A  1223    	DL	0
+000AB0 00000000            A  1224    	DL	0
+000AB4 00000000            A  1225    	DL	0
+000AB8 00000000            A  1226    	DL	0
+000ABC 00000000            A  1227    	DL	0
+000AC0 00000000            A  1228    	DL	0
+000AC4 00000000            A  1229    	DL	0
+000AC8 00000000            A  1230    	DL	0
+000ACC 00000000            A  1231    	DL	0
+000AD0 00000000            A  1232    	DL	0
+000AD4 00000000            A  1233    	DL	0
+000AD8 00000000            A  1234    	DL	0
+000ADC 008000FF            A  1235    	DL	-16744448
+000AE0 008000FF            A  1236    	DL	-16744448
+000AE4 00000000            A  1237    	DL	0
+000AE8 00000000            A  1238    	DL	0
+000AEC 00000000            A  1239    	DL	0
+000AF0 00000000            A  1240    	DL	0
+000AF4 00000000            A  1241    	DL	0
+000AF8 00000000            A  1242    	DL	0
+000AFC 00000000            A  1243    	DL	0
+000B00 00000000            A  1244    	DL	0
+000B04 00000000            A  1245    	DL	0
+000B08 00000000            A  1246    	DL	0
+000B0C 00000000            A  1247    	DL	0
+000B10 00000000            A  1248    	DL	0
+000B14 00000000            A  1249    	DL	0
+000B18 008000FF            A  1250    	DL	-16744448
+000B1C 00000000            A  1251    	DL	0
+000B20 00000000            A  1252    	DL	0
+000B24 008000FF            A  1253    	DL	-16744448
+000B28 00000000            A  1254    	DL	0
+000B2C 00000000            A  1255    	DL	0
+000B30 00000000            A  1256    	DL	0
+000B34 00000000            A  1257    	DL	0
+000B38 00000000            A  1258    	DL	0
+000B3C 00000000            A  1259    	DL	0
+000B40 00000000            A  1260    	DL	0
+000B44 00000000            A  1261    	DL	0
+000B48 00000000            A  1262    	DL	0
+000B4C 00000000            A  1263    	DL	0
+000B50 00000000            A  1264    	DL	0
+000B54 00000000            A  1265    	DL	0
+000B58 00000000            A  1266    	DL	0
+000B5C 00000000            A  1267    	DL	0
+000B60 00000000            A  1268    	DL	0
+000B64 00000000            A  1269    	DL	0
+000B68 00000000            A  1270    	DL	0
+000B6C 00000000            A  1271    	DL	0
+000B70 00000000            A  1272    	DL	0
+000B74 00000000            A  1273    	DL	0
+000B78 00000000            A  1274    	DL	0
+000B7C 00000000            A  1275    	DL	0
+000B80 00000000            A  1276    	DL	0
+000B84 00000000            A  1277    	DL	0
+000B88 00000000            A  1278    	DL	0
+000B8C 00000000            A  1279    	DL	0
+000B90 00000000            A  1280    	DL	0
+000B94 00000000            A  1281    	DL	0
+000B98 00000000            A  1282    	DL	0
+000B9C 00000000            A  1283    	DL	0
+000BA0 00000000            A  1284    	DL	0
+000BA4 00000000            A  1285    	DL	0
+000BA8 00000000            A  1286    	DL	0
+000BAC 00000000            A  1287    	DL	0
+000BB0 00000000            A  1288    	DL	0
+000BB4 00000000            A  1289    	DL	0
+000BB8 00000000            A  1290    	DL	0
+000BBC 00000000            A  1291    	DL	0
+000BC0 00000000            A  1292    	DL	0
+000BC4 00000000            A  1293    	DL	0
+000BC8 00000000            A  1294    	DL	0
+000BCC 00000000            A  1295    	DL	0
+000BD0 00000000            A  1296    	DL	0
+000BD4 00000000            A  1297    	DL	0
+000BD8 00000000            A  1298    	DL	0
+000BDC 00000000            A  1299    	DL	0
+000BE0 00000000            A  1300    	DL	0
+000BE4 00000000            A  1301    	DL	0
+000BE8 00000000            A  1302    	DL	0
+000BEC 00000000            A  1303    	DL	0
+000BF0 00000000            A  1304    	DL	0
+000BF4 00000000            A  1305    	DL	0
+000BF8 00000000            A  1306    	DL	0
+000BFC 00000000            A  1307    	DL	0
+                           A  1308    .DEFINE "goal_data"
+                           A  1309    .ALIAS "_goal_data"
+                           A  1310    .CLASS 69
+                           A  1311    .VALUE _goal_data
+                           A  1312    .DIM 1
+                           A  1313    .DIM 256
+                           A  1314    .TYPE 879
+                           A  1315    .ENDEF
+000C00                     A  1316    _box_data:
+000C00 FFFF00FF            A  1317    	DL	-16711681
+000C04 FFFF00FF            A  1318    	DL	-16711681
+000C08 FFFF00FF            A  1319    	DL	-16711681
+000C0C FFFF00FF            A  1320    	DL	-16711681
+000C10 FFFF00FF            A  1321    	DL	-16711681
+000C14 FFFF00FF            A  1322    	DL	-16711681
+000C18 FFFF00FF            A  1323    	DL	-16711681
+000C1C FFFF00FF            A  1324    	DL	-16711681
+000C20 FFFF00FF            A  1325    	DL	-16711681
+000C24 FFFF00FF            A  1326    	DL	-16711681
+000C28 FFFF00FF            A  1327    	DL	-16711681
+000C2C FFFF00FF            A  1328    	DL	-16711681
+000C30 FFFF00FF            A  1329    	DL	-16711681
+000C34 FFFF00FF            A  1330    	DL	-16711681
+000C38 FFFF00FF            A  1331    	DL	-16711681
+000C3C FFFF00FF            A  1332    	DL	-16711681
+000C40 FFFF00FF            A  1333    	DL	-16711681
+000C44 808000FF            A  1334    	DL	-16744320
+000C48 808000FF            A  1335    	DL	-16744320
+000C4C 808000FF            A  1336    	DL	-16744320
+000C50 808000FF            A  1337    	DL	-16744320
+000C54 808000FF            A  1338    	DL	-16744320
+000C58 808000FF            A  1339    	DL	-16744320
+000C5C 808000FF            A  1340    	DL	-16744320
+000C60 808000FF            A  1341    	DL	-16744320
+000C64 808000FF            A  1342    	DL	-16744320
+000C68 808000FF            A  1343    	DL	-16744320
+000C6C 808000FF            A  1344    	DL	-16744320
+000C70 808000FF            A  1345    	DL	-16744320
+000C74 808000FF            A  1346    	DL	-16744320
+000C78 FFFF00FF            A  1347    	DL	-16711681
+000C7C 808000FF            A  1348    	DL	-16744320
+000C80 FFFF00FF            A  1349    	DL	-16711681
+000C84 808000FF            A  1350    	DL	-16744320
+000C88 000000FF            A  1351    	DL	-16777216
+000C8C 000000FF            A  1352    	DL	-16777216
+000C90 000000FF            A  1353    	DL	-16777216
+000C94 000000FF            A  1354    	DL	-16777216
+000C98 000000FF            A  1355    	DL	-16777216
+000C9C 000000FF            A  1356    	DL	-16777216
+000CA0 000000FF            A  1357    	DL	-16777216
+000CA4 000000FF            A  1358    	DL	-16777216
+000CA8 000000FF            A  1359    	DL	-16777216
+000CAC 000000FF            A  1360    	DL	-16777216
+000CB0 000000FF            A  1361    	DL	-16777216
+000CB4 000000FF            A  1362    	DL	-16777216
+000CB8 FFFF00FF            A  1363    	DL	-16711681
+000CBC 808000FF            A  1364    	DL	-16744320
+000CC0 FFFF00FF            A  1365    	DL	-16711681
+000CC4 808000FF            A  1366    	DL	-16744320
+000CC8 000000FF            A  1367    	DL	-16777216
+000CCC 808000FF            A  1368    	DL	-16744320
+000CD0 808000FF            A  1369    	DL	-16744320
+000CD4 000000FF            A  1370    	DL	-16777216
+000CD8 808000FF            A  1371    	DL	-16744320
+000CDC 808000FF            A  1372    	DL	-16744320
+000CE0 808000FF            A  1373    	DL	-16744320
+000CE4 808000FF            A  1374    	DL	-16744320
+000CE8 000000FF            A  1375    	DL	-16777216
+000CEC 808000FF            A  1376    	DL	-16744320
+000CF0 808000FF            A  1377    	DL	-16744320
+000CF4 000000FF            A  1378    	DL	-16777216
+000CF8 FFFF00FF            A  1379    	DL	-16711681
+000CFC 808000FF            A  1380    	DL	-16744320
+000D00 FFFF00FF            A  1381    	DL	-16711681
+000D04 808000FF            A  1382    	DL	-16744320
+000D08 000000FF            A  1383    	DL	-16777216
+000D0C 808000FF            A  1384    	DL	-16744320
+000D10 FFFF00FF            A  1385    	DL	-16711681
+000D14 808000FF            A  1386    	DL	-16744320
+000D18 000000FF            A  1387    	DL	-16777216
+000D1C FFFF00FF            A  1388    	DL	-16711681
+000D20 FFFF00FF            A  1389    	DL	-16711681
+000D24 000000FF            A  1390    	DL	-16777216
+000D28 808000FF            A  1391    	DL	-16744320
+000D2C FFFF00FF            A  1392    	DL	-16711681
+000D30 808000FF            A  1393    	DL	-16744320
+000D34 000000FF            A  1394    	DL	-16777216
+000D38 FFFF00FF            A  1395    	DL	-16711681
+000D3C 808000FF            A  1396    	DL	-16744320
+000D40 FFFF00FF            A  1397    	DL	-16711681
+000D44 808000FF            A  1398    	DL	-16744320
+000D48 000000FF            A  1399    	DL	-16777216
+000D4C 000000FF            A  1400    	DL	-16777216
+000D50 808000FF            A  1401    	DL	-16744320
+000D54 FFFF00FF            A  1402    	DL	-16711681
+000D58 808000FF            A  1403    	DL	-16744320
+000D5C 000000FF            A  1404    	DL	-16777216
+000D60 000000FF            A  1405    	DL	-16777216
+000D64 808000FF            A  1406    	DL	-16744320
+000D68 FFFF00FF            A  1407    	DL	-16711681
+000D6C 808000FF            A  1408    	DL	-16744320
+000D70 000000FF            A  1409    	DL	-16777216
+000D74 000000FF            A  1410    	DL	-16777216
+000D78 FFFF00FF            A  1411    	DL	-16711681
+000D7C 808000FF            A  1412    	DL	-16744320
+000D80 FFFF00FF            A  1413    	DL	-16711681
+000D84 808000FF            A  1414    	DL	-16744320
+000D88 000000FF            A  1415    	DL	-16777216
+000D8C 808000FF            A  1416    	DL	-16744320
+000D90 000000FF            A  1417    	DL	-16777216
+000D94 808000FF            A  1418    	DL	-16744320
+000D98 FFFF00FF            A  1419    	DL	-16711681
+000D9C 808000FF            A  1420    	DL	-16744320
+000DA0 FFFF00FF            A  1421    	DL	-16711681
+000DA4 FFFF00FF            A  1422    	DL	-16711681
+000DA8 808000FF            A  1423    	DL	-16744320
+000DAC 000000FF            A  1424    	DL	-16777216
+000DB0 808000FF            A  1425    	DL	-16744320
+000DB4 000000FF            A  1426    	DL	-16777216
+000DB8 FFFF00FF            A  1427    	DL	-16711681
+000DBC 808000FF            A  1428    	DL	-16744320
+000DC0 FFFF00FF            A  1429    	DL	-16711681
+000DC4 808000FF            A  1430    	DL	-16744320
+000DC8 000000FF            A  1431    	DL	-16777216
+000DCC 808000FF            A  1432    	DL	-16744320
+000DD0 FFFF00FF            A  1433    	DL	-16711681
+000DD4 000000FF            A  1434    	DL	-16777216
+000DD8 808000FF            A  1435    	DL	-16744320
+000DDC FFFF00FF            A  1436    	DL	-16711681
+000DE0 FFFF00FF            A  1437    	DL	-16711681
+000DE4 808000FF            A  1438    	DL	-16744320
+000DE8 000000FF            A  1439    	DL	-16777216
+000DEC 808000FF            A  1440    	DL	-16744320
+000DF0 FFFF00FF            A  1441    	DL	-16711681
+000DF4 000000FF            A  1442    	DL	-16777216
+000DF8 FFFF00FF            A  1443    	DL	-16711681
+000DFC 808000FF            A  1444    	DL	-16744320
+000E00 FFFF00FF            A  1445    	DL	-16711681
+000E04 808000FF            A  1446    	DL	-16744320
+000E08 000000FF            A  1447    	DL	-16777216
+000E0C 808000FF            A  1448    	DL	-16744320
+000E10 808000FF            A  1449    	DL	-16744320
+000E14 000000FF            A  1450    	DL	-16777216
+000E18 FFFF00FF            A  1451    	DL	-16711681
+000E1C FFFF00FF            A  1452    	DL	-16711681
+000E20 FFFF00FF            A  1453    	DL	-16711681
+000E24 FFFF00FF            A  1454    	DL	-16711681
+000E28 000000FF            A  1455    	DL	-16777216
+000E2C 808000FF            A  1456    	DL	-16744320
+000E30 FFFF00FF            A  1457    	DL	-16711681
+000E34 000000FF            A  1458    	DL	-16777216
+000E38 FFFF00FF            A  1459    	DL	-16711681
+000E3C 808000FF            A  1460    	DL	-16744320
+000E40 FFFF00FF            A  1461    	DL	-16711681
+000E44 808000FF            A  1462    	DL	-16744320
+000E48 000000FF            A  1463    	DL	-16777216
+000E4C 808000FF            A  1464    	DL	-16744320
+000E50 000000FF            A  1465    	DL	-16777216
+000E54 808000FF            A  1466    	DL	-16744320
+000E58 FFFF00FF            A  1467    	DL	-16711681
+000E5C 808000FF            A  1468    	DL	-16744320
+000E60 FFFF00FF            A  1469    	DL	-16711681
+000E64 FFFF00FF            A  1470    	DL	-16711681
+000E68 808000FF            A  1471    	DL	-16744320
+000E6C 000000FF            A  1472    	DL	-16777216
+000E70 FFFF00FF            A  1473    	DL	-16711681
+000E74 000000FF            A  1474    	DL	-16777216
+000E78 FFFF00FF            A  1475    	DL	-16711681
+000E7C 808000FF            A  1476    	DL	-16744320
+000E80 FFFF00FF            A  1477    	DL	-16711681
+000E84 808000FF            A  1478    	DL	-16744320
+000E88 000000FF            A  1479    	DL	-16777216
+000E8C 000000FF            A  1480    	DL	-16777216
+000E90 808000FF            A  1481    	DL	-16744320
+000E94 FFFF00FF            A  1482    	DL	-16711681
+000E98 808000FF            A  1483    	DL	-16744320
+000E9C 000000FF            A  1484    	DL	-16777216
+000EA0 000000FF            A  1485    	DL	-16777216
+000EA4 808000FF            A  1486    	DL	-16744320
+000EA8 FFFF00FF            A  1487    	DL	-16711681
+000EAC 808000FF            A  1488    	DL	-16744320
+000EB0 000000FF            A  1489    	DL	-16777216
+000EB4 000000FF            A  1490    	DL	-16777216
+000EB8 FFFF00FF            A  1491    	DL	-16711681
+000EBC 808000FF            A  1492    	DL	-16744320
+000EC0 FFFF00FF            A  1493    	DL	-16711681
+000EC4 808000FF            A  1494    	DL	-16744320
+000EC8 000000FF            A  1495    	DL	-16777216
+000ECC 808000FF            A  1496    	DL	-16744320
+000ED0 FFFF00FF            A  1497    	DL	-16711681
+000ED4 808000FF            A  1498    	DL	-16744320
+000ED8 000000FF            A  1499    	DL	-16777216
+000EDC 808000FF            A  1500    	DL	-16744320
+000EE0 FFFF00FF            A  1501    	DL	-16711681
+000EE4 000000FF            A  1502    	DL	-16777216
+000EE8 808000FF            A  1503    	DL	-16744320
+000EEC FFFF00FF            A  1504    	DL	-16711681
+000EF0 808000FF            A  1505    	DL	-16744320
+000EF4 000000FF            A  1506    	DL	-16777216
+000EF8 FFFF00FF            A  1507    	DL	-16711681
+000EFC 808000FF            A  1508    	DL	-16744320
+000F00 FFFF00FF            A  1509    	DL	-16711681
+000F04 808000FF            A  1510    	DL	-16744320
+000F08 000000FF            A  1511    	DL	-16777216
+000F0C 808000FF            A  1512    	DL	-16744320
+000F10 808000FF            A  1513    	DL	-16744320
+000F14 000000FF            A  1514    	DL	-16777216
+000F18 808000FF            A  1515    	DL	-16744320
+000F1C FFFF00FF            A  1516    	DL	-16711681
+000F20 FFFF00FF            A  1517    	DL	-16711681
+000F24 FFFF00FF            A  1518    	DL	-16711681
+000F28 000000FF            A  1519    	DL	-16777216
+000F2C 808000FF            A  1520    	DL	-16744320
+000F30 808000FF            A  1521    	DL	-16744320
+000F34 000000FF            A  1522    	DL	-16777216
+000F38 FFFF00FF            A  1523    	DL	-16711681
+000F3C 808000FF            A  1524    	DL	-16744320
+000F40 FFFF00FF            A  1525    	DL	-16711681
+000F44 808000FF            A  1526    	DL	-16744320
+000F48 000000FF            A  1527    	DL	-16777216
+000F4C 000000FF            A  1528    	DL	-16777216
+000F50 000000FF            A  1529    	DL	-16777216
+000F54 000000FF            A  1530    	DL	-16777216
+000F58 000000FF            A  1531    	DL	-16777216
+000F5C 000000FF            A  1532    	DL	-16777216
+000F60 000000FF            A  1533    	DL	-16777216
+000F64 000000FF            A  1534    	DL	-16777216
+000F68 000000FF            A  1535    	DL	-16777216
+000F6C 000000FF            A  1536    	DL	-16777216
+000F70 000000FF            A  1537    	DL	-16777216
+000F74 000000FF            A  1538    	DL	-16777216
+000F78 FFFF00FF            A  1539    	DL	-16711681
+000F7C 808000FF            A  1540    	DL	-16744320
+000F80 FFFF00FF            A  1541    	DL	-16711681
+000F84 FFFF00FF            A  1542    	DL	-16711681
+000F88 FFFF00FF            A  1543    	DL	-16711681
+000F8C FFFF00FF            A  1544    	DL	-16711681
+000F90 FFFF00FF            A  1545    	DL	-16711681
+000F94 FFFF00FF            A  1546    	DL	-16711681
+000F98 FFFF00FF            A  1547    	DL	-16711681
+000F9C FFFF00FF            A  1548    	DL	-16711681
+000FA0 FFFF00FF            A  1549    	DL	-16711681
+000FA4 FFFF00FF            A  1550    	DL	-16711681
+000FA8 FFFF00FF            A  1551    	DL	-16711681
+000FAC FFFF00FF            A  1552    	DL	-16711681
+000FB0 FFFF00FF            A  1553    	DL	-16711681
+000FB4 FFFF00FF            A  1554    	DL	-16711681
+000FB8 FFFF00FF            A  1555    	DL	-16711681
+000FBC 808000FF            A  1556    	DL	-16744320
+000FC0 FFFF00FF            A  1557    	DL	-16711681
+000FC4 808000FF            A  1558    	DL	-16744320
+000FC8 808000FF            A  1559    	DL	-16744320
+000FCC 808000FF            A  1560    	DL	-16744320
+000FD0 808000FF            A  1561    	DL	-16744320
+000FD4 808000FF            A  1562    	DL	-16744320
+000FD8 808000FF            A  1563    	DL	-16744320
+000FDC 808000FF            A  1564    	DL	-16744320
+000FE0 808000FF            A  1565    	DL	-16744320
+000FE4 808000FF            A  1566    	DL	-16744320
+000FE8 808000FF            A  1567    	DL	-16744320
+000FEC 808000FF            A  1568    	DL	-16744320
+000FF0 808000FF            A  1569    	DL	-16744320
+000FF4 808000FF            A  1570    	DL	-16744320
+000FF8 808000FF            A  1571    	DL	-16744320
+000FFC 808000FF            A  1572    	DL	-16744320
+                           A  1573    .DEFINE "box_data"
+                           A  1574    .ALIAS "_box_data"
+                           A  1575    .CLASS 69
+                           A  1576    .VALUE _box_data
+                           A  1577    .DIM 1
+                           A  1578    .DIM 256
+                           A  1579    .TYPE 879
+                           A  1580    .ENDEF
+001000                     A  1581    _boxongoal_data:
+001000 FFFF00FF            A  1582    	DL	-16711681
+001004 FFFF00FF            A  1583    	DL	-16711681
+001008 FFFF00FF            A  1584    	DL	-16711681
+00100C FFFF00FF            A  1585    	DL	-16711681
+001010 FFFF00FF            A  1586    	DL	-16711681
+001014 FFFF00FF            A  1587    	DL	-16711681
+001018 FFFF00FF            A  1588    	DL	-16711681
+00101C FFFF00FF            A  1589    	DL	-16711681
+001020 FFFF00FF            A  1590    	DL	-16711681
+001024 FFFF00FF            A  1591    	DL	-16711681
+001028 FFFF00FF            A  1592    	DL	-16711681
+00102C FFFF00FF            A  1593    	DL	-16711681
+001030 FFFF00FF            A  1594    	DL	-16711681
+001034 FFFF00FF            A  1595    	DL	-16711681
+001038 FFFF00FF            A  1596    	DL	-16711681
+00103C FFFF00FF            A  1597    	DL	-16711681
+001040 FFFF00FF            A  1598    	DL	-16711681
+001044 808000FF            A  1599    	DL	-16744320
+001048 808000FF            A  1600    	DL	-16744320
+00104C 808000FF            A  1601    	DL	-16744320
+001050 808000FF            A  1602    	DL	-16744320
+001054 808000FF            A  1603    	DL	-16744320
+001058 808000FF            A  1604    	DL	-16744320
+00105C 808000FF            A  1605    	DL	-16744320
+001060 808000FF            A  1606    	DL	-16744320
+001064 808000FF            A  1607    	DL	-16744320
+001068 808000FF            A  1608    	DL	-16744320
+00106C 808000FF            A  1609    	DL	-16744320
+001070 808000FF            A  1610    	DL	-16744320
+001074 808000FF            A  1611    	DL	-16744320
+001078 FFFF00FF            A  1612    	DL	-16711681
+00107C 808000FF            A  1613    	DL	-16744320
+001080 FFFF00FF            A  1614    	DL	-16711681
+001084 808000FF            A  1615    	DL	-16744320
+001088 000000FF            A  1616    	DL	-16777216
+00108C 000000FF            A  1617    	DL	-16777216
+001090 000000FF            A  1618    	DL	-16777216
+001094 000000FF            A  1619    	DL	-16777216
+001098 000000FF            A  1620    	DL	-16777216
+00109C 000000FF            A  1621    	DL	-16777216
+0010A0 000000FF            A  1622    	DL	-16777216
+0010A4 000000FF            A  1623    	DL	-16777216
+0010A8 000000FF            A  1624    	DL	-16777216
+0010AC 000000FF            A  1625    	DL	-16777216
+0010B0 000000FF            A  1626    	DL	-16777216
+0010B4 000000FF            A  1627    	DL	-16777216
+0010B8 FFFF00FF            A  1628    	DL	-16711681
+0010BC 808000FF            A  1629    	DL	-16744320
+0010C0 FFFF00FF            A  1630    	DL	-16711681
+0010C4 808000FF            A  1631    	DL	-16744320
+0010C8 000000FF            A  1632    	DL	-16777216
+0010CC 008000FF            A  1633    	DL	-16744448
+0010D0 008000FF            A  1634    	DL	-16744448
+0010D4 000000FF            A  1635    	DL	-16777216
+0010D8 808000FF            A  1636    	DL	-16744320
+0010DC 808000FF            A  1637    	DL	-16744320
+0010E0 808000FF            A  1638    	DL	-16744320
+0010E4 808000FF            A  1639    	DL	-16744320
+0010E8 000000FF            A  1640    	DL	-16777216
+0010EC 008000FF            A  1641    	DL	-16744448
+0010F0 008000FF            A  1642    	DL	-16744448
+0010F4 000000FF            A  1643    	DL	-16777216
+0010F8 FFFF00FF            A  1644    	DL	-16711681
+0010FC 808000FF            A  1645    	DL	-16744320
+001100 FFFF00FF            A  1646    	DL	-16711681
+001104 808000FF            A  1647    	DL	-16744320
+001108 000000FF            A  1648    	DL	-16777216
+00110C 008000FF            A  1649    	DL	-16744448
+001110 00FF00FF            A  1650    	DL	-16711936
+001114 008000FF            A  1651    	DL	-16744448
+001118 000000FF            A  1652    	DL	-16777216
+00111C FFFF00FF            A  1653    	DL	-16711681
+001120 FFFF00FF            A  1654    	DL	-16711681
+001124 000000FF            A  1655    	DL	-16777216
+001128 008000FF            A  1656    	DL	-16744448
+00112C 00FF00FF            A  1657    	DL	-16711936
+001130 008000FF            A  1658    	DL	-16744448
+001134 000000FF            A  1659    	DL	-16777216
+001138 FFFF00FF            A  1660    	DL	-16711681
+00113C 808000FF            A  1661    	DL	-16744320
+001140 FFFF00FF            A  1662    	DL	-16711681
+001144 808000FF            A  1663    	DL	-16744320
+001148 000000FF            A  1664    	DL	-16777216
+00114C 000000FF            A  1665    	DL	-16777216
+001150 008000FF            A  1666    	DL	-16744448
+001154 00FF00FF            A  1667    	DL	-16711936
+001158 008000FF            A  1668    	DL	-16744448
+00115C 000000FF            A  1669    	DL	-16777216
+001160 000000FF            A  1670    	DL	-16777216
+001164 008000FF            A  1671    	DL	-16744448
+001168 00FF00FF            A  1672    	DL	-16711936
+00116C 008000FF            A  1673    	DL	-16744448
+001170 000000FF            A  1674    	DL	-16777216
+001174 000000FF            A  1675    	DL	-16777216
+001178 FFFF00FF            A  1676    	DL	-16711681
+00117C 808000FF            A  1677    	DL	-16744320
+001180 FFFF00FF            A  1678    	DL	-16711681
+001184 808000FF            A  1679    	DL	-16744320
+001188 000000FF            A  1680    	DL	-16777216
+00118C 808000FF            A  1681    	DL	-16744320
+001190 000000FF            A  1682    	DL	-16777216
+001194 008000FF            A  1683    	DL	-16744448
+001198 00FF00FF            A  1684    	DL	-16711936
+00119C 008000FF            A  1685    	DL	-16744448
+0011A0 008000FF            A  1686    	DL	-16744448
+0011A4 00FF00FF            A  1687    	DL	-16711936
+0011A8 008000FF            A  1688    	DL	-16744448
+0011AC 000000FF            A  1689    	DL	-16777216
+0011B0 808000FF            A  1690    	DL	-16744320
+0011B4 000000FF            A  1691    	DL	-16777216
+0011B8 FFFF00FF            A  1692    	DL	-16711681
+0011BC 808000FF            A  1693    	DL	-16744320
+0011C0 FFFF00FF            A  1694    	DL	-16711681
+0011C4 808000FF            A  1695    	DL	-16744320
+0011C8 000000FF            A  1696    	DL	-16777216
+0011CC 808000FF            A  1697    	DL	-16744320
+0011D0 FFFF00FF            A  1698    	DL	-16711681
+0011D4 000000FF            A  1699    	DL	-16777216
+0011D8 008000FF            A  1700    	DL	-16744448
+0011DC 00FF00FF            A  1701    	DL	-16711936
+0011E0 00FF00FF            A  1702    	DL	-16711936
+0011E4 008000FF            A  1703    	DL	-16744448
+0011E8 000000FF            A  1704    	DL	-16777216
+0011EC FFFF00FF            A  1705    	DL	-16711681
+0011F0 808000FF            A  1706    	DL	-16744320
+0011F4 000000FF            A  1707    	DL	-16777216
+0011F8 FFFF00FF            A  1708    	DL	-16711681
+0011FC 808000FF            A  1709    	DL	-16744320
+001200 FFFF00FF            A  1710    	DL	-16711681
+001204 808000FF            A  1711    	DL	-16744320
+001208 000000FF            A  1712    	DL	-16777216
+00120C 808000FF            A  1713    	DL	-16744320
+001210 FFFF00FF            A  1714    	DL	-16711681
+001214 000000FF            A  1715    	DL	-16777216
+001218 008000FF            A  1716    	DL	-16744448
+00121C 00FF00FF            A  1717    	DL	-16711936
+001220 00FF00FF            A  1718    	DL	-16711936
+001224 008000FF            A  1719    	DL	-16744448
+001228 000000FF            A  1720    	DL	-16777216
+00122C FFFF00FF            A  1721    	DL	-16711681
+001230 808000FF            A  1722    	DL	-16744320
+001234 000000FF            A  1723    	DL	-16777216
+001238 FFFF00FF            A  1724    	DL	-16711681
+00123C 808000FF            A  1725    	DL	-16744320
+001240 FFFF00FF            A  1726    	DL	-16711681
+001244 808000FF            A  1727    	DL	-16744320
+001248 000000FF            A  1728    	DL	-16777216
+00124C 808000FF            A  1729    	DL	-16744320
+001250 000000FF            A  1730    	DL	-16777216
+001254 008000FF            A  1731    	DL	-16744448
+001258 00FF00FF            A  1732    	DL	-16711936
+00125C 008000FF            A  1733    	DL	-16744448
+001260 008000FF            A  1734    	DL	-16744448
+001264 00FF00FF            A  1735    	DL	-16711936
+001268 008000FF            A  1736    	DL	-16744448
+00126C 000000FF            A  1737    	DL	-16777216
+001270 808000FF            A  1738    	DL	-16744320
+001274 000000FF            A  1739    	DL	-16777216
+001278 FFFF00FF            A  1740    	DL	-16711681
+00127C 808000FF            A  1741    	DL	-16744320
+001280 FFFF00FF            A  1742    	DL	-16711681
+001284 808000FF            A  1743    	DL	-16744320
+001288 000000FF            A  1744    	DL	-16777216
+00128C 000000FF            A  1745    	DL	-16777216
+001290 008000FF            A  1746    	DL	-16744448
+001294 00FF00FF            A  1747    	DL	-16711936
+001298 008000FF            A  1748    	DL	-16744448
+00129C 000000FF            A  1749    	DL	-16777216
+0012A0 000000FF            A  1750    	DL	-16777216
+0012A4 008000FF            A  1751    	DL	-16744448
+0012A8 00FF00FF            A  1752    	DL	-16711936
+0012AC 008000FF            A  1753    	DL	-16744448
+0012B0 000000FF            A  1754    	DL	-16777216
+0012B4 000000FF            A  1755    	DL	-16777216
+0012B8 FFFF00FF            A  1756    	DL	-16711681
+0012BC 808000FF            A  1757    	DL	-16744320
+0012C0 FFFF00FF            A  1758    	DL	-16711681
+0012C4 808000FF            A  1759    	DL	-16744320
+0012C8 000000FF            A  1760    	DL	-16777216
+0012CC 008000FF            A  1761    	DL	-16744448
+0012D0 00FF00FF            A  1762    	DL	-16711936
+0012D4 008000FF            A  1763    	DL	-16744448
+0012D8 000000FF            A  1764    	DL	-16777216
+0012DC FFFF00FF            A  1765    	DL	-16711681
+0012E0 FFFF00FF            A  1766    	DL	-16711681
+0012E4 000000FF            A  1767    	DL	-16777216
+0012E8 008000FF            A  1768    	DL	-16744448
+0012EC 00FF00FF            A  1769    	DL	-16711936
+0012F0 008000FF            A  1770    	DL	-16744448
+0012F4 000000FF            A  1771    	DL	-16777216
+0012F8 FFFF00FF            A  1772    	DL	-16711681
+0012FC 808000FF            A  1773    	DL	-16744320
+001300 FFFF00FF            A  1774    	DL	-16711681
+001304 808000FF            A  1775    	DL	-16744320
+001308 000000FF            A  1776    	DL	-16777216
+00130C 008000FF            A  1777    	DL	-16744448
+001310 008000FF            A  1778    	DL	-16744448
+001314 000000FF            A  1779    	DL	-16777216
+001318 808000FF            A  1780    	DL	-16744320
+00131C 808000FF            A  1781    	DL	-16744320
+001320 808000FF            A  1782    	DL	-16744320
+001324 808000FF            A  1783    	DL	-16744320
+001328 000000FF            A  1784    	DL	-16777216
+00132C 008000FF            A  1785    	DL	-16744448
+001330 008000FF            A  1786    	DL	-16744448
+001334 000000FF            A  1787    	DL	-16777216
+001338 FFFF00FF            A  1788    	DL	-16711681
+00133C 808000FF            A  1789    	DL	-16744320
+001340 FFFF00FF            A  1790    	DL	-16711681
+001344 808000FF            A  1791    	DL	-16744320
+001348 000000FF            A  1792    	DL	-16777216
+00134C 000000FF            A  1793    	DL	-16777216
+001350 000000FF            A  1794    	DL	-16777216
+001354 000000FF            A  1795    	DL	-16777216
+001358 000000FF            A  1796    	DL	-16777216
+00135C 000000FF            A  1797    	DL	-16777216
+001360 000000FF            A  1798    	DL	-16777216
+001364 000000FF            A  1799    	DL	-16777216
+001368 000000FF            A  1800    	DL	-16777216
+00136C 000000FF            A  1801    	DL	-16777216
+001370 000000FF            A  1802    	DL	-16777216
+001374 000000FF            A  1803    	DL	-16777216
+001378 FFFF00FF            A  1804    	DL	-16711681
+00137C 808000FF            A  1805    	DL	-16744320
+001380 FFFF00FF            A  1806    	DL	-16711681
+001384 FFFF00FF            A  1807    	DL	-16711681
+001388 FFFF00FF            A  1808    	DL	-16711681
+00138C FFFF00FF            A  1809    	DL	-16711681
+001390 FFFF00FF            A  1810    	DL	-16711681
+001394 FFFF00FF            A  1811    	DL	-16711681
+001398 FFFF00FF            A  1812    	DL	-16711681
+00139C FFFF00FF            A  1813    	DL	-16711681
+0013A0 FFFF00FF            A  1814    	DL	-16711681
+0013A4 FFFF00FF            A  1815    	DL	-16711681
+0013A8 FFFF00FF            A  1816    	DL	-16711681
+0013AC FFFF00FF            A  1817    	DL	-16711681
+0013B0 FFFF00FF            A  1818    	DL	-16711681
+0013B4 FFFF00FF            A  1819    	DL	-16711681
+0013B8 FFFF00FF            A  1820    	DL	-16711681
+0013BC 808000FF            A  1821    	DL	-16744320
+0013C0 FFFF00FF            A  1822    	DL	-16711681
+0013C4 808000FF            A  1823    	DL	-16744320
+0013C8 808000FF            A  1824    	DL	-16744320
+0013CC 808000FF            A  1825    	DL	-16744320
+0013D0 808000FF            A  1826    	DL	-16744320
+0013D4 808000FF            A  1827    	DL	-16744320
+0013D8 808000FF            A  1828    	DL	-16744320
+0013DC 808000FF            A  1829    	DL	-16744320
+0013E0 808000FF            A  1830    	DL	-16744320
+0013E4 808000FF            A  1831    	DL	-16744320
+0013E8 808000FF            A  1832    	DL	-16744320
+0013EC 808000FF            A  1833    	DL	-16744320
+0013F0 808000FF            A  1834    	DL	-16744320
+0013F4 808000FF            A  1835    	DL	-16744320
+0013F8 808000FF            A  1836    	DL	-16744320
+0013FC 808000FF            A  1837    	DL	-16744320
+                           A  1838    .DEFINE "boxongoal_data"
+                           A  1839    .ALIAS "_boxongoal_data"
+                           A  1840    .CLASS 69
+                           A  1841    .VALUE _boxongoal_data
+                           A  1842    .DIM 1
+                           A  1843    .DIM 256
+                           A  1844    .TYPE 879
+                           A  1845    .ENDEF
+001400                     A  1846    _lookup:
+001400 23                  A  1847    	DB	35
+001401 00                  A  1848    	DB	0
+001402 40                  A  1849    	DB	64
+001403 01                  A  1850    	DB	1
+001404 2B                  A  1851    	DB	43
+001405 02                  A  1852    	DB	2
+001406 24                  A  1853    	DB	36
+001407 03                  A  1854    	DB	3
+001408 2A                  A  1855    	DB	42
+001409 04                  A  1856    	DB	4
+00140A 2E                  A  1857    	DB	46
+00140B 05                  A  1858    	DB	5
+00140C 20                  A  1859    	DB	32
+00140D 06                  A  1860    	DB	6
+                           A  1861    .DEFINE "lookup"
+                           A  1862    .ALIAS "_lookup"
+                           A  1863    .CLASS 84
+                           A  1864    .VALUE _lookup
+                           A  1865    .DIM 7
+                           A  1866    .TAG "NONAME0"
+                           A  1867    .TYPE 104
+                           A  1868    .ENDEF
+                           A  1869    ;    1	#include "game.h"
+                           A  1870    ;    2	#include "sokobanprep.h"
+                           A  1871    ;    3	#include <defines.h>
+                           A  1872    ;    4	#include <stdio.h>
+                           A  1873    ;    5	#include <stdlib.h>
+                           A  1874    ;    6	#include <CTYPE.H>
+                           A  1875    ;    7	#include "ff.h"
+                           A  1876    ;    8	#include "mos.h"
+                           A  1877    ;    9	#include "vdu.h"
+                           A  1878    ;   10	#include "String.h"
+                           A  1879    ;   11	#include "timer.h"
+                           A  1880    ;   12	
+                           A  1881    ;   13	UINT32 bitmapbuffer[BITMAPSIZE];		
+                           A  1882    ;   14	UINT8 sprites[MAXHEIGHT][MAXWIDTH]; // 
+                           A  1883    ;   15	struct sokobanlevel currentlevel;	// 
+                           A  1884    ;   16	
+                           A  1885    ;   17	static const UINT32 wall_data[1][256] =
+                           A  1886    ;   18	{
+                           A  1887    ;   19	0xff008080, 0xff008080, 0xff008080, 0xf
+                           A  1888    ;   20	0xff000080, 0xff000080, 0xff000080, 0xf
+                           A  1889    ;   21	0xff000080, 0xff000080, 0xff000080, 0xf
+                           A  1890    ;   22	0xff000080, 0xff000080, 0xff808080, 0xf
+                           A  1891    ;   23	0xff000080, 0xff000080, 0xff000080, 0xf
+                           A  1892    ;   24	0xff000080, 0xff000080, 0xff000080, 0xf
+                           A  1893    ;   25	0xff808080, 0xff808080, 0xff808080, 0xf
+                           A  1894    ;   26	0xff404040, 0xff404040, 0xff404040, 0xf
+                           A  1895    ;   27	0xff404040, 0xff008080, 0xff008080, 0xf
+                           A  1896    ;   28	0xff404040, 0xff008080, 0xff008080, 0xf
+                           A  1897    ;   29	0xff404040, 0xff008080, 0xff000080, 0xf
+                           A  1898    ;   30	0xff404040, 0xff008080, 0xff000080, 0xf
+                           A  1899    ;   31	0xff404040, 0xff008080, 0xff000080, 0xf
+                           A  1900    ;   32	0xff404040, 0xff008080, 0xff000080, 0xf
+                           A  1901    ;   33	0xff404040, 0xff008080, 0xff808080, 0xf
+                           A  1902    ;   34	0xff404040, 0xff404040, 0xff404040, 0xf
+                           A  1903    ;   35	}
+                           A  1904    ;   36	};
+                           A  1905    ;   37	
+                           A  1906    ;   38	static const UINT32 player_data[1][256]
+                           A  1907    ;   39	{
+                           A  1908    ;   40	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1909    ;   41	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1910    ;   42	0x00000000, 0x00000000, 0x00000000, 0xf
+                           A  1911    ;   43	0x00000000, 0x00000000, 0x00000000, 0xf
+                           A  1912    ;   44	0x00000000, 0x00000000, 0x00000000, 0xf
+                           A  1913    ;   45	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1914    ;   46	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1915    ;   47	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1916    ;   48	0x00000000, 0x00000000, 0x00000000, 0xf
+                           A  1917    ;   49	0x00000000, 0x00000000, 0xff000000, 0xf
+                           A  1918    ;   50	0x00000000, 0x00000000, 0xff404040, 0xf
+                           A  1919    ;   51	0x00000000, 0xff000000, 0xff008080, 0xf
+                           A  1920    ;   52	0x00000000, 0xff000000, 0xff008080, 0xf
+                           A  1921    ;   53	0x00000000, 0x00000000, 0xff000000, 0xf
+                           A  1922    ;   54	0x00000000, 0x00000000, 0x00000000, 0xf
+                           A  1923    ;   55	0x00000000, 0x00000000, 0x00000000, 0xf
+                           A  1924    ;   56	}
+                           A  1925    ;   57	};
+                           A  1926    ;   58	
+                           A  1927    ;   59	static const UINT32 goal_data[1][256] =
+                           A  1928    ;   60	{
+                           A  1929    ;   61	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1930    ;   62	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1931    ;   63	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1932    ;   64	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1933    ;   65	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1934    ;   66	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1935    ;   67	0x00000000, 0x00000000, 0x00000000, 0xf
+                           A  1936    ;   68	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1937    ;   69	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1938    ;   70	0x00000000, 0x00000000, 0x00000000, 0xf
+                           A  1939    ;   71	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1940    ;   72	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1941    ;   73	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1942    ;   74	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1943    ;   75	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1944    ;   76	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1945    ;   77	}
+                           A  1946    ;   78	};
+                           A  1947    ;   79	
+                           A  1948    ;   80	static const UINT32 box_data[1][256] = 
+                           A  1949    ;   81	{
+                           A  1950    ;   82	0xff00ffff, 0xff00ffff, 0xff00ffff, 0xf
+                           A  1951    ;   83	0xff00ffff, 0xff008080, 0xff008080, 0xf
+                           A  1952    ;   84	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1953    ;   85	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1954    ;   86	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1955    ;   87	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1956    ;   88	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1957    ;   89	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1958    ;   90	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1959    ;   91	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1960    ;   92	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1961    ;   93	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1962    ;   94	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1963    ;   95	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1964    ;   96	0xff00ffff, 0xff00ffff, 0xff00ffff, 0xf
+                           A  1965    ;   97	0xff00ffff, 0xff008080, 0xff008080, 0xf
+                           A  1966    ;   98	}
+                           A  1967    ;   99	};
+                           A  1968    ;  100	
+                           A  1969    ;  101	static const UINT32 boxongoal_data[1][2
+                           A  1970    ;  102	{
+                           A  1971    ;  103	0xff00ffff, 0xff00ffff, 0xff00ffff, 0xf
+                           A  1972    ;  104	0xff00ffff, 0xff008080, 0xff008080, 0xf
+                           A  1973    ;  105	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1974    ;  106	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1975    ;  107	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1976    ;  108	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1977    ;  109	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1978    ;  110	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1979    ;  111	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1980    ;  112	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1981    ;  113	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1982    ;  114	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1983    ;  115	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1984    ;  116	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1985    ;  117	0xff00ffff, 0xff00ffff, 0xff00ffff, 0xf
+                           A  1986    ;  118	0xff00ffff, 0xff008080, 0xff008080, 0xf
+                           A  1987    ;  119	}
+                           A  1988    ;  120	};
+                           A  1989    ;  121	
+                           A  1990    ;  122	const chartotile lookup[] =
+                           A  1991    ;  123	{
+                           A  1992    	SEGMENT CODE
+                           A  1993    ;  124		{CHAR_WALL, TILE_WALL},
+                           A  1994    ;  125		{CHAR_PLAYER, TILE_PLAYER},
+                           A  1995    ;  126		{CHAR_PLAYERONGOAL, TILE_PLAYERONGO
+                           A  1996    ;  127		{CHAR_BOX, TILE_BOX},
+                           A  1997    ;  128		{CHAR_BOXONGOAL, TILE_BOXONGOAL},
+                           A  1998    ;  129		{CHAR_GOAL, TILE_GOAL},
+                           A  1999    ;  130		{CHAR_FLOOR, TILE_FLOOR}
+                           A  2000    ;  131	};
+                           A  2001    ;  132	
+                           A  2002    ;  133	BOOL game_init(void)
+                           A  2003    ;  134	{
+000000                     A  2004    _game_init:
+                           A  2005    .DEFINE "_game_init"
+                           A  2006    
+                           A  2007    .VALUE _game_init
+                           A  2008    
+                           A  2009    .CLASS 2
+                           A  2010    
+                           A  2011    .TYPE 76
+                           A  2012    
+                           A  2013    .ENDEF
+                           A  2014    
+                           A  2015    .BEGFUNC "game_init",134,"_game_init"
+                           A  2016    
+000000 DDE5                A  2017    	PUSH	IX
+000002 DD210000 00         A  2018    	LD	IX,0
+000007 DD39                A  2019    	ADD	IX,SP
+                           A  2020    ;  135		// needs to be called once, to load
+                           A  2021    ;  136		FIL	   	fil;
+                           A  2022    ;  137		UINT   	br;	
+                           A  2023    ;  138		FSIZE_t fSize;
+                           A  2024    ;  139		UINT16	levels;
+                           A  2025    ;  140		FRESULT	fr;
+                           A  2026    ;  141		UINT8	n;
+                           A  2027    ;  142		
+                           A  2028    ;  143		/*
+                           A  2029    ;  144		// load all bitmaps and send them t
+                           A  2030    ;  145		fr = f_open(&fil, FILENAME_BITMAPS,
+                           A  2031    ;  146		if(fr == FR_OK) {
+                           A  2032    ;  147			fSize = f_size(&fil);
+                           A  2033    ;  148			if(fSize != BITMAPNUMBER * BITM
+                           A  2034    ;  149			{
+                           A  2035    ;  150				f_close(&fil);
+                           A  2036    ;  151				return FALSE;
+                           A  2037    ;  152			}
+                           A  2038    ;  153			for(n = 0; n < BITMAPNUMBER; n+
+                           A  2039    ;  154			{
+                           A  2040    ;  155				fr = f_read(&fil, bitmapbuf
+                           A  2041    ;  156				bitmap_select(n);
+                           A  2042    ;  157				bitmap_sendData_selected(BI
+                           A  2043    ;  158			}
+                           A  2044    ;  159		}
+                           A  2045    ;  160		else {
+                           A  2046    ;  161			mos_fileError(fr);
+                           A  2047    ;  162			return FALSE;
+                           A  2048    ;  163		}
+                           A  2049    ;  164		f_close(&fil);
+                           A  2050    ;  165		*/
+                           A  2051    ;  166		
+                           A  2052    ;  167		// DEBUG
+                           A  2053    ;  168		//bitmap_createSolidColor(TILE_WALL
+                           A  2054    ;  169		bitmap_sendData(TILE_WALL, BITMAP_W
+                           A  2055    .LINE 169
+                           A  2056    
+000009 01 00 00 00         A  2057    	LD	BC,_wall_data
+00000D C5                  A  2058    	PUSH	BC
+00000E 01100000            A  2059    	LD	BC,16
+000012 C5                  A  2060    	PUSH	BC
+000013 C5                  A  2061    	PUSH	BC
+000014 01000000            A  2062    	LD	BC,0
+000018 C5                  A  2063    	PUSH	BC
+000019 CD 00 00 00         A  2064    	CALL	_bitmap_sendData
+00001D C1                  A  2065    	POP	BC
+00001E C1                  A  2066    	POP	BC
+00001F C1                  A  2067    	POP	BC
+000020 C1                  A  2068    	POP	BC
+                           A  2069    ;  170		//bitmap_createSolidColor(TILE_PLAY
+                           A  2070    ;  171		bitmap_sendData(TILE_PLAYER, BITMAP
+                           A  2071    .LINE 171
+                           A  2072    
+000021 01 00 04 00         A  2073    	LD	BC,_player_data
+000025 C5                  A  2074    	PUSH	BC
+000026 01100000            A  2075    	LD	BC,16
+00002A C5                  A  2076    	PUSH	BC
+00002B C5                  A  2077    	PUSH	BC
+00002C 01010000            A  2078    	LD	BC,1
+000030 C5                  A  2079    	PUSH	BC
+000031 CD 00 00 00         A  2080    	CALL	_bitmap_sendData
+000035 C1                  A  2081    	POP	BC
+000036 C1                  A  2082    	POP	BC
+000037 C1                  A  2083    	POP	BC
+000038 C1                  A  2084    	POP	BC
+                           A  2085    ;  172		//bitmap_createSolidColor(TILE_PLAY
+                           A  2086    ;  173		bitmap_sendData(TILE_PLAYERONGOAL, 
+                           A  2087    .LINE 173
+                           A  2088    
+000039 01 00 04 00         A  2089    	LD	BC,_player_data
+00003D C5                  A  2090    	PUSH	BC
+00003E 01100000            A  2091    	LD	BC,16
+000042 C5                  A  2092    	PUSH	BC
+000043 C5                  A  2093    	PUSH	BC
+000044 01020000            A  2094    	LD	BC,2
+000048 C5                  A  2095    	PUSH	BC
+000049 CD 00 00 00         A  2096    	CALL	_bitmap_sendData
+00004D C1                  A  2097    	POP	BC
+00004E C1                  A  2098    	POP	BC
+00004F C1                  A  2099    	POP	BC
+000050 C1                  A  2100    	POP	BC
+                           A  2101    ;  174		
+                           A  2102    ;  175		bitmap_sendData(TILE_BOX, BITMAP_WI
+                           A  2103    .LINE 175
+                           A  2104    
+000051 01 00 0C 00         A  2105    	LD	BC,_box_data
+000055 C5                  A  2106    	PUSH	BC
+000056 01100000            A  2107    	LD	BC,16
+00005A C5                  A  2108    	PUSH	BC
+00005B C5                  A  2109    	PUSH	BC
+00005C 01030000            A  2110    	LD	BC,3
+000060 C5                  A  2111    	PUSH	BC
+000061 CD 00 00 00         A  2112    	CALL	_bitmap_sendData
+000065 C1                  A  2113    	POP	BC
+000066 C1                  A  2114    	POP	BC
+000067 C1                  A  2115    	POP	BC
+000068 C1                  A  2116    	POP	BC
+                           A  2117    ;  176		bitmap_sendData(TILE_BOXONGOAL, BIT
+                           A  2118    .LINE 176
+                           A  2119    
+000069 01 00 10 00         A  2120    	LD	BC,_boxongoal_data
+00006D C5                  A  2121    	PUSH	BC
+00006E 01100000            A  2122    	LD	BC,16
+000072 C5                  A  2123    	PUSH	BC
+000073 C5                  A  2124    	PUSH	BC
+000074 01040000            A  2125    	LD	BC,4
+000078 C5                  A  2126    	PUSH	BC
+000079 CD 00 00 00         A  2127    	CALL	_bitmap_sendData
+00007D C1                  A  2128    	POP	BC
+00007E C1                  A  2129    	POP	BC
+00007F C1                  A  2130    	POP	BC
+000080 C1                  A  2131    	POP	BC
+                           A  2132    ;  177		bitmap_sendData(TILE_GOAL, BITMAP_W
+                           A  2133    .LINE 177
+                           A  2134    
+000081 01 00 08 00         A  2135    	LD	BC,_goal_data
+000085 C5                  A  2136    	PUSH	BC
+000086 01100000            A  2137    	LD	BC,16
+00008A C5                  A  2138    	PUSH	BC
+00008B C5                  A  2139    	PUSH	BC
+00008C 01050000            A  2140    	LD	BC,5
+000090 C5                  A  2141    	PUSH	BC
+000091 CD 00 00 00         A  2142    	CALL	_bitmap_sendData
+000095 C1                  A  2143    	POP	BC
+000096 C1                  A  2144    	POP	BC
+000097 C1                  A  2145    	POP	BC
+000098 C1                  A  2146    	POP	BC
+                           A  2147    ;  178		bitmap_createSolidColor(TILE_FLOOR,
+                           A  2148    .LINE 178
+                           A  2149    
+000099 01FF0000            A  2150    	LD	BC,255
+00009D C5                  A  2151    	PUSH	BC
+00009E 01000000            A  2152    	LD	BC,0
+0000A2 C5                  A  2153    	PUSH	BC
+0000A3 01100000            A  2154    	LD	BC,16
+0000A7 C5                  A  2155    	PUSH	BC
+0000A8 C5                  A  2156    	PUSH	BC
+0000A9 01060000            A  2157    	LD	BC,6
+0000AD C5                  A  2158    	PUSH	BC
+0000AE CD 00 00 00         A  2159    	CALL	_bitmap_createSolidColor
+0000B2 C1                  A  2160    	POP	BC
+0000B3 C1                  A  2161    	POP	BC
+0000B4 C1                  A  2162    	POP	BC
+0000B5 C1                  A  2163    	POP	BC
+0000B6 C1                  A  2164    	POP	BC
+                           A  2165    ;  179		
+                           A  2166    ;  180		//
+                           A  2167    ;  181		
+                           A  2168    ;  182		// define sprites
+                           A  2169    ;  183		sprite_select(SPRITE_PLAYER);
+                           A  2170    .LINE 183
+                           A  2171    
+0000B7 01000000            A  2172    	LD	BC,0
+0000BB C5                  A  2173    	PUSH	BC
+0000BC CD 00 00 00         A  2174    	CALL	_sprite_select
+0000C0 C1                  A  2175    	POP	BC
+                           A  2176    ;  184		sprite_addFrame_selected(TILE_PLAYE
+                           A  2177    .LINE 184
+                           A  2178    
+0000C1 01010000            A  2179    	LD	BC,1
+0000C5 C5                  A  2180    	PUSH	BC
+0000C6 CD 00 00 00         A  2181    	CALL	_sprite_addFrame_selected
+0000CA C1                  A  2182    	POP	BC
+                           A  2183    ;  185		sprite_hide();
+                           A  2184    .LINE 185
+                           A  2185    
+0000CB CD 00 00 00         A  2186    	CALL	_sprite_hide
+                           A  2187    ;  186		sprite_select(SPRITE_BOX);
+                           A  2188    .LINE 186
+                           A  2189    
+0000CF 01010000            A  2190    	LD	BC,1
+0000D3 C5                  A  2191    	PUSH	BC
+0000D4 CD 00 00 00         A  2192    	CALL	_sprite_select
+0000D8 C1                  A  2193    	POP	BC
+                           A  2194    ;  187		sprite_addFrame_selected(TILE_BOX);
+                           A  2195    .LINE 187
+                           A  2196    
+0000D9 01030000            A  2197    	LD	BC,3
+0000DD C5                  A  2198    	PUSH	BC
+0000DE CD 00 00 00         A  2199    	CALL	_sprite_addFrame_selected
+0000E2 C1                  A  2200    	POP	BC
+                           A  2201    ;  188		sprite_hide();
+                           A  2202    .LINE 188
+                           A  2203    
+0000E3 CD 00 00 00         A  2204    	CALL	_sprite_hide
+                           A  2205    ;  189		sprite_activateTotal(2);
+                           A  2206    .LINE 189
+                           A  2207    
+0000E7 01020000            A  2208    	LD	BC,2
+0000EB C5                  A  2209    	PUSH	BC
+0000EC CD 00 00 00         A  2210    	CALL	_sprite_activateTotal
+0000F0 C1                  A  2211    	POP	BC
+                           A  2212    ;  190		
+                           A  2213    ;  191		return TRUE;
+                           A  2214    .LINE 191
+                           A  2215    
+0000F1 3E01                A  2216    	LD	A,%1
+                           A  2217    ;  192		
+                           A  2218    ;  193	}
+                           A  2219    .LINE 193
+                           A  2220    
+0000F3 DDF9                A  2221    	LD	SP,IX
+0000F5 DDE1                A  2222    	POP	IX
+0000F7 C9                  A  2223    	RET	
+                           A  2224    
+                           A  2225    
+                           A  2226    ;**************************** _game_init ******
+                           A  2227    ;Name                         Addr/Register   S
+                           A  2228    ;_sprite_activateTotal               IMPORT  --
+                           A  2229    ;_sprite_hide                        IMPORT  --
+                           A  2230    ;_sprite_addFrame_selected           IMPORT  --
+                           A  2231    ;_sprite_select                      IMPORT  --
+                           A  2232    ;_bitmap_createSolidColor            IMPORT  --
+                           A  2233    ;_goal_data                          STATIC   1
+                           A  2234    ;_boxongoal_data                     STATIC   1
+                           A  2235    ;_box_data                           STATIC   1
+                           A  2236    ;_player_data                        STATIC   1
+                           A  2237    ;_wall_data                          STATIC   1
+                           A  2238    ;_bitmap_sendData                    IMPORT  --
+                           A  2239    
+                           A  2240    
+                           A  2241    ; Stack Frame Size: 6 (bytes)
+                           A  2242    ;       Spill Code: 0 (instruction)
+                           A  2243    
+                           A  2244    
+                           A  2245    .ENDFUNC "game_init",193,"_game_init"
+                           A  2246    ;  194	void game_resetlevel(void)
+                           A  2247    ;  195	{
+0000F8                     A  2248    _game_resetlevel:
+                           A  2249    .DEFINE "_game_resetlevel"
+                           A  2250    
+                           A  2251    .VALUE _game_resetlevel
+                           A  2252    
+                           A  2253    .CLASS 2
+                           A  2254    
+                           A  2255    .TYPE 65
+                           A  2256    
+                           A  2257    .ENDEF
+                           A  2258    
+                           A  2259    .BEGFUNC "game_resetlevel",195,"_game_resetleve
+                           A  2260    
+                           A  2261    .LINE 195
+                           A  2262    
+                           A  2263    .DEFINE "x"
+                           A  2264    
+                           A  2265    .CLASS 65
+                           A  2266    
+                           A  2267    .VALUE -1
+                           A  2268    
+                           A  2269    .TYPE 12
+                           A  2270    
+                           A  2271    .ENDEF
+                           A  2272    
+                           A  2273    .DEFINE "y"
+                           A  2274    
+                           A  2275    .CLASS 65
+                           A  2276    
+                           A  2277    .VALUE -2
+                           A  2278    
+                           A  2279    .TYPE 12
+                           A  2280    
+                           A  2281    .ENDEF
+                           A  2282    
+0000F8 DDE5                A  2283    	PUSH	IX
+0000FA DD210000 00         A  2284    	LD	IX,0
+0000FF DD39                A  2285    	ADD	IX,SP
+000101 3B                  A  2286    	DEC	SP
+000102 3B                  A  2287    	DEC	SP
+                           A  2288    ;  196		UINT8 x,y;
+                           A  2289    ;  197		
+                           A  2290    ;  198		// reset current level, everything 
+                           A  2291    ;  199		memset(&currentlevel, 0, sizeof(str
+                           A  2292    .LINE 199
+                           A  2293    
+000103 01B70400            A  2294    	LD	BC,1207
+000107 C5                  A  2295    	PUSH	BC
+000108 01000000            A  2296    	LD	BC,0
+00010C C5                  A  2297    	PUSH	BC
+00010D 01 B0 08 00         A  2298    	LD	BC,_currentlevel
+000111 C5                  A  2299    	PUSH	BC
+000112 CD 00 00 00         A  2300    	CALL	_memset
+000116 C1                  A  2301    	POP	BC
+000117 C1                  A  2302    	POP	BC
+000118 C1                  A  2303    	POP	BC
+                           A  2304    ;  200		
+                           A  2305    ;  201		// reset all sprite positions
+                           A  2306    ;  202		for(y = 0; y < MAXHEIGHT; y++)
+                           A  2307    .LINE 202
+                           A  2308    
+000119 DD36FE00            A  2309    	LD	(IX+%FFFFFFFE),%0
+00011D 18 31               A  2310    	JR	L_8
+00011F                     A  2311    L_6:
+                           A  2312    ;  203		{
+                           A  2313    ;  204			for(x = 0; x < MAXWIDTH; x++)
+                           A  2314    .LINE 204
+                           A  2315    
+00011F DD36FF00            A  2316    	LD	(IX+%FFFFFFFF),%0
+000123 18 21               A  2317    	JR	L_5
+000125                     A  2318    L_3:
+                           A  2319    ;  205			{
+                           A  2320    ;  206				sprites[y][x] = NOSPRITE;
+                           A  2321    .LINE 206
+                           A  2322    
+000125 DD7EFE              A  2323    	LD	A,(IX+%FFFFFFFE)
+000128 B7ED62              A  2324    	UEXT	HL
+00012B 6F                  A  2325    	LD	L,A
+00012C 3E28                A  2326    	LD	A,%28
+00012E CD 00 00 00         A  2327    	CALL	__imul_b
+000132 01 00 04 00         A  2328    	LD	BC,_sprites
+000136 09                  A  2329    	ADD	HL,BC
+000137 E5C1                A  2330    	LD	BC,HL
+000139 DD7EFF              A  2331    	LD	A,(IX+%FFFFFFFF)
+00013C B7ED62              A  2332    	UEXT	HL
+00013F 6F                  A  2333    	LD	L,A
+000140 09                  A  2334    	ADD	HL,BC
+000141 36FF                A  2335    	LD	(HL),%FF
+000143 DD34FF              A  2336    	INC	(IX+%FFFFFFFF)
+                           A  2337    ;  207			}
+000146                     A  2338    L_5:
+                           A  2339    .LINE 207
+                           A  2340    
+000146 DD7EFF              A  2341    	LD	A,(IX+%FFFFFFFF)
+000149 FE28                A  2342    	CP	A,%28
+00014B 38 D8               A  2343    	JR	C,L_3
+00014D DD34FE              A  2344    	INC	(IX+%FFFFFFFE)
+                           A  2345    ;  208		}
+000150                     A  2346    L_8:
+                           A  2347    .LINE 208
+                           A  2348    
+000150 DD7EFE              A  2349    	LD	A,(IX+%FFFFFFFE)
+000153 FE1E                A  2350    	CP	A,%1E
+000155 38 C8               A  2351    	JR	C,L_6
+                           A  2352    ;  209	}
+                           A  2353    .LINE 209
+                           A  2354    
+000157 DDF9                A  2355    	LD	SP,IX
+000159 DDE1                A  2356    	POP	IX
+00015B C9                  A  2357    	RET	
+                           A  2358    
+                           A  2359    
+                           A  2360    ;**************************** _game_resetlevel 
+                           A  2361    ;Name                         Addr/Register   S
+                           A  2362    ;_sprites                            STATIC   1
+                           A  2363    ;_currentlevel                       STATIC   1
+                           A  2364    ;_memset                             IMPORT  --
+                           A  2365    ;y                                     IX-2    
+                           A  2366    ;x                                     IX-1    
+                           A  2367    
+                           A  2368    
+                           A  2369    ; Stack Frame Size: 8 (bytes)
+                           A  2370    ;       Spill Code: 0 (instruction)
+                           A  2371    
+                           A  2372    
+                           A  2373    .ENDFUNC "game_resetlevel",209,"_game_resetleve
+                           A  2374    ;  210	
+                           A  2375    ;  211	void game_play(UINT8 levelnumber)
+                           A  2376    ;  212	{
+00015C                     A  2377    _game_play:
+                           A  2378    .DEFINE "_game_play"
+                           A  2379    
+                           A  2380    .VALUE _game_play
+                           A  2381    
+                           A  2382    .CLASS 2
+                           A  2383    
+                           A  2384    .TYPE 65
+                           A  2385    
+                           A  2386    .ENDEF
+                           A  2387    
+                           A  2388    .BEGFUNC "game_play",212,"_game_play"
+                           A  2389    
+                           A  2390    .LINE 212
+                           A  2391    
+                           A  2392    .DEFINE "levelnumber"
+                           A  2393    
+                           A  2394    .CLASS 65
+                           A  2395    
+                           A  2396    .VALUE 6
+                           A  2397    
+                           A  2398    .TYPE 12
+                           A  2399    
+                           A  2400    .ENDEF
+                           A  2401    
+00015C DDE5                A  2402    	PUSH	IX
+00015E DD210000 00         A  2403    	LD	IX,0
+000163 DD39                A  2404    	ADD	IX,SP
+                           A  2405    ;  213		game_resetlevel();
+                           A  2406    .LINE 213
+                           A  2407    
+000165 CD F8 00 00         A  2408    	CALL	_game_resetlevel
+                           A  2409    ;  214		
+                           A  2410    ;  215		
+                           A  2411    ;  216	}
+                           A  2412    .LINE 216
+                           A  2413    
+000169 DDF9                A  2414    	LD	SP,IX
+00016B DDE1                A  2415    	POP	IX
+00016D C9                  A  2416    	RET	
+                           A  2417    
+                           A  2418    
+                           A  2419    ;**************************** _game_play ******
+                           A  2420    ;Name                         Addr/Register   S
+                           A  2421    ;_game_resetlevel                    IMPORT  --
+                           A  2422    ;levelnumber                           IX+6    
+                           A  2423    
+                           A  2424    
+                           A  2425    ; Stack Frame Size: 9 (bytes)
+                           A  2426    ;       Spill Code: 0 (instruction)
+                           A  2427    
+                           A  2428    
+                           A  2429    .ENDFUNC "game_play",216,"_game_play"
+                           A  2430    ;  217	
+                           A  2431    ;  218	
+                           A  2432    ;  219	void print_playfieldText(void)
+                           A  2433    ;  220	{
+00016E                     A  2434    _print_playfieldText:
+                           A  2435    .DEFINE "_print_playfieldText"
+                           A  2436    
+                           A  2437    .VALUE _print_playfieldText
+                           A  2438    
+                           A  2439    .CLASS 2
+                           A  2440    
+                           A  2441    .TYPE 65
+                           A  2442    
+                           A  2443    .ENDEF
+                           A  2444    
+                           A  2445    .BEGFUNC "print_playfieldText",220,"_print_play
+                           A  2446    
+                           A  2447    .LINE 220
+                           A  2448    
+                           A  2449    .DEFINE "width"
+                           A  2450    
+                           A  2451    .CLASS 65
+                           A  2452    
+                           A  2453    .VALUE -2
+                           A  2454    
+                           A  2455    .TYPE 13
+                           A  2456    
+                           A  2457    .ENDEF
+                           A  2458    
+                           A  2459    .DEFINE "height"
+                           A  2460    
+                           A  2461    .CLASS 65
+                           A  2462    
+                           A  2463    .VALUE -4
+                           A  2464    
+                           A  2465    .TYPE 13
+                           A  2466    
+                           A  2467    .ENDEF
+                           A  2468    
+                           A  2469    .DEFINE "c"
+                           A  2470    
+                           A  2471    .CLASS 65
+                           A  2472    
+                           A  2473    .VALUE -5
+                           A  2474    
+                           A  2475    .TYPE 2
+                           A  2476    
+                           A  2477    .ENDEF
+                           A  2478    
+00016E DDE5                A  2479    	PUSH	IX
+000170 DD210000 00         A  2480    	LD	IX,0
+000175 DD39                A  2481    	ADD	IX,SP
+000177 C5                  A  2482    	PUSH	BC
+000178 C5                  A  2483    	PUSH	BC
+000179 3B                  A  2484    	DEC	SP
+00017A 3B                  A  2485    	DEC	SP
+                           A  2486    ;  221		UINT16 width, height;
+                           A  2487    ;  222		char c;
+                           A  2488    ;  223		
+                           A  2489    ;  224		for(height = 0; height < currentlev
+                           A  2490    .LINE 224
+                           A  2491    
+00017B DD36FC00            A  2492    	LD	(IX+%FFFFFFFC),%0
+00017F DD36FD00            A  2493    	LD	(IX+%FFFFFFFD),%0
+000183 C3 14 02 00         A  2494    	JR	L_23
+000187                     A  2495    L_21:
+                           A  2496    ;  225		{
+                           A  2497    ;  226			for(width = 0; width < currentl
+                           A  2498    .LINE 226
+                           A  2499    
+000187 DD36FE00            A  2500    	LD	(IX+%FFFFFFFE),%0
+00018B DD36FF00            A  2501    	LD	(IX+%FFFFFFFF),%0
+00018F 18 56               A  2502    	JR	L_19
+000191                     A  2503    L_17:
+                           A  2504    ;  227			{
+                           A  2505    ;  228				c = currentlevel.data[heigh
+                           A  2506    .LINE 228
+                           A  2507    
+000191 DD07FC              A  2508    	LD	BC,(IX+%FFFFFFFC)
+000194 CD 00 00 00         A  2509    	CALL	__stoiu
+000198 3E28                A  2510    	LD	A,%28
+00019A CD 00 00 00         A  2511    	CALL	__imul_b
+00019E 01 B7 08 00         A  2512    	LD	BC,_currentlevel+7
+0001A2 09                  A  2513    	ADD	HL,BC
+0001A3 E5D1                A  2514    	LD	DE,HL
+0001A5 DD07FE              A  2515    	LD	BC,(IX+%FFFFFFFE)
+0001A8 CD 00 00 00         A  2516    	CALL	__stoiu
+0001AC 19                  A  2517    	ADD	HL,DE
+0001AD 7E                  A  2518    	LD	A,(HL)
+0001AE DD77FB              A  2519    	LD	(IX+%FFFFFFFB),A
+                           A  2520    ;  229				printf("%c",c?c:' ');
+                           A  2521    .LINE 229
+                           A  2522    
+0001B1 B7                  A  2523    	OR	A,A
+0001B2 28 0E               A  2524    	JR	Z,L_15
+0001B4 DD7EFB              A  2525    	LD	A,(IX+%FFFFFFFB)
+0001B7 17ED62              A  2526    	SEXT	HL
+0001BA DD6EFB              A  2527    	LD	L,(IX+%FFFFFFFB)
+0001BD DD2FF8              A  2528    	LD	(IX+%FFFFFFF8),HL
+0001C0 18 07               A  2529    	JR	L_16
+0001C2                     A  2530    L_15:
+0001C2 01200000            A  2531    	LD	BC,32
+0001C6 DD0FF8              A  2532    	LD	(IX+%FFFFFFF8),BC
+0001C9                     A  2533    L_16:
+0001C9 01 00 00 00         A  2534    	LD	BC,___print_uputch
+0001CD ED43 00 00 00       A  2535    	LD	(___print_xputch),BC
+0001D2 DD4EF8              A  2536    	LD	C,(IX+%FFFFFFF8)
+0001D5 0600                A  2537    	LD	B,%0
+0001D7 C5                  A  2538    	PUSH	BC
+0001D8 CD 00 00 00         A  2539    	CALL	___print_uputch
+0001DC C1                  A  2540    	POP	BC
+0001DD DD27FE              A  2541    	LD	HL,(IX+%FFFFFFFE)
+0001E0 23                  A  2542    	INC	HL
+0001E1 DD75FE              A  2543    	LD	(IX+%FFFFFFFE),L
+0001E4 DD74FF              A  2544    	LD	(IX+%FFFFFFFF),H
+                           A  2545    ;  230			}
+0001E7                     A  2546    L_19:
+                           A  2547    .LINE 230
+                           A  2548    
+0001E7 3A B2 08 00         A  2549    	LD	A,(_currentlevel+2)
+0001EB 4F                  A  2550    	LD	C,A
+0001EC 0600                A  2551    	LD	B,%0
+0001EE DD27FE              A  2552    	LD	HL,(IX+%FFFFFFFE)
+0001F1 B7                  A  2553    	OR	A,A
+0001F2 40ED42              A  2554    	SBC.SIS	HL,BC
+0001F5 38 9A               A  2555    	JR	C,L_17
+                           A  2556    ;  231			printf("\n\r");
+                           A  2557    .LINE 231
+                           A  2558    
+0001F7 01 00 00 00         A  2559    	LD	BC,___print_uputch
+0001FB ED43 00 00 00       A  2560    	LD	(___print_xputch),BC
+000200 01 00 00 00         A  2561    	LD	BC,L__7
+000204 C5                  A  2562    	PUSH	BC
+000205 CD 00 00 00         A  2563    	CALL	___print_sendstring
+000209 C1                  A  2564    	POP	BC
+00020A DD27FC              A  2565    	LD	HL,(IX+%FFFFFFFC)
+00020D 23                  A  2566    	INC	HL
+00020E DD75FC              A  2567    	LD	(IX+%FFFFFFFC),L
+000211 DD74FD              A  2568    	LD	(IX+%FFFFFFFD),H
+                           A  2569    ;  232		}
+000214                     A  2570    L_23:
+                           A  2571    .LINE 232
+                           A  2572    
+000214 3A B3 08 00         A  2573    	LD	A,(_currentlevel+3)
+000218 4F                  A  2574    	LD	C,A
+000219 0600                A  2575    	LD	B,%0
+00021B DD27FC              A  2576    	LD	HL,(IX+%FFFFFFFC)
+00021E B7                  A  2577    	OR	A,A
+00021F 40ED42              A  2578    	SBC.SIS	HL,BC
+000222 DA 87 01 00         A  2579    	JR	C,L_21
+                           A  2580    ;  233		
+                           A  2581    ;  234	}
+                           A  2582    .LINE 234
+                           A  2583    
+000226 DDF9                A  2584    	LD	SP,IX
+000228 DDE1                A  2585    	POP	IX
+00022A C9                  A  2586    	RET	
+                           A  2587    
+                           A  2588    
+                           A  2589    ;**************************** _print_playfieldT
+                           A  2590    ;Name                         Addr/Register   S
+                           A  2591    ;___print_sendstring                 IMPORT  --
+                           A  2592    ;___print_xputch                     IMPORT    
+                           A  2593    ;___print_uputch                     IMPORT  --
+                           A  2594    ;_currentlevel                       STATIC   1
+                           A  2595    ;temp13                                IX-8    
+                           A  2596    ;c                                     IX-5    
+                           A  2597    ;height                                IX-4    
+                           A  2598    ;width                                 IX-2    
+                           A  2599    
+                           A  2600    
+                           A  2601    ; Stack Frame Size: 14 (bytes)
+                           A  2602    ;       Spill Code: 0 (instruction)
+                           A  2603    
+                           A  2604    
+                           A  2605    .ENDFUNC "print_playfieldText",234,"_print_play
+                           A  2606    	SEGMENT STRSECT
+000000                     A  2607    L__7:
+000000 0A0D00              A  2608    	DB	10,13,0
+                           A  2609    	SEGMENT CODE
+                           A  2610    ;  235	
+                           A  2611    ;  236	void game_displayLevel(void)
+                           A  2612    ;  237	{
+00022B                     A  2613    _game_displayLevel:
+                           A  2614    .DEFINE "_game_displayLevel"
+                           A  2615    
+                           A  2616    .VALUE _game_displayLevel
+                           A  2617    
+                           A  2618    .CLASS 2
+                           A  2619    
+                           A  2620    .TYPE 65
+                           A  2621    
+                           A  2622    .ENDEF
+                           A  2623    
+                           A  2624    .BEGFUNC "game_displayLevel",237,"_game_display
+                           A  2625    
+                           A  2626    .LINE 237
+                           A  2627    
+                           A  2628    .DEFINE "x"
+                           A  2629    
+                           A  2630    .CLASS 65
+                           A  2631    
+                           A  2632    .VALUE -2
+                           A  2633    
+                           A  2634    .TYPE 13
+                           A  2635    
+                           A  2636    .ENDEF
+                           A  2637    
+                           A  2638    .DEFINE "y"
+                           A  2639    
+                           A  2640    .CLASS 65
+                           A  2641    
+                           A  2642    .VALUE -4
+                           A  2643    
+                           A  2644    .TYPE 13
+                           A  2645    
+                           A  2646    .ENDEF
+                           A  2647    
+                           A  2648    .DEFINE "width"
+                           A  2649    
+                           A  2650    .CLASS 65
+                           A  2651    
+                           A  2652    .VALUE -6
+                           A  2653    
+                           A  2654    .TYPE 13
+                           A  2655    
+                           A  2656    .ENDEF
+                           A  2657    
+                           A  2658    .DEFINE "height"
+                           A  2659    
+                           A  2660    .CLASS 65
+                           A  2661    
+                           A  2662    .VALUE -8
+                           A  2663    
+                           A  2664    .TYPE 13
+                           A  2665    
+                           A  2666    .ENDEF
+                           A  2667    
+                           A  2668    .DEFINE "c"
+                           A  2669    
+                           A  2670    .CLASS 65
+                           A  2671    
+                           A  2672    .VALUE -9
+                           A  2673    
+                           A  2674    .TYPE 2
+                           A  2675    
+                           A  2676    .ENDEF
+                           A  2677    
+                           A  2678    .DEFINE "xstart"
+                           A  2679    
+                           A  2680    .CLASS 65
+                           A  2681    
+                           A  2682    .VALUE -11
+                           A  2683    
+                           A  2684    .TYPE 13
+                           A  2685    
+                           A  2686    .ENDEF
+                           A  2687    
+                           A  2688    .DEFINE "ystart"
+                           A  2689    
+                           A  2690    .CLASS 65
+                           A  2691    
+                           A  2692    .VALUE -13
+                           A  2693    
+                           A  2694    .TYPE 13
+                           A  2695    
+                           A  2696    .ENDEF
+                           A  2697    
+00022B DDE5                A  2698    	PUSH	IX
+00022D DD210000 00         A  2699    	LD	IX,0
+000232 DD39                A  2700    	ADD	IX,SP
+000234 ED22F3              A  2701    	LEA	HL,IX+%FFFFFFF3
+000237 F9                  A  2702    	LD	SP,HL
+                           A  2703    ;  238		UINT16 width, height;
+                           A  2704    ;  239		UINT16 ystart,xstart,x,y;
+                           A  2705    ;  240		char c;
+                           A  2706    ;  241		
+                           A  2707    ;  242		// calculate on-screen base coordin
+                           A  2708    ;  243		xstart = ((MAXWIDTH - currentlevel.
+                           A  2709    .LINE 243
+                           A  2710    
+000238 3A B2 08 00         A  2711    	LD	A,(_currentlevel+2)
+00023C B7ED62              A  2712    	UEXT	HL
+00023F 6F                  A  2713    	LD	L,A
+000240 E5C1                A  2714    	LD	BC,HL
+000242 21280000            A  2715    	LD	HL,40
+000246 B7                  A  2716    	OR	A,A
+000247 ED42                A  2717    	SBC	HL,BC
+000249 01020000            A  2718    	LD	BC,2
+00024D CD 00 00 00         A  2719    	CALL	__idivs
+000251 29                  A  2720    	ADD	HL,HL
+000252 29                  A  2721    	ADD	HL,HL
+000253 29                  A  2722    	ADD	HL,HL
+000254 29                  A  2723    	ADD	HL,HL
+000255 DD75F5              A  2724    	LD	(IX+%FFFFFFF5),L
+000258 DD74F6              A  2725    	LD	(IX+%FFFFFFF6),H
+                           A  2726    ;  244		ystart = ((MAXHEIGHT - currentlevel
+                           A  2727    .LINE 244
+                           A  2728    
+00025B 3A B3 08 00         A  2729    	LD	A,(_currentlevel+3)
+00025F B7ED62              A  2730    	UEXT	HL
+000262 6F                  A  2731    	LD	L,A
+000263 E5C1                A  2732    	LD	BC,HL
+000265 211E0000            A  2733    	LD	HL,30
+000269 B7                  A  2734    	OR	A,A
+00026A ED42                A  2735    	SBC	HL,BC
+00026C 01020000            A  2736    	LD	BC,2
+000270 CD 00 00 00         A  2737    	CALL	__idivs
+000274 29                  A  2738    	ADD	HL,HL
+000275 29                  A  2739    	ADD	HL,HL
+000276 29                  A  2740    	ADD	HL,HL
+000277 29                  A  2741    	ADD	HL,HL
+000278 DD75F3              A  2742    	LD	(IX+%FFFFFFF3),L
+00027B DD74F4              A  2743    	LD	(IX+%FFFFFFF4),H
+                           A  2744    ;  245		//xstart = 0;
+                           A  2745    ;  246		//ystart = 0;
+                           A  2746    ;  247		
+                           A  2747    ;  248		y = ystart;
+                           A  2748    .LINE 248
+                           A  2749    
+00027E DD07F3              A  2750    	LD	BC,(IX+%FFFFFFF3)
+000281 DD71FC              A  2751    	LD	(IX+%FFFFFFFC),C
+000284 DD70FD              A  2752    	LD	(IX+%FFFFFFFD),B
+                           A  2753    ;  249		for(height = 0; height < currentlev
+                           A  2754    .LINE 249
+                           A  2755    
+000287 DD36F800            A  2756    	LD	(IX+%FFFFFFF8),%0
+00028B DD36F900            A  2757    	LD	(IX+%FFFFFFF9),%0
+00028F C3 78 04 00         A  2758    	JR	L_42
+000293                     A  2759    L_40:
+                           A  2760    ;  250		{
+                           A  2761    ;  251			x = xstart;
+                           A  2762    .LINE 251
+                           A  2763    
+000293 DD07F5              A  2764    	LD	BC,(IX+%FFFFFFF5)
+000296 DD71FE              A  2765    	LD	(IX+%FFFFFFFE),C
+000299 DD70FF              A  2766    	LD	(IX+%FFFFFFFF),B
+                           A  2767    ;  252			for(width = 0; width < currentl
+                           A  2768    .LINE 252
+                           A  2769    
+00029C DD36FA00            A  2770    	LD	(IX+%FFFFFFFA),%0
+0002A0 DD36FB00            A  2771    	LD	(IX+%FFFFFFFB),%0
+0002A4 C3 50 04 00         A  2772    	JR	L_38
+0002A8                     A  2773    L_36:
+                           A  2774    ;  253			{
+                           A  2775    ;  254				c = currentlevel.data[heigh
+                           A  2776    .LINE 254
+                           A  2777    
+0002A8 DD07F8              A  2778    	LD	BC,(IX+%FFFFFFF8)
+0002AB CD 00 00 00         A  2779    	CALL	__stoiu
+0002AF 3E28                A  2780    	LD	A,%28
+0002B1 CD 00 00 00         A  2781    	CALL	__imul_b
+0002B5 01 B7 08 00         A  2782    	LD	BC,_currentlevel+7
+0002B9 09                  A  2783    	ADD	HL,BC
+0002BA E5D1                A  2784    	LD	DE,HL
+0002BC DD07FA              A  2785    	LD	BC,(IX+%FFFFFFFA)
+0002BF CD 00 00 00         A  2786    	CALL	__stoiu
+0002C3 19                  A  2787    	ADD	HL,DE
+0002C4 7E                  A  2788    	LD	A,(HL)
+0002C5 DD77F7              A  2789    	LD	(IX+%FFFFFFF7),A
+                           A  2790    ;  255				switch(c)
+                           A  2791    .LINE 255
+                           A  2792    
+0002C8 17ED62              A  2793    	SEXT	HL
+0002CB DD6EF7              A  2794    	LD	L,(IX+%FFFFFFF7)
+0002CE E5C1                A  2795    	LD	BC,HL
+0002D0                     A  2796    L__12:
+0002D0 112A0000            A  2797    	LD	DE,42
+0002D4 B7                  A  2798    	OR	A,A
+0002D5 ED52                A  2799    	SBC	HL,DE
+0002D7 38 1D               A  2800    	JR	C,L__13
+0002D9 212B0000            A  2801    	LD	HL,43
+0002DD B7                  A  2802    	OR	A,A
+0002DE ED42                A  2803    	SBC	HL,BC
+0002E0 38 4F               A  2804    	JR	C,L__15
+0002E2 C5E1                A  2805    	LD	HL,BC
+0002E4 E5D1                A  2806    	LD	DE,HL
+0002E6 29                  A  2807    	ADD	HL,HL
+0002E7 19                  A  2808    	ADD	HL,DE
+0002E8 11 72 02 00         A  2809    	LD	DE,L__11-126
+0002EC 19                  A  2810    	ADD	HL,DE
+0002ED ED27                A  2811    	LD	HL,(HL)
+0002EF E9                  A  2812    	JP	(HL)
+0002F0                     A  2813    L__11:
+0002F0 DC0300              A  2814    	DW24	L_31	
+                           A  2815    
+0002F3 9C0300              A  2816    	DW24	L_29	
+                           A  2817    
+0002F6                     A  2818    L__13:
+0002F6 11230000            A  2819    	LD	DE,35
+0002FA C5E1                A  2820    	LD	HL,BC
+0002FC B7                  A  2821    	OR	A,A
+0002FD ED52                A  2822    	SBC	HL,DE
+0002FF 38 1F               A  2823    	JR	C,L__17
+000301 21240000            A  2824    	LD	HL,36
+000305 B7                  A  2825    	OR	A,A
+000306 ED42                A  2826    	SBC	HL,BC
+000308 DA 3A 04 00         A  2827    	JR	C,L_35
+00030C C5E1                A  2828    	LD	HL,BC
+00030E E5D1                A  2829    	LD	DE,HL
+000310 29                  A  2830    	ADD	HL,HL
+000311 19                  A  2831    	ADD	HL,DE
+000312 11 B1 02 00         A  2832    	LD	DE,L__10-105
+000316 19                  A  2833    	ADD	HL,DE
+000317 ED27                A  2834    	LD	HL,(HL)
+000319 E9                  A  2835    	JP	(HL)
+00031A                     A  2836    L__10:
+00031A 580300              A  2837    	DW24	L_27	
+                           A  2838    
+00031D BC0300              A  2839    	DW24	L_30	
+                           A  2840    
+000320                     A  2841    L__17:
+000320 11200000            A  2842    	LD	DE,32
+000324 C5E1                A  2843    	LD	HL,BC
+000326 B7                  A  2844    	OR	A,A
+000327 ED52                A  2845    	SBC	HL,DE
+000329 CA 1C 04 00         A  2846    	JR	Z,L_33
+00032D C3 3A 04 00         A  2847    	JR	L_35
+000331                     A  2848    L__15:
+000331 11400000            A  2849    	LD	DE,64
+000335 C5E1                A  2850    	LD	HL,BC
+000337 B7                  A  2851    	OR	A,A
+000338 ED52                A  2852    	SBC	HL,DE
+00033A 28 3E               A  2853    	JR	Z,L_28
+00033C 21400000            A  2854    	LD	HL,64
+000340 B7                  A  2855    	OR	A,A
+000341 ED42                A  2856    	SBC	HL,BC
+000343 DA 3A 04 00         A  2857    	JR	C,L_35
+000347 112E0000            A  2858    	LD	DE,46
+00034B C5E1                A  2859    	LD	HL,BC
+00034D B7                  A  2860    	OR	A,A
+00034E ED52                A  2861    	SBC	HL,DE
+000350 CA FC 03 00         A  2862    	JR	Z,L_32
+000354 C3 3A 04 00         A  2863    	JR	L_35
+                           A  2864    ;  256				{
+                           A  2865    ;  257					case CHAR_WALL:
+000358                     A  2866    L_27:
+                           A  2867    .LINE 257
+                           A  2868    
+                           A  2869    ;  258						bitmap_draw(TILE_WA
+                           A  2870    .LINE 258
+                           A  2871    
+000358 DD07FC              A  2872    	LD	BC,(IX+%FFFFFFFC)
+00035B C5                  A  2873    	PUSH	BC
+00035C DD07FE              A  2874    	LD	BC,(IX+%FFFFFFFE)
+00035F C5                  A  2875    	PUSH	BC
+000360 01000000            A  2876    	LD	BC,0
+000364 C5                  A  2877    	PUSH	BC
+000365 CD 00 00 00         A  2878    	CALL	_bitmap_draw
+000369 C1                  A  2879    	POP	BC
+00036A C1                  A  2880    	POP	BC
+00036B C1                  A  2881    	POP	BC
+                           A  2882    ;  259						delayms(5);
+                           A  2883    .LINE 259
+                           A  2884    
+00036C 01050000            A  2885    	LD	BC,5
+000370 C5                  A  2886    	PUSH	BC
+000371 CD 00 00 00         A  2887    	CALL	_delayms
+000375 C1                  A  2888    	POP	BC
+                           A  2889    ;  260						break;
+                           A  2890    .LINE 260
+                           A  2891    
+000376 C3 3A 04 00         A  2892    	JR	L_35
+                           A  2893    ;  261					case CHAR_PLAYER:
+00037A                     A  2894    L_28:
+                           A  2895    .LINE 261
+                           A  2896    
+                           A  2897    ;  262						bitmap_draw(TILE_PL
+                           A  2898    .LINE 262
+                           A  2899    
+00037A DD07FC              A  2900    	LD	BC,(IX+%FFFFFFFC)
+00037D C5                  A  2901    	PUSH	BC
+00037E DD07FE              A  2902    	LD	BC,(IX+%FFFFFFFE)
+000381 C5                  A  2903    	PUSH	BC
+000382 01010000            A  2904    	LD	BC,1
+000386 C5                  A  2905    	PUSH	BC
+000387 CD 00 00 00         A  2906    	CALL	_bitmap_draw
+00038B C1                  A  2907    	POP	BC
+00038C C1                  A  2908    	POP	BC
+00038D C1                  A  2909    	POP	BC
+                           A  2910    ;  263						delayms(5);
+                           A  2911    .LINE 263
+                           A  2912    
+00038E 01050000            A  2913    	LD	BC,5
+000392 C5                  A  2914    	PUSH	BC
+000393 CD 00 00 00         A  2915    	CALL	_delayms
+000397 C1                  A  2916    	POP	BC
+                           A  2917    ;  264						break;
+                           A  2918    .LINE 264
+                           A  2919    
+000398 C3 3A 04 00         A  2920    	JR	L_35
+                           A  2921    ;  265					case CHAR_PLAYERONGOAL:
+00039C                     A  2922    L_29:
+                           A  2923    .LINE 265
+                           A  2924    
+                           A  2925    ;  266						bitmap_draw(TILE_PL
+                           A  2926    .LINE 266
+                           A  2927    
+00039C DD07FC              A  2928    	LD	BC,(IX+%FFFFFFFC)
+00039F C5                  A  2929    	PUSH	BC
+0003A0 DD07FE              A  2930    	LD	BC,(IX+%FFFFFFFE)
+0003A3 C5                  A  2931    	PUSH	BC
+0003A4 01020000            A  2932    	LD	BC,2
+0003A8 C5                  A  2933    	PUSH	BC
+0003A9 CD 00 00 00         A  2934    	CALL	_bitmap_draw
+0003AD C1                  A  2935    	POP	BC
+0003AE C1                  A  2936    	POP	BC
+0003AF C1                  A  2937    	POP	BC
+                           A  2938    ;  267						delayms(5);
+                           A  2939    .LINE 267
+                           A  2940    
+0003B0 01050000            A  2941    	LD	BC,5
+0003B4 C5                  A  2942    	PUSH	BC
+0003B5 CD 00 00 00         A  2943    	CALL	_delayms
+0003B9 C1                  A  2944    	POP	BC
+                           A  2945    ;  268						break;
+                           A  2946    .LINE 268
+                           A  2947    
+0003BA 18 7E               A  2948    	JR	L_35
+                           A  2949    ;  269					case CHAR_BOX:
+0003BC                     A  2950    L_30:
+                           A  2951    .LINE 269
+                           A  2952    
+                           A  2953    ;  270						bitmap_draw(TILE_BO
+                           A  2954    .LINE 270
+                           A  2955    
+0003BC DD07FC              A  2956    	LD	BC,(IX+%FFFFFFFC)
+0003BF C5                  A  2957    	PUSH	BC
+0003C0 DD07FE              A  2958    	LD	BC,(IX+%FFFFFFFE)
+0003C3 C5                  A  2959    	PUSH	BC
+0003C4 01030000            A  2960    	LD	BC,3
+0003C8 C5                  A  2961    	PUSH	BC
+0003C9 CD 00 00 00         A  2962    	CALL	_bitmap_draw
+0003CD C1                  A  2963    	POP	BC
+0003CE C1                  A  2964    	POP	BC
+0003CF C1                  A  2965    	POP	BC
+                           A  2966    ;  271						delayms(5);			
+                           A  2967    .LINE 271
+                           A  2968    
+0003D0 01050000            A  2969    	LD	BC,5
+0003D4 C5                  A  2970    	PUSH	BC
+0003D5 CD 00 00 00         A  2971    	CALL	_delayms
+0003D9 C1                  A  2972    	POP	BC
+                           A  2973    ;  272						break;
+                           A  2974    .LINE 272
+                           A  2975    
+0003DA 18 5E               A  2976    	JR	L_35
+                           A  2977    ;  273					case CHAR_BOXONGOAL:
+0003DC                     A  2978    L_31:
+                           A  2979    .LINE 273
+                           A  2980    
+                           A  2981    ;  274						bitmap_draw(TILE_BO
+                           A  2982    .LINE 274
+                           A  2983    
+0003DC DD07FC              A  2984    	LD	BC,(IX+%FFFFFFFC)
+0003DF C5                  A  2985    	PUSH	BC
+0003E0 DD07FE              A  2986    	LD	BC,(IX+%FFFFFFFE)
+0003E3 C5                  A  2987    	PUSH	BC
+0003E4 01040000            A  2988    	LD	BC,4
+0003E8 C5                  A  2989    	PUSH	BC
+0003E9 CD 00 00 00         A  2990    	CALL	_bitmap_draw
+0003ED C1                  A  2991    	POP	BC
+0003EE C1                  A  2992    	POP	BC
+0003EF C1                  A  2993    	POP	BC
+                           A  2994    ;  275						delayms(5);			
+                           A  2995    .LINE 275
+                           A  2996    
+0003F0 01050000            A  2997    	LD	BC,5
+0003F4 C5                  A  2998    	PUSH	BC
+0003F5 CD 00 00 00         A  2999    	CALL	_delayms
+0003F9 C1                  A  3000    	POP	BC
+                           A  3001    ;  276						break;
+                           A  3002    .LINE 276
+                           A  3003    
+0003FA 18 3E               A  3004    	JR	L_35
+                           A  3005    ;  277					case CHAR_GOAL:
+0003FC                     A  3006    L_32:
+                           A  3007    .LINE 277
+                           A  3008    
+                           A  3009    ;  278						bitmap_draw(TILE_GO
+                           A  3010    .LINE 278
+                           A  3011    
+0003FC DD07FC              A  3012    	LD	BC,(IX+%FFFFFFFC)
+0003FF C5                  A  3013    	PUSH	BC
+000400 DD07FE              A  3014    	LD	BC,(IX+%FFFFFFFE)
+000403 C5                  A  3015    	PUSH	BC
+000404 01050000            A  3016    	LD	BC,5
+000408 C5                  A  3017    	PUSH	BC
+000409 CD 00 00 00         A  3018    	CALL	_bitmap_draw
+00040D C1                  A  3019    	POP	BC
+00040E C1                  A  3020    	POP	BC
+00040F C1                  A  3021    	POP	BC
+                           A  3022    ;  279						delayms(5);			
+                           A  3023    .LINE 279
+                           A  3024    
+000410 01050000            A  3025    	LD	BC,5
+000414 C5                  A  3026    	PUSH	BC
+000415 CD 00 00 00         A  3027    	CALL	_delayms
+000419 C1                  A  3028    	POP	BC
+                           A  3029    ;  280						break;
+                           A  3030    .LINE 280
+                           A  3031    
+00041A 18 1E               A  3032    	JR	L_35
+                           A  3033    ;  281					case CHAR_FLOOR:
+00041C                     A  3034    L_33:
+                           A  3035    .LINE 281
+                           A  3036    
+                           A  3037    ;  282						bitmap_draw(TILE_FL
+                           A  3038    .LINE 282
+                           A  3039    
+00041C DD07FC              A  3040    	LD	BC,(IX+%FFFFFFFC)
+00041F C5                  A  3041    	PUSH	BC
+000420 DD07FE              A  3042    	LD	BC,(IX+%FFFFFFFE)
+000423 C5                  A  3043    	PUSH	BC
+000424 01060000            A  3044    	LD	BC,6
+000428 C5                  A  3045    	PUSH	BC
+000429 CD 00 00 00         A  3046    	CALL	_bitmap_draw
+00042D C1                  A  3047    	POP	BC
+00042E C1                  A  3048    	POP	BC
+00042F C1                  A  3049    	POP	BC
+                           A  3050    ;  283						delayms(5);			
+                           A  3051    .LINE 283
+                           A  3052    
+000430 01050000            A  3053    	LD	BC,5
+000434 C5                  A  3054    	PUSH	BC
+000435 CD 00 00 00         A  3055    	CALL	_delayms
+000439 C1                  A  3056    	POP	BC
+                           A  3057    ;  284						break;
+                           A  3058    ;  285					default:
+                           A  3059    ;  286						break;
+                           A  3060    ;  287				}
+00043A                     A  3061    L_35:
+                           A  3062    .LINE 287
+                           A  3063    
+                           A  3064    ;  288				x += BITMAP_WIDTH;
+                           A  3065    .LINE 288
+                           A  3066    
+00043A DD31FE              A  3067    	LD	IY,(IX+%FFFFFFFE)
+00043D ED2310              A  3068    	LEA	HL,IY+%10
+000440 DD75FE              A  3069    	LD	(IX+%FFFFFFFE),L
+000443 DD74FF              A  3070    	LD	(IX+%FFFFFFFF),H
+000446 DD27FA              A  3071    	LD	HL,(IX+%FFFFFFFA)
+000449 23                  A  3072    	INC	HL
+00044A DD75FA              A  3073    	LD	(IX+%FFFFFFFA),L
+00044D DD74FB              A  3074    	LD	(IX+%FFFFFFFB),H
+                           A  3075    ;  289			}
+000450                     A  3076    L_38:
+                           A  3077    .LINE 289
+                           A  3078    
+000450 3A B2 08 00         A  3079    	LD	A,(_currentlevel+2)
+000454 4F                  A  3080    	LD	C,A
+000455 0600                A  3081    	LD	B,%0
+000457 DD27FA              A  3082    	LD	HL,(IX+%FFFFFFFA)
+00045A B7                  A  3083    	OR	A,A
+00045B 40ED42              A  3084    	SBC.SIS	HL,BC
+00045E DA A8 02 00         A  3085    	JR	C,L_36
+                           A  3086    ;  290			y += BITMAP_HEIGHT;
+                           A  3087    .LINE 290
+                           A  3088    
+000462 DD31FC              A  3089    	LD	IY,(IX+%FFFFFFFC)
+000465 ED2310              A  3090    	LEA	HL,IY+%10
+000468 DD75FC              A  3091    	LD	(IX+%FFFFFFFC),L
+00046B DD74FD              A  3092    	LD	(IX+%FFFFFFFD),H
+00046E DD27F8              A  3093    	LD	HL,(IX+%FFFFFFF8)
+000471 23                  A  3094    	INC	HL
+000472 DD75F8              A  3095    	LD	(IX+%FFFFFFF8),L
+000475 DD74F9              A  3096    	LD	(IX+%FFFFFFF9),H
+                           A  3097    ;  291		}	
+000478                     A  3098    L_42:
+                           A  3099    .LINE 291
+                           A  3100    
+000478 3A B3 08 00         A  3101    	LD	A,(_currentlevel+3)
+00047C 4F                  A  3102    	LD	C,A
+00047D 0600                A  3103    	LD	B,%0
+00047F DD27F8              A  3104    	LD	HL,(IX+%FFFFFFF8)
+000482 B7                  A  3105    	OR	A,A
+000483 40ED42              A  3106    	SBC.SIS	HL,BC
+000486 DA 93 02 00         A  3107    	JR	C,L_40
+                           A  3108    ;  292	}
+                           A  3109    .LINE 292
+                           A  3110    
+00048A DDF9                A  3111    	LD	SP,IX
+00048C DDE1                A  3112    	POP	IX
+00048E C9                  A  3113    	RET	
+                           A  3114    
+                           A  3115    
+                           A  3116    ;**************************** _game_displayLeve
+                           A  3117    ;Name                         Addr/Register   S
+                           A  3118    ;_delayms                            IMPORT  --
+                           A  3119    ;_bitmap_draw                        IMPORT  --
+                           A  3120    ;_currentlevel                       STATIC   1
+                           A  3121    ;ystart                               IX-13    
+                           A  3122    ;xstart                               IX-11    
+                           A  3123    ;c                                     IX-9    
+                           A  3124    ;height                                IX-8    
+                           A  3125    ;width                                 IX-6    
+                           A  3126    ;y                                     IX-4    
+                           A  3127    ;x                                     IX-2    
+                           A  3128    
+                           A  3129    
+                           A  3130    ; Stack Frame Size: 19 (bytes)
+                           A  3131    ;       Spill Code: 0 (instruction)
+                           A  3132    
+                           A  3133    
+                           A  3134    .ENDFUNC "game_displayLevel",292,"_game_display
+                           A  3135    ;  293	
+                           A  3136    ;  294	
+                           A  3137    ;  295	UINT16 read_numberoflevels(void)
+                           A  3138    ;  296	{
+00048F                     A  3139    _read_numberoflevels:
+                           A  3140    .DEFINE "_read_numberoflevels"
+                           A  3141    
+                           A  3142    .VALUE _read_numberoflevels
+                           A  3143    
+                           A  3144    .CLASS 2
+                           A  3145    
+                           A  3146    .TYPE 77
+                           A  3147    
+                           A  3148    .ENDEF
+                           A  3149    
+                           A  3150    .BEGFUNC "read_numberoflevels",296,"_read_numbe
+                           A  3151    
+                           A  3152    .LINE 296
+                           A  3153    
+                           A  3154    .DEFINE "levels"
+                           A  3155    
+                           A  3156    .CLASS 65
+                           A  3157    
+                           A  3158    .VALUE -2
+                           A  3159    
+                           A  3160    .TYPE 13
+                           A  3161    
+                           A  3162    .ENDEF
+                           A  3163    
+                           A  3164    .DEFINE "fr"
+                           A  3165    
+                           A  3166    .CLASS 65
+                           A  3167    
+                           A  3168    .VALUE -5
+                           A  3169    
+                           A  3170    .TYPE 4
+                           A  3171    
+                           A  3172    .ENDEF
+                           A  3173    
+                           A  3174    .DEFINE "fSize"
+                           A  3175    
+                           A  3176    .CLASS 65
+                           A  3177    
+                           A  3178    .VALUE -9
+                           A  3179    
+                           A  3180    .TYPE 15
+                           A  3181    
+                           A  3182    .ENDEF
+                           A  3183    
+                           A  3184    .DEFINE "fil"
+                           A  3185    
+                           A  3186    .CLASS 65
+                           A  3187    
+                           A  3188    .VALUE -557
+                           A  3189    
+                           A  3190    .TAG "NONAME6"
+                           A  3191    
+                           A  3192    .TYPE 8
+                           A  3193    
+                           A  3194    .ENDEF
+                           A  3195    
+00048F DDE5                A  3196    	PUSH	IX
+000491 DD210000 00         A  3197    	LD	IX,0
+000496 DD39                A  3198    	ADD	IX,SP
+000498 21D3FDFF            A  3199    	LD	HL,-557
+00049C 39                  A  3200    	ADD	HL,SP
+00049D F9                  A  3201    	LD	SP,HL
+                           A  3202    ;  297		// returns the number of levels in 
+                           A  3203    ;  298		FIL	   	fil;
+                           A  3204    ;  299		UINT   	br;	
+                           A  3205    ;  300		FSIZE_t fSize;
+                           A  3206    ;  301		UINT16	levels;
+                           A  3207    ;  302		FRESULT	fr;
+                           A  3208    ;  303	
+                           A  3209    ;  304		fr = f_open(&fil, FILENAME_LEVELS, 
+                           A  3210    .LINE 304
+                           A  3211    
+00049E 01010000            A  3212    	LD	BC,1
+0004A2 C5                  A  3213    	PUSH	BC
+0004A3 01 03 00 00         A  3214    	LD	BC,L__25
+0004A7 C5                  A  3215    	PUSH	BC
+0004A8 DDE5E1              A  3216    	LD	HL,IX
+0004AB 01D3FDFF            A  3217    	LD	BC,-557
+0004AF 09                  A  3218    	ADD	HL,BC
+0004B0 E5C1                A  3219    	LD	BC,HL
+0004B2 C5                  A  3220    	PUSH	BC
+0004B3 CD 00 00 00         A  3221    	CALL	_f_open
+0004B7 C1                  A  3222    	POP	BC
+0004B8 C1                  A  3223    	POP	BC
+0004B9 C1                  A  3224    	POP	BC
+0004BA DD2FFB              A  3225    	LD	(IX+%FFFFFFFB),HL
+                           A  3226    ;  305		if(fr == FR_OK) {
+                           A  3227    .LINE 305
+                           A  3228    
+0004BD 01000000            A  3229    	LD	BC,0
+0004C1 DD27FB              A  3230    	LD	HL,(IX+%FFFFFFFB)
+0004C4 B7                  A  3231    	OR	A,A
+0004C5 ED42                A  3232    	SBC	HL,BC
+0004C7 20 2A               A  3233    	JR	NZ,L_45
+                           A  3234    ;  306			fSize = f_size(&fil);
+                           A  3235    .LINE 306
+                           A  3236    
+0004C9 21DEFDFF            A  3237    	LD	HL,-546
+0004CD DDE5C1              A  3238    	LD	BC,IX
+0004D0 09                  A  3239    	ADD	HL,BC
+0004D1 ED07                A  3240    	LD	BC,(HL)
+0004D3 23                  A  3241    	INC	HL
+0004D4 23                  A  3242    	INC	HL
+0004D5 23                  A  3243    	INC	HL
+0004D6 7E                  A  3244    	LD	A,(HL)
+0004D7 DD0FF7              A  3245    	LD	(IX+%FFFFFFF7),BC
+0004DA DD77FA              A  3246    	LD	(IX+%FFFFFFFA),A
+                           A  3247    ;  307			levels = fSize / sizeof(struct 
+                           A  3248    .LINE 307
+                           A  3249    
+0004DD C5E1                A  3250    	LD	HL,BC
+0004DF DD5EFA              A  3251    	LD	E,(IX+%FFFFFFFA)
+0004E2 01B70400            A  3252    	LD	BC,1207
+0004E6 AF                  A  3253    	XOR	A,A
+0004E7 CD 00 00 00         A  3254    	CALL	__ldivu
+0004EB DD75FE              A  3255    	LD	(IX+%FFFFFFFE),L
+0004EE DD74FF              A  3256    	LD	(IX+%FFFFFFFF),H
+                           A  3257    ;  308		}
+                           A  3258    ;  309		else {
+                           A  3259    .LINE 309
+                           A  3260    
+0004F1 18 0E               A  3261    	JR	L_46
+0004F3                     A  3262    L_45:
+                           A  3263    ;  310			mos_fileError(fr);
+                           A  3264    .LINE 310
+                           A  3265    
+0004F3 DD07FB              A  3266    	LD	BC,(IX+%FFFFFFFB)
+0004F6 C5                  A  3267    	PUSH	BC
+0004F7 CD 00 00 00         A  3268    	CALL	_mos_fileError
+0004FB C1                  A  3269    	POP	BC
+                           A  3270    ;  311			return 0;
+                           A  3271    .LINE 311
+                           A  3272    
+0004FC B7                  A  3273    	OR	A,A
+0004FD ED62                A  3274    	SBC	HL,HL
+0004FF 18 13               A  3275    	JR	L_47
+                           A  3276    ;  312		}
+000501                     A  3277    L_46:
+                           A  3278    .LINE 312
+                           A  3279    
+                           A  3280    ;  313		f_close(&fil);
+                           A  3281    .LINE 313
+                           A  3282    
+000501 DDE5E1              A  3283    	LD	HL,IX
+000504 01D3FDFF            A  3284    	LD	BC,-557
+000508 09                  A  3285    	ADD	HL,BC
+000509 E5C1                A  3286    	LD	BC,HL
+00050B C5                  A  3287    	PUSH	BC
+00050C CD 00 00 00         A  3288    	CALL	_f_close
+000510 C1                  A  3289    	POP	BC
+                           A  3290    ;  314		return levels;	
+                           A  3291    .LINE 314
+                           A  3292    
+000511 DD27FE              A  3293    	LD	HL,(IX+%FFFFFFFE)
+                           A  3294    ;  315	}
+000514                     A  3295    L_47:
+                           A  3296    .LINE 315
+                           A  3297    
+000514 DDF9                A  3298    	LD	SP,IX
+000516 DDE1                A  3299    	POP	IX
+000518 C9                  A  3300    	RET	
+                           A  3301    
+                           A  3302    
+                           A  3303    ;**************************** _read_numberoflev
+                           A  3304    ;Name                         Addr/Register   S
+                           A  3305    ;_f_close                            IMPORT  --
+                           A  3306    ;_mos_fileError                      IMPORT  --
+                           A  3307    ;_f_open                             IMPORT  --
+                           A  3308    ;fil                                 IX-557    
+                           A  3309    ;fSize                                 IX-9    
+                           A  3310    ;fr                                    IX-5    
+                           A  3311    ;levels                                IX-2    
+                           A  3312    
+                           A  3313    
+                           A  3314    ; Stack Frame Size: 563 (bytes)
+                           A  3315    ;       Spill Code: 0 (instruction)
+                           A  3316    
+                           A  3317    
+                           A  3318    .ENDFUNC "read_numberoflevels",315,"_read_numbe
+                           A  3319    	SEGMENT STRSECT
+000003                     A  3320    L__25:
+000003 6C657665 6C732E62   A  3321    	DB	"levels.bin"
+00000B 696E 
+00000D 00                  A  3322    	DB	0
+                           A  3323    	SEGMENT CODE
+                           A  3324    ;  316	
+                           A  3325    ;  317	BOOL read_level(UINT8 levelid)
+                           A  3326    ;  318	{
+000519                     A  3327    _read_level:
+                           A  3328    .DEFINE "_read_level"
+                           A  3329    
+                           A  3330    .VALUE _read_level
+                           A  3331    
+                           A  3332    .CLASS 2
+                           A  3333    
+                           A  3334    .TYPE 76
+                           A  3335    
+                           A  3336    .ENDEF
+                           A  3337    
+                           A  3338    .BEGFUNC "read_level",318,"_read_level"
+                           A  3339    
+                           A  3340    .LINE 318
+                           A  3341    
+                           A  3342    .DEFINE "levelid"
+                           A  3343    
+                           A  3344    .CLASS 65
+                           A  3345    
+                           A  3346    .VALUE 6
+                           A  3347    
+                           A  3348    .TYPE 12
+                           A  3349    
+                           A  3350    .ENDEF
+                           A  3351    
+                           A  3352    .DEFINE "levelcounter"
+                           A  3353    
+                           A  3354    .CLASS 65
+                           A  3355    
+                           A  3356    .VALUE -1
+                           A  3357    
+                           A  3358    .TYPE 12
+                           A  3359    
+                           A  3360    .ENDEF
+                           A  3361    
+                           A  3362    .DEFINE "done"
+                           A  3363    
+                           A  3364    .CLASS 65
+                           A  3365    
+                           A  3366    .VALUE -2
+                           A  3367    
+                           A  3368    .TYPE 12
+                           A  3369    
+                           A  3370    .ENDEF
+                           A  3371    
+                           A  3372    .DEFINE "fr"
+                           A  3373    
+                           A  3374    .CLASS 65
+                           A  3375    
+                           A  3376    .VALUE -5
+                           A  3377    
+                           A  3378    .TYPE 4
+                           A  3379    
+                           A  3380    .ENDEF
+                           A  3381    
+                           A  3382    .DEFINE "br"
+                           A  3383    
+                           A  3384    .CLASS 65
+                           A  3385    
+                           A  3386    .VALUE -8
+                           A  3387    
+                           A  3388    .TYPE 14
+                           A  3389    
+                           A  3390    .ENDEF
+                           A  3391    
+                           A  3392    .DEFINE "fil"
+                           A  3393    
+                           A  3394    .CLASS 65
+                           A  3395    
+                           A  3396    .VALUE -556
+                           A  3397    
+                           A  3398    .TAG "NONAME6"
+                           A  3399    
+                           A  3400    .TYPE 8
+                           A  3401    
+                           A  3402    .ENDEF
+                           A  3403    
+000519 DDE5                A  3404    	PUSH	IX
+00051B DD210000 00         A  3405    	LD	IX,0
+000520 DD39                A  3406    	ADD	IX,SP
+000522 21D4FDFF            A  3407    	LD	HL,-556
+000526 39                  A  3408    	ADD	HL,SP
+000527 F9                  A  3409    	LD	SP,HL
+                           A  3410    ;  319		FIL	   	fil;
+                           A  3411    ;  320		UINT   	br;	
+                           A  3412    ;  321		FSIZE_t fSize;
+                           A  3413    ;  322		UINT8	levelcounter;
+                           A  3414    ;  323		FRESULT	fr;
+                           A  3415    ;  324		BOOL	done = FALSE;
+                           A  3416    .LINE 324
+                           A  3417    
+000528 DD36FE00            A  3418    	LD	(IX+%FFFFFFFE),%0
+                           A  3419    ;  325		
+                           A  3420    ;  326		levelcounter = levelid;
+                           A  3421    .LINE 326
+                           A  3422    
+00052C DD7E06              A  3423    	LD	A,(IX+%6)
+00052F DD77FF              A  3424    	LD	(IX+%FFFFFFFF),A
+                           A  3425    ;  327		
+                           A  3426    ;  328		fr = f_open(&fil, FILENAME_LEVELS, 
+                           A  3427    .LINE 328
+                           A  3428    
+000532 01010000            A  3429    	LD	BC,1
+000536 C5                  A  3430    	PUSH	BC
+000537 01 0E 00 00         A  3431    	LD	BC,L__28
+00053B C5                  A  3432    	PUSH	BC
+00053C DDE5E1              A  3433    	LD	HL,IX
+00053F 01D4FDFF            A  3434    	LD	BC,-556
+000543 09                  A  3435    	ADD	HL,BC
+000544 E5C1                A  3436    	LD	BC,HL
+000546 C5                  A  3437    	PUSH	BC
+000547 CD 00 00 00         A  3438    	CALL	_f_open
+00054B C1                  A  3439    	POP	BC
+00054C C1                  A  3440    	POP	BC
+00054D C1                  A  3441    	POP	BC
+00054E DD2FFB              A  3442    	LD	(IX+%FFFFFFFB),HL
+                           A  3443    ;  329		if(fr == FR_OK) {
+                           A  3444    .LINE 329
+                           A  3445    
+000551 01000000            A  3446    	LD	BC,0
+000555 DD27FB              A  3447    	LD	HL,(IX+%FFFFFFFB)
+000558 B7                  A  3448    	OR	A,A
+000559 ED42                A  3449    	SBC	HL,BC
+00055B 20 3A               A  3450    	JR	NZ,L_54
+                           A  3451    ;  330			fSize = f_size(&fil);
+                           A  3452    ;  331			
+                           A  3453    ;  332			while(!done)
+                           A  3454    .LINE 332
+                           A  3455    
+00055D 18 30               A  3456    	JR	L_51
+00055F                     A  3457    L_52:
+                           A  3458    ;  333			{
+                           A  3459    ;  334				fr = f_read(&fil, &currentl
+                           A  3460    .LINE 334
+                           A  3461    
+00055F ED65F8              A  3462    	PEA	IX+%FFFFFFF8
+000562 01B70400            A  3463    	LD	BC,1207
+000566 C5                  A  3464    	PUSH	BC
+000567 01 B0 08 00         A  3465    	LD	BC,_currentlevel
+00056B C5                  A  3466    	PUSH	BC
+00056C DDE5E1              A  3467    	LD	HL,IX
+00056F 01D4FDFF            A  3468    	LD	BC,-556
+000573 09                  A  3469    	ADD	HL,BC
+000574 E5C1                A  3470    	LD	BC,HL
+000576 C5                  A  3471    	PUSH	BC
+000577 CD 00 00 00         A  3472    	CALL	_f_read
+00057B C1                  A  3473    	POP	BC
+00057C C1                  A  3474    	POP	BC
+00057D C1                  A  3475    	POP	BC
+00057E C1                  A  3476    	POP	BC
+00057F DD2FFB              A  3477    	LD	(IX+%FFFFFFFB),HL
+                           A  3478    ;  335				if(levelcounter == 0) done 
+                           A  3479    .LINE 335
+                           A  3480    
+000582 DD7EFF              A  3481    	LD	A,(IX+%FFFFFFFF)
+000585 B7                  A  3482    	OR	A,A
+000586 20 04               A  3483    	JR	NZ,L_50
+000588 DD36FE01            A  3484    	LD	(IX+%FFFFFFFE),%1
+00058C                     A  3485    L_50:
+                           A  3486    ;  336				levelcounter--;
+                           A  3487    .LINE 336
+                           A  3488    
+00058C DD35FF              A  3489    	DEC	(IX+%FFFFFFFF)
+                           A  3490    ;  337			}
+00058F                     A  3491    L_51:
+                           A  3492    .LINE 337
+                           A  3493    
+00058F DD7EFE              A  3494    	LD	A,(IX+%FFFFFFFE)
+000592 B7                  A  3495    	OR	A,A
+000593 20 0E               A  3496    	JR	NZ,L_55
+000595 18 C8               A  3497    	JR	L_52
+                           A  3498    ;  338		}
+                           A  3499    ;  339		else {
+000597                     A  3500    L_54:
+                           A  3501    .LINE 339
+                           A  3502    
+                           A  3503    ;  340			mos_fileError(fr);
+                           A  3504    .LINE 340
+                           A  3505    
+000597 DD07FB              A  3506    	LD	BC,(IX+%FFFFFFFB)
+00059A C5                  A  3507    	PUSH	BC
+00059B CD 00 00 00         A  3508    	CALL	_mos_fileError
+00059F C1                  A  3509    	POP	BC
+                           A  3510    ;  341			return FALSE;
+                           A  3511    .LINE 341
+                           A  3512    
+0005A0 AF                  A  3513    	XOR	A,A
+0005A1 18 12               A  3514    	JR	L_56
+                           A  3515    ;  342		}
+0005A3                     A  3516    L_55:
+                           A  3517    .LINE 342
+                           A  3518    
+                           A  3519    ;  343		f_close(&fil);
+                           A  3520    .LINE 343
+                           A  3521    
+0005A3 DDE5E1              A  3522    	LD	HL,IX
+0005A6 01D4FDFF            A  3523    	LD	BC,-556
+0005AA 09                  A  3524    	ADD	HL,BC
+0005AB E5C1                A  3525    	LD	BC,HL
+0005AD C5                  A  3526    	PUSH	BC
+0005AE CD 00 00 00         A  3527    	CALL	_f_close
+0005B2 C1                  A  3528    	POP	BC
+                           A  3529    ;  344		return TRUE;	
+                           A  3530    .LINE 344
+                           A  3531    
+0005B3 3E01                A  3532    	LD	A,%1
+                           A  3533    ;  345	}
+0005B5                     A  3534    L_56:
+                           A  3535    .LINE 345
+                           A  3536    
+0005B5 DDF9                A  3537    	LD	SP,IX
+0005B7 DDE1                A  3538    	POP	IX
+0005B9 C9                  A  3539    	RET	
+                           A  3540    
+                           A  3541    
+                           A  3542    ;**************************** _read_level *****
+                           A  3543    ;Name                         Addr/Register   S
+                           A  3544    ;_f_close                            IMPORT  --
+                           A  3545    ;_mos_fileError                      IMPORT  --
+                           A  3546    ;_currentlevel                       STATIC   1
+                           A  3547    ;_f_read                             IMPORT  --
+                           A  3548    ;_f_open                             IMPORT  --
+                           A  3549    ;fil                                 IX-556    
+                           A  3550    ;br                                    IX-8    
+                           A  3551    ;fr                                    IX-5    
+                           A  3552    ;done                                  IX-2    
+                           A  3553    ;levelcounter                          IX-1    
+                           A  3554    ;levelid                               IX+6    
+                           A  3555    
+                           A  3556    
+                           A  3557    ; Stack Frame Size: 565 (bytes)
+                           A  3558    ;       Spill Code: 0 (instruction)
+                           A  3559    
+                           A  3560    
+                           A  3561    .ENDFUNC "read_level",345,"_read_level"
+                           A  3562    	SEGMENT STRSECT
+00000E                     A  3563    L__28:
+00000E 6C657665 6C732E62   A  3564    	DB	"levels.bin"
+000016 696E 
+000018 00                  A  3565    	DB	0
+                           A  3566    	XREF _delayms:ROM
+                           A  3567    	XREF _memset:ROM
+                           A  3568    	XREF _sprite_hide:ROM
+                           A  3569    	XREF _sprite_addFrame_selected:ROM
+                           A  3570    	XREF _sprite_select:ROM
+                           A  3571    	XREF _sprite_activateTotal:ROM
+                           A  3572    	XREF _bitmap_draw:ROM
+                           A  3573    	XREF _bitmap_createSolidColor:ROM
+                           A  3574    	XREF _bitmap_sendData:ROM
+                           A  3575    	XREF _mos_fileError:ROM
+                           A  3576    	XREF _f_read:ROM
+                           A  3577    	XREF _f_close:ROM
+                           A  3578    	XREF _f_open:ROM
+                           A  3579    	XREF ___print_sendstring:ROM
+                           A  3580    	XREF ___print_xputch:ROM
+                           A  3581    	XREF ___print_uputch:ROM
+                           A  3582    	XREF __idivs:ROM
+                           A  3583    	XREF __ldivu:ROM
+                           A  3584    	XREF __stoiu:ROM
+                           A  3585    	XREF __imul_b:ROM
+                           A  3586    	XDEF _read_level
+                           A  3587    	XDEF _read_numberoflevels
+                           A  3588    	XDEF _game_displayLevel
+                           A  3589    	XDEF _print_playfieldText
+                           A  3590    	XDEF _game_play
+                           A  3591    	XDEF _game_resetlevel
+                           A  3592    	XDEF _game_init
+                           A  3593    	XDEF _lookup
+                           A  3594    	XDEF _currentlevel
+                           A  3595    	XDEF _sprites
+                           A  3596    	XDEF _bitmapbuffer
+                           A  3597    	END
 
 
 Errors: 0
 Warnings: 0
-Lines Assembled: 1000
+Lines Assembled: 3598

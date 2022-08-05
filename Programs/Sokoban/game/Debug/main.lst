@@ -1,4 +1,4 @@
-Zilog eZ80 Macro Assembler Version 4.3 (19073001)02-Aug-22     20:52:06     page:   1
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)05-Aug-22     21:36:41     page:   1
 
 
 PC     Object              I  Line    Source 
@@ -480,7 +480,7 @@ PC     Object              I  Line    Source
                            A   476    .TYPE 548
                            A   477    .ENDEF
                            A   478    .ENDREC "NONAME11"
-                           A   479    .BEGREC "sokobanlevel",307
+                           A   479    .BEGREC "sokobanlevel",1207
                            A   480    .DEFINE "xpos"
                            A   481    .VALUE 0
                            A   482    .CLASS 8
@@ -519,8 +519,8 @@ PC     Object              I  Line    Source
                            A   515    .DEFINE "data"
                            A   516    .VALUE 7
                            A   517    .CLASS 8
-                           A   518    .DIM 15
-                           A   519    .DIM 20
+                           A   518    .DIM 30
+                           A   519    .DIM 40
                            A   520    .TYPE 876
                            A   521    .ENDEF
                            A   522    .ENDREC "sokobanlevel"
@@ -763,379 +763,375 @@ PC     Object              I  Line    Source
                            A   759    
                            A   760    .ENDEF
                            A   761    
-                           A   762    .DEFINE "levelbuffer"
+                           A   762    .DEFINE "levels"
                            A   763    
                            A   764    .CLASS 65
                            A   765    
-                           A   766    .VALUE -5
+                           A   766    .VALUE -4
                            A   767    
-                           A   768    .TAG "sokobanlevel"
+                           A   768    .TYPE 13
                            A   769    
-                           A   770    .TYPE 40
+                           A   770    .ENDEF
                            A   771    
-                           A   772    .ENDEF
+                           A   772    .DEFINE "pUART"
                            A   773    
-                           A   774    .DEFINE "levels"
+                           A   774    .CLASS 65
                            A   775    
-                           A   776    .CLASS 65
+                           A   776    .VALUE -10
                            A   777    
-                           A   778    .VALUE -7
+                           A   778    .TAG "NONAME4"
                            A   779    
-                           A   780    .TYPE 13
+                           A   780    .TYPE 8
                            A   781    
                            A   782    .ENDEF
                            A   783    
-                           A   784    .DEFINE "pUART"
-                           A   785    
-                           A   786    .CLASS 65
-                           A   787    
-                           A   788    .VALUE -13
-                           A   789    
-                           A   790    .TAG "NONAME4"
-                           A   791    
-                           A   792    .TYPE 8
-                           A   793    
-                           A   794    .ENDEF
-                           A   795    
-000050 DDE5                A   796    	PUSH	IX
-000052 DD210000 00         A   797    	LD	IX,0
-000057 DD39                A   798    	ADD	IX,SP
-000059 ED22F3              A   799    	LEA	HL,IX+%FFFFFFF3
-00005C F9                  A   800    	LD	SP,HL
-                           A   801    ;   64		UART 	pUART;
-                           A   802    ;   65	
-                           A   803    ;   66		FRESULT	fr;
-                           A   804    ;   67		struct sokobanlevel level;
-                           A   805    ;   68		struct sokobanlevel *levelbuffer = 
-                           A   806    .LINE 68
-                           A   807    
-00005D 01000000            A   808    	LD	BC,0
-000061 DD0FFB              A   809    	LD	(IX+%FFFFFFFB),BC
-                           A   810    ;   69		
-                           A   811    ;   70		UINT16  levelnumber;
-                           A   812    ;   71		UINT16	levels;
-                           A   813    ;   72		UINT16	n;
-                           A   814    ;   73		
-                           A   815    ;   74		pUART.baudRate = 384000;
-                           A   816    .LINE 74
-                           A   817    
-000064 0100DC05            A   818    	LD	BC,384000
-000068 DD0FF3              A   819    	LD	(IX+%FFFFFFF3),BC
-                           A   820    ;   75		pUART.dataBits = 8;
-                           A   821    .LINE 75
-                           A   822    
-00006B DD36F608            A   823    	LD	(IX+%FFFFFFF6),%8
-                           A   824    ;   76		pUART.stopBits = 1;
-                           A   825    .LINE 76
+000050 DDE5                A   784    	PUSH	IX
+000052 DD210000 00         A   785    	LD	IX,0
+000057 DD39                A   786    	ADD	IX,SP
+000059 C5                  A   787    	PUSH	BC
+00005A C5                  A   788    	PUSH	BC
+00005B C5                  A   789    	PUSH	BC
+00005C 3B                  A   790    	DEC	SP
+                           A   791    ;   64		UART 	pUART;
+                           A   792    ;   65	
+                           A   793    ;   66		FRESULT	fr;
+                           A   794    ;   67		
+                           A   795    ;   68		UINT16  levelnumber;
+                           A   796    ;   69		UINT16	levels;
+                           A   797    ;   70		UINT16	n;
+                           A   798    ;   71		
+                           A   799    ;   72		pUART.baudRate = 384000;
+                           A   800    .LINE 72
+                           A   801    
+00005D 0100DC05            A   802    	LD	BC,384000
+000061 DD0FF6              A   803    	LD	(IX+%FFFFFFF6),BC
+                           A   804    ;   73		pUART.dataBits = 8;
+                           A   805    .LINE 73
+                           A   806    
+000064 DD36F908            A   807    	LD	(IX+%FFFFFFF9),%8
+                           A   808    ;   74		pUART.stopBits = 1;
+                           A   809    .LINE 74
+                           A   810    
+000068 DD36FA01            A   811    	LD	(IX+%FFFFFFFA),%1
+                           A   812    ;   75		pUART.parity = PAR_NOPARITY;
+                           A   813    .LINE 75
+                           A   814    
+00006C DD36FB00            A   815    	LD	(IX+%FFFFFFFB),%0
+                           A   816    ;   76		
+                           A   817    ;   77		init_timer2(1);			// Initiali
+                           A   818    .LINE 77
+                           A   819    
+000070 01010000            A   820    	LD	BC,1
+000074 C5                  A   821    	PUSH	BC
+000075 CD 00 00 00         A   822    	CALL	_init_timer2
+000079 C1                  A   823    	POP	BC
+                           A   824    ;   78		init_spi();				// Initiali
+                           A   825    .LINE 78
                            A   826    
-00006F DD36F701            A   827    	LD	(IX+%FFFFFFF7),%1
-                           A   828    ;   77		pUART.parity = PAR_NOPARITY;
-                           A   829    .LINE 77
+00007A CD 00 00 00         A   827    	CALL	_init_spi
+                           A   828    ;   79		init_UART0();			// Initiali
+                           A   829    .LINE 79
                            A   830    
-000073 DD36F800            A   831    	LD	(IX+%FFFFFFF8),%0
-                           A   832    ;   78		
-                           A   833    ;   79		init_timer2(1);			// Initiali
-                           A   834    .LINE 79
-                           A   835    
-000077 01010000            A   836    	LD	BC,1
-00007B C5                  A   837    	PUSH	BC
-00007C CD 00 00 00         A   838    	CALL	_init_timer2
-000080 C1                  A   839    	POP	BC
-                           A   840    ;   80		init_spi();				// Initiali
-                           A   841    .LINE 80
-                           A   842    
-000081 CD 00 00 00         A   843    	CALL	_init_spi
-                           A   844    ;   81		init_UART0();			// Initiali
-                           A   845    .LINE 81
-                           A   846    
-000085 CD 00 00 00         A   847    	CALL	_init_UART0
-                           A   848    ;   82		open_UART0(&pUART);		// Open the
-                           A   849    .LINE 82
-                           A   850    
-000089 ED65F3              A   851    	PEA	IX+%FFFFFFF3
-00008C CD 00 00 00         A   852    	CALL	_open_UART0
-000090 C1                  A   853    	POP	BC
-                           A   854    ;   83		init_interrupts();		// Initiali
-                           A   855    .LINE 83
-                           A   856    
-000091 CD 30 00 00         A   857    	CALL	_init_interrupts
-                           A   858    ;   84		
-                           A   859    ;   85		f_mount(&fs, "", 1);	// Mount th
-                           A   860    .LINE 85
-                           A   861    
-000095 01010000            A   862    	LD	BC,1
-000099 C5                  A   863    	PUSH	BC
-00009A 01 00 00 00         A   864    	LD	BC,L__3
-00009E C5                  A   865    	PUSH	BC
-00009F 01 00 00 00         A   866    	LD	BC,_fs
-0000A3 C5                  A   867    	PUSH	BC
-0000A4 CD 00 00 00         A   868    	CALL	_f_mount
-0000A8 C1                  A   869    	POP	BC
-0000A9 C1                  A   870    	POP	BC
-0000AA C1                  A   871    	POP	BC
-                           A   872    ;   86		
-                           A   873    ;   87		if(coldBoot > 0) {		// If a col
-                           A   874    .LINE 87
-                           A   875    
-0000AB AF                  A   876    	XOR	A,A
-0000AC 21 00 00 00         A   877    	LD	HL,_coldBoot
-0000B0 BE                  A   878    	CP	A,(HL)
-0000B1 F2 BB 00 00         A   879    	JP	P,L__14
-0000B5 EA C3 00 00         A   880    	JP	PE,L_5
-0000B9 18 04               A   881    	JR	L__15
-0000BB                     A   882    L__14:
-0000BB E2 C3 00 00         A   883    	JP	PO,L_5
-0000BF                     A   884    L__15:
-                           A   885    ;   88			wait_ESP32();		// Wait for
-                           A   886    .LINE 88
-                           A   887    
-0000BF CD 00 00 00         A   888    	CALL	_wait_ESP32
-                           A   889    ;   89		}
-0000C3                     A   890    L_5:
-                           A   891    .LINE 89
-                           A   892    
-                           A   893    ;   90	
-                           A   894    ;   91		printf("Reading 'levels.bin'...");
-                           A   895    .LINE 91
-                           A   896    
-0000C3 01 00 00 00         A   897    	LD	BC,___print_uputch
-0000C7 ED43 00 00 00       A   898    	LD	(___print_xputch),BC
-0000CC 01 01 00 00         A   899    	LD	BC,L__5
-0000D0 C5                  A   900    	PUSH	BC
-0000D1 CD 00 00 00         A   901    	CALL	___print_sendstring
-0000D5 C1                  A   902    	POP	BC
-                           A   903    ;   92		levels = read_levels("levels.bin", 
-                           A   904    .LINE 92
-                           A   905    
-0000D6 ED65FB              A   906    	PEA	IX+%FFFFFFFB
-0000D9 01 19 00 00         A   907    	LD	BC,L__6
-0000DD C5                  A   908    	PUSH	BC
-0000DE CD 00 00 00         A   909    	CALL	_read_levels
-0000E2 C1                  A   910    	POP	BC
-0000E3 C1                  A   911    	POP	BC
-0000E4 DD75F9              A   912    	LD	(IX+%FFFFFFF9),L
-0000E7 DD74FA              A   913    	LD	(IX+%FFFFFFFA),H
-                           A   914    ;   93		
-                           A   915    ;   94		if(levels)
-                           A   916    .LINE 94
-                           A   917    
-0000EA 49010000            A   918    	LD.LIS	BC,0
-0000EE DD27F9              A   919    	LD	HL,(IX+%FFFFFFF9)
-0000F1 B7                  A   920    	OR	A,A
-0000F2 40ED42              A   921    	SBC.SIS	HL,BC
-0000F5 CA 9B 01 00         A   922    	JR	Z,L_11
-                           A   923    ;   95		{
-                           A   924    ;   96			levelnumber = 0;
-                           A   925    .LINE 96
-                           A   926    
-0000F9 DD36FE00            A   927    	LD	(IX+%FFFFFFFE),%0
-0000FD DD36FF00            A   928    	LD	(IX+%FFFFFFFF),%0
-                           A   929    ;   97			while(levelnumber < levels)
-                           A   930    .LINE 97
+00007E CD 00 00 00         A   831    	CALL	_init_UART0
+                           A   832    ;   80		open_UART0(&pUART);		// Open the
+                           A   833    .LINE 80
+                           A   834    
+000082 ED65F6              A   835    	PEA	IX+%FFFFFFF6
+000085 CD 00 00 00         A   836    	CALL	_open_UART0
+000089 C1                  A   837    	POP	BC
+                           A   838    ;   81		init_interrupts();		// Initiali
+                           A   839    .LINE 81
+                           A   840    
+00008A CD 30 00 00         A   841    	CALL	_init_interrupts
+                           A   842    ;   82		
+                           A   843    ;   83		f_mount(&fs, "", 1);	// Mount th
+                           A   844    .LINE 83
+                           A   845    
+00008E 01010000            A   846    	LD	BC,1
+000092 C5                  A   847    	PUSH	BC
+000093 01 00 00 00         A   848    	LD	BC,L__3
+000097 C5                  A   849    	PUSH	BC
+000098 01 00 00 00         A   850    	LD	BC,_fs
+00009C C5                  A   851    	PUSH	BC
+00009D CD 00 00 00         A   852    	CALL	_f_mount
+0000A1 C1                  A   853    	POP	BC
+0000A2 C1                  A   854    	POP	BC
+0000A3 C1                  A   855    	POP	BC
+                           A   856    ;   84		
+                           A   857    ;   85		if(coldBoot > 0) {		// If a col
+                           A   858    .LINE 85
+                           A   859    
+0000A4 AF                  A   860    	XOR	A,A
+0000A5 21 00 00 00         A   861    	LD	HL,_coldBoot
+0000A9 BE                  A   862    	CP	A,(HL)
+0000AA F2 B4 00 00         A   863    	JP	P,L__14
+0000AE EA BC 00 00         A   864    	JP	PE,L_5
+0000B2 18 04               A   865    	JR	L__15
+0000B4                     A   866    L__14:
+0000B4 E2 BC 00 00         A   867    	JP	PO,L_5
+0000B8                     A   868    L__15:
+                           A   869    ;   86			wait_ESP32();		// Wait for
+                           A   870    .LINE 86
+                           A   871    
+0000B8 CD 00 00 00         A   872    	CALL	_wait_ESP32
+                           A   873    ;   87		}
+0000BC                     A   874    L_5:
+                           A   875    .LINE 87
+                           A   876    
+                           A   877    ;   88	
+                           A   878    ;   89		vdu_setmode(7);
+                           A   879    .LINE 89
+                           A   880    
+0000BC 01070000            A   881    	LD	BC,7
+0000C0 C5                  A   882    	PUSH	BC
+0000C1 CD 00 00 00         A   883    	CALL	_vdu_setmode
+0000C5 C1                  A   884    	POP	BC
+                           A   885    ;   90		
+                           A   886    ;   91		printf("Reading 'levels.bin'...");
+                           A   887    .LINE 91
+                           A   888    
+0000C6 01 00 00 00         A   889    	LD	BC,___print_uputch
+0000CA ED43 00 00 00       A   890    	LD	(___print_xputch),BC
+0000CF 01 01 00 00         A   891    	LD	BC,L__5
+0000D3 C5                  A   892    	PUSH	BC
+0000D4 CD 00 00 00         A   893    	CALL	___print_sendstring
+0000D8 C1                  A   894    	POP	BC
+                           A   895    ;   92		levels = read_numberoflevels();
+                           A   896    .LINE 92
+                           A   897    
+0000D9 CD 00 00 00         A   898    	CALL	_read_numberoflevels
+0000DD DD75FC              A   899    	LD	(IX+%FFFFFFFC),L
+0000E0 DD74FD              A   900    	LD	(IX+%FFFFFFFD),H
+                           A   901    ;   93		
+                           A   902    ;   94		if(levels)
+                           A   903    .LINE 94
+                           A   904    
+0000E3 49010000            A   905    	LD.LIS	BC,0
+0000E7 DD27FC              A   906    	LD	HL,(IX+%FFFFFFFC)
+0000EA B7                  A   907    	OR	A,A
+0000EB 40ED42              A   908    	SBC.SIS	HL,BC
+0000EE CA 97 01 00         A   909    	JR	Z,L_13
+                           A   910    ;   95		{
+                           A   911    ;   96			if(game_init())
+                           A   912    .LINE 96
+                           A   913    
+0000F2 CD 00 00 00         A   914    	CALL	_game_init
+0000F6 B7                  A   915    	OR	A,A
+0000F7 CA 82 01 00         A   916    	JR	Z,L_11
+                           A   917    ;   97			{
+                           A   918    ;   98				levelnumber = 0;
+                           A   919    .LINE 98
+                           A   920    
+0000FB DD36FE00            A   921    	LD	(IX+%FFFFFFFE),%0
+0000FF DD36FF00            A   922    	LD	(IX+%FFFFFFFF),%0
+                           A   923    ;   99				while(levelnumber < levels)
+                           A   924    .LINE 99
+                           A   925    
+000103 18 5C               A   926    	JR	L_7
+000105                     A   927    L_8:
+                           A   928    ;  100				{
+                           A   929    ;  101					vdu_cls();
+                           A   930    .LINE 101
                            A   931    
-000101 18 75               A   932    	JR	L_7
-000103                     A   933    L_8:
-                           A   934    ;   98			{
-                           A   935    ;   99				vdu_cls();
-                           A   936    .LINE 99
-                           A   937    
-000103 CD 00 00 00         A   938    	CALL	_vdu_cls
-                           A   939    ;  100				printf("Level %d\n\r\n\r",l
-                           A   940    .LINE 100
-                           A   941    
-000107 01 00 00 00         A   942    	LD	BC,___print_uputch
-00010B ED43 00 00 00       A   943    	LD	(___print_xputch),BC
-000110 01 24 00 00         A   944    	LD	BC,L__8
-000114 C5                  A   945    	PUSH	BC
-000115 CD 00 00 00         A   946    	CALL	___print_sendstring
-000119 C1                  A   947    	POP	BC
-00011A DD07FE              A   948    	LD	BC,(IX+%FFFFFFFE)
-00011D CD 00 00 00         A   949    	CALL	__stoiu
-000121 E5C1                A   950    	LD	BC,HL
-000123 CD 00 00 00         A   951    	CALL	__itol
-000127 C5D1                A   952    	LD	DE,BC
-000129 4F                  A   953    	LD	C,A
-00012A 0600                A   954    	LD	B,%0
-00012C C5                  A   955    	PUSH	BC
-00012D D5                  A   956    	PUSH	DE
-00012E CD 00 00 00         A   957    	CALL	__u_itoa
-000132 C1                  A   958    	POP	BC
-000133 C1                  A   959    	POP	BC
-000134 01 2B 00 00         A   960    	LD	BC,L__9
-000138 C5                  A   961    	PUSH	BC
-000139 CD 00 00 00         A   962    	CALL	___print_sendstring
-00013D C1                  A   963    	POP	BC
-                           A   964    ;  101				
-                           A   965    ;  102				print_playfieldText(&levelb
-                           A   966    .LINE 102
-                           A   967    
-00013E DD07FE              A   968    	LD	BC,(IX+%FFFFFFFE)
-000141 CD 00 00 00         A   969    	CALL	__stoiu
-000145 01330100            A   970    	LD	BC,307
-000149 CD 00 00 00         A   971    	CALL	__imuls
-00014D DD07FB              A   972    	LD	BC,(IX+%FFFFFFFB)
-000150 09                  A   973    	ADD	HL,BC
-000151 E5                  A   974    	PUSH	HL
-000152 CD 00 00 00         A   975    	CALL	_print_playfieldText
-000156 C1                  A   976    	POP	BC
-                           A   977    ;  103				levelnumber++;
-                           A   978    .LINE 103
-                           A   979    
-000157 DD27FE              A   980    	LD	HL,(IX+%FFFFFFFE)
-00015A 23                  A   981    	INC	HL
-00015B DD75FE              A   982    	LD	(IX+%FFFFFFFE),L
-00015E DD74FF              A   983    	LD	(IX+%FFFFFFFF),H
-                           A   984    ;  104				printf("\n\rPress any key:\
-                           A   985    .LINE 104
+000105 CD 00 00 00         A   932    	CALL	_vdu_cls
+                           A   933    ;  102					printf("Level %d\n\r\n\
+                           A   934    .LINE 102
+                           A   935    
+000109 01 00 00 00         A   936    	LD	BC,___print_uputch
+00010D ED43 00 00 00       A   937    	LD	(___print_xputch),BC
+000112 01 19 00 00         A   938    	LD	BC,L__8
+000116 C5                  A   939    	PUSH	BC
+000117 CD 00 00 00         A   940    	CALL	___print_sendstring
+00011B C1                  A   941    	POP	BC
+00011C DD07FE              A   942    	LD	BC,(IX+%FFFFFFFE)
+00011F CD 00 00 00         A   943    	CALL	__stoiu
+000123 E5C1                A   944    	LD	BC,HL
+000125 CD 00 00 00         A   945    	CALL	__itol
+000129 C5D1                A   946    	LD	DE,BC
+00012B 4F                  A   947    	LD	C,A
+00012C 0600                A   948    	LD	B,%0
+00012E C5                  A   949    	PUSH	BC
+00012F D5                  A   950    	PUSH	DE
+000130 CD 00 00 00         A   951    	CALL	__u_itoa
+000134 C1                  A   952    	POP	BC
+000135 C1                  A   953    	POP	BC
+000136 01 20 00 00         A   954    	LD	BC,L__9
+00013A C5                  A   955    	PUSH	BC
+00013B CD 00 00 00         A   956    	CALL	___print_sendstring
+00013F C1                  A   957    	POP	BC
+                           A   958    ;  103					
+                           A   959    ;  104					game_resetlevel();
+                           A   960    .LINE 104
+                           A   961    
+000140 CD 00 00 00         A   962    	CALL	_game_resetlevel
+                           A   963    ;  105					read_level(levelnumber)
+                           A   964    .LINE 105
+                           A   965    
+000144 DD4EFE              A   966    	LD	C,(IX+%FFFFFFFE)
+000147 0600                A   967    	LD	B,%0
+000149 C5                  A   968    	PUSH	BC
+00014A CD 00 00 00         A   969    	CALL	_read_level
+00014E C1                  A   970    	POP	BC
+                           A   971    ;  106					//print_playfieldText()
+                           A   972    ;  107					game_displayLevel();
+                           A   973    .LINE 107
+                           A   974    
+00014F CD 00 00 00         A   975    	CALL	_game_displayLevel
+                           A   976    ;  108					levelnumber++;
+                           A   977    .LINE 108
+                           A   978    
+000153 DD27FE              A   979    	LD	HL,(IX+%FFFFFFFE)
+000156 23                  A   980    	INC	HL
+000157 DD75FE              A   981    	LD	(IX+%FFFFFFFE),L
+00015A DD74FF              A   982    	LD	(IX+%FFFFFFFF),H
+                           A   983    ;  109					//printf("\n\rPress any
+                           A   984    ;  110					getch();
+                           A   985    .LINE 110
                            A   986    
-000161 01 00 00 00         A   987    	LD	BC,___print_uputch
-000165 ED43 00 00 00       A   988    	LD	(___print_xputch),BC
-00016A 01 30 00 00         A   989    	LD	BC,L__10
-00016E C5                  A   990    	PUSH	BC
-00016F CD 00 00 00         A   991    	CALL	___print_sendstring
-000173 C1                  A   992    	POP	BC
-                           A   993    ;  105				getch();
-                           A   994    .LINE 105
-                           A   995    
-000174 CD 00 00 00         A   996    	CALL	_getch
-                           A   997    ;  106			}
-000178                     A   998    L_7:
-                           A   999    .LINE 106
-                           A  1000    
-000178 DD07F9              A  1001    	LD	BC,(IX+%FFFFFFF9)
-00017B DD27FE              A  1002    	LD	HL,(IX+%FFFFFFFE)
-00017E B7                  A  1003    	OR	A,A
-00017F 40ED42              A  1004    	SBC.SIS	HL,BC
-000182 DA 03 01 00         A  1005    	JR	C,L_8
-                           A  1006    ;  107			printf("Last level reached\n\r"
-                           A  1007    .LINE 107
-                           A  1008    
-000186 01 00 00 00         A  1009    	LD	BC,___print_uputch
-00018A ED43 00 00 00       A  1010    	LD	(___print_xputch),BC
-00018F 01 43 00 00         A  1011    	LD	BC,L__12
-000193 C5                  A  1012    	PUSH	BC
-000194 CD 00 00 00         A  1013    	CALL	___print_sendstring
-000198 C1                  A  1014    	POP	BC
-                           A  1015    ;  108		}
-                           A  1016    ;  109		else printf("No levels read\n\r");
-                           A  1017    .LINE 109
-                           A  1018    
-000199 18 13               A  1019    	JR	L_12
-00019B                     A  1020    L_11:
-00019B 01 00 00 00         A  1021    	LD	BC,___print_uputch
-00019F ED43 00 00 00       A  1022    	LD	(___print_xputch),BC
-0001A4 01 58 00 00         A  1023    	LD	BC,L__13
-0001A8 C5                  A  1024    	PUSH	BC
-0001A9 CD 00 00 00         A  1025    	CALL	___print_sendstring
-0001AD C1                  A  1026    	POP	BC
-0001AE                     A  1027    L_12:
-                           A  1028    ;  110	
-                           A  1029    ;  111		free(levelbuffer);	
-                           A  1030    .LINE 111
-                           A  1031    
-0001AE DD07FB              A  1032    	LD	BC,(IX+%FFFFFFFB)
-0001B1 C5                  A  1033    	PUSH	BC
-0001B2 CD 00 00 00         A  1034    	CALL	_free
-0001B6 C1                  A  1035    	POP	BC
-                           A  1036    ;  112		return 0;
-                           A  1037    .LINE 112
+00015D CD 00 00 00         A   987    	CALL	_getch
+                           A   988    ;  111				}
+000161                     A   989    L_7:
+                           A   990    .LINE 111
+                           A   991    
+000161 DD07FC              A   992    	LD	BC,(IX+%FFFFFFFC)
+000164 DD27FE              A   993    	LD	HL,(IX+%FFFFFFFE)
+000167 B7                  A   994    	OR	A,A
+000168 40ED42              A   995    	SBC.SIS	HL,BC
+00016B 38 98               A   996    	JR	C,L_8
+                           A   997    ;  112				printf("Last level reached\
+                           A   998    .LINE 112
+                           A   999    
+00016D 01 00 00 00         A  1000    	LD	BC,___print_uputch
+000171 ED43 00 00 00       A  1001    	LD	(___print_xputch),BC
+000176 01 25 00 00         A  1002    	LD	BC,L__11
+00017A C5                  A  1003    	PUSH	BC
+00017B CD 00 00 00         A  1004    	CALL	___print_sendstring
+00017F C1                  A  1005    	POP	BC
+                           A  1006    ;  113			}
+                           A  1007    ;  114			else printf("Error initializing
+                           A  1008    .LINE 114
+                           A  1009    
+000180 18 28               A  1010    	JR	L_14
+000182                     A  1011    L_11:
+000182 01 00 00 00         A  1012    	LD	BC,___print_uputch
+000186 ED43 00 00 00       A  1013    	LD	(___print_xputch),BC
+00018B 01 3A 00 00         A  1014    	LD	BC,L__12
+00018F C5                  A  1015    	PUSH	BC
+000190 CD 00 00 00         A  1016    	CALL	___print_sendstring
+000194 C1                  A  1017    	POP	BC
+                           A  1018    ;  115		}		
+                           A  1019    ;  116		else printf("No levels read\n\r");
+                           A  1020    .LINE 116
+                           A  1021    
+000195 18 13               A  1022    	JR	L_14
+000197                     A  1023    L_13:
+000197 01 00 00 00         A  1024    	LD	BC,___print_uputch
+00019B ED43 00 00 00       A  1025    	LD	(___print_xputch),BC
+0001A0 01 54 00 00         A  1026    	LD	BC,L__13
+0001A4 C5                  A  1027    	PUSH	BC
+0001A5 CD 00 00 00         A  1028    	CALL	___print_sendstring
+0001A9 C1                  A  1029    	POP	BC
+0001AA                     A  1030    L_14:
+                           A  1031    ;  117	
+                           A  1032    ;  118		return 0;
+                           A  1033    .LINE 118
+                           A  1034    
+0001AA B7                  A  1035    	OR	A,A
+0001AB ED62                A  1036    	SBC	HL,HL
+                           A  1037    .LINE 119
                            A  1038    
-0001B7 B7                  A  1039    	OR	A,A
-0001B8 ED62                A  1040    	SBC	HL,HL
-                           A  1041    .LINE 113
+0001AD DDF9                A  1039    	LD	SP,IX
+0001AF DDE1                A  1040    	POP	IX
+0001B1 C9                  A  1041    	RET	
                            A  1042    
-0001BA DDF9                A  1043    	LD	SP,IX
-0001BC DDE1                A  1044    	POP	IX
-0001BE C9                  A  1045    	RET	
-                           A  1046    
-                           A  1047    
-                           A  1048    ;**************************** _main ***********
-                           A  1049    ;Name                         Addr/Register   S
-                           A  1050    ;_free                               IMPORT  --
-                           A  1051    ;_getch                              IMPORT  --
-                           A  1052    ;_print_playfieldText                IMPORT  --
-                           A  1053    ;__u_itoa                            IMPORT  --
-                           A  1054    ;_vdu_cls                            IMPORT  --
-                           A  1055    ;_read_levels                        IMPORT  --
-                           A  1056    ;___print_sendstring                 IMPORT  --
-                           A  1057    ;___print_xputch                     IMPORT    
-                           A  1058    ;___print_uputch                     IMPORT  --
-                           A  1059    ;_coldBoot                           IMPORT    
-                           A  1060    ;_fs                                 STATIC    
-                           A  1061    ;_f_mount                            IMPORT  --
-                           A  1062    ;_open_UART0                         IMPORT  --
-                           A  1063    ;_init_UART0                         IMPORT  --
-                           A  1064    ;_init_spi                           IMPORT  --
-                           A  1065    ;_init_timer2                        IMPORT  --
-                           A  1066    ;pUART                                IX-13    
-                           A  1067    ;levels                                IX-7    
-                           A  1068    ;levelbuffer                           IX-5    
-                           A  1069    ;levelnumber                           IX-2    
-                           A  1070    
-                           A  1071    
-                           A  1072    ; Stack Frame Size: 19 (bytes)
-                           A  1073    ;       Spill Code: 0 (instruction)
-                           A  1074    
-                           A  1075    
-                           A  1076    .ENDFUNC "main",113,"_main"
-                           A  1077    	SEGMENT STRSECT
-000000                     A  1078    L__3:
-000000 00                  A  1079    	DB	0
-000001                     A  1080    L__5:
-000001 52656164 696E6720   A  1081    	DB	"Reading 'levels.bin'..."
+                           A  1043    
+                           A  1044    ;**************************** _main ***********
+                           A  1045    ;Name                         Addr/Register   S
+                           A  1046    ;_getch                              IMPORT  --
+                           A  1047    ;_game_displayLevel                  IMPORT  --
+                           A  1048    ;_read_level                         IMPORT  --
+                           A  1049    ;_game_resetlevel                    IMPORT  --
+                           A  1050    ;__u_itoa                            IMPORT  --
+                           A  1051    ;_vdu_cls                            IMPORT  --
+                           A  1052    ;_game_init                          IMPORT  --
+                           A  1053    ;_read_numberoflevels                IMPORT  --
+                           A  1054    ;___print_sendstring                 IMPORT  --
+                           A  1055    ;___print_xputch                     IMPORT    
+                           A  1056    ;___print_uputch                     IMPORT  --
+                           A  1057    ;_vdu_setmode                        IMPORT  --
+                           A  1058    ;_coldBoot                           IMPORT    
+                           A  1059    ;_fs                                 STATIC    
+                           A  1060    ;_f_mount                            IMPORT  --
+                           A  1061    ;_open_UART0                         IMPORT  --
+                           A  1062    ;_init_UART0                         IMPORT  --
+                           A  1063    ;_init_spi                           IMPORT  --
+                           A  1064    ;_init_timer2                        IMPORT  --
+                           A  1065    ;pUART                                IX-10    
+                           A  1066    ;levels                                IX-4    
+                           A  1067    ;levelnumber                           IX-2    
+                           A  1068    
+                           A  1069    
+                           A  1070    ; Stack Frame Size: 16 (bytes)
+                           A  1071    ;       Spill Code: 0 (instruction)
+                           A  1072    
+                           A  1073    
+                           A  1074    .ENDFUNC "main",119,"_main"
+                           A  1075    	SEGMENT STRSECT
+000000                     A  1076    L__3:
+000000 00                  A  1077    	DB	0
+000001                     A  1078    L__5:
+000001 52656164 696E6720   A  1079    	DB	"Reading 'levels.bin'..."
 000009 276C6576 656C732E 
 000011 62696E27 2E2E2E 
-000018 00                  A  1082    	DB	0
-000019                     A  1083    L__6:
-000019 6C657665 6C732E62   A  1084    	DB	"levels.bin"
-000021 696E 
-000023 00                  A  1085    	DB	0
-000024                     A  1086    L__8:
-000024 4C657665 6C20       A  1087    	DB	"Level "
-00002A 00                  A  1088    	DB	0
-00002B                     A  1089    L__9:
-00002B 0A0D0A0D 00         A  1090    	DB	10,13,10,13,0
-000030                     A  1091    L__10:
-000030 0A0D                A  1092    	DB	10,13
-000032 50726573 7320616E   A  1093    	DB	"Press any key:"
-00003A 79206B65 793A 
-000040 0A0D00              A  1094    	DB	10,13,0
-000043                     A  1095    L__12:
-000043 4C617374 206C6576   A  1096    	DB	"Last level reached"
-00004B 656C2072 65616368 
-000053 6564 
-000055 0A0D00              A  1097    	DB	10,13,0
-000058                     A  1098    L__13:
-000058 4E6F206C 6576656C   A  1099    	DB	"No levels read"
-000060 73207265 6164 
-000066 0A0D00              A  1100    	DB	10,13,0
-                           A  1101    	XREF _keycode:ROM
-                           A  1102    	XREF _coldBoot:ROM
-                           A  1103    	XREF _vblank_handler:ROM
-                           A  1104    	XREF _set_vector:ROM
-                           A  1105    	XREF _read_levels:ROM
-                           A  1106    	XREF _print_playfieldText:ROM
-                           A  1107    	XREF _vdu_cls:ROM
-                           A  1108    	XREF _f_mount:ROM
-                           A  1109    	XREF _init_timer2:ROM
-                           A  1110    	XREF _init_spi:ROM
-                           A  1111    	XREF _getch:ROM
-                           A  1112    	XREF _open_UART0:ROM
-                           A  1113    	XREF _init_UART0:ROM
-                           A  1114    	XREF _free:ROM
-                           A  1115    	XREF __u_itoa:ROM
-                           A  1116    	XREF ___print_sendstring:ROM
-                           A  1117    	XREF ___print_xputch:ROM
-                           A  1118    	XREF ___print_uputch:ROM
-                           A  1119    	XREF __imuls:ROM
-                           A  1120    	XREF __stoiu:ROM
-                           A  1121    	XREF __itol:ROM
-                           A  1122    	XDEF _main
-                           A  1123    	XDEF _init_interrupts
-                           A  1124    	XDEF _wait_ESP32
-                           A  1125    	END
+000018 00                  A  1080    	DB	0
+000019                     A  1081    L__8:
+000019 4C657665 6C20       A  1082    	DB	"Level "
+00001F 00                  A  1083    	DB	0
+000020                     A  1084    L__9:
+000020 0A0D0A0D 00         A  1085    	DB	10,13,10,13,0
+000025                     A  1086    L__11:
+000025 4C617374 206C6576   A  1087    	DB	"Last level reached"
+00002D 656C2072 65616368 
+000035 6564 
+000037 0A0D00              A  1088    	DB	10,13,0
+00003A                     A  1089    L__12:
+00003A 4572726F 7220696E   A  1090    	DB	"Error initializing game"
+000042 69746961 6C697A69 
+00004A 6E672067 616D65 
+000051 0A0D00              A  1091    	DB	10,13,0
+000054                     A  1092    L__13:
+000054 4E6F206C 6576656C   A  1093    	DB	"No levels read"
+00005C 73207265 6164 
+000062 0A0D00              A  1094    	DB	10,13,0
+                           A  1095    	XREF _keycode:ROM
+                           A  1096    	XREF _coldBoot:ROM
+                           A  1097    	XREF _vblank_handler:ROM
+                           A  1098    	XREF _set_vector:ROM
+                           A  1099    	XREF _game_displayLevel:ROM
+                           A  1100    	XREF _game_resetlevel:ROM
+                           A  1101    	XREF _game_init:ROM
+                           A  1102    	XREF _read_level:ROM
+                           A  1103    	XREF _read_numberoflevels:ROM
+                           A  1104    	XREF _vdu_setmode:ROM
+                           A  1105    	XREF _vdu_cls:ROM
+                           A  1106    	XREF _f_mount:ROM
+                           A  1107    	XREF _init_timer2:ROM
+                           A  1108    	XREF _init_spi:ROM
+                           A  1109    	XREF _getch:ROM
+                           A  1110    	XREF _open_UART0:ROM
+                           A  1111    	XREF _init_UART0:ROM
+                           A  1112    	XREF __u_itoa:ROM
+                           A  1113    	XREF ___print_sendstring:ROM
+                           A  1114    	XREF ___print_xputch:ROM
+                           A  1115    	XREF ___print_uputch:ROM
+                           A  1116    	XREF __stoiu:ROM
+                           A  1117    	XREF __itol:ROM
+                           A  1118    	XDEF _main
+                           A  1119    	XDEF _init_interrupts
+                           A  1120    	XDEF _wait_ESP32
+                           A  1121    	END
 
 
 Errors: 0
 Warnings: 0
-Lines Assembled: 1126
+Lines Assembled: 1122

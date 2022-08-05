@@ -1,4 +1,4 @@
-Zilog eZ80 Macro Assembler Version 4.3 (19073001)02-Aug-22     20:52:09     page:   1
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)05-Aug-22     21:36:43     page:   1
 
 
 PC     Object              I  Line    Source 
@@ -2807,69 +2807,138 @@ PC     Object              I  Line    Source
 00071E C1                  A  2803    	POP	BC
 00071F C1                  A  2804    	POP	BC
                            A  2805    ;  293		return;
-                           A  2806    .LINE 294
-                           A  2807    
-000720 DDF9                A  2808    	LD	SP,IX
-000722 DDE1                A  2809    	POP	IX
-000724 C9                  A  2810    	RET	
-                           A  2811    
+                           A  2806    ;  294	}
+                           A  2807    .LINE 294
+                           A  2808    
+000720 DDF9                A  2809    	LD	SP,IX
+000722 DDE1                A  2810    	POP	IX
+000724 C9                  A  2811    	RET	
                            A  2812    
-                           A  2813    ;**************************** _vdu_box ********
-                           A  2814    ;Name                         Addr/Register   S
-                           A  2815    ;_vdu_lineto                         IMPORT  --
-                           A  2816    ;_vdu_gotoxy                         IMPORT  --
-                           A  2817    ;bottomrighty                         IX+15    
-                           A  2818    ;bottomrightx                         IX+12    
-                           A  2819    ;toplefty                              IX+9    
-                           A  2820    ;topleftx                              IX+6    
-                           A  2821    
+                           A  2813    
+                           A  2814    ;**************************** _vdu_box ********
+                           A  2815    ;Name                         Addr/Register   S
+                           A  2816    ;_vdu_lineto                         IMPORT  --
+                           A  2817    ;_vdu_gotoxy                         IMPORT  --
+                           A  2818    ;bottomrighty                         IX+15    
+                           A  2819    ;bottomrightx                         IX+12    
+                           A  2820    ;toplefty                              IX+9    
+                           A  2821    ;topleftx                              IX+6    
                            A  2822    
-                           A  2823    ; Stack Frame Size: 18 (bytes)
-                           A  2824    ;       Spill Code: 0 (instruction)
-                           A  2825    
+                           A  2823    
+                           A  2824    ; Stack Frame Size: 18 (bytes)
+                           A  2825    ;       Spill Code: 0 (instruction)
                            A  2826    
-                           A  2827    .ENDFUNC "vdu_box",294,"_vdu_box"
-                           A  2828    	XREF _delayms:ROM
-                           A  2829    	XREF _getch:ROM
-                           A  2830    	XREF _putch:ROM
-                           A  2831    	XREF __imuls:ROM
-                           A  2832    	XREF __sor:ROM
-                           A  2833    	XREF __lor:ROM
-                           A  2834    	XREF __stoi:ROM
-                           A  2835    	XREF __stoiu:ROM
-                           A  2836    	XDEF _vdu_box
-                           A  2837    	XDEF _vdu_gcol
-                           A  2838    	XDEF _vdu_cls
-                           A  2839    	XDEF _vdu_plotPoint
-                           A  2840    	XDEF _vdu_lineto
-                           A  2841    	XDEF _vdu_gotoxy
-                           A  2842    	XDEF _sprite_moveBy
-                           A  2843    	XDEF _sprite_moveTo
-                           A  2844    	XDEF _sprite_hide
-                           A  2845    	XDEF _sprite_show
-                           A  2846    	XDEF _sprite_setFrame
-                           A  2847    	XDEF _sprite_previousFrame
-                           A  2848    	XDEF _sprite_nextFrame
-                           A  2849    	XDEF _sprite_activateTotal
-                           A  2850    	XDEF _sprite_addFrame
-                           A  2851    	XDEF _sprite_addFrame_selected
-                           A  2852    	XDEF _sprite_clearFrames
-                           A  2853    	XDEF _sprite_clearFrames_selected
-                           A  2854    	XDEF _sprite_select
-                           A  2855    	XDEF _bitmap_createSolidColor
-                           A  2856    	XDEF _bitmap_createSolidColor_selected
-                           A  2857    	XDEF _bitmap_draw
-                           A  2858    	XDEF _bitmap_draw_selected
-                           A  2859    	XDEF _bitmap_sendData
-                           A  2860    	XDEF _bitmap_sendData_selected
-                           A  2861    	XDEF _bitmap_select
-                           A  2862    	XDEF _uart_readLong
-                           A  2863    	XDEF _uart_readWord
-                           A  2864    	XDEF _uart_writeLong
-                           A  2865    	XDEF _uart_writeWord
-                           A  2866    	END
+                           A  2827    
+                           A  2828    .ENDFUNC "vdu_box",294,"_vdu_box"
+                           A  2829    ;  295	
+                           A  2830    ;  296	VOID vdu_setmode(UINT8 mode)
+                           A  2831    ;  297	{
+000725                     A  2832    _vdu_setmode:
+                           A  2833    .DEFINE "_vdu_setmode"
+                           A  2834    
+                           A  2835    .VALUE _vdu_setmode
+                           A  2836    
+                           A  2837    .CLASS 2
+                           A  2838    
+                           A  2839    .TYPE 65
+                           A  2840    
+                           A  2841    .ENDEF
+                           A  2842    
+                           A  2843    .BEGFUNC "vdu_setmode",297,"_vdu_setmode"
+                           A  2844    
+                           A  2845    .LINE 297
+                           A  2846    
+                           A  2847    .DEFINE "mode"
+                           A  2848    
+                           A  2849    .CLASS 65
+                           A  2850    
+                           A  2851    .VALUE 6
+                           A  2852    
+                           A  2853    .TYPE 12
+                           A  2854    
+                           A  2855    .ENDEF
+                           A  2856    
+000725 DDE5                A  2857    	PUSH	IX
+000727 DD210000 00         A  2858    	LD	IX,0
+00072C DD39                A  2859    	ADD	IX,SP
+                           A  2860    ;  298		putch(0x16); // set mode
+                           A  2861    .LINE 298
+                           A  2862    
+00072E 01160000            A  2863    	LD	BC,22
+000732 C5                  A  2864    	PUSH	BC
+000733 CD 00 00 00         A  2865    	CALL	_putch
+000737 C1                  A  2866    	POP	BC
+                           A  2867    ;  299		putch(mode);
+                           A  2868    .LINE 299
+                           A  2869    
+000738 DD7E06              A  2870    	LD	A,(IX+%6)
+00073B B7ED62              A  2871    	UEXT	HL
+00073E 6F                  A  2872    	LD	L,A
+00073F E5                  A  2873    	PUSH	HL
+000740 CD 00 00 00         A  2874    	CALL	_putch
+000744 C1                  A  2875    	POP	BC
+                           A  2876    ;  300		return;
+                           A  2877    ;  301	}
+                           A  2878    .LINE 301
+                           A  2879    
+000745 DDF9                A  2880    	LD	SP,IX
+000747 DDE1                A  2881    	POP	IX
+000749 C9                  A  2882    	RET	
+                           A  2883    
+                           A  2884    
+                           A  2885    ;**************************** _vdu_setmode ****
+                           A  2886    ;Name                         Addr/Register   S
+                           A  2887    ;_putch                              IMPORT  --
+                           A  2888    ;mode                                  IX+6    
+                           A  2889    
+                           A  2890    
+                           A  2891    ; Stack Frame Size: 9 (bytes)
+                           A  2892    ;       Spill Code: 0 (instruction)
+                           A  2893    
+                           A  2894    
+                           A  2895    .ENDFUNC "vdu_setmode",301,"_vdu_setmode"
+                           A  2896    	XREF _delayms:ROM
+                           A  2897    	XREF _getch:ROM
+                           A  2898    	XREF _putch:ROM
+                           A  2899    	XREF __imuls:ROM
+                           A  2900    	XREF __sor:ROM
+                           A  2901    	XREF __lor:ROM
+                           A  2902    	XREF __stoi:ROM
+                           A  2903    	XREF __stoiu:ROM
+                           A  2904    	XDEF _vdu_setmode
+                           A  2905    	XDEF _vdu_box
+                           A  2906    	XDEF _vdu_gcol
+                           A  2907    	XDEF _vdu_cls
+                           A  2908    	XDEF _vdu_plotPoint
+                           A  2909    	XDEF _vdu_lineto
+                           A  2910    	XDEF _vdu_gotoxy
+                           A  2911    	XDEF _sprite_moveBy
+                           A  2912    	XDEF _sprite_moveTo
+                           A  2913    	XDEF _sprite_hide
+                           A  2914    	XDEF _sprite_show
+                           A  2915    	XDEF _sprite_setFrame
+                           A  2916    	XDEF _sprite_previousFrame
+                           A  2917    	XDEF _sprite_nextFrame
+                           A  2918    	XDEF _sprite_activateTotal
+                           A  2919    	XDEF _sprite_addFrame
+                           A  2920    	XDEF _sprite_addFrame_selected
+                           A  2921    	XDEF _sprite_clearFrames
+                           A  2922    	XDEF _sprite_clearFrames_selected
+                           A  2923    	XDEF _sprite_select
+                           A  2924    	XDEF _bitmap_createSolidColor
+                           A  2925    	XDEF _bitmap_createSolidColor_selected
+                           A  2926    	XDEF _bitmap_draw
+                           A  2927    	XDEF _bitmap_draw_selected
+                           A  2928    	XDEF _bitmap_sendData
+                           A  2929    	XDEF _bitmap_sendData_selected
+                           A  2930    	XDEF _bitmap_select
+                           A  2931    	XDEF _uart_readLong
+                           A  2932    	XDEF _uart_readWord
+                           A  2933    	XDEF _uart_writeLong
+                           A  2934    	XDEF _uart_writeWord
+                           A  2935    	END
 
 
 Errors: 0
 Warnings: 0
-Lines Assembled: 2867
+Lines Assembled: 2936

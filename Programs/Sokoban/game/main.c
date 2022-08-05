@@ -64,8 +64,6 @@ int main(void) {
 	UART 	pUART;
 
 	FRESULT	fr;
-	struct sokobanlevel level;
-	struct sokobanlevel *levelbuffer = NULL;
 	
 	UINT16  levelnumber;
 	UINT16	levels;
@@ -88,26 +86,34 @@ int main(void) {
 		wait_ESP32();		// Wait for the ESP32 to finish its bootup
 	}
 
+	vdu_setmode(7);
+	
 	printf("Reading 'levels.bin'...");
-	levels = read_levels("levels.bin", &levelbuffer);
+	levels = read_numberoflevels();
 	
 	if(levels)
 	{
-		levelnumber = 0;
-		while(levelnumber < levels)
+		if(game_init())
 		{
-			vdu_cls();
-			printf("Level %d\n\r\n\r",levelnumber);
-			
-			print_playfieldText(&levelbuffer[levelnumber]);
-			levelnumber++;
-			printf("\n\rPress any key:\n\r");
-			getch();
+			levelnumber = 0;
+			while(levelnumber < levels)
+			{
+				vdu_cls();
+				printf("Level %d\n\r\n\r",levelnumber);
+				
+				game_resetlevel();
+				read_level(levelnumber);
+				//print_playfieldText();
+				game_displayLevel();
+				levelnumber++;
+				//printf("\n\rPress any key:\n\r");
+				getch();
+			}
+			printf("Last level reached\n\r");				
 		}
-		printf("Last level reached\n\r");
-	}
+		else printf("Error initializing game\n\r");
+	}		
 	else printf("No levels read\n\r");
 
-	free(levelbuffer);	
 	return 0;
 }

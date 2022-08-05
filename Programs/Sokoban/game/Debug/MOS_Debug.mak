@@ -246,6 +246,7 @@ $(WORKDIR_ESCSPACE)\main.obj :  \
             $(INCLUDE_ESCSPACE)\std\Format.h  \
             $(INCLUDE_ESCSPACE)\std\Stdarg.h  \
             $(INCLUDE_ESCSPACE)\std\Stdio.h  \
+            $(INCLUDE_ESCSPACE)\std\Stdlib.h  \
             $(INCLUDE_ESCSPACE)\std\String.h  \
             $(INCLUDE_ESCSPACE)\zilog\cio.h  \
             $(INCLUDE_ESCSPACE)\zilog\defines.h  \
@@ -260,6 +261,7 @@ $(WORKDIR_ESCSPACE)\main.obj :  \
             $(INCLUDE_ESCSPACE)\zilog\uartdefs.h  \
             $(PRJDIR_ESCSPACE)\src\game.h  \
             $(PRJDIR_ESCSPACE)\src\mos.h  \
+            $(PRJDIR_ESCSPACE)\src\sokobanprep.h  \
             $(PRJDIR_ESCSPACE)\src\spi.h  \
             $(PRJDIR_ESCSPACE)\src\timer.h  \
             $(PRJDIR_ESCSPACE)\src\uart.h  \
@@ -436,7 +438,16 @@ $(WORKDIR_ESCSPACE)\vdu.obj :  \
 
 $(WORKDIR_ESCSPACE)\game.obj :  \
             $(PRJDIR_ESCSPACE)\src\game.c  \
+            $(INCLUDE_ESCSPACE)\std\FLOAT.H  \
+            $(INCLUDE_ESCSPACE)\std\Format.h  \
+            $(INCLUDE_ESCSPACE)\std\Stdarg.h  \
+            $(INCLUDE_ESCSPACE)\std\Stdio.h  \
+            $(INCLUDE_ESCSPACE)\std\Stdlib.h  \
+            $(INCLUDE_ESCSPACE)\zilog\defines.h  \
             $(PRJDIR_ESCSPACE)\src\game.h  \
-            $(PRJDIR_ESCSPACE)\src\sokobanprep.h
+            $(PRJDIR_ESCSPACE)\src\mos.h  \
+            $(PRJDIR_ESCSPACE)\src\sokobanprep.h  \
+            $(PRJDIR_ESCSPACE)\src_fatfs\ff.h  \
+            $(PRJDIR_ESCSPACE)\src_fatfs\ffconf.h
 	 $(CC) $(CFLAGS) "$(PRJDIR)\src\game.c"
 

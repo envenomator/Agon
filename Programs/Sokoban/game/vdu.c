@@ -292,3 +292,10 @@ VOID vdu_box(UINT16 topleftx, UINT16 toplefty, UINT16 bottomrightx, UINT16 botto
 	vdu_lineto(topleftx, toplefty);
 	return;
 }
+
+VOID vdu_setmode(UINT8 mode)
+{
+	putch(0x16); // set mode
+	putch(mode);
+	return;
+}

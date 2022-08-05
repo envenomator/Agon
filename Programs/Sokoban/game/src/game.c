@@ -10,6 +10,8 @@
 #include "String.h"
 #include "timer.h"
 
+#define SENDDELAY	5
+
 UINT32 bitmapbuffer[BITMAPSIZE];				// will hold one bitmap at a time, to transmit to the VDU
 UINT8 sprites[MAXHEIGHT][MAXWIDTH]; // will contain all sprites on-screen
 struct sokobanlevel currentlevel;	// will contain the currentlevel;
@@ -256,31 +258,31 @@ void game_displayLevel(void)
 			{
 				case CHAR_WALL:
 					bitmap_draw(TILE_WALL, x, y);
-					delayms(5);
+					delayms(SENDDELAY);
 					break;
 				case CHAR_PLAYER:
 					bitmap_draw(TILE_PLAYER, x, y);
-					delayms(5);
+					delayms(SENDDELAY);
 					break;
 				case CHAR_PLAYERONGOAL:
 					bitmap_draw(TILE_PLAYERONGOAL, x, y);
-					delayms(5);
+					delayms(SENDDELAY);
 					break;
 				case CHAR_BOX:
 					bitmap_draw(TILE_BOX, x, y);
-					delayms(5);					
+					delayms(SENDDELAY);					
 					break;
 				case CHAR_BOXONGOAL:
 					bitmap_draw(TILE_BOXONGOAL, x, y);
-					delayms(5);					
+					delayms(SENDDELAY);					
 					break;
 				case CHAR_GOAL:
 					bitmap_draw(TILE_GOAL, x, y);
-					delayms(5);					
+					delayms(SENDDELAY);					
 					break;
 				case CHAR_FLOOR:
 					bitmap_draw(TILE_FLOOR, x, y);
-					delayms(5);					
+					delayms(SENDDELAY);					
 					break;
 				default:
 					break;

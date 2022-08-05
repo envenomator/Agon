@@ -1,4 +1,4 @@
-Zilog eZ80 Macro Assembler Version 4.3 (19073001)05-Aug-22     21:36:43     page:   1
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)05-Aug-22     21:44:53     page:   1
 
 
 PC     Object              I  Line    Source 
@@ -1882,79 +1882,79 @@ PC     Object              I  Line    Source
                            A  1878    ;   10	#include "String.h"
                            A  1879    ;   11	#include "timer.h"
                            A  1880    ;   12	
-                           A  1881    ;   13	UINT32 bitmapbuffer[BITMAPSIZE];		
-                           A  1882    ;   14	UINT8 sprites[MAXHEIGHT][MAXWIDTH]; // 
-                           A  1883    ;   15	struct sokobanlevel currentlevel;	// 
-                           A  1884    ;   16	
-                           A  1885    ;   17	static const UINT32 wall_data[1][256] =
-                           A  1886    ;   18	{
-                           A  1887    ;   19	0xff008080, 0xff008080, 0xff008080, 0xf
-                           A  1888    ;   20	0xff000080, 0xff000080, 0xff000080, 0xf
-                           A  1889    ;   21	0xff000080, 0xff000080, 0xff000080, 0xf
-                           A  1890    ;   22	0xff000080, 0xff000080, 0xff808080, 0xf
+                           A  1881    ;   13	#define SENDDELAY	5
+                           A  1882    ;   14	
+                           A  1883    ;   15	UINT32 bitmapbuffer[BITMAPSIZE];		
+                           A  1884    ;   16	UINT8 sprites[MAXHEIGHT][MAXWIDTH]; // 
+                           A  1885    ;   17	struct sokobanlevel currentlevel;	// 
+                           A  1886    ;   18	
+                           A  1887    ;   19	static const UINT32 wall_data[1][256] =
+                           A  1888    ;   20	{
+                           A  1889    ;   21	0xff008080, 0xff008080, 0xff008080, 0xf
+                           A  1890    ;   22	0xff000080, 0xff000080, 0xff000080, 0xf
                            A  1891    ;   23	0xff000080, 0xff000080, 0xff000080, 0xf
-                           A  1892    ;   24	0xff000080, 0xff000080, 0xff000080, 0xf
-                           A  1893    ;   25	0xff808080, 0xff808080, 0xff808080, 0xf
-                           A  1894    ;   26	0xff404040, 0xff404040, 0xff404040, 0xf
-                           A  1895    ;   27	0xff404040, 0xff008080, 0xff008080, 0xf
-                           A  1896    ;   28	0xff404040, 0xff008080, 0xff008080, 0xf
-                           A  1897    ;   29	0xff404040, 0xff008080, 0xff000080, 0xf
-                           A  1898    ;   30	0xff404040, 0xff008080, 0xff000080, 0xf
+                           A  1892    ;   24	0xff000080, 0xff000080, 0xff808080, 0xf
+                           A  1893    ;   25	0xff000080, 0xff000080, 0xff000080, 0xf
+                           A  1894    ;   26	0xff000080, 0xff000080, 0xff000080, 0xf
+                           A  1895    ;   27	0xff808080, 0xff808080, 0xff808080, 0xf
+                           A  1896    ;   28	0xff404040, 0xff404040, 0xff404040, 0xf
+                           A  1897    ;   29	0xff404040, 0xff008080, 0xff008080, 0xf
+                           A  1898    ;   30	0xff404040, 0xff008080, 0xff008080, 0xf
                            A  1899    ;   31	0xff404040, 0xff008080, 0xff000080, 0xf
                            A  1900    ;   32	0xff404040, 0xff008080, 0xff000080, 0xf
-                           A  1901    ;   33	0xff404040, 0xff008080, 0xff808080, 0xf
-                           A  1902    ;   34	0xff404040, 0xff404040, 0xff404040, 0xf
-                           A  1903    ;   35	}
-                           A  1904    ;   36	};
-                           A  1905    ;   37	
-                           A  1906    ;   38	static const UINT32 player_data[1][256]
-                           A  1907    ;   39	{
-                           A  1908    ;   40	0x00000000, 0x00000000, 0x00000000, 0x0
-                           A  1909    ;   41	0x00000000, 0x00000000, 0x00000000, 0x0
-                           A  1910    ;   42	0x00000000, 0x00000000, 0x00000000, 0xf
-                           A  1911    ;   43	0x00000000, 0x00000000, 0x00000000, 0xf
+                           A  1901    ;   33	0xff404040, 0xff008080, 0xff000080, 0xf
+                           A  1902    ;   34	0xff404040, 0xff008080, 0xff000080, 0xf
+                           A  1903    ;   35	0xff404040, 0xff008080, 0xff808080, 0xf
+                           A  1904    ;   36	0xff404040, 0xff404040, 0xff404040, 0xf
+                           A  1905    ;   37	}
+                           A  1906    ;   38	};
+                           A  1907    ;   39	
+                           A  1908    ;   40	static const UINT32 player_data[1][256]
+                           A  1909    ;   41	{
+                           A  1910    ;   42	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1911    ;   43	0x00000000, 0x00000000, 0x00000000, 0x0
                            A  1912    ;   44	0x00000000, 0x00000000, 0x00000000, 0xf
-                           A  1913    ;   45	0x00000000, 0x00000000, 0x00000000, 0x0
-                           A  1914    ;   46	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1913    ;   45	0x00000000, 0x00000000, 0x00000000, 0xf
+                           A  1914    ;   46	0x00000000, 0x00000000, 0x00000000, 0xf
                            A  1915    ;   47	0x00000000, 0x00000000, 0x00000000, 0x0
-                           A  1916    ;   48	0x00000000, 0x00000000, 0x00000000, 0xf
-                           A  1917    ;   49	0x00000000, 0x00000000, 0xff000000, 0xf
-                           A  1918    ;   50	0x00000000, 0x00000000, 0xff404040, 0xf
-                           A  1919    ;   51	0x00000000, 0xff000000, 0xff008080, 0xf
-                           A  1920    ;   52	0x00000000, 0xff000000, 0xff008080, 0xf
-                           A  1921    ;   53	0x00000000, 0x00000000, 0xff000000, 0xf
-                           A  1922    ;   54	0x00000000, 0x00000000, 0x00000000, 0xf
-                           A  1923    ;   55	0x00000000, 0x00000000, 0x00000000, 0xf
-                           A  1924    ;   56	}
-                           A  1925    ;   57	};
-                           A  1926    ;   58	
-                           A  1927    ;   59	static const UINT32 goal_data[1][256] =
-                           A  1928    ;   60	{
-                           A  1929    ;   61	0x00000000, 0x00000000, 0x00000000, 0x0
-                           A  1930    ;   62	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1916    ;   48	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1917    ;   49	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1918    ;   50	0x00000000, 0x00000000, 0x00000000, 0xf
+                           A  1919    ;   51	0x00000000, 0x00000000, 0xff000000, 0xf
+                           A  1920    ;   52	0x00000000, 0x00000000, 0xff404040, 0xf
+                           A  1921    ;   53	0x00000000, 0xff000000, 0xff008080, 0xf
+                           A  1922    ;   54	0x00000000, 0xff000000, 0xff008080, 0xf
+                           A  1923    ;   55	0x00000000, 0x00000000, 0xff000000, 0xf
+                           A  1924    ;   56	0x00000000, 0x00000000, 0x00000000, 0xf
+                           A  1925    ;   57	0x00000000, 0x00000000, 0x00000000, 0xf
+                           A  1926    ;   58	}
+                           A  1927    ;   59	};
+                           A  1928    ;   60	
+                           A  1929    ;   61	static const UINT32 goal_data[1][256] =
+                           A  1930    ;   62	{
                            A  1931    ;   63	0x00000000, 0x00000000, 0x00000000, 0x0
                            A  1932    ;   64	0x00000000, 0x00000000, 0x00000000, 0x0
                            A  1933    ;   65	0x00000000, 0x00000000, 0x00000000, 0x0
                            A  1934    ;   66	0x00000000, 0x00000000, 0x00000000, 0x0
-                           A  1935    ;   67	0x00000000, 0x00000000, 0x00000000, 0xf
+                           A  1935    ;   67	0x00000000, 0x00000000, 0x00000000, 0x0
                            A  1936    ;   68	0x00000000, 0x00000000, 0x00000000, 0x0
-                           A  1937    ;   69	0x00000000, 0x00000000, 0x00000000, 0x0
-                           A  1938    ;   70	0x00000000, 0x00000000, 0x00000000, 0xf
+                           A  1937    ;   69	0x00000000, 0x00000000, 0x00000000, 0xf
+                           A  1938    ;   70	0x00000000, 0x00000000, 0x00000000, 0x0
                            A  1939    ;   71	0x00000000, 0x00000000, 0x00000000, 0x0
-                           A  1940    ;   72	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1940    ;   72	0x00000000, 0x00000000, 0x00000000, 0xf
                            A  1941    ;   73	0x00000000, 0x00000000, 0x00000000, 0x0
                            A  1942    ;   74	0x00000000, 0x00000000, 0x00000000, 0x0
                            A  1943    ;   75	0x00000000, 0x00000000, 0x00000000, 0x0
                            A  1944    ;   76	0x00000000, 0x00000000, 0x00000000, 0x0
-                           A  1945    ;   77	}
-                           A  1946    ;   78	};
-                           A  1947    ;   79	
-                           A  1948    ;   80	static const UINT32 box_data[1][256] = 
-                           A  1949    ;   81	{
-                           A  1950    ;   82	0xff00ffff, 0xff00ffff, 0xff00ffff, 0xf
-                           A  1951    ;   83	0xff00ffff, 0xff008080, 0xff008080, 0xf
-                           A  1952    ;   84	0xff00ffff, 0xff008080, 0xff000000, 0xf
-                           A  1953    ;   85	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1945    ;   77	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1946    ;   78	0x00000000, 0x00000000, 0x00000000, 0x0
+                           A  1947    ;   79	}
+                           A  1948    ;   80	};
+                           A  1949    ;   81	
+                           A  1950    ;   82	static const UINT32 box_data[1][256] = 
+                           A  1951    ;   83	{
+                           A  1952    ;   84	0xff00ffff, 0xff00ffff, 0xff00ffff, 0xf
+                           A  1953    ;   85	0xff00ffff, 0xff008080, 0xff008080, 0xf
                            A  1954    ;   86	0xff00ffff, 0xff008080, 0xff000000, 0xf
                            A  1955    ;   87	0xff00ffff, 0xff008080, 0xff000000, 0xf
                            A  1956    ;   88	0xff00ffff, 0xff008080, 0xff000000, 0xf
@@ -1965,17 +1965,17 @@ PC     Object              I  Line    Source
                            A  1961    ;   93	0xff00ffff, 0xff008080, 0xff000000, 0xf
                            A  1962    ;   94	0xff00ffff, 0xff008080, 0xff000000, 0xf
                            A  1963    ;   95	0xff00ffff, 0xff008080, 0xff000000, 0xf
-                           A  1964    ;   96	0xff00ffff, 0xff00ffff, 0xff00ffff, 0xf
-                           A  1965    ;   97	0xff00ffff, 0xff008080, 0xff008080, 0xf
-                           A  1966    ;   98	}
-                           A  1967    ;   99	};
-                           A  1968    ;  100	
-                           A  1969    ;  101	static const UINT32 boxongoal_data[1][2
-                           A  1970    ;  102	{
-                           A  1971    ;  103	0xff00ffff, 0xff00ffff, 0xff00ffff, 0xf
-                           A  1972    ;  104	0xff00ffff, 0xff008080, 0xff008080, 0xf
-                           A  1973    ;  105	0xff00ffff, 0xff008080, 0xff000000, 0xf
-                           A  1974    ;  106	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1964    ;   96	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1965    ;   97	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1966    ;   98	0xff00ffff, 0xff00ffff, 0xff00ffff, 0xf
+                           A  1967    ;   99	0xff00ffff, 0xff008080, 0xff008080, 0xf
+                           A  1968    ;  100	}
+                           A  1969    ;  101	};
+                           A  1970    ;  102	
+                           A  1971    ;  103	static const UINT32 boxongoal_data[1][2
+                           A  1972    ;  104	{
+                           A  1973    ;  105	0xff00ffff, 0xff00ffff, 0xff00ffff, 0xf
+                           A  1974    ;  106	0xff00ffff, 0xff008080, 0xff008080, 0xf
                            A  1975    ;  107	0xff00ffff, 0xff008080, 0xff000000, 0xf
                            A  1976    ;  108	0xff00ffff, 0xff008080, 0xff000000, 0xf
                            A  1977    ;  109	0xff00ffff, 0xff008080, 0xff000000, 0xf
@@ -1986,1623 +1986,1625 @@ PC     Object              I  Line    Source
                            A  1982    ;  114	0xff00ffff, 0xff008080, 0xff000000, 0xf
                            A  1983    ;  115	0xff00ffff, 0xff008080, 0xff000000, 0xf
                            A  1984    ;  116	0xff00ffff, 0xff008080, 0xff000000, 0xf
-                           A  1985    ;  117	0xff00ffff, 0xff00ffff, 0xff00ffff, 0xf
-                           A  1986    ;  118	0xff00ffff, 0xff008080, 0xff008080, 0xf
-                           A  1987    ;  119	}
-                           A  1988    ;  120	};
-                           A  1989    ;  121	
-                           A  1990    ;  122	const chartotile lookup[] =
-                           A  1991    ;  123	{
-                           A  1992    	SEGMENT CODE
-                           A  1993    ;  124		{CHAR_WALL, TILE_WALL},
-                           A  1994    ;  125		{CHAR_PLAYER, TILE_PLAYER},
-                           A  1995    ;  126		{CHAR_PLAYERONGOAL, TILE_PLAYERONGO
-                           A  1996    ;  127		{CHAR_BOX, TILE_BOX},
-                           A  1997    ;  128		{CHAR_BOXONGOAL, TILE_BOXONGOAL},
-                           A  1998    ;  129		{CHAR_GOAL, TILE_GOAL},
-                           A  1999    ;  130		{CHAR_FLOOR, TILE_FLOOR}
-                           A  2000    ;  131	};
-                           A  2001    ;  132	
-                           A  2002    ;  133	BOOL game_init(void)
-                           A  2003    ;  134	{
-000000                     A  2004    _game_init:
-                           A  2005    .DEFINE "_game_init"
-                           A  2006    
-                           A  2007    .VALUE _game_init
+                           A  1985    ;  117	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1986    ;  118	0xff00ffff, 0xff008080, 0xff000000, 0xf
+                           A  1987    ;  119	0xff00ffff, 0xff00ffff, 0xff00ffff, 0xf
+                           A  1988    ;  120	0xff00ffff, 0xff008080, 0xff008080, 0xf
+                           A  1989    ;  121	}
+                           A  1990    ;  122	};
+                           A  1991    ;  123	
+                           A  1992    ;  124	const chartotile lookup[] =
+                           A  1993    ;  125	{
+                           A  1994    	SEGMENT CODE
+                           A  1995    ;  126		{CHAR_WALL, TILE_WALL},
+                           A  1996    ;  127		{CHAR_PLAYER, TILE_PLAYER},
+                           A  1997    ;  128		{CHAR_PLAYERONGOAL, TILE_PLAYERONGO
+                           A  1998    ;  129		{CHAR_BOX, TILE_BOX},
+                           A  1999    ;  130		{CHAR_BOXONGOAL, TILE_BOXONGOAL},
+                           A  2000    ;  131		{CHAR_GOAL, TILE_GOAL},
+                           A  2001    ;  132		{CHAR_FLOOR, TILE_FLOOR}
+                           A  2002    ;  133	};
+                           A  2003    ;  134	
+                           A  2004    ;  135	BOOL game_init(void)
+                           A  2005    ;  136	{
+000000                     A  2006    _game_init:
+                           A  2007    .DEFINE "_game_init"
                            A  2008    
-                           A  2009    .CLASS 2
+                           A  2009    .VALUE _game_init
                            A  2010    
-                           A  2011    .TYPE 76
+                           A  2011    .CLASS 2
                            A  2012    
-                           A  2013    .ENDEF
+                           A  2013    .TYPE 76
                            A  2014    
-                           A  2015    .BEGFUNC "game_init",134,"_game_init"
+                           A  2015    .ENDEF
                            A  2016    
-000000 DDE5                A  2017    	PUSH	IX
-000002 DD210000 00         A  2018    	LD	IX,0
-000007 DD39                A  2019    	ADD	IX,SP
-                           A  2020    ;  135		// needs to be called once, to load
-                           A  2021    ;  136		FIL	   	fil;
-                           A  2022    ;  137		UINT   	br;	
-                           A  2023    ;  138		FSIZE_t fSize;
-                           A  2024    ;  139		UINT16	levels;
-                           A  2025    ;  140		FRESULT	fr;
-                           A  2026    ;  141		UINT8	n;
-                           A  2027    ;  142		
-                           A  2028    ;  143		/*
-                           A  2029    ;  144		// load all bitmaps and send them t
-                           A  2030    ;  145		fr = f_open(&fil, FILENAME_BITMAPS,
-                           A  2031    ;  146		if(fr == FR_OK) {
-                           A  2032    ;  147			fSize = f_size(&fil);
-                           A  2033    ;  148			if(fSize != BITMAPNUMBER * BITM
-                           A  2034    ;  149			{
-                           A  2035    ;  150				f_close(&fil);
-                           A  2036    ;  151				return FALSE;
-                           A  2037    ;  152			}
-                           A  2038    ;  153			for(n = 0; n < BITMAPNUMBER; n+
-                           A  2039    ;  154			{
-                           A  2040    ;  155				fr = f_read(&fil, bitmapbuf
-                           A  2041    ;  156				bitmap_select(n);
-                           A  2042    ;  157				bitmap_sendData_selected(BI
-                           A  2043    ;  158			}
-                           A  2044    ;  159		}
-                           A  2045    ;  160		else {
-                           A  2046    ;  161			mos_fileError(fr);
-                           A  2047    ;  162			return FALSE;
-                           A  2048    ;  163		}
-                           A  2049    ;  164		f_close(&fil);
-                           A  2050    ;  165		*/
-                           A  2051    ;  166		
-                           A  2052    ;  167		// DEBUG
-                           A  2053    ;  168		//bitmap_createSolidColor(TILE_WALL
-                           A  2054    ;  169		bitmap_sendData(TILE_WALL, BITMAP_W
-                           A  2055    .LINE 169
-                           A  2056    
-000009 01 00 00 00         A  2057    	LD	BC,_wall_data
-00000D C5                  A  2058    	PUSH	BC
-00000E 01100000            A  2059    	LD	BC,16
-000012 C5                  A  2060    	PUSH	BC
-000013 C5                  A  2061    	PUSH	BC
-000014 01000000            A  2062    	LD	BC,0
-000018 C5                  A  2063    	PUSH	BC
-000019 CD 00 00 00         A  2064    	CALL	_bitmap_sendData
-00001D C1                  A  2065    	POP	BC
-00001E C1                  A  2066    	POP	BC
-00001F C1                  A  2067    	POP	BC
-000020 C1                  A  2068    	POP	BC
-                           A  2069    ;  170		//bitmap_createSolidColor(TILE_PLAY
-                           A  2070    ;  171		bitmap_sendData(TILE_PLAYER, BITMAP
-                           A  2071    .LINE 171
-                           A  2072    
-000021 01 00 04 00         A  2073    	LD	BC,_player_data
-000025 C5                  A  2074    	PUSH	BC
-000026 01100000            A  2075    	LD	BC,16
-00002A C5                  A  2076    	PUSH	BC
-00002B C5                  A  2077    	PUSH	BC
-00002C 01010000            A  2078    	LD	BC,1
-000030 C5                  A  2079    	PUSH	BC
-000031 CD 00 00 00         A  2080    	CALL	_bitmap_sendData
-000035 C1                  A  2081    	POP	BC
-000036 C1                  A  2082    	POP	BC
-000037 C1                  A  2083    	POP	BC
-000038 C1                  A  2084    	POP	BC
-                           A  2085    ;  172		//bitmap_createSolidColor(TILE_PLAY
-                           A  2086    ;  173		bitmap_sendData(TILE_PLAYERONGOAL, 
-                           A  2087    .LINE 173
-                           A  2088    
-000039 01 00 04 00         A  2089    	LD	BC,_player_data
-00003D C5                  A  2090    	PUSH	BC
-00003E 01100000            A  2091    	LD	BC,16
-000042 C5                  A  2092    	PUSH	BC
-000043 C5                  A  2093    	PUSH	BC
-000044 01020000            A  2094    	LD	BC,2
-000048 C5                  A  2095    	PUSH	BC
-000049 CD 00 00 00         A  2096    	CALL	_bitmap_sendData
-00004D C1                  A  2097    	POP	BC
-00004E C1                  A  2098    	POP	BC
-00004F C1                  A  2099    	POP	BC
-000050 C1                  A  2100    	POP	BC
-                           A  2101    ;  174		
-                           A  2102    ;  175		bitmap_sendData(TILE_BOX, BITMAP_WI
-                           A  2103    .LINE 175
-                           A  2104    
-000051 01 00 0C 00         A  2105    	LD	BC,_box_data
-000055 C5                  A  2106    	PUSH	BC
-000056 01100000            A  2107    	LD	BC,16
-00005A C5                  A  2108    	PUSH	BC
-00005B C5                  A  2109    	PUSH	BC
-00005C 01030000            A  2110    	LD	BC,3
-000060 C5                  A  2111    	PUSH	BC
-000061 CD 00 00 00         A  2112    	CALL	_bitmap_sendData
-000065 C1                  A  2113    	POP	BC
-000066 C1                  A  2114    	POP	BC
-000067 C1                  A  2115    	POP	BC
-000068 C1                  A  2116    	POP	BC
-                           A  2117    ;  176		bitmap_sendData(TILE_BOXONGOAL, BIT
-                           A  2118    .LINE 176
-                           A  2119    
-000069 01 00 10 00         A  2120    	LD	BC,_boxongoal_data
-00006D C5                  A  2121    	PUSH	BC
-00006E 01100000            A  2122    	LD	BC,16
-000072 C5                  A  2123    	PUSH	BC
-000073 C5                  A  2124    	PUSH	BC
-000074 01040000            A  2125    	LD	BC,4
-000078 C5                  A  2126    	PUSH	BC
-000079 CD 00 00 00         A  2127    	CALL	_bitmap_sendData
-00007D C1                  A  2128    	POP	BC
-00007E C1                  A  2129    	POP	BC
-00007F C1                  A  2130    	POP	BC
-000080 C1                  A  2131    	POP	BC
-                           A  2132    ;  177		bitmap_sendData(TILE_GOAL, BITMAP_W
-                           A  2133    .LINE 177
-                           A  2134    
-000081 01 00 08 00         A  2135    	LD	BC,_goal_data
-000085 C5                  A  2136    	PUSH	BC
-000086 01100000            A  2137    	LD	BC,16
-00008A C5                  A  2138    	PUSH	BC
-00008B C5                  A  2139    	PUSH	BC
-00008C 01050000            A  2140    	LD	BC,5
-000090 C5                  A  2141    	PUSH	BC
-000091 CD 00 00 00         A  2142    	CALL	_bitmap_sendData
-000095 C1                  A  2143    	POP	BC
-000096 C1                  A  2144    	POP	BC
-000097 C1                  A  2145    	POP	BC
-000098 C1                  A  2146    	POP	BC
-                           A  2147    ;  178		bitmap_createSolidColor(TILE_FLOOR,
-                           A  2148    .LINE 178
-                           A  2149    
-000099 01FF0000            A  2150    	LD	BC,255
-00009D C5                  A  2151    	PUSH	BC
-00009E 01000000            A  2152    	LD	BC,0
-0000A2 C5                  A  2153    	PUSH	BC
-0000A3 01100000            A  2154    	LD	BC,16
-0000A7 C5                  A  2155    	PUSH	BC
-0000A8 C5                  A  2156    	PUSH	BC
-0000A9 01060000            A  2157    	LD	BC,6
-0000AD C5                  A  2158    	PUSH	BC
-0000AE CD 00 00 00         A  2159    	CALL	_bitmap_createSolidColor
-0000B2 C1                  A  2160    	POP	BC
-0000B3 C1                  A  2161    	POP	BC
-0000B4 C1                  A  2162    	POP	BC
-0000B5 C1                  A  2163    	POP	BC
-0000B6 C1                  A  2164    	POP	BC
-                           A  2165    ;  179		
-                           A  2166    ;  180		//
+                           A  2017    .BEGFUNC "game_init",136,"_game_init"
+                           A  2018    
+000000 DDE5                A  2019    	PUSH	IX
+000002 DD210000 00         A  2020    	LD	IX,0
+000007 DD39                A  2021    	ADD	IX,SP
+                           A  2022    ;  137		// needs to be called once, to load
+                           A  2023    ;  138		FIL	   	fil;
+                           A  2024    ;  139		UINT   	br;	
+                           A  2025    ;  140		FSIZE_t fSize;
+                           A  2026    ;  141		UINT16	levels;
+                           A  2027    ;  142		FRESULT	fr;
+                           A  2028    ;  143		UINT8	n;
+                           A  2029    ;  144		
+                           A  2030    ;  145		/*
+                           A  2031    ;  146		// load all bitmaps and send them t
+                           A  2032    ;  147		fr = f_open(&fil, FILENAME_BITMAPS,
+                           A  2033    ;  148		if(fr == FR_OK) {
+                           A  2034    ;  149			fSize = f_size(&fil);
+                           A  2035    ;  150			if(fSize != BITMAPNUMBER * BITM
+                           A  2036    ;  151			{
+                           A  2037    ;  152				f_close(&fil);
+                           A  2038    ;  153				return FALSE;
+                           A  2039    ;  154			}
+                           A  2040    ;  155			for(n = 0; n < BITMAPNUMBER; n+
+                           A  2041    ;  156			{
+                           A  2042    ;  157				fr = f_read(&fil, bitmapbuf
+                           A  2043    ;  158				bitmap_select(n);
+                           A  2044    ;  159				bitmap_sendData_selected(BI
+                           A  2045    ;  160			}
+                           A  2046    ;  161		}
+                           A  2047    ;  162		else {
+                           A  2048    ;  163			mos_fileError(fr);
+                           A  2049    ;  164			return FALSE;
+                           A  2050    ;  165		}
+                           A  2051    ;  166		f_close(&fil);
+                           A  2052    ;  167		*/
+                           A  2053    ;  168		
+                           A  2054    ;  169		// DEBUG
+                           A  2055    ;  170		//bitmap_createSolidColor(TILE_WALL
+                           A  2056    ;  171		bitmap_sendData(TILE_WALL, BITMAP_W
+                           A  2057    .LINE 171
+                           A  2058    
+000009 01 00 00 00         A  2059    	LD	BC,_wall_data
+00000D C5                  A  2060    	PUSH	BC
+00000E 01100000            A  2061    	LD	BC,16
+000012 C5                  A  2062    	PUSH	BC
+000013 C5                  A  2063    	PUSH	BC
+000014 01000000            A  2064    	LD	BC,0
+000018 C5                  A  2065    	PUSH	BC
+000019 CD 00 00 00         A  2066    	CALL	_bitmap_sendData
+00001D C1                  A  2067    	POP	BC
+00001E C1                  A  2068    	POP	BC
+00001F C1                  A  2069    	POP	BC
+000020 C1                  A  2070    	POP	BC
+                           A  2071    ;  172		//bitmap_createSolidColor(TILE_PLAY
+                           A  2072    ;  173		bitmap_sendData(TILE_PLAYER, BITMAP
+                           A  2073    .LINE 173
+                           A  2074    
+000021 01 00 04 00         A  2075    	LD	BC,_player_data
+000025 C5                  A  2076    	PUSH	BC
+000026 01100000            A  2077    	LD	BC,16
+00002A C5                  A  2078    	PUSH	BC
+00002B C5                  A  2079    	PUSH	BC
+00002C 01010000            A  2080    	LD	BC,1
+000030 C5                  A  2081    	PUSH	BC
+000031 CD 00 00 00         A  2082    	CALL	_bitmap_sendData
+000035 C1                  A  2083    	POP	BC
+000036 C1                  A  2084    	POP	BC
+000037 C1                  A  2085    	POP	BC
+000038 C1                  A  2086    	POP	BC
+                           A  2087    ;  174		//bitmap_createSolidColor(TILE_PLAY
+                           A  2088    ;  175		bitmap_sendData(TILE_PLAYERONGOAL, 
+                           A  2089    .LINE 175
+                           A  2090    
+000039 01 00 04 00         A  2091    	LD	BC,_player_data
+00003D C5                  A  2092    	PUSH	BC
+00003E 01100000            A  2093    	LD	BC,16
+000042 C5                  A  2094    	PUSH	BC
+000043 C5                  A  2095    	PUSH	BC
+000044 01020000            A  2096    	LD	BC,2
+000048 C5                  A  2097    	PUSH	BC
+000049 CD 00 00 00         A  2098    	CALL	_bitmap_sendData
+00004D C1                  A  2099    	POP	BC
+00004E C1                  A  2100    	POP	BC
+00004F C1                  A  2101    	POP	BC
+000050 C1                  A  2102    	POP	BC
+                           A  2103    ;  176		
+                           A  2104    ;  177		bitmap_sendData(TILE_BOX, BITMAP_WI
+                           A  2105    .LINE 177
+                           A  2106    
+000051 01 00 0C 00         A  2107    	LD	BC,_box_data
+000055 C5                  A  2108    	PUSH	BC
+000056 01100000            A  2109    	LD	BC,16
+00005A C5                  A  2110    	PUSH	BC
+00005B C5                  A  2111    	PUSH	BC
+00005C 01030000            A  2112    	LD	BC,3
+000060 C5                  A  2113    	PUSH	BC
+000061 CD 00 00 00         A  2114    	CALL	_bitmap_sendData
+000065 C1                  A  2115    	POP	BC
+000066 C1                  A  2116    	POP	BC
+000067 C1                  A  2117    	POP	BC
+000068 C1                  A  2118    	POP	BC
+                           A  2119    ;  178		bitmap_sendData(TILE_BOXONGOAL, BIT
+                           A  2120    .LINE 178
+                           A  2121    
+000069 01 00 10 00         A  2122    	LD	BC,_boxongoal_data
+00006D C5                  A  2123    	PUSH	BC
+00006E 01100000            A  2124    	LD	BC,16
+000072 C5                  A  2125    	PUSH	BC
+000073 C5                  A  2126    	PUSH	BC
+000074 01040000            A  2127    	LD	BC,4
+000078 C5                  A  2128    	PUSH	BC
+000079 CD 00 00 00         A  2129    	CALL	_bitmap_sendData
+00007D C1                  A  2130    	POP	BC
+00007E C1                  A  2131    	POP	BC
+00007F C1                  A  2132    	POP	BC
+000080 C1                  A  2133    	POP	BC
+                           A  2134    ;  179		bitmap_sendData(TILE_GOAL, BITMAP_W
+                           A  2135    .LINE 179
+                           A  2136    
+000081 01 00 08 00         A  2137    	LD	BC,_goal_data
+000085 C5                  A  2138    	PUSH	BC
+000086 01100000            A  2139    	LD	BC,16
+00008A C5                  A  2140    	PUSH	BC
+00008B C5                  A  2141    	PUSH	BC
+00008C 01050000            A  2142    	LD	BC,5
+000090 C5                  A  2143    	PUSH	BC
+000091 CD 00 00 00         A  2144    	CALL	_bitmap_sendData
+000095 C1                  A  2145    	POP	BC
+000096 C1                  A  2146    	POP	BC
+000097 C1                  A  2147    	POP	BC
+000098 C1                  A  2148    	POP	BC
+                           A  2149    ;  180		bitmap_createSolidColor(TILE_FLOOR,
+                           A  2150    .LINE 180
+                           A  2151    
+000099 01FF0000            A  2152    	LD	BC,255
+00009D C5                  A  2153    	PUSH	BC
+00009E 01000000            A  2154    	LD	BC,0
+0000A2 C5                  A  2155    	PUSH	BC
+0000A3 01100000            A  2156    	LD	BC,16
+0000A7 C5                  A  2157    	PUSH	BC
+0000A8 C5                  A  2158    	PUSH	BC
+0000A9 01060000            A  2159    	LD	BC,6
+0000AD C5                  A  2160    	PUSH	BC
+0000AE CD 00 00 00         A  2161    	CALL	_bitmap_createSolidColor
+0000B2 C1                  A  2162    	POP	BC
+0000B3 C1                  A  2163    	POP	BC
+0000B4 C1                  A  2164    	POP	BC
+0000B5 C1                  A  2165    	POP	BC
+0000B6 C1                  A  2166    	POP	BC
                            A  2167    ;  181		
-                           A  2168    ;  182		// define sprites
-                           A  2169    ;  183		sprite_select(SPRITE_PLAYER);
-                           A  2170    .LINE 183
-                           A  2171    
-0000B7 01000000            A  2172    	LD	BC,0
-0000BB C5                  A  2173    	PUSH	BC
-0000BC CD 00 00 00         A  2174    	CALL	_sprite_select
-0000C0 C1                  A  2175    	POP	BC
-                           A  2176    ;  184		sprite_addFrame_selected(TILE_PLAYE
-                           A  2177    .LINE 184
-                           A  2178    
-0000C1 01010000            A  2179    	LD	BC,1
-0000C5 C5                  A  2180    	PUSH	BC
-0000C6 CD 00 00 00         A  2181    	CALL	_sprite_addFrame_selected
-0000CA C1                  A  2182    	POP	BC
-                           A  2183    ;  185		sprite_hide();
-                           A  2184    .LINE 185
-                           A  2185    
-0000CB CD 00 00 00         A  2186    	CALL	_sprite_hide
-                           A  2187    ;  186		sprite_select(SPRITE_BOX);
-                           A  2188    .LINE 186
-                           A  2189    
-0000CF 01010000            A  2190    	LD	BC,1
-0000D3 C5                  A  2191    	PUSH	BC
-0000D4 CD 00 00 00         A  2192    	CALL	_sprite_select
-0000D8 C1                  A  2193    	POP	BC
-                           A  2194    ;  187		sprite_addFrame_selected(TILE_BOX);
-                           A  2195    .LINE 187
-                           A  2196    
-0000D9 01030000            A  2197    	LD	BC,3
-0000DD C5                  A  2198    	PUSH	BC
-0000DE CD 00 00 00         A  2199    	CALL	_sprite_addFrame_selected
-0000E2 C1                  A  2200    	POP	BC
-                           A  2201    ;  188		sprite_hide();
-                           A  2202    .LINE 188
-                           A  2203    
-0000E3 CD 00 00 00         A  2204    	CALL	_sprite_hide
-                           A  2205    ;  189		sprite_activateTotal(2);
-                           A  2206    .LINE 189
-                           A  2207    
-0000E7 01020000            A  2208    	LD	BC,2
-0000EB C5                  A  2209    	PUSH	BC
-0000EC CD 00 00 00         A  2210    	CALL	_sprite_activateTotal
-0000F0 C1                  A  2211    	POP	BC
-                           A  2212    ;  190		
-                           A  2213    ;  191		return TRUE;
-                           A  2214    .LINE 191
-                           A  2215    
-0000F1 3E01                A  2216    	LD	A,%1
-                           A  2217    ;  192		
-                           A  2218    ;  193	}
-                           A  2219    .LINE 193
-                           A  2220    
-0000F3 DDF9                A  2221    	LD	SP,IX
-0000F5 DDE1                A  2222    	POP	IX
-0000F7 C9                  A  2223    	RET	
-                           A  2224    
-                           A  2225    
-                           A  2226    ;**************************** _game_init ******
-                           A  2227    ;Name                         Addr/Register   S
-                           A  2228    ;_sprite_activateTotal               IMPORT  --
-                           A  2229    ;_sprite_hide                        IMPORT  --
-                           A  2230    ;_sprite_addFrame_selected           IMPORT  --
-                           A  2231    ;_sprite_select                      IMPORT  --
-                           A  2232    ;_bitmap_createSolidColor            IMPORT  --
-                           A  2233    ;_goal_data                          STATIC   1
-                           A  2234    ;_boxongoal_data                     STATIC   1
-                           A  2235    ;_box_data                           STATIC   1
-                           A  2236    ;_player_data                        STATIC   1
-                           A  2237    ;_wall_data                          STATIC   1
-                           A  2238    ;_bitmap_sendData                    IMPORT  --
-                           A  2239    
-                           A  2240    
-                           A  2241    ; Stack Frame Size: 6 (bytes)
-                           A  2242    ;       Spill Code: 0 (instruction)
-                           A  2243    
-                           A  2244    
-                           A  2245    .ENDFUNC "game_init",193,"_game_init"
-                           A  2246    ;  194	void game_resetlevel(void)
-                           A  2247    ;  195	{
-0000F8                     A  2248    _game_resetlevel:
-                           A  2249    .DEFINE "_game_resetlevel"
-                           A  2250    
-                           A  2251    .VALUE _game_resetlevel
+                           A  2168    ;  182		//
+                           A  2169    ;  183		
+                           A  2170    ;  184		// define sprites
+                           A  2171    ;  185		sprite_select(SPRITE_PLAYER);
+                           A  2172    .LINE 185
+                           A  2173    
+0000B7 01000000            A  2174    	LD	BC,0
+0000BB C5                  A  2175    	PUSH	BC
+0000BC CD 00 00 00         A  2176    	CALL	_sprite_select
+0000C0 C1                  A  2177    	POP	BC
+                           A  2178    ;  186		sprite_addFrame_selected(TILE_PLAYE
+                           A  2179    .LINE 186
+                           A  2180    
+0000C1 01010000            A  2181    	LD	BC,1
+0000C5 C5                  A  2182    	PUSH	BC
+0000C6 CD 00 00 00         A  2183    	CALL	_sprite_addFrame_selected
+0000CA C1                  A  2184    	POP	BC
+                           A  2185    ;  187		sprite_hide();
+                           A  2186    .LINE 187
+                           A  2187    
+0000CB CD 00 00 00         A  2188    	CALL	_sprite_hide
+                           A  2189    ;  188		sprite_select(SPRITE_BOX);
+                           A  2190    .LINE 188
+                           A  2191    
+0000CF 01010000            A  2192    	LD	BC,1
+0000D3 C5                  A  2193    	PUSH	BC
+0000D4 CD 00 00 00         A  2194    	CALL	_sprite_select
+0000D8 C1                  A  2195    	POP	BC
+                           A  2196    ;  189		sprite_addFrame_selected(TILE_BOX);
+                           A  2197    .LINE 189
+                           A  2198    
+0000D9 01030000            A  2199    	LD	BC,3
+0000DD C5                  A  2200    	PUSH	BC
+0000DE CD 00 00 00         A  2201    	CALL	_sprite_addFrame_selected
+0000E2 C1                  A  2202    	POP	BC
+                           A  2203    ;  190		sprite_hide();
+                           A  2204    .LINE 190
+                           A  2205    
+0000E3 CD 00 00 00         A  2206    	CALL	_sprite_hide
+                           A  2207    ;  191		sprite_activateTotal(2);
+                           A  2208    .LINE 191
+                           A  2209    
+0000E7 01020000            A  2210    	LD	BC,2
+0000EB C5                  A  2211    	PUSH	BC
+0000EC CD 00 00 00         A  2212    	CALL	_sprite_activateTotal
+0000F0 C1                  A  2213    	POP	BC
+                           A  2214    ;  192		
+                           A  2215    ;  193		return TRUE;
+                           A  2216    .LINE 193
+                           A  2217    
+0000F1 3E01                A  2218    	LD	A,%1
+                           A  2219    ;  194		
+                           A  2220    ;  195	}
+                           A  2221    .LINE 195
+                           A  2222    
+0000F3 DDF9                A  2223    	LD	SP,IX
+0000F5 DDE1                A  2224    	POP	IX
+0000F7 C9                  A  2225    	RET	
+                           A  2226    
+                           A  2227    
+                           A  2228    ;**************************** _game_init ******
+                           A  2229    ;Name                         Addr/Register   S
+                           A  2230    ;_sprite_activateTotal               IMPORT  --
+                           A  2231    ;_sprite_hide                        IMPORT  --
+                           A  2232    ;_sprite_addFrame_selected           IMPORT  --
+                           A  2233    ;_sprite_select                      IMPORT  --
+                           A  2234    ;_bitmap_createSolidColor            IMPORT  --
+                           A  2235    ;_goal_data                          STATIC   1
+                           A  2236    ;_boxongoal_data                     STATIC   1
+                           A  2237    ;_box_data                           STATIC   1
+                           A  2238    ;_player_data                        STATIC   1
+                           A  2239    ;_wall_data                          STATIC   1
+                           A  2240    ;_bitmap_sendData                    IMPORT  --
+                           A  2241    
+                           A  2242    
+                           A  2243    ; Stack Frame Size: 6 (bytes)
+                           A  2244    ;       Spill Code: 0 (instruction)
+                           A  2245    
+                           A  2246    
+                           A  2247    .ENDFUNC "game_init",195,"_game_init"
+                           A  2248    ;  196	void game_resetlevel(void)
+                           A  2249    ;  197	{
+0000F8                     A  2250    _game_resetlevel:
+                           A  2251    .DEFINE "_game_resetlevel"
                            A  2252    
-                           A  2253    .CLASS 2
+                           A  2253    .VALUE _game_resetlevel
                            A  2254    
-                           A  2255    .TYPE 65
+                           A  2255    .CLASS 2
                            A  2256    
-                           A  2257    .ENDEF
+                           A  2257    .TYPE 65
                            A  2258    
-                           A  2259    .BEGFUNC "game_resetlevel",195,"_game_resetleve
+                           A  2259    .ENDEF
                            A  2260    
-                           A  2261    .LINE 195
+                           A  2261    .BEGFUNC "game_resetlevel",197,"_game_resetleve
                            A  2262    
-                           A  2263    .DEFINE "x"
+                           A  2263    .LINE 197
                            A  2264    
-                           A  2265    .CLASS 65
+                           A  2265    .DEFINE "x"
                            A  2266    
-                           A  2267    .VALUE -1
+                           A  2267    .CLASS 65
                            A  2268    
-                           A  2269    .TYPE 12
+                           A  2269    .VALUE -1
                            A  2270    
-                           A  2271    .ENDEF
+                           A  2271    .TYPE 12
                            A  2272    
-                           A  2273    .DEFINE "y"
+                           A  2273    .ENDEF
                            A  2274    
-                           A  2275    .CLASS 65
+                           A  2275    .DEFINE "y"
                            A  2276    
-                           A  2277    .VALUE -2
+                           A  2277    .CLASS 65
                            A  2278    
-                           A  2279    .TYPE 12
+                           A  2279    .VALUE -2
                            A  2280    
-                           A  2281    .ENDEF
+                           A  2281    .TYPE 12
                            A  2282    
-0000F8 DDE5                A  2283    	PUSH	IX
-0000FA DD210000 00         A  2284    	LD	IX,0
-0000FF DD39                A  2285    	ADD	IX,SP
-000101 3B                  A  2286    	DEC	SP
-000102 3B                  A  2287    	DEC	SP
-                           A  2288    ;  196		UINT8 x,y;
-                           A  2289    ;  197		
-                           A  2290    ;  198		// reset current level, everything 
-                           A  2291    ;  199		memset(&currentlevel, 0, sizeof(str
-                           A  2292    .LINE 199
-                           A  2293    
-000103 01B70400            A  2294    	LD	BC,1207
-000107 C5                  A  2295    	PUSH	BC
-000108 01000000            A  2296    	LD	BC,0
-00010C C5                  A  2297    	PUSH	BC
-00010D 01 B0 08 00         A  2298    	LD	BC,_currentlevel
-000111 C5                  A  2299    	PUSH	BC
-000112 CD 00 00 00         A  2300    	CALL	_memset
-000116 C1                  A  2301    	POP	BC
-000117 C1                  A  2302    	POP	BC
-000118 C1                  A  2303    	POP	BC
-                           A  2304    ;  200		
-                           A  2305    ;  201		// reset all sprite positions
-                           A  2306    ;  202		for(y = 0; y < MAXHEIGHT; y++)
-                           A  2307    .LINE 202
-                           A  2308    
-000119 DD36FE00            A  2309    	LD	(IX+%FFFFFFFE),%0
-00011D 18 31               A  2310    	JR	L_8
-00011F                     A  2311    L_6:
-                           A  2312    ;  203		{
-                           A  2313    ;  204			for(x = 0; x < MAXWIDTH; x++)
-                           A  2314    .LINE 204
-                           A  2315    
-00011F DD36FF00            A  2316    	LD	(IX+%FFFFFFFF),%0
-000123 18 21               A  2317    	JR	L_5
-000125                     A  2318    L_3:
-                           A  2319    ;  205			{
-                           A  2320    ;  206				sprites[y][x] = NOSPRITE;
-                           A  2321    .LINE 206
-                           A  2322    
-000125 DD7EFE              A  2323    	LD	A,(IX+%FFFFFFFE)
-000128 B7ED62              A  2324    	UEXT	HL
-00012B 6F                  A  2325    	LD	L,A
-00012C 3E28                A  2326    	LD	A,%28
-00012E CD 00 00 00         A  2327    	CALL	__imul_b
-000132 01 00 04 00         A  2328    	LD	BC,_sprites
-000136 09                  A  2329    	ADD	HL,BC
-000137 E5C1                A  2330    	LD	BC,HL
-000139 DD7EFF              A  2331    	LD	A,(IX+%FFFFFFFF)
-00013C B7ED62              A  2332    	UEXT	HL
-00013F 6F                  A  2333    	LD	L,A
-000140 09                  A  2334    	ADD	HL,BC
-000141 36FF                A  2335    	LD	(HL),%FF
-000143 DD34FF              A  2336    	INC	(IX+%FFFFFFFF)
-                           A  2337    ;  207			}
-000146                     A  2338    L_5:
-                           A  2339    .LINE 207
-                           A  2340    
-000146 DD7EFF              A  2341    	LD	A,(IX+%FFFFFFFF)
-000149 FE28                A  2342    	CP	A,%28
-00014B 38 D8               A  2343    	JR	C,L_3
-00014D DD34FE              A  2344    	INC	(IX+%FFFFFFFE)
-                           A  2345    ;  208		}
-000150                     A  2346    L_8:
-                           A  2347    .LINE 208
-                           A  2348    
-000150 DD7EFE              A  2349    	LD	A,(IX+%FFFFFFFE)
-000153 FE1E                A  2350    	CP	A,%1E
-000155 38 C8               A  2351    	JR	C,L_6
-                           A  2352    ;  209	}
-                           A  2353    .LINE 209
-                           A  2354    
-000157 DDF9                A  2355    	LD	SP,IX
-000159 DDE1                A  2356    	POP	IX
-00015B C9                  A  2357    	RET	
-                           A  2358    
-                           A  2359    
-                           A  2360    ;**************************** _game_resetlevel 
-                           A  2361    ;Name                         Addr/Register   S
-                           A  2362    ;_sprites                            STATIC   1
-                           A  2363    ;_currentlevel                       STATIC   1
-                           A  2364    ;_memset                             IMPORT  --
-                           A  2365    ;y                                     IX-2    
-                           A  2366    ;x                                     IX-1    
-                           A  2367    
-                           A  2368    
-                           A  2369    ; Stack Frame Size: 8 (bytes)
-                           A  2370    ;       Spill Code: 0 (instruction)
-                           A  2371    
-                           A  2372    
-                           A  2373    .ENDFUNC "game_resetlevel",209,"_game_resetleve
-                           A  2374    ;  210	
-                           A  2375    ;  211	void game_play(UINT8 levelnumber)
-                           A  2376    ;  212	{
-00015C                     A  2377    _game_play:
-                           A  2378    .DEFINE "_game_play"
-                           A  2379    
-                           A  2380    .VALUE _game_play
+                           A  2283    .ENDEF
+                           A  2284    
+0000F8 DDE5                A  2285    	PUSH	IX
+0000FA DD210000 00         A  2286    	LD	IX,0
+0000FF DD39                A  2287    	ADD	IX,SP
+000101 3B                  A  2288    	DEC	SP
+000102 3B                  A  2289    	DEC	SP
+                           A  2290    ;  198		UINT8 x,y;
+                           A  2291    ;  199		
+                           A  2292    ;  200		// reset current level, everything 
+                           A  2293    ;  201		memset(&currentlevel, 0, sizeof(str
+                           A  2294    .LINE 201
+                           A  2295    
+000103 01B70400            A  2296    	LD	BC,1207
+000107 C5                  A  2297    	PUSH	BC
+000108 01000000            A  2298    	LD	BC,0
+00010C C5                  A  2299    	PUSH	BC
+00010D 01 B0 08 00         A  2300    	LD	BC,_currentlevel
+000111 C5                  A  2301    	PUSH	BC
+000112 CD 00 00 00         A  2302    	CALL	_memset
+000116 C1                  A  2303    	POP	BC
+000117 C1                  A  2304    	POP	BC
+000118 C1                  A  2305    	POP	BC
+                           A  2306    ;  202		
+                           A  2307    ;  203		// reset all sprite positions
+                           A  2308    ;  204		for(y = 0; y < MAXHEIGHT; y++)
+                           A  2309    .LINE 204
+                           A  2310    
+000119 DD36FE00            A  2311    	LD	(IX+%FFFFFFFE),%0
+00011D 18 31               A  2312    	JR	L_8
+00011F                     A  2313    L_6:
+                           A  2314    ;  205		{
+                           A  2315    ;  206			for(x = 0; x < MAXWIDTH; x++)
+                           A  2316    .LINE 206
+                           A  2317    
+00011F DD36FF00            A  2318    	LD	(IX+%FFFFFFFF),%0
+000123 18 21               A  2319    	JR	L_5
+000125                     A  2320    L_3:
+                           A  2321    ;  207			{
+                           A  2322    ;  208				sprites[y][x] = NOSPRITE;
+                           A  2323    .LINE 208
+                           A  2324    
+000125 DD7EFE              A  2325    	LD	A,(IX+%FFFFFFFE)
+000128 B7ED62              A  2326    	UEXT	HL
+00012B 6F                  A  2327    	LD	L,A
+00012C 3E28                A  2328    	LD	A,%28
+00012E CD 00 00 00         A  2329    	CALL	__imul_b
+000132 01 00 04 00         A  2330    	LD	BC,_sprites
+000136 09                  A  2331    	ADD	HL,BC
+000137 E5C1                A  2332    	LD	BC,HL
+000139 DD7EFF              A  2333    	LD	A,(IX+%FFFFFFFF)
+00013C B7ED62              A  2334    	UEXT	HL
+00013F 6F                  A  2335    	LD	L,A
+000140 09                  A  2336    	ADD	HL,BC
+000141 36FF                A  2337    	LD	(HL),%FF
+000143 DD34FF              A  2338    	INC	(IX+%FFFFFFFF)
+                           A  2339    ;  209			}
+000146                     A  2340    L_5:
+                           A  2341    .LINE 209
+                           A  2342    
+000146 DD7EFF              A  2343    	LD	A,(IX+%FFFFFFFF)
+000149 FE28                A  2344    	CP	A,%28
+00014B 38 D8               A  2345    	JR	C,L_3
+00014D DD34FE              A  2346    	INC	(IX+%FFFFFFFE)
+                           A  2347    ;  210		}
+000150                     A  2348    L_8:
+                           A  2349    .LINE 210
+                           A  2350    
+000150 DD7EFE              A  2351    	LD	A,(IX+%FFFFFFFE)
+000153 FE1E                A  2352    	CP	A,%1E
+000155 38 C8               A  2353    	JR	C,L_6
+                           A  2354    ;  211	}
+                           A  2355    .LINE 211
+                           A  2356    
+000157 DDF9                A  2357    	LD	SP,IX
+000159 DDE1                A  2358    	POP	IX
+00015B C9                  A  2359    	RET	
+                           A  2360    
+                           A  2361    
+                           A  2362    ;**************************** _game_resetlevel 
+                           A  2363    ;Name                         Addr/Register   S
+                           A  2364    ;_sprites                            STATIC   1
+                           A  2365    ;_currentlevel                       STATIC   1
+                           A  2366    ;_memset                             IMPORT  --
+                           A  2367    ;y                                     IX-2    
+                           A  2368    ;x                                     IX-1    
+                           A  2369    
+                           A  2370    
+                           A  2371    ; Stack Frame Size: 8 (bytes)
+                           A  2372    ;       Spill Code: 0 (instruction)
+                           A  2373    
+                           A  2374    
+                           A  2375    .ENDFUNC "game_resetlevel",211,"_game_resetleve
+                           A  2376    ;  212	
+                           A  2377    ;  213	void game_play(UINT8 levelnumber)
+                           A  2378    ;  214	{
+00015C                     A  2379    _game_play:
+                           A  2380    .DEFINE "_game_play"
                            A  2381    
-                           A  2382    .CLASS 2
+                           A  2382    .VALUE _game_play
                            A  2383    
-                           A  2384    .TYPE 65
+                           A  2384    .CLASS 2
                            A  2385    
-                           A  2386    .ENDEF
+                           A  2386    .TYPE 65
                            A  2387    
-                           A  2388    .BEGFUNC "game_play",212,"_game_play"
+                           A  2388    .ENDEF
                            A  2389    
-                           A  2390    .LINE 212
+                           A  2390    .BEGFUNC "game_play",214,"_game_play"
                            A  2391    
-                           A  2392    .DEFINE "levelnumber"
+                           A  2392    .LINE 214
                            A  2393    
-                           A  2394    .CLASS 65
+                           A  2394    .DEFINE "levelnumber"
                            A  2395    
-                           A  2396    .VALUE 6
+                           A  2396    .CLASS 65
                            A  2397    
-                           A  2398    .TYPE 12
+                           A  2398    .VALUE 6
                            A  2399    
-                           A  2400    .ENDEF
+                           A  2400    .TYPE 12
                            A  2401    
-00015C DDE5                A  2402    	PUSH	IX
-00015E DD210000 00         A  2403    	LD	IX,0
-000163 DD39                A  2404    	ADD	IX,SP
-                           A  2405    ;  213		game_resetlevel();
-                           A  2406    .LINE 213
-                           A  2407    
-000165 CD F8 00 00         A  2408    	CALL	_game_resetlevel
-                           A  2409    ;  214		
-                           A  2410    ;  215		
-                           A  2411    ;  216	}
-                           A  2412    .LINE 216
-                           A  2413    
-000169 DDF9                A  2414    	LD	SP,IX
-00016B DDE1                A  2415    	POP	IX
-00016D C9                  A  2416    	RET	
-                           A  2417    
-                           A  2418    
-                           A  2419    ;**************************** _game_play ******
-                           A  2420    ;Name                         Addr/Register   S
-                           A  2421    ;_game_resetlevel                    IMPORT  --
-                           A  2422    ;levelnumber                           IX+6    
-                           A  2423    
-                           A  2424    
-                           A  2425    ; Stack Frame Size: 9 (bytes)
-                           A  2426    ;       Spill Code: 0 (instruction)
-                           A  2427    
-                           A  2428    
-                           A  2429    .ENDFUNC "game_play",216,"_game_play"
-                           A  2430    ;  217	
-                           A  2431    ;  218	
-                           A  2432    ;  219	void print_playfieldText(void)
-                           A  2433    ;  220	{
-00016E                     A  2434    _print_playfieldText:
-                           A  2435    .DEFINE "_print_playfieldText"
-                           A  2436    
-                           A  2437    .VALUE _print_playfieldText
+                           A  2402    .ENDEF
+                           A  2403    
+00015C DDE5                A  2404    	PUSH	IX
+00015E DD210000 00         A  2405    	LD	IX,0
+000163 DD39                A  2406    	ADD	IX,SP
+                           A  2407    ;  215		game_resetlevel();
+                           A  2408    .LINE 215
+                           A  2409    
+000165 CD F8 00 00         A  2410    	CALL	_game_resetlevel
+                           A  2411    ;  216		
+                           A  2412    ;  217		
+                           A  2413    ;  218	}
+                           A  2414    .LINE 218
+                           A  2415    
+000169 DDF9                A  2416    	LD	SP,IX
+00016B DDE1                A  2417    	POP	IX
+00016D C9                  A  2418    	RET	
+                           A  2419    
+                           A  2420    
+                           A  2421    ;**************************** _game_play ******
+                           A  2422    ;Name                         Addr/Register   S
+                           A  2423    ;_game_resetlevel                    IMPORT  --
+                           A  2424    ;levelnumber                           IX+6    
+                           A  2425    
+                           A  2426    
+                           A  2427    ; Stack Frame Size: 9 (bytes)
+                           A  2428    ;       Spill Code: 0 (instruction)
+                           A  2429    
+                           A  2430    
+                           A  2431    .ENDFUNC "game_play",218,"_game_play"
+                           A  2432    ;  219	
+                           A  2433    ;  220	
+                           A  2434    ;  221	void print_playfieldText(void)
+                           A  2435    ;  222	{
+00016E                     A  2436    _print_playfieldText:
+                           A  2437    .DEFINE "_print_playfieldText"
                            A  2438    
-                           A  2439    .CLASS 2
+                           A  2439    .VALUE _print_playfieldText
                            A  2440    
-                           A  2441    .TYPE 65
+                           A  2441    .CLASS 2
                            A  2442    
-                           A  2443    .ENDEF
+                           A  2443    .TYPE 65
                            A  2444    
-                           A  2445    .BEGFUNC "print_playfieldText",220,"_print_play
+                           A  2445    .ENDEF
                            A  2446    
-                           A  2447    .LINE 220
+                           A  2447    .BEGFUNC "print_playfieldText",222,"_print_play
                            A  2448    
-                           A  2449    .DEFINE "width"
+                           A  2449    .LINE 222
                            A  2450    
-                           A  2451    .CLASS 65
+                           A  2451    .DEFINE "width"
                            A  2452    
-                           A  2453    .VALUE -2
+                           A  2453    .CLASS 65
                            A  2454    
-                           A  2455    .TYPE 13
+                           A  2455    .VALUE -2
                            A  2456    
-                           A  2457    .ENDEF
+                           A  2457    .TYPE 13
                            A  2458    
-                           A  2459    .DEFINE "height"
+                           A  2459    .ENDEF
                            A  2460    
-                           A  2461    .CLASS 65
+                           A  2461    .DEFINE "height"
                            A  2462    
-                           A  2463    .VALUE -4
+                           A  2463    .CLASS 65
                            A  2464    
-                           A  2465    .TYPE 13
+                           A  2465    .VALUE -4
                            A  2466    
-                           A  2467    .ENDEF
+                           A  2467    .TYPE 13
                            A  2468    
-                           A  2469    .DEFINE "c"
+                           A  2469    .ENDEF
                            A  2470    
-                           A  2471    .CLASS 65
+                           A  2471    .DEFINE "c"
                            A  2472    
-                           A  2473    .VALUE -5
+                           A  2473    .CLASS 65
                            A  2474    
-                           A  2475    .TYPE 2
+                           A  2475    .VALUE -5
                            A  2476    
-                           A  2477    .ENDEF
+                           A  2477    .TYPE 2
                            A  2478    
-00016E DDE5                A  2479    	PUSH	IX
-000170 DD210000 00         A  2480    	LD	IX,0
-000175 DD39                A  2481    	ADD	IX,SP
-000177 C5                  A  2482    	PUSH	BC
-000178 C5                  A  2483    	PUSH	BC
-000179 3B                  A  2484    	DEC	SP
-00017A 3B                  A  2485    	DEC	SP
-                           A  2486    ;  221		UINT16 width, height;
-                           A  2487    ;  222		char c;
-                           A  2488    ;  223		
-                           A  2489    ;  224		for(height = 0; height < currentlev
-                           A  2490    .LINE 224
-                           A  2491    
-00017B DD36FC00            A  2492    	LD	(IX+%FFFFFFFC),%0
-00017F DD36FD00            A  2493    	LD	(IX+%FFFFFFFD),%0
-000183 C3 14 02 00         A  2494    	JR	L_23
-000187                     A  2495    L_21:
-                           A  2496    ;  225		{
-                           A  2497    ;  226			for(width = 0; width < currentl
-                           A  2498    .LINE 226
-                           A  2499    
-000187 DD36FE00            A  2500    	LD	(IX+%FFFFFFFE),%0
-00018B DD36FF00            A  2501    	LD	(IX+%FFFFFFFF),%0
-00018F 18 56               A  2502    	JR	L_19
-000191                     A  2503    L_17:
-                           A  2504    ;  227			{
-                           A  2505    ;  228				c = currentlevel.data[heigh
-                           A  2506    .LINE 228
-                           A  2507    
-000191 DD07FC              A  2508    	LD	BC,(IX+%FFFFFFFC)
-000194 CD 00 00 00         A  2509    	CALL	__stoiu
-000198 3E28                A  2510    	LD	A,%28
-00019A CD 00 00 00         A  2511    	CALL	__imul_b
-00019E 01 B7 08 00         A  2512    	LD	BC,_currentlevel+7
-0001A2 09                  A  2513    	ADD	HL,BC
-0001A3 E5D1                A  2514    	LD	DE,HL
-0001A5 DD07FE              A  2515    	LD	BC,(IX+%FFFFFFFE)
-0001A8 CD 00 00 00         A  2516    	CALL	__stoiu
-0001AC 19                  A  2517    	ADD	HL,DE
-0001AD 7E                  A  2518    	LD	A,(HL)
-0001AE DD77FB              A  2519    	LD	(IX+%FFFFFFFB),A
-                           A  2520    ;  229				printf("%c",c?c:' ');
-                           A  2521    .LINE 229
-                           A  2522    
-0001B1 B7                  A  2523    	OR	A,A
-0001B2 28 0E               A  2524    	JR	Z,L_15
-0001B4 DD7EFB              A  2525    	LD	A,(IX+%FFFFFFFB)
-0001B7 17ED62              A  2526    	SEXT	HL
-0001BA DD6EFB              A  2527    	LD	L,(IX+%FFFFFFFB)
-0001BD DD2FF8              A  2528    	LD	(IX+%FFFFFFF8),HL
-0001C0 18 07               A  2529    	JR	L_16
-0001C2                     A  2530    L_15:
-0001C2 01200000            A  2531    	LD	BC,32
-0001C6 DD0FF8              A  2532    	LD	(IX+%FFFFFFF8),BC
-0001C9                     A  2533    L_16:
-0001C9 01 00 00 00         A  2534    	LD	BC,___print_uputch
-0001CD ED43 00 00 00       A  2535    	LD	(___print_xputch),BC
-0001D2 DD4EF8              A  2536    	LD	C,(IX+%FFFFFFF8)
-0001D5 0600                A  2537    	LD	B,%0
-0001D7 C5                  A  2538    	PUSH	BC
-0001D8 CD 00 00 00         A  2539    	CALL	___print_uputch
-0001DC C1                  A  2540    	POP	BC
-0001DD DD27FE              A  2541    	LD	HL,(IX+%FFFFFFFE)
-0001E0 23                  A  2542    	INC	HL
-0001E1 DD75FE              A  2543    	LD	(IX+%FFFFFFFE),L
-0001E4 DD74FF              A  2544    	LD	(IX+%FFFFFFFF),H
-                           A  2545    ;  230			}
-0001E7                     A  2546    L_19:
-                           A  2547    .LINE 230
-                           A  2548    
-0001E7 3A B2 08 00         A  2549    	LD	A,(_currentlevel+2)
-0001EB 4F                  A  2550    	LD	C,A
-0001EC 0600                A  2551    	LD	B,%0
-0001EE DD27FE              A  2552    	LD	HL,(IX+%FFFFFFFE)
-0001F1 B7                  A  2553    	OR	A,A
-0001F2 40ED42              A  2554    	SBC.SIS	HL,BC
-0001F5 38 9A               A  2555    	JR	C,L_17
-                           A  2556    ;  231			printf("\n\r");
-                           A  2557    .LINE 231
-                           A  2558    
-0001F7 01 00 00 00         A  2559    	LD	BC,___print_uputch
-0001FB ED43 00 00 00       A  2560    	LD	(___print_xputch),BC
-000200 01 00 00 00         A  2561    	LD	BC,L__7
-000204 C5                  A  2562    	PUSH	BC
-000205 CD 00 00 00         A  2563    	CALL	___print_sendstring
-000209 C1                  A  2564    	POP	BC
-00020A DD27FC              A  2565    	LD	HL,(IX+%FFFFFFFC)
-00020D 23                  A  2566    	INC	HL
-00020E DD75FC              A  2567    	LD	(IX+%FFFFFFFC),L
-000211 DD74FD              A  2568    	LD	(IX+%FFFFFFFD),H
-                           A  2569    ;  232		}
-000214                     A  2570    L_23:
-                           A  2571    .LINE 232
-                           A  2572    
-000214 3A B3 08 00         A  2573    	LD	A,(_currentlevel+3)
-000218 4F                  A  2574    	LD	C,A
-000219 0600                A  2575    	LD	B,%0
-00021B DD27FC              A  2576    	LD	HL,(IX+%FFFFFFFC)
-00021E B7                  A  2577    	OR	A,A
-00021F 40ED42              A  2578    	SBC.SIS	HL,BC
-000222 DA 87 01 00         A  2579    	JR	C,L_21
-                           A  2580    ;  233		
-                           A  2581    ;  234	}
-                           A  2582    .LINE 234
-                           A  2583    
-000226 DDF9                A  2584    	LD	SP,IX
-000228 DDE1                A  2585    	POP	IX
-00022A C9                  A  2586    	RET	
-                           A  2587    
-                           A  2588    
-                           A  2589    ;**************************** _print_playfieldT
-                           A  2590    ;Name                         Addr/Register   S
-                           A  2591    ;___print_sendstring                 IMPORT  --
-                           A  2592    ;___print_xputch                     IMPORT    
-                           A  2593    ;___print_uputch                     IMPORT  --
-                           A  2594    ;_currentlevel                       STATIC   1
-                           A  2595    ;temp13                                IX-8    
-                           A  2596    ;c                                     IX-5    
-                           A  2597    ;height                                IX-4    
-                           A  2598    ;width                                 IX-2    
-                           A  2599    
-                           A  2600    
-                           A  2601    ; Stack Frame Size: 14 (bytes)
-                           A  2602    ;       Spill Code: 0 (instruction)
-                           A  2603    
-                           A  2604    
-                           A  2605    .ENDFUNC "print_playfieldText",234,"_print_play
-                           A  2606    	SEGMENT STRSECT
-000000                     A  2607    L__7:
-000000 0A0D00              A  2608    	DB	10,13,0
-                           A  2609    	SEGMENT CODE
-                           A  2610    ;  235	
-                           A  2611    ;  236	void game_displayLevel(void)
-                           A  2612    ;  237	{
-00022B                     A  2613    _game_displayLevel:
-                           A  2614    .DEFINE "_game_displayLevel"
-                           A  2615    
-                           A  2616    .VALUE _game_displayLevel
+                           A  2479    .ENDEF
+                           A  2480    
+00016E DDE5                A  2481    	PUSH	IX
+000170 DD210000 00         A  2482    	LD	IX,0
+000175 DD39                A  2483    	ADD	IX,SP
+000177 C5                  A  2484    	PUSH	BC
+000178 C5                  A  2485    	PUSH	BC
+000179 3B                  A  2486    	DEC	SP
+00017A 3B                  A  2487    	DEC	SP
+                           A  2488    ;  223		UINT16 width, height;
+                           A  2489    ;  224		char c;
+                           A  2490    ;  225		
+                           A  2491    ;  226		for(height = 0; height < currentlev
+                           A  2492    .LINE 226
+                           A  2493    
+00017B DD36FC00            A  2494    	LD	(IX+%FFFFFFFC),%0
+00017F DD36FD00            A  2495    	LD	(IX+%FFFFFFFD),%0
+000183 C3 14 02 00         A  2496    	JR	L_23
+000187                     A  2497    L_21:
+                           A  2498    ;  227		{
+                           A  2499    ;  228			for(width = 0; width < currentl
+                           A  2500    .LINE 228
+                           A  2501    
+000187 DD36FE00            A  2502    	LD	(IX+%FFFFFFFE),%0
+00018B DD36FF00            A  2503    	LD	(IX+%FFFFFFFF),%0
+00018F 18 56               A  2504    	JR	L_19
+000191                     A  2505    L_17:
+                           A  2506    ;  229			{
+                           A  2507    ;  230				c = currentlevel.data[heigh
+                           A  2508    .LINE 230
+                           A  2509    
+000191 DD07FC              A  2510    	LD	BC,(IX+%FFFFFFFC)
+000194 CD 00 00 00         A  2511    	CALL	__stoiu
+000198 3E28                A  2512    	LD	A,%28
+00019A CD 00 00 00         A  2513    	CALL	__imul_b
+00019E 01 B7 08 00         A  2514    	LD	BC,_currentlevel+7
+0001A2 09                  A  2515    	ADD	HL,BC
+0001A3 E5D1                A  2516    	LD	DE,HL
+0001A5 DD07FE              A  2517    	LD	BC,(IX+%FFFFFFFE)
+0001A8 CD 00 00 00         A  2518    	CALL	__stoiu
+0001AC 19                  A  2519    	ADD	HL,DE
+0001AD 7E                  A  2520    	LD	A,(HL)
+0001AE DD77FB              A  2521    	LD	(IX+%FFFFFFFB),A
+                           A  2522    ;  231				printf("%c",c?c:' ');
+                           A  2523    .LINE 231
+                           A  2524    
+0001B1 B7                  A  2525    	OR	A,A
+0001B2 28 0E               A  2526    	JR	Z,L_15
+0001B4 DD7EFB              A  2527    	LD	A,(IX+%FFFFFFFB)
+0001B7 17ED62              A  2528    	SEXT	HL
+0001BA DD6EFB              A  2529    	LD	L,(IX+%FFFFFFFB)
+0001BD DD2FF8              A  2530    	LD	(IX+%FFFFFFF8),HL
+0001C0 18 07               A  2531    	JR	L_16
+0001C2                     A  2532    L_15:
+0001C2 01200000            A  2533    	LD	BC,32
+0001C6 DD0FF8              A  2534    	LD	(IX+%FFFFFFF8),BC
+0001C9                     A  2535    L_16:
+0001C9 01 00 00 00         A  2536    	LD	BC,___print_uputch
+0001CD ED43 00 00 00       A  2537    	LD	(___print_xputch),BC
+0001D2 DD4EF8              A  2538    	LD	C,(IX+%FFFFFFF8)
+0001D5 0600                A  2539    	LD	B,%0
+0001D7 C5                  A  2540    	PUSH	BC
+0001D8 CD 00 00 00         A  2541    	CALL	___print_uputch
+0001DC C1                  A  2542    	POP	BC
+0001DD DD27FE              A  2543    	LD	HL,(IX+%FFFFFFFE)
+0001E0 23                  A  2544    	INC	HL
+0001E1 DD75FE              A  2545    	LD	(IX+%FFFFFFFE),L
+0001E4 DD74FF              A  2546    	LD	(IX+%FFFFFFFF),H
+                           A  2547    ;  232			}
+0001E7                     A  2548    L_19:
+                           A  2549    .LINE 232
+                           A  2550    
+0001E7 3A B2 08 00         A  2551    	LD	A,(_currentlevel+2)
+0001EB 4F                  A  2552    	LD	C,A
+0001EC 0600                A  2553    	LD	B,%0
+0001EE DD27FE              A  2554    	LD	HL,(IX+%FFFFFFFE)
+0001F1 B7                  A  2555    	OR	A,A
+0001F2 40ED42              A  2556    	SBC.SIS	HL,BC
+0001F5 38 9A               A  2557    	JR	C,L_17
+                           A  2558    ;  233			printf("\n\r");
+                           A  2559    .LINE 233
+                           A  2560    
+0001F7 01 00 00 00         A  2561    	LD	BC,___print_uputch
+0001FB ED43 00 00 00       A  2562    	LD	(___print_xputch),BC
+000200 01 00 00 00         A  2563    	LD	BC,L__7
+000204 C5                  A  2564    	PUSH	BC
+000205 CD 00 00 00         A  2565    	CALL	___print_sendstring
+000209 C1                  A  2566    	POP	BC
+00020A DD27FC              A  2567    	LD	HL,(IX+%FFFFFFFC)
+00020D 23                  A  2568    	INC	HL
+00020E DD75FC              A  2569    	LD	(IX+%FFFFFFFC),L
+000211 DD74FD              A  2570    	LD	(IX+%FFFFFFFD),H
+                           A  2571    ;  234		}
+000214                     A  2572    L_23:
+                           A  2573    .LINE 234
+                           A  2574    
+000214 3A B3 08 00         A  2575    	LD	A,(_currentlevel+3)
+000218 4F                  A  2576    	LD	C,A
+000219 0600                A  2577    	LD	B,%0
+00021B DD27FC              A  2578    	LD	HL,(IX+%FFFFFFFC)
+00021E B7                  A  2579    	OR	A,A
+00021F 40ED42              A  2580    	SBC.SIS	HL,BC
+000222 DA 87 01 00         A  2581    	JR	C,L_21
+                           A  2582    ;  235		
+                           A  2583    ;  236	}
+                           A  2584    .LINE 236
+                           A  2585    
+000226 DDF9                A  2586    	LD	SP,IX
+000228 DDE1                A  2587    	POP	IX
+00022A C9                  A  2588    	RET	
+                           A  2589    
+                           A  2590    
+                           A  2591    ;**************************** _print_playfieldT
+                           A  2592    ;Name                         Addr/Register   S
+                           A  2593    ;___print_sendstring                 IMPORT  --
+                           A  2594    ;___print_xputch                     IMPORT    
+                           A  2595    ;___print_uputch                     IMPORT  --
+                           A  2596    ;_currentlevel                       STATIC   1
+                           A  2597    ;temp13                                IX-8    
+                           A  2598    ;c                                     IX-5    
+                           A  2599    ;height                                IX-4    
+                           A  2600    ;width                                 IX-2    
+                           A  2601    
+                           A  2602    
+                           A  2603    ; Stack Frame Size: 14 (bytes)
+                           A  2604    ;       Spill Code: 0 (instruction)
+                           A  2605    
+                           A  2606    
+                           A  2607    .ENDFUNC "print_playfieldText",236,"_print_play
+                           A  2608    	SEGMENT STRSECT
+000000                     A  2609    L__7:
+000000 0A0D00              A  2610    	DB	10,13,0
+                           A  2611    	SEGMENT CODE
+                           A  2612    ;  237	
+                           A  2613    ;  238	void game_displayLevel(void)
+                           A  2614    ;  239	{
+00022B                     A  2615    _game_displayLevel:
+                           A  2616    .DEFINE "_game_displayLevel"
                            A  2617    
-                           A  2618    .CLASS 2
+                           A  2618    .VALUE _game_displayLevel
                            A  2619    
-                           A  2620    .TYPE 65
+                           A  2620    .CLASS 2
                            A  2621    
-                           A  2622    .ENDEF
+                           A  2622    .TYPE 65
                            A  2623    
-                           A  2624    .BEGFUNC "game_displayLevel",237,"_game_display
+                           A  2624    .ENDEF
                            A  2625    
-                           A  2626    .LINE 237
+                           A  2626    .BEGFUNC "game_displayLevel",239,"_game_display
                            A  2627    
-                           A  2628    .DEFINE "x"
+                           A  2628    .LINE 239
                            A  2629    
-                           A  2630    .CLASS 65
+                           A  2630    .DEFINE "x"
                            A  2631    
-                           A  2632    .VALUE -2
+                           A  2632    .CLASS 65
                            A  2633    
-                           A  2634    .TYPE 13
+                           A  2634    .VALUE -2
                            A  2635    
-                           A  2636    .ENDEF
+                           A  2636    .TYPE 13
                            A  2637    
-                           A  2638    .DEFINE "y"
+                           A  2638    .ENDEF
                            A  2639    
-                           A  2640    .CLASS 65
+                           A  2640    .DEFINE "y"
                            A  2641    
-                           A  2642    .VALUE -4
+                           A  2642    .CLASS 65
                            A  2643    
-                           A  2644    .TYPE 13
+                           A  2644    .VALUE -4
                            A  2645    
-                           A  2646    .ENDEF
+                           A  2646    .TYPE 13
                            A  2647    
-                           A  2648    .DEFINE "width"
+                           A  2648    .ENDEF
                            A  2649    
-                           A  2650    .CLASS 65
+                           A  2650    .DEFINE "width"
                            A  2651    
-                           A  2652    .VALUE -6
+                           A  2652    .CLASS 65
                            A  2653    
-                           A  2654    .TYPE 13
+                           A  2654    .VALUE -6
                            A  2655    
-                           A  2656    .ENDEF
+                           A  2656    .TYPE 13
                            A  2657    
-                           A  2658    .DEFINE "height"
+                           A  2658    .ENDEF
                            A  2659    
-                           A  2660    .CLASS 65
+                           A  2660    .DEFINE "height"
                            A  2661    
-                           A  2662    .VALUE -8
+                           A  2662    .CLASS 65
                            A  2663    
-                           A  2664    .TYPE 13
+                           A  2664    .VALUE -8
                            A  2665    
-                           A  2666    .ENDEF
+                           A  2666    .TYPE 13
                            A  2667    
-                           A  2668    .DEFINE "c"
+                           A  2668    .ENDEF
                            A  2669    
-                           A  2670    .CLASS 65
+                           A  2670    .DEFINE "c"
                            A  2671    
-                           A  2672    .VALUE -9
+                           A  2672    .CLASS 65
                            A  2673    
-                           A  2674    .TYPE 2
+                           A  2674    .VALUE -9
                            A  2675    
-                           A  2676    .ENDEF
+                           A  2676    .TYPE 2
                            A  2677    
-                           A  2678    .DEFINE "xstart"
+                           A  2678    .ENDEF
                            A  2679    
-                           A  2680    .CLASS 65
+                           A  2680    .DEFINE "xstart"
                            A  2681    
-                           A  2682    .VALUE -11
+                           A  2682    .CLASS 65
                            A  2683    
-                           A  2684    .TYPE 13
+                           A  2684    .VALUE -11
                            A  2685    
-                           A  2686    .ENDEF
+                           A  2686    .TYPE 13
                            A  2687    
-                           A  2688    .DEFINE "ystart"
+                           A  2688    .ENDEF
                            A  2689    
-                           A  2690    .CLASS 65
+                           A  2690    .DEFINE "ystart"
                            A  2691    
-                           A  2692    .VALUE -13
+                           A  2692    .CLASS 65
                            A  2693    
-                           A  2694    .TYPE 13
+                           A  2694    .VALUE -13
                            A  2695    
-                           A  2696    .ENDEF
+                           A  2696    .TYPE 13
                            A  2697    
-00022B DDE5                A  2698    	PUSH	IX
-00022D DD210000 00         A  2699    	LD	IX,0
-000232 DD39                A  2700    	ADD	IX,SP
-000234 ED22F3              A  2701    	LEA	HL,IX+%FFFFFFF3
-000237 F9                  A  2702    	LD	SP,HL
-                           A  2703    ;  238		UINT16 width, height;
-                           A  2704    ;  239		UINT16 ystart,xstart,x,y;
-                           A  2705    ;  240		char c;
-                           A  2706    ;  241		
-                           A  2707    ;  242		// calculate on-screen base coordin
-                           A  2708    ;  243		xstart = ((MAXWIDTH - currentlevel.
-                           A  2709    .LINE 243
-                           A  2710    
-000238 3A B2 08 00         A  2711    	LD	A,(_currentlevel+2)
-00023C B7ED62              A  2712    	UEXT	HL
-00023F 6F                  A  2713    	LD	L,A
-000240 E5C1                A  2714    	LD	BC,HL
-000242 21280000            A  2715    	LD	HL,40
-000246 B7                  A  2716    	OR	A,A
-000247 ED42                A  2717    	SBC	HL,BC
-000249 01020000            A  2718    	LD	BC,2
-00024D CD 00 00 00         A  2719    	CALL	__idivs
-000251 29                  A  2720    	ADD	HL,HL
-000252 29                  A  2721    	ADD	HL,HL
-000253 29                  A  2722    	ADD	HL,HL
-000254 29                  A  2723    	ADD	HL,HL
-000255 DD75F5              A  2724    	LD	(IX+%FFFFFFF5),L
-000258 DD74F6              A  2725    	LD	(IX+%FFFFFFF6),H
-                           A  2726    ;  244		ystart = ((MAXHEIGHT - currentlevel
-                           A  2727    .LINE 244
-                           A  2728    
-00025B 3A B3 08 00         A  2729    	LD	A,(_currentlevel+3)
-00025F B7ED62              A  2730    	UEXT	HL
-000262 6F                  A  2731    	LD	L,A
-000263 E5C1                A  2732    	LD	BC,HL
-000265 211E0000            A  2733    	LD	HL,30
-000269 B7                  A  2734    	OR	A,A
-00026A ED42                A  2735    	SBC	HL,BC
-00026C 01020000            A  2736    	LD	BC,2
-000270 CD 00 00 00         A  2737    	CALL	__idivs
-000274 29                  A  2738    	ADD	HL,HL
-000275 29                  A  2739    	ADD	HL,HL
-000276 29                  A  2740    	ADD	HL,HL
-000277 29                  A  2741    	ADD	HL,HL
-000278 DD75F3              A  2742    	LD	(IX+%FFFFFFF3),L
-00027B DD74F4              A  2743    	LD	(IX+%FFFFFFF4),H
-                           A  2744    ;  245		//xstart = 0;
-                           A  2745    ;  246		//ystart = 0;
-                           A  2746    ;  247		
-                           A  2747    ;  248		y = ystart;
-                           A  2748    .LINE 248
-                           A  2749    
-00027E DD07F3              A  2750    	LD	BC,(IX+%FFFFFFF3)
-000281 DD71FC              A  2751    	LD	(IX+%FFFFFFFC),C
-000284 DD70FD              A  2752    	LD	(IX+%FFFFFFFD),B
-                           A  2753    ;  249		for(height = 0; height < currentlev
-                           A  2754    .LINE 249
-                           A  2755    
-000287 DD36F800            A  2756    	LD	(IX+%FFFFFFF8),%0
-00028B DD36F900            A  2757    	LD	(IX+%FFFFFFF9),%0
-00028F C3 78 04 00         A  2758    	JR	L_42
-000293                     A  2759    L_40:
-                           A  2760    ;  250		{
-                           A  2761    ;  251			x = xstart;
-                           A  2762    .LINE 251
-                           A  2763    
-000293 DD07F5              A  2764    	LD	BC,(IX+%FFFFFFF5)
-000296 DD71FE              A  2765    	LD	(IX+%FFFFFFFE),C
-000299 DD70FF              A  2766    	LD	(IX+%FFFFFFFF),B
-                           A  2767    ;  252			for(width = 0; width < currentl
-                           A  2768    .LINE 252
-                           A  2769    
-00029C DD36FA00            A  2770    	LD	(IX+%FFFFFFFA),%0
-0002A0 DD36FB00            A  2771    	LD	(IX+%FFFFFFFB),%0
-0002A4 C3 50 04 00         A  2772    	JR	L_38
-0002A8                     A  2773    L_36:
-                           A  2774    ;  253			{
-                           A  2775    ;  254				c = currentlevel.data[heigh
-                           A  2776    .LINE 254
-                           A  2777    
-0002A8 DD07F8              A  2778    	LD	BC,(IX+%FFFFFFF8)
-0002AB CD 00 00 00         A  2779    	CALL	__stoiu
-0002AF 3E28                A  2780    	LD	A,%28
-0002B1 CD 00 00 00         A  2781    	CALL	__imul_b
-0002B5 01 B7 08 00         A  2782    	LD	BC,_currentlevel+7
-0002B9 09                  A  2783    	ADD	HL,BC
-0002BA E5D1                A  2784    	LD	DE,HL
-0002BC DD07FA              A  2785    	LD	BC,(IX+%FFFFFFFA)
-0002BF CD 00 00 00         A  2786    	CALL	__stoiu
-0002C3 19                  A  2787    	ADD	HL,DE
-0002C4 7E                  A  2788    	LD	A,(HL)
-0002C5 DD77F7              A  2789    	LD	(IX+%FFFFFFF7),A
-                           A  2790    ;  255				switch(c)
-                           A  2791    .LINE 255
-                           A  2792    
-0002C8 17ED62              A  2793    	SEXT	HL
-0002CB DD6EF7              A  2794    	LD	L,(IX+%FFFFFFF7)
-0002CE E5C1                A  2795    	LD	BC,HL
-0002D0                     A  2796    L__12:
-0002D0 112A0000            A  2797    	LD	DE,42
-0002D4 B7                  A  2798    	OR	A,A
-0002D5 ED52                A  2799    	SBC	HL,DE
-0002D7 38 1D               A  2800    	JR	C,L__13
-0002D9 212B0000            A  2801    	LD	HL,43
-0002DD B7                  A  2802    	OR	A,A
-0002DE ED42                A  2803    	SBC	HL,BC
-0002E0 38 4F               A  2804    	JR	C,L__15
-0002E2 C5E1                A  2805    	LD	HL,BC
-0002E4 E5D1                A  2806    	LD	DE,HL
-0002E6 29                  A  2807    	ADD	HL,HL
-0002E7 19                  A  2808    	ADD	HL,DE
-0002E8 11 72 02 00         A  2809    	LD	DE,L__11-126
-0002EC 19                  A  2810    	ADD	HL,DE
-0002ED ED27                A  2811    	LD	HL,(HL)
-0002EF E9                  A  2812    	JP	(HL)
-0002F0                     A  2813    L__11:
-0002F0 DC0300              A  2814    	DW24	L_31	
-                           A  2815    
-0002F3 9C0300              A  2816    	DW24	L_29	
+                           A  2698    .ENDEF
+                           A  2699    
+00022B DDE5                A  2700    	PUSH	IX
+00022D DD210000 00         A  2701    	LD	IX,0
+000232 DD39                A  2702    	ADD	IX,SP
+000234 ED22F3              A  2703    	LEA	HL,IX+%FFFFFFF3
+000237 F9                  A  2704    	LD	SP,HL
+                           A  2705    ;  240		UINT16 width, height;
+                           A  2706    ;  241		UINT16 ystart,xstart,x,y;
+                           A  2707    ;  242		char c;
+                           A  2708    ;  243		
+                           A  2709    ;  244		// calculate on-screen base coordin
+                           A  2710    ;  245		xstart = ((MAXWIDTH - currentlevel.
+                           A  2711    .LINE 245
+                           A  2712    
+000238 3A B2 08 00         A  2713    	LD	A,(_currentlevel+2)
+00023C B7ED62              A  2714    	UEXT	HL
+00023F 6F                  A  2715    	LD	L,A
+000240 E5C1                A  2716    	LD	BC,HL
+000242 21280000            A  2717    	LD	HL,40
+000246 B7                  A  2718    	OR	A,A
+000247 ED42                A  2719    	SBC	HL,BC
+000249 01020000            A  2720    	LD	BC,2
+00024D CD 00 00 00         A  2721    	CALL	__idivs
+000251 29                  A  2722    	ADD	HL,HL
+000252 29                  A  2723    	ADD	HL,HL
+000253 29                  A  2724    	ADD	HL,HL
+000254 29                  A  2725    	ADD	HL,HL
+000255 DD75F5              A  2726    	LD	(IX+%FFFFFFF5),L
+000258 DD74F6              A  2727    	LD	(IX+%FFFFFFF6),H
+                           A  2728    ;  246		ystart = ((MAXHEIGHT - currentlevel
+                           A  2729    .LINE 246
+                           A  2730    
+00025B 3A B3 08 00         A  2731    	LD	A,(_currentlevel+3)
+00025F B7ED62              A  2732    	UEXT	HL
+000262 6F                  A  2733    	LD	L,A
+000263 E5C1                A  2734    	LD	BC,HL
+000265 211E0000            A  2735    	LD	HL,30
+000269 B7                  A  2736    	OR	A,A
+00026A ED42                A  2737    	SBC	HL,BC
+00026C 01020000            A  2738    	LD	BC,2
+000270 CD 00 00 00         A  2739    	CALL	__idivs
+000274 29                  A  2740    	ADD	HL,HL
+000275 29                  A  2741    	ADD	HL,HL
+000276 29                  A  2742    	ADD	HL,HL
+000277 29                  A  2743    	ADD	HL,HL
+000278 DD75F3              A  2744    	LD	(IX+%FFFFFFF3),L
+00027B DD74F4              A  2745    	LD	(IX+%FFFFFFF4),H
+                           A  2746    ;  247		//xstart = 0;
+                           A  2747    ;  248		//ystart = 0;
+                           A  2748    ;  249		
+                           A  2749    ;  250		y = ystart;
+                           A  2750    .LINE 250
+                           A  2751    
+00027E DD07F3              A  2752    	LD	BC,(IX+%FFFFFFF3)
+000281 DD71FC              A  2753    	LD	(IX+%FFFFFFFC),C
+000284 DD70FD              A  2754    	LD	(IX+%FFFFFFFD),B
+                           A  2755    ;  251		for(height = 0; height < currentlev
+                           A  2756    .LINE 251
+                           A  2757    
+000287 DD36F800            A  2758    	LD	(IX+%FFFFFFF8),%0
+00028B DD36F900            A  2759    	LD	(IX+%FFFFFFF9),%0
+00028F C3 78 04 00         A  2760    	JR	L_42
+000293                     A  2761    L_40:
+                           A  2762    ;  252		{
+                           A  2763    ;  253			x = xstart;
+                           A  2764    .LINE 253
+                           A  2765    
+000293 DD07F5              A  2766    	LD	BC,(IX+%FFFFFFF5)
+000296 DD71FE              A  2767    	LD	(IX+%FFFFFFFE),C
+000299 DD70FF              A  2768    	LD	(IX+%FFFFFFFF),B
+                           A  2769    ;  254			for(width = 0; width < currentl
+                           A  2770    .LINE 254
+                           A  2771    
+00029C DD36FA00            A  2772    	LD	(IX+%FFFFFFFA),%0
+0002A0 DD36FB00            A  2773    	LD	(IX+%FFFFFFFB),%0
+0002A4 C3 50 04 00         A  2774    	JR	L_38
+0002A8                     A  2775    L_36:
+                           A  2776    ;  255			{
+                           A  2777    ;  256				c = currentlevel.data[heigh
+                           A  2778    .LINE 256
+                           A  2779    
+0002A8 DD07F8              A  2780    	LD	BC,(IX+%FFFFFFF8)
+0002AB CD 00 00 00         A  2781    	CALL	__stoiu
+0002AF 3E28                A  2782    	LD	A,%28
+0002B1 CD 00 00 00         A  2783    	CALL	__imul_b
+0002B5 01 B7 08 00         A  2784    	LD	BC,_currentlevel+7
+0002B9 09                  A  2785    	ADD	HL,BC
+0002BA E5D1                A  2786    	LD	DE,HL
+0002BC DD07FA              A  2787    	LD	BC,(IX+%FFFFFFFA)
+0002BF CD 00 00 00         A  2788    	CALL	__stoiu
+0002C3 19                  A  2789    	ADD	HL,DE
+0002C4 7E                  A  2790    	LD	A,(HL)
+0002C5 DD77F7              A  2791    	LD	(IX+%FFFFFFF7),A
+                           A  2792    ;  257				switch(c)
+                           A  2793    .LINE 257
+                           A  2794    
+0002C8 17ED62              A  2795    	SEXT	HL
+0002CB DD6EF7              A  2796    	LD	L,(IX+%FFFFFFF7)
+0002CE E5C1                A  2797    	LD	BC,HL
+0002D0                     A  2798    L__12:
+0002D0 112A0000            A  2799    	LD	DE,42
+0002D4 B7                  A  2800    	OR	A,A
+0002D5 ED52                A  2801    	SBC	HL,DE
+0002D7 38 1D               A  2802    	JR	C,L__13
+0002D9 212B0000            A  2803    	LD	HL,43
+0002DD B7                  A  2804    	OR	A,A
+0002DE ED42                A  2805    	SBC	HL,BC
+0002E0 38 4F               A  2806    	JR	C,L__15
+0002E2 C5E1                A  2807    	LD	HL,BC
+0002E4 E5D1                A  2808    	LD	DE,HL
+0002E6 29                  A  2809    	ADD	HL,HL
+0002E7 19                  A  2810    	ADD	HL,DE
+0002E8 11 72 02 00         A  2811    	LD	DE,L__11-126
+0002EC 19                  A  2812    	ADD	HL,DE
+0002ED ED27                A  2813    	LD	HL,(HL)
+0002EF E9                  A  2814    	JP	(HL)
+0002F0                     A  2815    L__11:
+0002F0 DC0300              A  2816    	DW24	L_31	
                            A  2817    
-0002F6                     A  2818    L__13:
-0002F6 11230000            A  2819    	LD	DE,35
-0002FA C5E1                A  2820    	LD	HL,BC
-0002FC B7                  A  2821    	OR	A,A
-0002FD ED52                A  2822    	SBC	HL,DE
-0002FF 38 1F               A  2823    	JR	C,L__17
-000301 21240000            A  2824    	LD	HL,36
-000305 B7                  A  2825    	OR	A,A
-000306 ED42                A  2826    	SBC	HL,BC
-000308 DA 3A 04 00         A  2827    	JR	C,L_35
-00030C C5E1                A  2828    	LD	HL,BC
-00030E E5D1                A  2829    	LD	DE,HL
-000310 29                  A  2830    	ADD	HL,HL
-000311 19                  A  2831    	ADD	HL,DE
-000312 11 B1 02 00         A  2832    	LD	DE,L__10-105
-000316 19                  A  2833    	ADD	HL,DE
-000317 ED27                A  2834    	LD	HL,(HL)
-000319 E9                  A  2835    	JP	(HL)
-00031A                     A  2836    L__10:
-00031A 580300              A  2837    	DW24	L_27	
-                           A  2838    
-00031D BC0300              A  2839    	DW24	L_30	
+0002F3 9C0300              A  2818    	DW24	L_29	
+                           A  2819    
+0002F6                     A  2820    L__13:
+0002F6 11230000            A  2821    	LD	DE,35
+0002FA C5E1                A  2822    	LD	HL,BC
+0002FC B7                  A  2823    	OR	A,A
+0002FD ED52                A  2824    	SBC	HL,DE
+0002FF 38 1F               A  2825    	JR	C,L__17
+000301 21240000            A  2826    	LD	HL,36
+000305 B7                  A  2827    	OR	A,A
+000306 ED42                A  2828    	SBC	HL,BC
+000308 DA 3A 04 00         A  2829    	JR	C,L_35
+00030C C5E1                A  2830    	LD	HL,BC
+00030E E5D1                A  2831    	LD	DE,HL
+000310 29                  A  2832    	ADD	HL,HL
+000311 19                  A  2833    	ADD	HL,DE
+000312 11 B1 02 00         A  2834    	LD	DE,L__10-105
+000316 19                  A  2835    	ADD	HL,DE
+000317 ED27                A  2836    	LD	HL,(HL)
+000319 E9                  A  2837    	JP	(HL)
+00031A                     A  2838    L__10:
+00031A 580300              A  2839    	DW24	L_27	
                            A  2840    
-000320                     A  2841    L__17:
-000320 11200000            A  2842    	LD	DE,32
-000324 C5E1                A  2843    	LD	HL,BC
-000326 B7                  A  2844    	OR	A,A
-000327 ED52                A  2845    	SBC	HL,DE
-000329 CA 1C 04 00         A  2846    	JR	Z,L_33
-00032D C3 3A 04 00         A  2847    	JR	L_35
-000331                     A  2848    L__15:
-000331 11400000            A  2849    	LD	DE,64
-000335 C5E1                A  2850    	LD	HL,BC
-000337 B7                  A  2851    	OR	A,A
-000338 ED52                A  2852    	SBC	HL,DE
-00033A 28 3E               A  2853    	JR	Z,L_28
-00033C 21400000            A  2854    	LD	HL,64
-000340 B7                  A  2855    	OR	A,A
-000341 ED42                A  2856    	SBC	HL,BC
-000343 DA 3A 04 00         A  2857    	JR	C,L_35
-000347 112E0000            A  2858    	LD	DE,46
-00034B C5E1                A  2859    	LD	HL,BC
-00034D B7                  A  2860    	OR	A,A
-00034E ED52                A  2861    	SBC	HL,DE
-000350 CA FC 03 00         A  2862    	JR	Z,L_32
-000354 C3 3A 04 00         A  2863    	JR	L_35
-                           A  2864    ;  256				{
-                           A  2865    ;  257					case CHAR_WALL:
-000358                     A  2866    L_27:
-                           A  2867    .LINE 257
-                           A  2868    
-                           A  2869    ;  258						bitmap_draw(TILE_WA
-                           A  2870    .LINE 258
-                           A  2871    
-000358 DD07FC              A  2872    	LD	BC,(IX+%FFFFFFFC)
-00035B C5                  A  2873    	PUSH	BC
-00035C DD07FE              A  2874    	LD	BC,(IX+%FFFFFFFE)
-00035F C5                  A  2875    	PUSH	BC
-000360 01000000            A  2876    	LD	BC,0
-000364 C5                  A  2877    	PUSH	BC
-000365 CD 00 00 00         A  2878    	CALL	_bitmap_draw
-000369 C1                  A  2879    	POP	BC
-00036A C1                  A  2880    	POP	BC
-00036B C1                  A  2881    	POP	BC
-                           A  2882    ;  259						delayms(5);
-                           A  2883    .LINE 259
-                           A  2884    
-00036C 01050000            A  2885    	LD	BC,5
-000370 C5                  A  2886    	PUSH	BC
-000371 CD 00 00 00         A  2887    	CALL	_delayms
-000375 C1                  A  2888    	POP	BC
-                           A  2889    ;  260						break;
-                           A  2890    .LINE 260
-                           A  2891    
-000376 C3 3A 04 00         A  2892    	JR	L_35
-                           A  2893    ;  261					case CHAR_PLAYER:
-00037A                     A  2894    L_28:
-                           A  2895    .LINE 261
-                           A  2896    
-                           A  2897    ;  262						bitmap_draw(TILE_PL
-                           A  2898    .LINE 262
-                           A  2899    
-00037A DD07FC              A  2900    	LD	BC,(IX+%FFFFFFFC)
-00037D C5                  A  2901    	PUSH	BC
-00037E DD07FE              A  2902    	LD	BC,(IX+%FFFFFFFE)
-000381 C5                  A  2903    	PUSH	BC
-000382 01010000            A  2904    	LD	BC,1
-000386 C5                  A  2905    	PUSH	BC
-000387 CD 00 00 00         A  2906    	CALL	_bitmap_draw
-00038B C1                  A  2907    	POP	BC
-00038C C1                  A  2908    	POP	BC
-00038D C1                  A  2909    	POP	BC
-                           A  2910    ;  263						delayms(5);
-                           A  2911    .LINE 263
-                           A  2912    
-00038E 01050000            A  2913    	LD	BC,5
-000392 C5                  A  2914    	PUSH	BC
-000393 CD 00 00 00         A  2915    	CALL	_delayms
-000397 C1                  A  2916    	POP	BC
-                           A  2917    ;  264						break;
-                           A  2918    .LINE 264
-                           A  2919    
-000398 C3 3A 04 00         A  2920    	JR	L_35
-                           A  2921    ;  265					case CHAR_PLAYERONGOAL:
-00039C                     A  2922    L_29:
-                           A  2923    .LINE 265
-                           A  2924    
-                           A  2925    ;  266						bitmap_draw(TILE_PL
-                           A  2926    .LINE 266
-                           A  2927    
-00039C DD07FC              A  2928    	LD	BC,(IX+%FFFFFFFC)
-00039F C5                  A  2929    	PUSH	BC
-0003A0 DD07FE              A  2930    	LD	BC,(IX+%FFFFFFFE)
-0003A3 C5                  A  2931    	PUSH	BC
-0003A4 01020000            A  2932    	LD	BC,2
-0003A8 C5                  A  2933    	PUSH	BC
-0003A9 CD 00 00 00         A  2934    	CALL	_bitmap_draw
-0003AD C1                  A  2935    	POP	BC
-0003AE C1                  A  2936    	POP	BC
-0003AF C1                  A  2937    	POP	BC
-                           A  2938    ;  267						delayms(5);
-                           A  2939    .LINE 267
-                           A  2940    
-0003B0 01050000            A  2941    	LD	BC,5
-0003B4 C5                  A  2942    	PUSH	BC
-0003B5 CD 00 00 00         A  2943    	CALL	_delayms
-0003B9 C1                  A  2944    	POP	BC
-                           A  2945    ;  268						break;
-                           A  2946    .LINE 268
-                           A  2947    
-0003BA 18 7E               A  2948    	JR	L_35
-                           A  2949    ;  269					case CHAR_BOX:
-0003BC                     A  2950    L_30:
-                           A  2951    .LINE 269
-                           A  2952    
-                           A  2953    ;  270						bitmap_draw(TILE_BO
-                           A  2954    .LINE 270
-                           A  2955    
-0003BC DD07FC              A  2956    	LD	BC,(IX+%FFFFFFFC)
-0003BF C5                  A  2957    	PUSH	BC
-0003C0 DD07FE              A  2958    	LD	BC,(IX+%FFFFFFFE)
-0003C3 C5                  A  2959    	PUSH	BC
-0003C4 01030000            A  2960    	LD	BC,3
-0003C8 C5                  A  2961    	PUSH	BC
-0003C9 CD 00 00 00         A  2962    	CALL	_bitmap_draw
-0003CD C1                  A  2963    	POP	BC
-0003CE C1                  A  2964    	POP	BC
-0003CF C1                  A  2965    	POP	BC
-                           A  2966    ;  271						delayms(5);			
-                           A  2967    .LINE 271
-                           A  2968    
-0003D0 01050000            A  2969    	LD	BC,5
-0003D4 C5                  A  2970    	PUSH	BC
-0003D5 CD 00 00 00         A  2971    	CALL	_delayms
-0003D9 C1                  A  2972    	POP	BC
-                           A  2973    ;  272						break;
-                           A  2974    .LINE 272
-                           A  2975    
-0003DA 18 5E               A  2976    	JR	L_35
-                           A  2977    ;  273					case CHAR_BOXONGOAL:
-0003DC                     A  2978    L_31:
-                           A  2979    .LINE 273
-                           A  2980    
-                           A  2981    ;  274						bitmap_draw(TILE_BO
-                           A  2982    .LINE 274
-                           A  2983    
-0003DC DD07FC              A  2984    	LD	BC,(IX+%FFFFFFFC)
-0003DF C5                  A  2985    	PUSH	BC
-0003E0 DD07FE              A  2986    	LD	BC,(IX+%FFFFFFFE)
-0003E3 C5                  A  2987    	PUSH	BC
-0003E4 01040000            A  2988    	LD	BC,4
-0003E8 C5                  A  2989    	PUSH	BC
-0003E9 CD 00 00 00         A  2990    	CALL	_bitmap_draw
-0003ED C1                  A  2991    	POP	BC
-0003EE C1                  A  2992    	POP	BC
-0003EF C1                  A  2993    	POP	BC
-                           A  2994    ;  275						delayms(5);			
-                           A  2995    .LINE 275
-                           A  2996    
-0003F0 01050000            A  2997    	LD	BC,5
-0003F4 C5                  A  2998    	PUSH	BC
-0003F5 CD 00 00 00         A  2999    	CALL	_delayms
-0003F9 C1                  A  3000    	POP	BC
-                           A  3001    ;  276						break;
-                           A  3002    .LINE 276
-                           A  3003    
-0003FA 18 3E               A  3004    	JR	L_35
-                           A  3005    ;  277					case CHAR_GOAL:
-0003FC                     A  3006    L_32:
-                           A  3007    .LINE 277
-                           A  3008    
-                           A  3009    ;  278						bitmap_draw(TILE_GO
-                           A  3010    .LINE 278
-                           A  3011    
-0003FC DD07FC              A  3012    	LD	BC,(IX+%FFFFFFFC)
-0003FF C5                  A  3013    	PUSH	BC
-000400 DD07FE              A  3014    	LD	BC,(IX+%FFFFFFFE)
-000403 C5                  A  3015    	PUSH	BC
-000404 01050000            A  3016    	LD	BC,5
-000408 C5                  A  3017    	PUSH	BC
-000409 CD 00 00 00         A  3018    	CALL	_bitmap_draw
-00040D C1                  A  3019    	POP	BC
-00040E C1                  A  3020    	POP	BC
-00040F C1                  A  3021    	POP	BC
-                           A  3022    ;  279						delayms(5);			
-                           A  3023    .LINE 279
-                           A  3024    
-000410 01050000            A  3025    	LD	BC,5
-000414 C5                  A  3026    	PUSH	BC
-000415 CD 00 00 00         A  3027    	CALL	_delayms
-000419 C1                  A  3028    	POP	BC
-                           A  3029    ;  280						break;
-                           A  3030    .LINE 280
-                           A  3031    
-00041A 18 1E               A  3032    	JR	L_35
-                           A  3033    ;  281					case CHAR_FLOOR:
-00041C                     A  3034    L_33:
-                           A  3035    .LINE 281
-                           A  3036    
-                           A  3037    ;  282						bitmap_draw(TILE_FL
-                           A  3038    .LINE 282
-                           A  3039    
-00041C DD07FC              A  3040    	LD	BC,(IX+%FFFFFFFC)
-00041F C5                  A  3041    	PUSH	BC
-000420 DD07FE              A  3042    	LD	BC,(IX+%FFFFFFFE)
-000423 C5                  A  3043    	PUSH	BC
-000424 01060000            A  3044    	LD	BC,6
-000428 C5                  A  3045    	PUSH	BC
-000429 CD 00 00 00         A  3046    	CALL	_bitmap_draw
-00042D C1                  A  3047    	POP	BC
-00042E C1                  A  3048    	POP	BC
-00042F C1                  A  3049    	POP	BC
-                           A  3050    ;  283						delayms(5);			
-                           A  3051    .LINE 283
-                           A  3052    
-000430 01050000            A  3053    	LD	BC,5
-000434 C5                  A  3054    	PUSH	BC
-000435 CD 00 00 00         A  3055    	CALL	_delayms
-000439 C1                  A  3056    	POP	BC
-                           A  3057    ;  284						break;
-                           A  3058    ;  285					default:
+00031D BC0300              A  2841    	DW24	L_30	
+                           A  2842    
+000320                     A  2843    L__17:
+000320 11200000            A  2844    	LD	DE,32
+000324 C5E1                A  2845    	LD	HL,BC
+000326 B7                  A  2846    	OR	A,A
+000327 ED52                A  2847    	SBC	HL,DE
+000329 CA 1C 04 00         A  2848    	JR	Z,L_33
+00032D C3 3A 04 00         A  2849    	JR	L_35
+000331                     A  2850    L__15:
+000331 11400000            A  2851    	LD	DE,64
+000335 C5E1                A  2852    	LD	HL,BC
+000337 B7                  A  2853    	OR	A,A
+000338 ED52                A  2854    	SBC	HL,DE
+00033A 28 3E               A  2855    	JR	Z,L_28
+00033C 21400000            A  2856    	LD	HL,64
+000340 B7                  A  2857    	OR	A,A
+000341 ED42                A  2858    	SBC	HL,BC
+000343 DA 3A 04 00         A  2859    	JR	C,L_35
+000347 112E0000            A  2860    	LD	DE,46
+00034B C5E1                A  2861    	LD	HL,BC
+00034D B7                  A  2862    	OR	A,A
+00034E ED52                A  2863    	SBC	HL,DE
+000350 CA FC 03 00         A  2864    	JR	Z,L_32
+000354 C3 3A 04 00         A  2865    	JR	L_35
+                           A  2866    ;  258				{
+                           A  2867    ;  259					case CHAR_WALL:
+000358                     A  2868    L_27:
+                           A  2869    .LINE 259
+                           A  2870    
+                           A  2871    ;  260						bitmap_draw(TILE_WA
+                           A  2872    .LINE 260
+                           A  2873    
+000358 DD07FC              A  2874    	LD	BC,(IX+%FFFFFFFC)
+00035B C5                  A  2875    	PUSH	BC
+00035C DD07FE              A  2876    	LD	BC,(IX+%FFFFFFFE)
+00035F C5                  A  2877    	PUSH	BC
+000360 01000000            A  2878    	LD	BC,0
+000364 C5                  A  2879    	PUSH	BC
+000365 CD 00 00 00         A  2880    	CALL	_bitmap_draw
+000369 C1                  A  2881    	POP	BC
+00036A C1                  A  2882    	POP	BC
+00036B C1                  A  2883    	POP	BC
+                           A  2884    ;  261						delayms(SENDDELAY);
+                           A  2885    .LINE 261
+                           A  2886    
+00036C 01050000            A  2887    	LD	BC,5
+000370 C5                  A  2888    	PUSH	BC
+000371 CD 00 00 00         A  2889    	CALL	_delayms
+000375 C1                  A  2890    	POP	BC
+                           A  2891    ;  262						break;
+                           A  2892    .LINE 262
+                           A  2893    
+000376 C3 3A 04 00         A  2894    	JR	L_35
+                           A  2895    ;  263					case CHAR_PLAYER:
+00037A                     A  2896    L_28:
+                           A  2897    .LINE 263
+                           A  2898    
+                           A  2899    ;  264						bitmap_draw(TILE_PL
+                           A  2900    .LINE 264
+                           A  2901    
+00037A DD07FC              A  2902    	LD	BC,(IX+%FFFFFFFC)
+00037D C5                  A  2903    	PUSH	BC
+00037E DD07FE              A  2904    	LD	BC,(IX+%FFFFFFFE)
+000381 C5                  A  2905    	PUSH	BC
+000382 01010000            A  2906    	LD	BC,1
+000386 C5                  A  2907    	PUSH	BC
+000387 CD 00 00 00         A  2908    	CALL	_bitmap_draw
+00038B C1                  A  2909    	POP	BC
+00038C C1                  A  2910    	POP	BC
+00038D C1                  A  2911    	POP	BC
+                           A  2912    ;  265						delayms(SENDDELAY);
+                           A  2913    .LINE 265
+                           A  2914    
+00038E 01050000            A  2915    	LD	BC,5
+000392 C5                  A  2916    	PUSH	BC
+000393 CD 00 00 00         A  2917    	CALL	_delayms
+000397 C1                  A  2918    	POP	BC
+                           A  2919    ;  266						break;
+                           A  2920    .LINE 266
+                           A  2921    
+000398 C3 3A 04 00         A  2922    	JR	L_35
+                           A  2923    ;  267					case CHAR_PLAYERONGOAL:
+00039C                     A  2924    L_29:
+                           A  2925    .LINE 267
+                           A  2926    
+                           A  2927    ;  268						bitmap_draw(TILE_PL
+                           A  2928    .LINE 268
+                           A  2929    
+00039C DD07FC              A  2930    	LD	BC,(IX+%FFFFFFFC)
+00039F C5                  A  2931    	PUSH	BC
+0003A0 DD07FE              A  2932    	LD	BC,(IX+%FFFFFFFE)
+0003A3 C5                  A  2933    	PUSH	BC
+0003A4 01020000            A  2934    	LD	BC,2
+0003A8 C5                  A  2935    	PUSH	BC
+0003A9 CD 00 00 00         A  2936    	CALL	_bitmap_draw
+0003AD C1                  A  2937    	POP	BC
+0003AE C1                  A  2938    	POP	BC
+0003AF C1                  A  2939    	POP	BC
+                           A  2940    ;  269						delayms(SENDDELAY);
+                           A  2941    .LINE 269
+                           A  2942    
+0003B0 01050000            A  2943    	LD	BC,5
+0003B4 C5                  A  2944    	PUSH	BC
+0003B5 CD 00 00 00         A  2945    	CALL	_delayms
+0003B9 C1                  A  2946    	POP	BC
+                           A  2947    ;  270						break;
+                           A  2948    .LINE 270
+                           A  2949    
+0003BA 18 7E               A  2950    	JR	L_35
+                           A  2951    ;  271					case CHAR_BOX:
+0003BC                     A  2952    L_30:
+                           A  2953    .LINE 271
+                           A  2954    
+                           A  2955    ;  272						bitmap_draw(TILE_BO
+                           A  2956    .LINE 272
+                           A  2957    
+0003BC DD07FC              A  2958    	LD	BC,(IX+%FFFFFFFC)
+0003BF C5                  A  2959    	PUSH	BC
+0003C0 DD07FE              A  2960    	LD	BC,(IX+%FFFFFFFE)
+0003C3 C5                  A  2961    	PUSH	BC
+0003C4 01030000            A  2962    	LD	BC,3
+0003C8 C5                  A  2963    	PUSH	BC
+0003C9 CD 00 00 00         A  2964    	CALL	_bitmap_draw
+0003CD C1                  A  2965    	POP	BC
+0003CE C1                  A  2966    	POP	BC
+0003CF C1                  A  2967    	POP	BC
+                           A  2968    ;  273						delayms(SENDDELAY);
+                           A  2969    .LINE 273
+                           A  2970    
+0003D0 01050000            A  2971    	LD	BC,5
+0003D4 C5                  A  2972    	PUSH	BC
+0003D5 CD 00 00 00         A  2973    	CALL	_delayms
+0003D9 C1                  A  2974    	POP	BC
+                           A  2975    ;  274						break;
+                           A  2976    .LINE 274
+                           A  2977    
+0003DA 18 5E               A  2978    	JR	L_35
+                           A  2979    ;  275					case CHAR_BOXONGOAL:
+0003DC                     A  2980    L_31:
+                           A  2981    .LINE 275
+                           A  2982    
+                           A  2983    ;  276						bitmap_draw(TILE_BO
+                           A  2984    .LINE 276
+                           A  2985    
+0003DC DD07FC              A  2986    	LD	BC,(IX+%FFFFFFFC)
+0003DF C5                  A  2987    	PUSH	BC
+0003E0 DD07FE              A  2988    	LD	BC,(IX+%FFFFFFFE)
+0003E3 C5                  A  2989    	PUSH	BC
+0003E4 01040000            A  2990    	LD	BC,4
+0003E8 C5                  A  2991    	PUSH	BC
+0003E9 CD 00 00 00         A  2992    	CALL	_bitmap_draw
+0003ED C1                  A  2993    	POP	BC
+0003EE C1                  A  2994    	POP	BC
+0003EF C1                  A  2995    	POP	BC
+                           A  2996    ;  277						delayms(SENDDELAY);
+                           A  2997    .LINE 277
+                           A  2998    
+0003F0 01050000            A  2999    	LD	BC,5
+0003F4 C5                  A  3000    	PUSH	BC
+0003F5 CD 00 00 00         A  3001    	CALL	_delayms
+0003F9 C1                  A  3002    	POP	BC
+                           A  3003    ;  278						break;
+                           A  3004    .LINE 278
+                           A  3005    
+0003FA 18 3E               A  3006    	JR	L_35
+                           A  3007    ;  279					case CHAR_GOAL:
+0003FC                     A  3008    L_32:
+                           A  3009    .LINE 279
+                           A  3010    
+                           A  3011    ;  280						bitmap_draw(TILE_GO
+                           A  3012    .LINE 280
+                           A  3013    
+0003FC DD07FC              A  3014    	LD	BC,(IX+%FFFFFFFC)
+0003FF C5                  A  3015    	PUSH	BC
+000400 DD07FE              A  3016    	LD	BC,(IX+%FFFFFFFE)
+000403 C5                  A  3017    	PUSH	BC
+000404 01050000            A  3018    	LD	BC,5
+000408 C5                  A  3019    	PUSH	BC
+000409 CD 00 00 00         A  3020    	CALL	_bitmap_draw
+00040D C1                  A  3021    	POP	BC
+00040E C1                  A  3022    	POP	BC
+00040F C1                  A  3023    	POP	BC
+                           A  3024    ;  281						delayms(SENDDELAY);
+                           A  3025    .LINE 281
+                           A  3026    
+000410 01050000            A  3027    	LD	BC,5
+000414 C5                  A  3028    	PUSH	BC
+000415 CD 00 00 00         A  3029    	CALL	_delayms
+000419 C1                  A  3030    	POP	BC
+                           A  3031    ;  282						break;
+                           A  3032    .LINE 282
+                           A  3033    
+00041A 18 1E               A  3034    	JR	L_35
+                           A  3035    ;  283					case CHAR_FLOOR:
+00041C                     A  3036    L_33:
+                           A  3037    .LINE 283
+                           A  3038    
+                           A  3039    ;  284						bitmap_draw(TILE_FL
+                           A  3040    .LINE 284
+                           A  3041    
+00041C DD07FC              A  3042    	LD	BC,(IX+%FFFFFFFC)
+00041F C5                  A  3043    	PUSH	BC
+000420 DD07FE              A  3044    	LD	BC,(IX+%FFFFFFFE)
+000423 C5                  A  3045    	PUSH	BC
+000424 01060000            A  3046    	LD	BC,6
+000428 C5                  A  3047    	PUSH	BC
+000429 CD 00 00 00         A  3048    	CALL	_bitmap_draw
+00042D C1                  A  3049    	POP	BC
+00042E C1                  A  3050    	POP	BC
+00042F C1                  A  3051    	POP	BC
+                           A  3052    ;  285						delayms(SENDDELAY);
+                           A  3053    .LINE 285
+                           A  3054    
+000430 01050000            A  3055    	LD	BC,5
+000434 C5                  A  3056    	PUSH	BC
+000435 CD 00 00 00         A  3057    	CALL	_delayms
+000439 C1                  A  3058    	POP	BC
                            A  3059    ;  286						break;
-                           A  3060    ;  287				}
-00043A                     A  3061    L_35:
-                           A  3062    .LINE 287
-                           A  3063    
-                           A  3064    ;  288				x += BITMAP_WIDTH;
-                           A  3065    .LINE 288
-                           A  3066    
-00043A DD31FE              A  3067    	LD	IY,(IX+%FFFFFFFE)
-00043D ED2310              A  3068    	LEA	HL,IY+%10
-000440 DD75FE              A  3069    	LD	(IX+%FFFFFFFE),L
-000443 DD74FF              A  3070    	LD	(IX+%FFFFFFFF),H
-000446 DD27FA              A  3071    	LD	HL,(IX+%FFFFFFFA)
-000449 23                  A  3072    	INC	HL
-00044A DD75FA              A  3073    	LD	(IX+%FFFFFFFA),L
-00044D DD74FB              A  3074    	LD	(IX+%FFFFFFFB),H
-                           A  3075    ;  289			}
-000450                     A  3076    L_38:
-                           A  3077    .LINE 289
-                           A  3078    
-000450 3A B2 08 00         A  3079    	LD	A,(_currentlevel+2)
-000454 4F                  A  3080    	LD	C,A
-000455 0600                A  3081    	LD	B,%0
-000457 DD27FA              A  3082    	LD	HL,(IX+%FFFFFFFA)
-00045A B7                  A  3083    	OR	A,A
-00045B 40ED42              A  3084    	SBC.SIS	HL,BC
-00045E DA A8 02 00         A  3085    	JR	C,L_36
-                           A  3086    ;  290			y += BITMAP_HEIGHT;
-                           A  3087    .LINE 290
-                           A  3088    
-000462 DD31FC              A  3089    	LD	IY,(IX+%FFFFFFFC)
-000465 ED2310              A  3090    	LEA	HL,IY+%10
-000468 DD75FC              A  3091    	LD	(IX+%FFFFFFFC),L
-00046B DD74FD              A  3092    	LD	(IX+%FFFFFFFD),H
-00046E DD27F8              A  3093    	LD	HL,(IX+%FFFFFFF8)
-000471 23                  A  3094    	INC	HL
-000472 DD75F8              A  3095    	LD	(IX+%FFFFFFF8),L
-000475 DD74F9              A  3096    	LD	(IX+%FFFFFFF9),H
-                           A  3097    ;  291		}	
-000478                     A  3098    L_42:
-                           A  3099    .LINE 291
-                           A  3100    
-000478 3A B3 08 00         A  3101    	LD	A,(_currentlevel+3)
-00047C 4F                  A  3102    	LD	C,A
-00047D 0600                A  3103    	LD	B,%0
-00047F DD27F8              A  3104    	LD	HL,(IX+%FFFFFFF8)
-000482 B7                  A  3105    	OR	A,A
-000483 40ED42              A  3106    	SBC.SIS	HL,BC
-000486 DA 93 02 00         A  3107    	JR	C,L_40
-                           A  3108    ;  292	}
-                           A  3109    .LINE 292
-                           A  3110    
-00048A DDF9                A  3111    	LD	SP,IX
-00048C DDE1                A  3112    	POP	IX
-00048E C9                  A  3113    	RET	
-                           A  3114    
-                           A  3115    
-                           A  3116    ;**************************** _game_displayLeve
-                           A  3117    ;Name                         Addr/Register   S
-                           A  3118    ;_delayms                            IMPORT  --
-                           A  3119    ;_bitmap_draw                        IMPORT  --
-                           A  3120    ;_currentlevel                       STATIC   1
-                           A  3121    ;ystart                               IX-13    
-                           A  3122    ;xstart                               IX-11    
-                           A  3123    ;c                                     IX-9    
-                           A  3124    ;height                                IX-8    
-                           A  3125    ;width                                 IX-6    
-                           A  3126    ;y                                     IX-4    
-                           A  3127    ;x                                     IX-2    
-                           A  3128    
-                           A  3129    
-                           A  3130    ; Stack Frame Size: 19 (bytes)
-                           A  3131    ;       Spill Code: 0 (instruction)
-                           A  3132    
-                           A  3133    
-                           A  3134    .ENDFUNC "game_displayLevel",292,"_game_display
-                           A  3135    ;  293	
-                           A  3136    ;  294	
-                           A  3137    ;  295	UINT16 read_numberoflevels(void)
-                           A  3138    ;  296	{
-00048F                     A  3139    _read_numberoflevels:
-                           A  3140    .DEFINE "_read_numberoflevels"
-                           A  3141    
-                           A  3142    .VALUE _read_numberoflevels
+                           A  3060    ;  287					default:
+                           A  3061    ;  288						break;
+                           A  3062    ;  289				}
+00043A                     A  3063    L_35:
+                           A  3064    .LINE 289
+                           A  3065    
+                           A  3066    ;  290				x += BITMAP_WIDTH;
+                           A  3067    .LINE 290
+                           A  3068    
+00043A DD31FE              A  3069    	LD	IY,(IX+%FFFFFFFE)
+00043D ED2310              A  3070    	LEA	HL,IY+%10
+000440 DD75FE              A  3071    	LD	(IX+%FFFFFFFE),L
+000443 DD74FF              A  3072    	LD	(IX+%FFFFFFFF),H
+000446 DD27FA              A  3073    	LD	HL,(IX+%FFFFFFFA)
+000449 23                  A  3074    	INC	HL
+00044A DD75FA              A  3075    	LD	(IX+%FFFFFFFA),L
+00044D DD74FB              A  3076    	LD	(IX+%FFFFFFFB),H
+                           A  3077    ;  291			}
+000450                     A  3078    L_38:
+                           A  3079    .LINE 291
+                           A  3080    
+000450 3A B2 08 00         A  3081    	LD	A,(_currentlevel+2)
+000454 4F                  A  3082    	LD	C,A
+000455 0600                A  3083    	LD	B,%0
+000457 DD27FA              A  3084    	LD	HL,(IX+%FFFFFFFA)
+00045A B7                  A  3085    	OR	A,A
+00045B 40ED42              A  3086    	SBC.SIS	HL,BC
+00045E DA A8 02 00         A  3087    	JR	C,L_36
+                           A  3088    ;  292			y += BITMAP_HEIGHT;
+                           A  3089    .LINE 292
+                           A  3090    
+000462 DD31FC              A  3091    	LD	IY,(IX+%FFFFFFFC)
+000465 ED2310              A  3092    	LEA	HL,IY+%10
+000468 DD75FC              A  3093    	LD	(IX+%FFFFFFFC),L
+00046B DD74FD              A  3094    	LD	(IX+%FFFFFFFD),H
+00046E DD27F8              A  3095    	LD	HL,(IX+%FFFFFFF8)
+000471 23                  A  3096    	INC	HL
+000472 DD75F8              A  3097    	LD	(IX+%FFFFFFF8),L
+000475 DD74F9              A  3098    	LD	(IX+%FFFFFFF9),H
+                           A  3099    ;  293		}	
+000478                     A  3100    L_42:
+                           A  3101    .LINE 293
+                           A  3102    
+000478 3A B3 08 00         A  3103    	LD	A,(_currentlevel+3)
+00047C 4F                  A  3104    	LD	C,A
+00047D 0600                A  3105    	LD	B,%0
+00047F DD27F8              A  3106    	LD	HL,(IX+%FFFFFFF8)
+000482 B7                  A  3107    	OR	A,A
+000483 40ED42              A  3108    	SBC.SIS	HL,BC
+000486 DA 93 02 00         A  3109    	JR	C,L_40
+                           A  3110    ;  294	}
+                           A  3111    .LINE 294
+                           A  3112    
+00048A DDF9                A  3113    	LD	SP,IX
+00048C DDE1                A  3114    	POP	IX
+00048E C9                  A  3115    	RET	
+                           A  3116    
+                           A  3117    
+                           A  3118    ;**************************** _game_displayLeve
+                           A  3119    ;Name                         Addr/Register   S
+                           A  3120    ;_delayms                            IMPORT  --
+                           A  3121    ;_bitmap_draw                        IMPORT  --
+                           A  3122    ;_currentlevel                       STATIC   1
+                           A  3123    ;ystart                               IX-13    
+                           A  3124    ;xstart                               IX-11    
+                           A  3125    ;c                                     IX-9    
+                           A  3126    ;height                                IX-8    
+                           A  3127    ;width                                 IX-6    
+                           A  3128    ;y                                     IX-4    
+                           A  3129    ;x                                     IX-2    
+                           A  3130    
+                           A  3131    
+                           A  3132    ; Stack Frame Size: 19 (bytes)
+                           A  3133    ;       Spill Code: 0 (instruction)
+                           A  3134    
+                           A  3135    
+                           A  3136    .ENDFUNC "game_displayLevel",294,"_game_display
+                           A  3137    ;  295	
+                           A  3138    ;  296	
+                           A  3139    ;  297	UINT16 read_numberoflevels(void)
+                           A  3140    ;  298	{
+00048F                     A  3141    _read_numberoflevels:
+                           A  3142    .DEFINE "_read_numberoflevels"
                            A  3143    
-                           A  3144    .CLASS 2
+                           A  3144    .VALUE _read_numberoflevels
                            A  3145    
-                           A  3146    .TYPE 77
+                           A  3146    .CLASS 2
                            A  3147    
-                           A  3148    .ENDEF
+                           A  3148    .TYPE 77
                            A  3149    
-                           A  3150    .BEGFUNC "read_numberoflevels",296,"_read_numbe
+                           A  3150    .ENDEF
                            A  3151    
-                           A  3152    .LINE 296
+                           A  3152    .BEGFUNC "read_numberoflevels",298,"_read_numbe
                            A  3153    
-                           A  3154    .DEFINE "levels"
+                           A  3154    .LINE 298
                            A  3155    
-                           A  3156    .CLASS 65
+                           A  3156    .DEFINE "levels"
                            A  3157    
-                           A  3158    .VALUE -2
+                           A  3158    .CLASS 65
                            A  3159    
-                           A  3160    .TYPE 13
+                           A  3160    .VALUE -2
                            A  3161    
-                           A  3162    .ENDEF
+                           A  3162    .TYPE 13
                            A  3163    
-                           A  3164    .DEFINE "fr"
+                           A  3164    .ENDEF
                            A  3165    
-                           A  3166    .CLASS 65
+                           A  3166    .DEFINE "fr"
                            A  3167    
-                           A  3168    .VALUE -5
+                           A  3168    .CLASS 65
                            A  3169    
-                           A  3170    .TYPE 4
+                           A  3170    .VALUE -5
                            A  3171    
-                           A  3172    .ENDEF
+                           A  3172    .TYPE 4
                            A  3173    
-                           A  3174    .DEFINE "fSize"
+                           A  3174    .ENDEF
                            A  3175    
-                           A  3176    .CLASS 65
+                           A  3176    .DEFINE "fSize"
                            A  3177    
-                           A  3178    .VALUE -9
+                           A  3178    .CLASS 65
                            A  3179    
-                           A  3180    .TYPE 15
+                           A  3180    .VALUE -9
                            A  3181    
-                           A  3182    .ENDEF
+                           A  3182    .TYPE 15
                            A  3183    
-                           A  3184    .DEFINE "fil"
+                           A  3184    .ENDEF
                            A  3185    
-                           A  3186    .CLASS 65
+                           A  3186    .DEFINE "fil"
                            A  3187    
-                           A  3188    .VALUE -557
+                           A  3188    .CLASS 65
                            A  3189    
-                           A  3190    .TAG "NONAME6"
+                           A  3190    .VALUE -557
                            A  3191    
-                           A  3192    .TYPE 8
+                           A  3192    .TAG "NONAME6"
                            A  3193    
-                           A  3194    .ENDEF
+                           A  3194    .TYPE 8
                            A  3195    
-00048F DDE5                A  3196    	PUSH	IX
-000491 DD210000 00         A  3197    	LD	IX,0
-000496 DD39                A  3198    	ADD	IX,SP
-000498 21D3FDFF            A  3199    	LD	HL,-557
-00049C 39                  A  3200    	ADD	HL,SP
-00049D F9                  A  3201    	LD	SP,HL
-                           A  3202    ;  297		// returns the number of levels in 
-                           A  3203    ;  298		FIL	   	fil;
-                           A  3204    ;  299		UINT   	br;	
-                           A  3205    ;  300		FSIZE_t fSize;
-                           A  3206    ;  301		UINT16	levels;
-                           A  3207    ;  302		FRESULT	fr;
-                           A  3208    ;  303	
-                           A  3209    ;  304		fr = f_open(&fil, FILENAME_LEVELS, 
-                           A  3210    .LINE 304
-                           A  3211    
-00049E 01010000            A  3212    	LD	BC,1
-0004A2 C5                  A  3213    	PUSH	BC
-0004A3 01 03 00 00         A  3214    	LD	BC,L__25
-0004A7 C5                  A  3215    	PUSH	BC
-0004A8 DDE5E1              A  3216    	LD	HL,IX
-0004AB 01D3FDFF            A  3217    	LD	BC,-557
-0004AF 09                  A  3218    	ADD	HL,BC
-0004B0 E5C1                A  3219    	LD	BC,HL
-0004B2 C5                  A  3220    	PUSH	BC
-0004B3 CD 00 00 00         A  3221    	CALL	_f_open
-0004B7 C1                  A  3222    	POP	BC
-0004B8 C1                  A  3223    	POP	BC
-0004B9 C1                  A  3224    	POP	BC
-0004BA DD2FFB              A  3225    	LD	(IX+%FFFFFFFB),HL
-                           A  3226    ;  305		if(fr == FR_OK) {
-                           A  3227    .LINE 305
-                           A  3228    
-0004BD 01000000            A  3229    	LD	BC,0
-0004C1 DD27FB              A  3230    	LD	HL,(IX+%FFFFFFFB)
-0004C4 B7                  A  3231    	OR	A,A
-0004C5 ED42                A  3232    	SBC	HL,BC
-0004C7 20 2A               A  3233    	JR	NZ,L_45
-                           A  3234    ;  306			fSize = f_size(&fil);
-                           A  3235    .LINE 306
-                           A  3236    
-0004C9 21DEFDFF            A  3237    	LD	HL,-546
-0004CD DDE5C1              A  3238    	LD	BC,IX
-0004D0 09                  A  3239    	ADD	HL,BC
-0004D1 ED07                A  3240    	LD	BC,(HL)
-0004D3 23                  A  3241    	INC	HL
-0004D4 23                  A  3242    	INC	HL
-0004D5 23                  A  3243    	INC	HL
-0004D6 7E                  A  3244    	LD	A,(HL)
-0004D7 DD0FF7              A  3245    	LD	(IX+%FFFFFFF7),BC
-0004DA DD77FA              A  3246    	LD	(IX+%FFFFFFFA),A
-                           A  3247    ;  307			levels = fSize / sizeof(struct 
-                           A  3248    .LINE 307
-                           A  3249    
-0004DD C5E1                A  3250    	LD	HL,BC
-0004DF DD5EFA              A  3251    	LD	E,(IX+%FFFFFFFA)
-0004E2 01B70400            A  3252    	LD	BC,1207
-0004E6 AF                  A  3253    	XOR	A,A
-0004E7 CD 00 00 00         A  3254    	CALL	__ldivu
-0004EB DD75FE              A  3255    	LD	(IX+%FFFFFFFE),L
-0004EE DD74FF              A  3256    	LD	(IX+%FFFFFFFF),H
-                           A  3257    ;  308		}
-                           A  3258    ;  309		else {
-                           A  3259    .LINE 309
-                           A  3260    
-0004F1 18 0E               A  3261    	JR	L_46
-0004F3                     A  3262    L_45:
-                           A  3263    ;  310			mos_fileError(fr);
-                           A  3264    .LINE 310
-                           A  3265    
-0004F3 DD07FB              A  3266    	LD	BC,(IX+%FFFFFFFB)
-0004F6 C5                  A  3267    	PUSH	BC
-0004F7 CD 00 00 00         A  3268    	CALL	_mos_fileError
-0004FB C1                  A  3269    	POP	BC
-                           A  3270    ;  311			return 0;
-                           A  3271    .LINE 311
-                           A  3272    
-0004FC B7                  A  3273    	OR	A,A
-0004FD ED62                A  3274    	SBC	HL,HL
-0004FF 18 13               A  3275    	JR	L_47
-                           A  3276    ;  312		}
-000501                     A  3277    L_46:
-                           A  3278    .LINE 312
-                           A  3279    
-                           A  3280    ;  313		f_close(&fil);
-                           A  3281    .LINE 313
-                           A  3282    
-000501 DDE5E1              A  3283    	LD	HL,IX
-000504 01D3FDFF            A  3284    	LD	BC,-557
-000508 09                  A  3285    	ADD	HL,BC
-000509 E5C1                A  3286    	LD	BC,HL
-00050B C5                  A  3287    	PUSH	BC
-00050C CD 00 00 00         A  3288    	CALL	_f_close
-000510 C1                  A  3289    	POP	BC
-                           A  3290    ;  314		return levels;	
-                           A  3291    .LINE 314
-                           A  3292    
-000511 DD27FE              A  3293    	LD	HL,(IX+%FFFFFFFE)
-                           A  3294    ;  315	}
-000514                     A  3295    L_47:
-                           A  3296    .LINE 315
-                           A  3297    
-000514 DDF9                A  3298    	LD	SP,IX
-000516 DDE1                A  3299    	POP	IX
-000518 C9                  A  3300    	RET	
-                           A  3301    
-                           A  3302    
-                           A  3303    ;**************************** _read_numberoflev
-                           A  3304    ;Name                         Addr/Register   S
-                           A  3305    ;_f_close                            IMPORT  --
-                           A  3306    ;_mos_fileError                      IMPORT  --
-                           A  3307    ;_f_open                             IMPORT  --
-                           A  3308    ;fil                                 IX-557    
-                           A  3309    ;fSize                                 IX-9    
-                           A  3310    ;fr                                    IX-5    
-                           A  3311    ;levels                                IX-2    
-                           A  3312    
-                           A  3313    
-                           A  3314    ; Stack Frame Size: 563 (bytes)
-                           A  3315    ;       Spill Code: 0 (instruction)
-                           A  3316    
-                           A  3317    
-                           A  3318    .ENDFUNC "read_numberoflevels",315,"_read_numbe
-                           A  3319    	SEGMENT STRSECT
-000003                     A  3320    L__25:
-000003 6C657665 6C732E62   A  3321    	DB	"levels.bin"
+                           A  3196    .ENDEF
+                           A  3197    
+00048F DDE5                A  3198    	PUSH	IX
+000491 DD210000 00         A  3199    	LD	IX,0
+000496 DD39                A  3200    	ADD	IX,SP
+000498 21D3FDFF            A  3201    	LD	HL,-557
+00049C 39                  A  3202    	ADD	HL,SP
+00049D F9                  A  3203    	LD	SP,HL
+                           A  3204    ;  299		// returns the number of levels in 
+                           A  3205    ;  300		FIL	   	fil;
+                           A  3206    ;  301		UINT   	br;	
+                           A  3207    ;  302		FSIZE_t fSize;
+                           A  3208    ;  303		UINT16	levels;
+                           A  3209    ;  304		FRESULT	fr;
+                           A  3210    ;  305	
+                           A  3211    ;  306		fr = f_open(&fil, FILENAME_LEVELS, 
+                           A  3212    .LINE 306
+                           A  3213    
+00049E 01010000            A  3214    	LD	BC,1
+0004A2 C5                  A  3215    	PUSH	BC
+0004A3 01 03 00 00         A  3216    	LD	BC,L__25
+0004A7 C5                  A  3217    	PUSH	BC
+0004A8 DDE5E1              A  3218    	LD	HL,IX
+0004AB 01D3FDFF            A  3219    	LD	BC,-557
+0004AF 09                  A  3220    	ADD	HL,BC
+0004B0 E5C1                A  3221    	LD	BC,HL
+0004B2 C5                  A  3222    	PUSH	BC
+0004B3 CD 00 00 00         A  3223    	CALL	_f_open
+0004B7 C1                  A  3224    	POP	BC
+0004B8 C1                  A  3225    	POP	BC
+0004B9 C1                  A  3226    	POP	BC
+0004BA DD2FFB              A  3227    	LD	(IX+%FFFFFFFB),HL
+                           A  3228    ;  307		if(fr == FR_OK) {
+                           A  3229    .LINE 307
+                           A  3230    
+0004BD 01000000            A  3231    	LD	BC,0
+0004C1 DD27FB              A  3232    	LD	HL,(IX+%FFFFFFFB)
+0004C4 B7                  A  3233    	OR	A,A
+0004C5 ED42                A  3234    	SBC	HL,BC
+0004C7 20 2A               A  3235    	JR	NZ,L_45
+                           A  3236    ;  308			fSize = f_size(&fil);
+                           A  3237    .LINE 308
+                           A  3238    
+0004C9 21DEFDFF            A  3239    	LD	HL,-546
+0004CD DDE5C1              A  3240    	LD	BC,IX
+0004D0 09                  A  3241    	ADD	HL,BC
+0004D1 ED07                A  3242    	LD	BC,(HL)
+0004D3 23                  A  3243    	INC	HL
+0004D4 23                  A  3244    	INC	HL
+0004D5 23                  A  3245    	INC	HL
+0004D6 7E                  A  3246    	LD	A,(HL)
+0004D7 DD0FF7              A  3247    	LD	(IX+%FFFFFFF7),BC
+0004DA DD77FA              A  3248    	LD	(IX+%FFFFFFFA),A
+                           A  3249    ;  309			levels = fSize / sizeof(struct 
+                           A  3250    .LINE 309
+                           A  3251    
+0004DD C5E1                A  3252    	LD	HL,BC
+0004DF DD5EFA              A  3253    	LD	E,(IX+%FFFFFFFA)
+0004E2 01B70400            A  3254    	LD	BC,1207
+0004E6 AF                  A  3255    	XOR	A,A
+0004E7 CD 00 00 00         A  3256    	CALL	__ldivu
+0004EB DD75FE              A  3257    	LD	(IX+%FFFFFFFE),L
+0004EE DD74FF              A  3258    	LD	(IX+%FFFFFFFF),H
+                           A  3259    ;  310		}
+                           A  3260    ;  311		else {
+                           A  3261    .LINE 311
+                           A  3262    
+0004F1 18 0E               A  3263    	JR	L_46
+0004F3                     A  3264    L_45:
+                           A  3265    ;  312			mos_fileError(fr);
+                           A  3266    .LINE 312
+                           A  3267    
+0004F3 DD07FB              A  3268    	LD	BC,(IX+%FFFFFFFB)
+0004F6 C5                  A  3269    	PUSH	BC
+0004F7 CD 00 00 00         A  3270    	CALL	_mos_fileError
+0004FB C1                  A  3271    	POP	BC
+                           A  3272    ;  313			return 0;
+                           A  3273    .LINE 313
+                           A  3274    
+0004FC B7                  A  3275    	OR	A,A
+0004FD ED62                A  3276    	SBC	HL,HL
+0004FF 18 13               A  3277    	JR	L_47
+                           A  3278    ;  314		}
+000501                     A  3279    L_46:
+                           A  3280    .LINE 314
+                           A  3281    
+                           A  3282    ;  315		f_close(&fil);
+                           A  3283    .LINE 315
+                           A  3284    
+000501 DDE5E1              A  3285    	LD	HL,IX
+000504 01D3FDFF            A  3286    	LD	BC,-557
+000508 09                  A  3287    	ADD	HL,BC
+000509 E5C1                A  3288    	LD	BC,HL
+00050B C5                  A  3289    	PUSH	BC
+00050C CD 00 00 00         A  3290    	CALL	_f_close
+000510 C1                  A  3291    	POP	BC
+                           A  3292    ;  316		return levels;	
+                           A  3293    .LINE 316
+                           A  3294    
+000511 DD27FE              A  3295    	LD	HL,(IX+%FFFFFFFE)
+                           A  3296    ;  317	}
+000514                     A  3297    L_47:
+                           A  3298    .LINE 317
+                           A  3299    
+000514 DDF9                A  3300    	LD	SP,IX
+000516 DDE1                A  3301    	POP	IX
+000518 C9                  A  3302    	RET	
+                           A  3303    
+                           A  3304    
+                           A  3305    ;**************************** _read_numberoflev
+                           A  3306    ;Name                         Addr/Register   S
+                           A  3307    ;_f_close                            IMPORT  --
+                           A  3308    ;_mos_fileError                      IMPORT  --
+                           A  3309    ;_f_open                             IMPORT  --
+                           A  3310    ;fil                                 IX-557    
+                           A  3311    ;fSize                                 IX-9    
+                           A  3312    ;fr                                    IX-5    
+                           A  3313    ;levels                                IX-2    
+                           A  3314    
+                           A  3315    
+                           A  3316    ; Stack Frame Size: 563 (bytes)
+                           A  3317    ;       Spill Code: 0 (instruction)
+                           A  3318    
+                           A  3319    
+                           A  3320    .ENDFUNC "read_numberoflevels",317,"_read_numbe
+                           A  3321    	SEGMENT STRSECT
+000003                     A  3322    L__25:
+000003 6C657665 6C732E62   A  3323    	DB	"levels.bin"
 00000B 696E 
-00000D 00                  A  3322    	DB	0
-                           A  3323    	SEGMENT CODE
-                           A  3324    ;  316	
-                           A  3325    ;  317	BOOL read_level(UINT8 levelid)
-                           A  3326    ;  318	{
-000519                     A  3327    _read_level:
-                           A  3328    .DEFINE "_read_level"
-                           A  3329    
-                           A  3330    .VALUE _read_level
+00000D 00                  A  3324    	DB	0
+                           A  3325    	SEGMENT CODE
+                           A  3326    ;  318	
+                           A  3327    ;  319	BOOL read_level(UINT8 levelid)
+                           A  3328    ;  320	{
+000519                     A  3329    _read_level:
+                           A  3330    .DEFINE "_read_level"
                            A  3331    
-                           A  3332    .CLASS 2
+                           A  3332    .VALUE _read_level
                            A  3333    
-                           A  3334    .TYPE 76
+                           A  3334    .CLASS 2
                            A  3335    
-                           A  3336    .ENDEF
+                           A  3336    .TYPE 76
                            A  3337    
-                           A  3338    .BEGFUNC "read_level",318,"_read_level"
+                           A  3338    .ENDEF
                            A  3339    
-                           A  3340    .LINE 318
+                           A  3340    .BEGFUNC "read_level",320,"_read_level"
                            A  3341    
-                           A  3342    .DEFINE "levelid"
+                           A  3342    .LINE 320
                            A  3343    
-                           A  3344    .CLASS 65
+                           A  3344    .DEFINE "levelid"
                            A  3345    
-                           A  3346    .VALUE 6
+                           A  3346    .CLASS 65
                            A  3347    
-                           A  3348    .TYPE 12
+                           A  3348    .VALUE 6
                            A  3349    
-                           A  3350    .ENDEF
+                           A  3350    .TYPE 12
                            A  3351    
-                           A  3352    .DEFINE "levelcounter"
+                           A  3352    .ENDEF
                            A  3353    
-                           A  3354    .CLASS 65
+                           A  3354    .DEFINE "levelcounter"
                            A  3355    
-                           A  3356    .VALUE -1
+                           A  3356    .CLASS 65
                            A  3357    
-                           A  3358    .TYPE 12
+                           A  3358    .VALUE -1
                            A  3359    
-                           A  3360    .ENDEF
+                           A  3360    .TYPE 12
                            A  3361    
-                           A  3362    .DEFINE "done"
+                           A  3362    .ENDEF
                            A  3363    
-                           A  3364    .CLASS 65
+                           A  3364    .DEFINE "done"
                            A  3365    
-                           A  3366    .VALUE -2
+                           A  3366    .CLASS 65
                            A  3367    
-                           A  3368    .TYPE 12
+                           A  3368    .VALUE -2
                            A  3369    
-                           A  3370    .ENDEF
+                           A  3370    .TYPE 12
                            A  3371    
-                           A  3372    .DEFINE "fr"
+                           A  3372    .ENDEF
                            A  3373    
-                           A  3374    .CLASS 65
+                           A  3374    .DEFINE "fr"
                            A  3375    
-                           A  3376    .VALUE -5
+                           A  3376    .CLASS 65
                            A  3377    
-                           A  3378    .TYPE 4
+                           A  3378    .VALUE -5
                            A  3379    
-                           A  3380    .ENDEF
+                           A  3380    .TYPE 4
                            A  3381    
-                           A  3382    .DEFINE "br"
+                           A  3382    .ENDEF
                            A  3383    
-                           A  3384    .CLASS 65
+                           A  3384    .DEFINE "br"
                            A  3385    
-                           A  3386    .VALUE -8
+                           A  3386    .CLASS 65
                            A  3387    
-                           A  3388    .TYPE 14
+                           A  3388    .VALUE -8
                            A  3389    
-                           A  3390    .ENDEF
+                           A  3390    .TYPE 14
                            A  3391    
-                           A  3392    .DEFINE "fil"
+                           A  3392    .ENDEF
                            A  3393    
-                           A  3394    .CLASS 65
+                           A  3394    .DEFINE "fil"
                            A  3395    
-                           A  3396    .VALUE -556
+                           A  3396    .CLASS 65
                            A  3397    
-                           A  3398    .TAG "NONAME6"
+                           A  3398    .VALUE -556
                            A  3399    
-                           A  3400    .TYPE 8
+                           A  3400    .TAG "NONAME6"
                            A  3401    
-                           A  3402    .ENDEF
+                           A  3402    .TYPE 8
                            A  3403    
-000519 DDE5                A  3404    	PUSH	IX
-00051B DD210000 00         A  3405    	LD	IX,0
-000520 DD39                A  3406    	ADD	IX,SP
-000522 21D4FDFF            A  3407    	LD	HL,-556
-000526 39                  A  3408    	ADD	HL,SP
-000527 F9                  A  3409    	LD	SP,HL
-                           A  3410    ;  319		FIL	   	fil;
-                           A  3411    ;  320		UINT   	br;	
-                           A  3412    ;  321		FSIZE_t fSize;
-                           A  3413    ;  322		UINT8	levelcounter;
-                           A  3414    ;  323		FRESULT	fr;
-                           A  3415    ;  324		BOOL	done = FALSE;
-                           A  3416    .LINE 324
-                           A  3417    
-000528 DD36FE00            A  3418    	LD	(IX+%FFFFFFFE),%0
-                           A  3419    ;  325		
-                           A  3420    ;  326		levelcounter = levelid;
-                           A  3421    .LINE 326
-                           A  3422    
-00052C DD7E06              A  3423    	LD	A,(IX+%6)
-00052F DD77FF              A  3424    	LD	(IX+%FFFFFFFF),A
-                           A  3425    ;  327		
-                           A  3426    ;  328		fr = f_open(&fil, FILENAME_LEVELS, 
-                           A  3427    .LINE 328
-                           A  3428    
-000532 01010000            A  3429    	LD	BC,1
-000536 C5                  A  3430    	PUSH	BC
-000537 01 0E 00 00         A  3431    	LD	BC,L__28
-00053B C5                  A  3432    	PUSH	BC
-00053C DDE5E1              A  3433    	LD	HL,IX
-00053F 01D4FDFF            A  3434    	LD	BC,-556
-000543 09                  A  3435    	ADD	HL,BC
-000544 E5C1                A  3436    	LD	BC,HL
-000546 C5                  A  3437    	PUSH	BC
-000547 CD 00 00 00         A  3438    	CALL	_f_open
-00054B C1                  A  3439    	POP	BC
-00054C C1                  A  3440    	POP	BC
-00054D C1                  A  3441    	POP	BC
-00054E DD2FFB              A  3442    	LD	(IX+%FFFFFFFB),HL
-                           A  3443    ;  329		if(fr == FR_OK) {
-                           A  3444    .LINE 329
-                           A  3445    
-000551 01000000            A  3446    	LD	BC,0
-000555 DD27FB              A  3447    	LD	HL,(IX+%FFFFFFFB)
-000558 B7                  A  3448    	OR	A,A
-000559 ED42                A  3449    	SBC	HL,BC
-00055B 20 3A               A  3450    	JR	NZ,L_54
-                           A  3451    ;  330			fSize = f_size(&fil);
-                           A  3452    ;  331			
-                           A  3453    ;  332			while(!done)
-                           A  3454    .LINE 332
-                           A  3455    
-00055D 18 30               A  3456    	JR	L_51
-00055F                     A  3457    L_52:
-                           A  3458    ;  333			{
-                           A  3459    ;  334				fr = f_read(&fil, &currentl
-                           A  3460    .LINE 334
-                           A  3461    
-00055F ED65F8              A  3462    	PEA	IX+%FFFFFFF8
-000562 01B70400            A  3463    	LD	BC,1207
-000566 C5                  A  3464    	PUSH	BC
-000567 01 B0 08 00         A  3465    	LD	BC,_currentlevel
-00056B C5                  A  3466    	PUSH	BC
-00056C DDE5E1              A  3467    	LD	HL,IX
-00056F 01D4FDFF            A  3468    	LD	BC,-556
-000573 09                  A  3469    	ADD	HL,BC
-000574 E5C1                A  3470    	LD	BC,HL
-000576 C5                  A  3471    	PUSH	BC
-000577 CD 00 00 00         A  3472    	CALL	_f_read
-00057B C1                  A  3473    	POP	BC
-00057C C1                  A  3474    	POP	BC
-00057D C1                  A  3475    	POP	BC
-00057E C1                  A  3476    	POP	BC
-00057F DD2FFB              A  3477    	LD	(IX+%FFFFFFFB),HL
-                           A  3478    ;  335				if(levelcounter == 0) done 
-                           A  3479    .LINE 335
-                           A  3480    
-000582 DD7EFF              A  3481    	LD	A,(IX+%FFFFFFFF)
-000585 B7                  A  3482    	OR	A,A
-000586 20 04               A  3483    	JR	NZ,L_50
-000588 DD36FE01            A  3484    	LD	(IX+%FFFFFFFE),%1
-00058C                     A  3485    L_50:
-                           A  3486    ;  336				levelcounter--;
-                           A  3487    .LINE 336
-                           A  3488    
-00058C DD35FF              A  3489    	DEC	(IX+%FFFFFFFF)
-                           A  3490    ;  337			}
-00058F                     A  3491    L_51:
-                           A  3492    .LINE 337
-                           A  3493    
-00058F DD7EFE              A  3494    	LD	A,(IX+%FFFFFFFE)
-000592 B7                  A  3495    	OR	A,A
-000593 20 0E               A  3496    	JR	NZ,L_55
-000595 18 C8               A  3497    	JR	L_52
-                           A  3498    ;  338		}
-                           A  3499    ;  339		else {
-000597                     A  3500    L_54:
-                           A  3501    .LINE 339
-                           A  3502    
-                           A  3503    ;  340			mos_fileError(fr);
-                           A  3504    .LINE 340
-                           A  3505    
-000597 DD07FB              A  3506    	LD	BC,(IX+%FFFFFFFB)
-00059A C5                  A  3507    	PUSH	BC
-00059B CD 00 00 00         A  3508    	CALL	_mos_fileError
-00059F C1                  A  3509    	POP	BC
-                           A  3510    ;  341			return FALSE;
-                           A  3511    .LINE 341
-                           A  3512    
-0005A0 AF                  A  3513    	XOR	A,A
-0005A1 18 12               A  3514    	JR	L_56
-                           A  3515    ;  342		}
-0005A3                     A  3516    L_55:
-                           A  3517    .LINE 342
-                           A  3518    
-                           A  3519    ;  343		f_close(&fil);
-                           A  3520    .LINE 343
-                           A  3521    
-0005A3 DDE5E1              A  3522    	LD	HL,IX
-0005A6 01D4FDFF            A  3523    	LD	BC,-556
-0005AA 09                  A  3524    	ADD	HL,BC
-0005AB E5C1                A  3525    	LD	BC,HL
-0005AD C5                  A  3526    	PUSH	BC
-0005AE CD 00 00 00         A  3527    	CALL	_f_close
-0005B2 C1                  A  3528    	POP	BC
-                           A  3529    ;  344		return TRUE;	
-                           A  3530    .LINE 344
-                           A  3531    
-0005B3 3E01                A  3532    	LD	A,%1
-                           A  3533    ;  345	}
-0005B5                     A  3534    L_56:
-                           A  3535    .LINE 345
-                           A  3536    
-0005B5 DDF9                A  3537    	LD	SP,IX
-0005B7 DDE1                A  3538    	POP	IX
-0005B9 C9                  A  3539    	RET	
-                           A  3540    
-                           A  3541    
-                           A  3542    ;**************************** _read_level *****
-                           A  3543    ;Name                         Addr/Register   S
-                           A  3544    ;_f_close                            IMPORT  --
-                           A  3545    ;_mos_fileError                      IMPORT  --
-                           A  3546    ;_currentlevel                       STATIC   1
-                           A  3547    ;_f_read                             IMPORT  --
-                           A  3548    ;_f_open                             IMPORT  --
-                           A  3549    ;fil                                 IX-556    
-                           A  3550    ;br                                    IX-8    
-                           A  3551    ;fr                                    IX-5    
-                           A  3552    ;done                                  IX-2    
-                           A  3553    ;levelcounter                          IX-1    
-                           A  3554    ;levelid                               IX+6    
-                           A  3555    
-                           A  3556    
-                           A  3557    ; Stack Frame Size: 565 (bytes)
-                           A  3558    ;       Spill Code: 0 (instruction)
-                           A  3559    
-                           A  3560    
-                           A  3561    .ENDFUNC "read_level",345,"_read_level"
-                           A  3562    	SEGMENT STRSECT
-00000E                     A  3563    L__28:
-00000E 6C657665 6C732E62   A  3564    	DB	"levels.bin"
+                           A  3404    .ENDEF
+                           A  3405    
+000519 DDE5                A  3406    	PUSH	IX
+00051B DD210000 00         A  3407    	LD	IX,0
+000520 DD39                A  3408    	ADD	IX,SP
+000522 21D4FDFF            A  3409    	LD	HL,-556
+000526 39                  A  3410    	ADD	HL,SP
+000527 F9                  A  3411    	LD	SP,HL
+                           A  3412    ;  321		FIL	   	fil;
+                           A  3413    ;  322		UINT   	br;	
+                           A  3414    ;  323		FSIZE_t fSize;
+                           A  3415    ;  324		UINT8	levelcounter;
+                           A  3416    ;  325		FRESULT	fr;
+                           A  3417    ;  326		BOOL	done = FALSE;
+                           A  3418    .LINE 326
+                           A  3419    
+000528 DD36FE00            A  3420    	LD	(IX+%FFFFFFFE),%0
+                           A  3421    ;  327		
+                           A  3422    ;  328		levelcounter = levelid;
+                           A  3423    .LINE 328
+                           A  3424    
+00052C DD7E06              A  3425    	LD	A,(IX+%6)
+00052F DD77FF              A  3426    	LD	(IX+%FFFFFFFF),A
+                           A  3427    ;  329		
+                           A  3428    ;  330		fr = f_open(&fil, FILENAME_LEVELS, 
+                           A  3429    .LINE 330
+                           A  3430    
+000532 01010000            A  3431    	LD	BC,1
+000536 C5                  A  3432    	PUSH	BC
+000537 01 0E 00 00         A  3433    	LD	BC,L__28
+00053B C5                  A  3434    	PUSH	BC
+00053C DDE5E1              A  3435    	LD	HL,IX
+00053F 01D4FDFF            A  3436    	LD	BC,-556
+000543 09                  A  3437    	ADD	HL,BC
+000544 E5C1                A  3438    	LD	BC,HL
+000546 C5                  A  3439    	PUSH	BC
+000547 CD 00 00 00         A  3440    	CALL	_f_open
+00054B C1                  A  3441    	POP	BC
+00054C C1                  A  3442    	POP	BC
+00054D C1                  A  3443    	POP	BC
+00054E DD2FFB              A  3444    	LD	(IX+%FFFFFFFB),HL
+                           A  3445    ;  331		if(fr == FR_OK) {
+                           A  3446    .LINE 331
+                           A  3447    
+000551 01000000            A  3448    	LD	BC,0
+000555 DD27FB              A  3449    	LD	HL,(IX+%FFFFFFFB)
+000558 B7                  A  3450    	OR	A,A
+000559 ED42                A  3451    	SBC	HL,BC
+00055B 20 3A               A  3452    	JR	NZ,L_54
+                           A  3453    ;  332			fSize = f_size(&fil);
+                           A  3454    ;  333			
+                           A  3455    ;  334			while(!done)
+                           A  3456    .LINE 334
+                           A  3457    
+00055D 18 30               A  3458    	JR	L_51
+00055F                     A  3459    L_52:
+                           A  3460    ;  335			{
+                           A  3461    ;  336				fr = f_read(&fil, &currentl
+                           A  3462    .LINE 336
+                           A  3463    
+00055F ED65F8              A  3464    	PEA	IX+%FFFFFFF8
+000562 01B70400            A  3465    	LD	BC,1207
+000566 C5                  A  3466    	PUSH	BC
+000567 01 B0 08 00         A  3467    	LD	BC,_currentlevel
+00056B C5                  A  3468    	PUSH	BC
+00056C DDE5E1              A  3469    	LD	HL,IX
+00056F 01D4FDFF            A  3470    	LD	BC,-556
+000573 09                  A  3471    	ADD	HL,BC
+000574 E5C1                A  3472    	LD	BC,HL
+000576 C5                  A  3473    	PUSH	BC
+000577 CD 00 00 00         A  3474    	CALL	_f_read
+00057B C1                  A  3475    	POP	BC
+00057C C1                  A  3476    	POP	BC
+00057D C1                  A  3477    	POP	BC
+00057E C1                  A  3478    	POP	BC
+00057F DD2FFB              A  3479    	LD	(IX+%FFFFFFFB),HL
+                           A  3480    ;  337				if(levelcounter == 0) done 
+                           A  3481    .LINE 337
+                           A  3482    
+000582 DD7EFF              A  3483    	LD	A,(IX+%FFFFFFFF)
+000585 B7                  A  3484    	OR	A,A
+000586 20 04               A  3485    	JR	NZ,L_50
+000588 DD36FE01            A  3486    	LD	(IX+%FFFFFFFE),%1
+00058C                     A  3487    L_50:
+                           A  3488    ;  338				levelcounter--;
+                           A  3489    .LINE 338
+                           A  3490    
+00058C DD35FF              A  3491    	DEC	(IX+%FFFFFFFF)
+                           A  3492    ;  339			}
+00058F                     A  3493    L_51:
+                           A  3494    .LINE 339
+                           A  3495    
+00058F DD7EFE              A  3496    	LD	A,(IX+%FFFFFFFE)
+000592 B7                  A  3497    	OR	A,A
+000593 20 0E               A  3498    	JR	NZ,L_55
+000595 18 C8               A  3499    	JR	L_52
+                           A  3500    ;  340		}
+                           A  3501    ;  341		else {
+000597                     A  3502    L_54:
+                           A  3503    .LINE 341
+                           A  3504    
+                           A  3505    ;  342			mos_fileError(fr);
+                           A  3506    .LINE 342
+                           A  3507    
+000597 DD07FB              A  3508    	LD	BC,(IX+%FFFFFFFB)
+00059A C5                  A  3509    	PUSH	BC
+00059B CD 00 00 00         A  3510    	CALL	_mos_fileError
+00059F C1                  A  3511    	POP	BC
+                           A  3512    ;  343			return FALSE;
+                           A  3513    .LINE 343
+                           A  3514    
+0005A0 AF                  A  3515    	XOR	A,A
+0005A1 18 12               A  3516    	JR	L_56
+                           A  3517    ;  344		}
+0005A3                     A  3518    L_55:
+                           A  3519    .LINE 344
+                           A  3520    
+                           A  3521    ;  345		f_close(&fil);
+                           A  3522    .LINE 345
+                           A  3523    
+0005A3 DDE5E1              A  3524    	LD	HL,IX
+0005A6 01D4FDFF            A  3525    	LD	BC,-556
+0005AA 09                  A  3526    	ADD	HL,BC
+0005AB E5C1                A  3527    	LD	BC,HL
+0005AD C5                  A  3528    	PUSH	BC
+0005AE CD 00 00 00         A  3529    	CALL	_f_close
+0005B2 C1                  A  3530    	POP	BC
+                           A  3531    ;  346		return TRUE;	
+                           A  3532    .LINE 346
+                           A  3533    
+0005B3 3E01                A  3534    	LD	A,%1
+                           A  3535    ;  347	}
+0005B5                     A  3536    L_56:
+                           A  3537    .LINE 347
+                           A  3538    
+0005B5 DDF9                A  3539    	LD	SP,IX
+0005B7 DDE1                A  3540    	POP	IX
+0005B9 C9                  A  3541    	RET	
+                           A  3542    
+                           A  3543    
+                           A  3544    ;**************************** _read_level *****
+                           A  3545    ;Name                         Addr/Register   S
+                           A  3546    ;_f_close                            IMPORT  --
+                           A  3547    ;_mos_fileError                      IMPORT  --
+                           A  3548    ;_currentlevel                       STATIC   1
+                           A  3549    ;_f_read                             IMPORT  --
+                           A  3550    ;_f_open                             IMPORT  --
+                           A  3551    ;fil                                 IX-556    
+                           A  3552    ;br                                    IX-8    
+                           A  3553    ;fr                                    IX-5    
+                           A  3554    ;done                                  IX-2    
+                           A  3555    ;levelcounter                          IX-1    
+                           A  3556    ;levelid                               IX+6    
+                           A  3557    
+                           A  3558    
+                           A  3559    ; Stack Frame Size: 565 (bytes)
+                           A  3560    ;       Spill Code: 0 (instruction)
+                           A  3561    
+                           A  3562    
+                           A  3563    .ENDFUNC "read_level",347,"_read_level"
+                           A  3564    	SEGMENT STRSECT
+00000E                     A  3565    L__28:
+00000E 6C657665 6C732E62   A  3566    	DB	"levels.bin"
 000016 696E 
-000018 00                  A  3565    	DB	0
-                           A  3566    	XREF _delayms:ROM
-                           A  3567    	XREF _memset:ROM
-                           A  3568    	XREF _sprite_hide:ROM
-                           A  3569    	XREF _sprite_addFrame_selected:ROM
-                           A  3570    	XREF _sprite_select:ROM
-                           A  3571    	XREF _sprite_activateTotal:ROM
-                           A  3572    	XREF _bitmap_draw:ROM
-                           A  3573    	XREF _bitmap_createSolidColor:ROM
-                           A  3574    	XREF _bitmap_sendData:ROM
-                           A  3575    	XREF _mos_fileError:ROM
-                           A  3576    	XREF _f_read:ROM
-                           A  3577    	XREF _f_close:ROM
-                           A  3578    	XREF _f_open:ROM
-                           A  3579    	XREF ___print_sendstring:ROM
-                           A  3580    	XREF ___print_xputch:ROM
-                           A  3581    	XREF ___print_uputch:ROM
-                           A  3582    	XREF __idivs:ROM
-                           A  3583    	XREF __ldivu:ROM
-                           A  3584    	XREF __stoiu:ROM
-                           A  3585    	XREF __imul_b:ROM
-                           A  3586    	XDEF _read_level
-                           A  3587    	XDEF _read_numberoflevels
-                           A  3588    	XDEF _game_displayLevel
-                           A  3589    	XDEF _print_playfieldText
-                           A  3590    	XDEF _game_play
-                           A  3591    	XDEF _game_resetlevel
-                           A  3592    	XDEF _game_init
-                           A  3593    	XDEF _lookup
-                           A  3594    	XDEF _currentlevel
-                           A  3595    	XDEF _sprites
-                           A  3596    	XDEF _bitmapbuffer
-                           A  3597    	END
+000018 00                  A  3567    	DB	0
+                           A  3568    	XREF _delayms:ROM
+                           A  3569    	XREF _memset:ROM
+                           A  3570    	XREF _sprite_hide:ROM
+                           A  3571    	XREF _sprite_addFrame_selected:ROM
+                           A  3572    	XREF _sprite_select:ROM
+                           A  3573    	XREF _sprite_activateTotal:ROM
+                           A  3574    	XREF _bitmap_draw:ROM
+                           A  3575    	XREF _bitmap_createSolidColor:ROM
+                           A  3576    	XREF _bitmap_sendData:ROM
+                           A  3577    	XREF _mos_fileError:ROM
+                           A  3578    	XREF _f_read:ROM
+                           A  3579    	XREF _f_close:ROM
+                           A  3580    	XREF _f_open:ROM
+                           A  3581    	XREF ___print_sendstring:ROM
+                           A  3582    	XREF ___print_xputch:ROM
+                           A  3583    	XREF ___print_uputch:ROM
+                           A  3584    	XREF __idivs:ROM
+                           A  3585    	XREF __ldivu:ROM
+                           A  3586    	XREF __stoiu:ROM
+                           A  3587    	XREF __imul_b:ROM
+                           A  3588    	XDEF _read_level
+                           A  3589    	XDEF _read_numberoflevels
+                           A  3590    	XDEF _game_displayLevel
+                           A  3591    	XDEF _print_playfieldText
+                           A  3592    	XDEF _game_play
+                           A  3593    	XDEF _game_resetlevel
+                           A  3594    	XDEF _game_init
+                           A  3595    	XDEF _lookup
+                           A  3596    	XDEF _currentlevel
+                           A  3597    	XDEF _sprites
+                           A  3598    	XDEF _bitmapbuffer
+                           A  3599    	END
 
 
 Errors: 0
 Warnings: 0
-Lines Assembled: 3598
+Lines Assembled: 3600

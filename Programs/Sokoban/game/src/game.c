@@ -11,7 +11,7 @@
 #include "timer.h"
 #include "uart.h"
 
-#define SENDDELAY	1
+#define SENDDELAY	2
 #define FRAMEDELAY  15
 
 UINT32 bitmapbuffer[BITMAPSIZE];				// will hold one bitmap at a time, to transmit to the VDU

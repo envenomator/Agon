@@ -260,7 +260,7 @@ void remove_lfcrchars(char *string)
 bool close_level(FILE *outptr, int levelwidth, int levelheight, bool playerfound, struct sokobanlevel *levelbuffer, int numlevels, int numlevels_valid)
 {
     // output level, if valid
-    if((levelwidth <= MAXWIDTH) && (levelheight <= MAXHEIGHT) && (playerfound) && (levelbuffer->goals) && (levelbuffer->crates) && (levelbuffer->goals == levelbuffer->crates))
+    if((levelwidth <= MAXWIDTH) && (levelheight <= MAXHEIGHT) && (playerfound) && (levelbuffer->goals) && (levelbuffer->crates) && (levelbuffer->goals <= levelbuffer->crates))
     {
         levelbuffer->width = levelwidth;
         levelbuffer->height = levelheight;
@@ -277,7 +277,7 @@ bool close_level(FILE *outptr, int levelwidth, int levelheight, bool playerfound
             if(!playerfound) printf("Removed level %02d - no player found\n", numlevels);
             if(levelbuffer->goals == 0) printf("Removed level %02d - no goals found\n", numlevels);
             if(levelbuffer->crates == 0) printf("Removed level %02d - no crates found\n", numlevels);
-            if(levelbuffer->goals != levelbuffer->crates) printf("Removed level %02d - number of crates doesn't match number of goals\n", numlevels);
+            if(levelbuffer->goals > levelbuffer->crates) printf("Removed level %02d - number of crates (%d) doesn't match number of goals (%d)\n", numlevels,levelbuffer->crates,levelbuffer->goals);
         }
     }
     return false;

@@ -1,4 +1,4 @@
-Zilog eZ80 Macro Assembler Version 4.3 (19073001)06-Aug-22     16:26:50     page:   1
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)06-Aug-22     16:32:00     page:   1
 
 
 PC     Object              I  Line    Source 
@@ -1935,7 +1935,7 @@ PC     Object              I  Line    Source
                            A  1931    ;   11	#include "timer.h"
                            A  1932    ;   12	#include "uart.h"
                            A  1933    ;   13	
-                           A  1934    ;   14	#define SENDDELAY	1
+                           A  1934    ;   14	#define SENDDELAY	2
                            A  1935    ;   15	#define FRAMEDELAY  15
                            A  1936    ;   16	
                            A  1937    ;   17	UINT32 bitmapbuffer[BITMAPSIZE];		
@@ -2317,7 +2317,7 @@ PC     Object              I  Line    Source
                            A  2313    ;  196			delayms(SENDDELAY);
                            A  2314    .LINE 196
                            A  2315    
-0000EB 01010000            A  2316    	LD	BC,1
+0000EB 01020000            A  2316    	LD	BC,2
 0000EF C5                  A  2317    	PUSH	BC
 0000F0 CD 00 00 00         A  2318    	CALL	_delayms
 0000F4 C1                  A  2319    	POP	BC
@@ -4678,7 +4678,7 @@ PC     Object              I  Line    Source
                            A  4674    ;  468							delayms(SENDDEL
                            A  4675    .LINE 468
                            A  4676    
-000AFE 01010000            A  4677    	LD	BC,1
+000AFE 01020000            A  4677    	LD	BC,2
 000B02 C5                  A  4678    	PUSH	BC
 000B03 CD 00 00 00         A  4679    	CALL	_delayms
 000B07 C1                  A  4680    	POP	BC
@@ -4737,7 +4737,7 @@ PC     Object              I  Line    Source
                            A  4733    ;  480				delayms(SENDDELAY);
                            A  4734    .LINE 480
                            A  4735    
-000B34 01010000            A  4736    	LD	BC,1
+000B34 01020000            A  4736    	LD	BC,2
 000B38 C5                  A  4737    	PUSH	BC
 000B39 CD 00 00 00         A  4738    	CALL	_delayms
 000B3D C1                  A  4739    	POP	BC
@@ -5497,7 +5497,7 @@ PC     Object              I  Line    Source
                            A  5491    ;  574						delayms(SENDDELAY);
                            A  5492    .LINE 574
                            A  5493    
-000E09 01010000            A  5494    	LD	BC,1
+000E09 01020000            A  5494    	LD	BC,2
 000E0D C5                  A  5495    	PUSH	BC
 000E0E CD 00 00 00         A  5496    	CALL	_delayms
 000E12 C1                  A  5497    	POP	BC

@@ -9,8 +9,10 @@
 #include "vdu.h"
 #include "String.h"
 #include "timer.h"
+#include "uart.h"
 
-#define SENDDELAY	7
+#define SENDDELAY	1
+#define FRAMEDELAY  15
 
 UINT32 bitmapbuffer[BITMAPSIZE];				// will hold one bitmap at a time, to transmit to the VDU
 UINT8 sprites[MAXHEIGHT][MAXWIDTH]; // will contain all sprites on-screen
@@ -106,16 +108,16 @@ static const UINT32 boxongoal_data[1][256] = {
 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 
 0xff00ffff, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff00ffff, 0xff008080, 
 0xff00ffff, 0xff008080, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff00ffff, 0xff008080, 
-0xff00ffff, 0xff008080, 0xff000000, 0xff008000, 0xff008000, 0xff000000, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff000000, 0xff008000, 0xff008000, 0xff000000, 0xff00ffff, 0xff008080, 
-0xff00ffff, 0xff008080, 0xff000000, 0xff008000, 0xff00ff00, 0xff008000, 0xff000000, 0xff00ffff, 0xff00ffff, 0xff000000, 0xff008000, 0xff00ff00, 0xff008000, 0xff000000, 0xff00ffff, 0xff008080, 
-0xff00ffff, 0xff008080, 0xff000000, 0xff000000, 0xff008000, 0xff00ff00, 0xff008000, 0xff000000, 0xff000000, 0xff008000, 0xff00ff00, 0xff008000, 0xff000000, 0xff000000, 0xff00ffff, 0xff008080, 
-0xff00ffff, 0xff008080, 0xff000000, 0xff008080, 0xff000000, 0xff008000, 0xff00ff00, 0xff008000, 0xff008000, 0xff00ff00, 0xff008000, 0xff000000, 0xff008080, 0xff000000, 0xff00ffff, 0xff008080, 
-0xff00ffff, 0xff008080, 0xff000000, 0xff008080, 0xff00ffff, 0xff000000, 0xff008000, 0xff00ff00, 0xff00ff00, 0xff008000, 0xff000000, 0xff00ffff, 0xff008080, 0xff000000, 0xff00ffff, 0xff008080, 
-0xff00ffff, 0xff008080, 0xff000000, 0xff008080, 0xff00ffff, 0xff000000, 0xff008000, 0xff00ff00, 0xff00ff00, 0xff008000, 0xff000000, 0xff00ffff, 0xff008080, 0xff000000, 0xff00ffff, 0xff008080, 
-0xff00ffff, 0xff008080, 0xff000000, 0xff008080, 0xff000000, 0xff008000, 0xff00ff00, 0xff008000, 0xff008000, 0xff00ff00, 0xff008000, 0xff000000, 0xff008080, 0xff000000, 0xff00ffff, 0xff008080, 
-0xff00ffff, 0xff008080, 0xff000000, 0xff000000, 0xff008000, 0xff00ff00, 0xff008000, 0xff000000, 0xff000000, 0xff008000, 0xff00ff00, 0xff008000, 0xff000000, 0xff000000, 0xff00ffff, 0xff008080, 
-0xff00ffff, 0xff008080, 0xff000000, 0xff008000, 0xff00ff00, 0xff008000, 0xff000000, 0xff00ffff, 0xff00ffff, 0xff000000, 0xff008000, 0xff00ff00, 0xff008000, 0xff000000, 0xff00ffff, 0xff008080, 
-0xff00ffff, 0xff008080, 0xff000000, 0xff008000, 0xff008000, 0xff000000, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff000000, 0xff008000, 0xff008000, 0xff000000, 0xff00ffff, 0xff008080, 
+0xff00ffff, 0xff008080, 0xff000000, 0xff008080, 0xff008080, 0xff000000, 0xff008000, 0xff008000, 0xff008000, 0xff008000, 0xff000000, 0xff008080, 0xff008080, 0xff000000, 0xff00ffff, 0xff008080, 
+0xff00ffff, 0xff008080, 0xff000000, 0xff008080, 0xff00ffff, 0xff008080, 0xff000000, 0xff00ff00, 0xff00ff00, 0xff000000, 0xff008080, 0xff00ffff, 0xff008080, 0xff000000, 0xff00ffff, 0xff008080, 
+0xff00ffff, 0xff008080, 0xff000000, 0xff000000, 0xff008080, 0xff00ffff, 0xff008080, 0xff000000, 0xff000000, 0xff008080, 0xff00ffff, 0xff008080, 0xff000000, 0xff000000, 0xff00ffff, 0xff008080, 
+0xff00ffff, 0xff008080, 0xff000000, 0xff008000, 0xff000000, 0xff008080, 0xff00ffff, 0xff008080, 0xff00ffff, 0xff00ffff, 0xff008080, 0xff000000, 0xff008000, 0xff000000, 0xff00ffff, 0xff008080, 
+0xff00ffff, 0xff008080, 0xff000000, 0xff008000, 0xff00ff00, 0xff000000, 0xff008080, 0xff00ff00, 0xff00ff00, 0xff008080, 0xff000000, 0xff00ff00, 0xff008000, 0xff000000, 0xff00ffff, 0xff008080, 
+0xff00ffff, 0xff008080, 0xff000000, 0xff008000, 0xff00ff00, 0xff000000, 0xff00ffff, 0xff00ff00, 0xff00ff00, 0xff00ffff, 0xff000000, 0xff00ff00, 0xff008000, 0xff000000, 0xff00ffff, 0xff008080, 
+0xff00ffff, 0xff008080, 0xff000000, 0xff008000, 0xff000000, 0xff008080, 0xff00ffff, 0xff008080, 0xff00ffff, 0xff00ffff, 0xff008080, 0xff000000, 0xff008000, 0xff000000, 0xff00ffff, 0xff008080, 
+0xff00ffff, 0xff008080, 0xff000000, 0xff000000, 0xff008080, 0xff00ffff, 0xff008080, 0xff000000, 0xff000000, 0xff008080, 0xff00ffff, 0xff008080, 0xff000000, 0xff000000, 0xff00ffff, 0xff008080, 
+0xff00ffff, 0xff008080, 0xff000000, 0xff008080, 0xff00ffff, 0xff008080, 0xff000000, 0xff00ff00, 0xff00ff00, 0xff000000, 0xff008080, 0xff00ffff, 0xff008080, 0xff000000, 0xff00ffff, 0xff008080, 
+0xff00ffff, 0xff008080, 0xff000000, 0xff008080, 0xff008080, 0xff000000, 0xff008000, 0xff008000, 0xff008000, 0xff008000, 0xff000000, 0xff008080, 0xff008080, 0xff000000, 0xff00ffff, 0xff008080, 
 0xff00ffff, 0xff008080, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff00ffff, 0xff008080, 
 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff008080, 
 0xff00ffff, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080
@@ -189,6 +191,7 @@ void game_resetlevel(void)
 	{
 		sprite_select(n);
 		sprite_hide();
+		sprite_setFrame(0);
 		sprite_clearFrames_selected();
 		delayms(SENDDELAY);
 	}
@@ -199,24 +202,210 @@ void game_resetlevel(void)
 	memset(&currentlevel, 0, sizeof(struct sokobanlevel));
 	
 	// reset all sprite positions and clear out any sprites
-	for(y = 0; y < MAXHEIGHT; y++)
+	memset(sprites, 255, MAXHEIGHT*MAXWIDTH);
+}
+
+BOOL canmove(UINT16 xn1, UINT16 yn1, UINT16 xn2, UINT16 yn2)
+{
+	BOOL can = FALSE;
+	UINT8 n1, n2;
+	
+	n1 = currentlevel.data[yn1][xn1];
+	n2 = currentlevel.data[yn2][xn2];
+	
+	switch(n1)
 	{
-		for(x = 0; x < MAXWIDTH; x++)
+		case CHAR_WALL:
+			return FALSE;
+			break;
+		case CHAR_FLOOR:
+		case CHAR_GOAL:
+			return TRUE;
+			break;
+	}
+	// either BOX or BOXONGOAL next to player
+	switch(n2)
+	{
+		case CHAR_WALL:
+			return FALSE;
+			break;
+		case CHAR_BOX:
+		case CHAR_BOXONGOAL:
+			return FALSE;
+			break;
+	}
+	// only FLOOR or empty GOAL remaining at n2
+	return TRUE;
+}
+
+void move_sprites(UINT16 xn1, UINT16 yn1, UINT16 xn2, UINT16 yn2)
+{
+	// move can happen, no need to check again
+	UINT8 spriteid = sprites[yn1][xn1];
+	UINT8 n;
+	INT16 dx, dy;
+	UINT8 n2;
+		
+	dx = xn2 - xn1;
+	dy = yn2 - yn1;
+	
+	for(n = 0; n < BITMAP_WIDTH; n++)
+	{
+		if(spriteid != NOSPRITE)
 		{
-				sprites[y][x] = NOSPRITE;
+			sprite_select(spriteid);
+			sprite_moveBy(dx, dy);
 		}
+		sprite_select(0);
+		sprite_moveBy(dx, dy);
+		delayms(FRAMEDELAY);
+	}
+
+	// set destination sprite frame
+	if(spriteid != NOSPRITE)
+	{
+		sprite_select(spriteid);
+		// Check if the sprite moved to a goal or floor
+		n2 = currentlevel.data[yn2][xn2];
+		switch(n2)
+		{
+			case CHAR_FLOOR:
+				sprite_setFrame(0);
+				break;
+			case CHAR_GOAL:
+				sprite_setFrame(1);
+				break;
+		}
+	}
+	// update sprite number matrix
+	if(spriteid != NOSPRITE)
+	{
+		// player shoves a box here
+		sprites[yn2][xn2] = sprites[yn1][xn1];
+	}
+	sprites[yn1][xn1] = NOSPRITE; // player's sprite isn't handled by using a box spriteid
+	sprites[currentlevel.ypos][currentlevel.xpos] = NOSPRITE;
+}
+
+void move_updatelevel(UINT16 xn1, UINT16 yn1, UINT16 xn2, UINT16 yn2)
+{
+	// move can happen, no need to check again
+	UINT8 n1, n2;
+	BOOL onlyplayermoves;
+	
+	n1 = currentlevel.data[yn1][xn1];
+	n2 = currentlevel.data[yn2][xn2];
+
+	
+	switch(n1)
+	{
+		case CHAR_FLOOR:
+			onlyplayermoves = TRUE;
+			currentlevel.data[yn1][xn1] = CHAR_PLAYER;
+			break;
+		case CHAR_GOAL:
+			onlyplayermoves = TRUE;
+			currentlevel.data[yn1][xn1] = CHAR_PLAYERONGOAL;
+			break;
+		default:
+			onlyplayermoves = FALSE;
+			break;
+	}
+	if(!onlyplayermoves)
+	{
+		switch(n2)
+		{
+			case CHAR_FLOOR:
+				currentlevel.data[yn2][xn2] = CHAR_BOX;
+				break;
+			case CHAR_GOAL:
+				currentlevel.data[yn2][xn2] = CHAR_BOXONGOAL;
+				currentlevel.goalstaken++;
+				break;
+			default:
+				break; // ignore the rest
+		}
+		switch(n1)
+		{
+			case CHAR_BOX:
+				currentlevel.data[yn1][xn1] = CHAR_PLAYER;				
+				break;
+			case CHAR_BOXONGOAL:
+				currentlevel.data[yn1][xn1] = CHAR_PLAYERONGOAL;				
+				currentlevel.goalstaken--;
+				break;
+			case CHAR_GOAL:
+				currentlevel.data[yn1][xn1] = CHAR_PLAYERONGOAL;
+				break;
+		}
+	}
+	
+	
+	// check where the player was standing on
+	if(currentlevel.data[currentlevel.ypos][currentlevel.xpos] == CHAR_PLAYERONGOAL) currentlevel.data[currentlevel.ypos][currentlevel.xpos] = CHAR_GOAL;
+	else currentlevel.data[currentlevel.ypos][currentlevel.xpos] = CHAR_FLOOR;
+	
+	// update player position
+	currentlevel.xpos = xn1;
+	currentlevel.ypos = yn1;
+}
+
+void game_play()
+{
+	BOOL done = FALSE, validmove;
+	char key;
+	INT16	xn1 = 0,xn2 = 0,yn1 = 0,yn2 = 0;
+	
+	while(!done)
+	{
+		//debug_print_playfieldText();
+		validmove = TRUE;
+		key = getch();
+		switch(key)
+		{
+			case 'a':
+				xn1 = currentlevel.xpos - 1;
+				yn1 = currentlevel.ypos;
+				xn2 = currentlevel.xpos - 2;
+				yn2 = currentlevel.ypos;
+				break;
+			case 'w':
+				xn1 = currentlevel.xpos;
+				yn1 = currentlevel.ypos - 1;
+				xn2 = currentlevel.xpos;
+				yn2 = currentlevel.ypos - 2;
+				break;
+			case 's':
+				xn1 = currentlevel.xpos;
+				yn1 = currentlevel.ypos + 1;
+				xn2 = currentlevel.xpos;
+				yn2 = currentlevel.ypos + 2;
+				break;
+			case 'd':
+				xn1 = currentlevel.xpos + 1;
+				yn1 = currentlevel.ypos;
+				xn2 = currentlevel.xpos + 2;
+				yn2 = currentlevel.ypos;
+				break;
+			default:
+				validmove = FALSE;
+				break;
+		}
+		//printf("xn1:%d yn1:%d xn2:%d yn2:%d\n\r",xn1,yn1,xn2,yn2);
+		if(validmove)
+		{
+			if(canmove(xn1,yn1,xn2,yn2))
+			{
+				move_sprites(xn1,yn1,xn2,yn2);
+				move_updatelevel(xn1,yn1,xn2,yn2);
+			}
+		}
+		done = (currentlevel.goals == currentlevel.goalstaken);
 	}
 }
 
-void game_play(UINT8 levelnumber)
-{
-	game_resetlevel();
-	
-	
-}
 
-
-void print_playfieldText(void)
+void debug_print_playfieldText(void)
 {
 	UINT16 width, height;
 	char c;
@@ -227,6 +416,13 @@ void print_playfieldText(void)
 		{
 			c = currentlevel.data[height][width];
 			printf("%c",c?c:' ');
+		}
+		printf(" ");
+		for(width = 0; width < currentlevel.width; width++)
+		{
+			c = sprites[height][width] + '0';
+			if(c > '9') c = 'X';
+			printf("%c",c);
 		}
 		printf("\n\r");
 	}
@@ -263,10 +459,14 @@ void game_displayLevel(void)
 					break;
 				case CHAR_BOX:
 				case CHAR_BOXONGOAL:
-					printf("Selecting sprite %d - move to X:%d, Y:%d\n\r", sprites[height][width],x,y);
 					sprite_select(sprites[height][width]);
 					sprite_moveTo(x,y);
 					sprite_show();
+					if(c == CHAR_BOXONGOAL)
+					{
+						bitmap_draw(TILE_GOAL, x, y); // don't forget to draw the goal beneath
+						delayms(SENDDELAY);
+					}
 					break;
 				case CHAR_GOAL:
 					bitmap_draw(TILE_GOAL, x, y);					
@@ -274,24 +474,6 @@ void game_displayLevel(void)
 				case CHAR_FLOOR:
 					bitmap_draw(TILE_FLOOR, x, y);			
 					break;
-				/*
-				case CHAR_PLAYER:
-					bitmap_draw(TILE_PLAYER, x, y);
-					delayms(SENDDELAY);
-					break;
-				case CHAR_PLAYERONGOAL:
-					bitmap_draw(TILE_PLAYERONGOAL, x, y);
-					delayms(SENDDELAY);
-					break;
-				case CHAR_BOX:
-					bitmap_draw(TILE_BOX, x, y);
-					delayms(SENDDELAY);					
-					break;
-				case CHAR_BOXONGOAL:
-					bitmap_draw(TILE_BOXONGOAL, x, y);
-					delayms(SENDDELAY);					
-					break;
-				*/
 				default:
 					break;
 			}
@@ -329,22 +511,25 @@ BOOL read_level(UINT8 levelid)
 {
 	FIL	   	fil;
 	UINT   	br;	
-	FSIZE_t fSize;
-	UINT8	levelcounter;
 	FRESULT	fr;
 	BOOL	done = FALSE;
 	
-	levelcounter = levelid;
-	
 	fr = f_open(&fil, FILENAME_LEVELS, FA_READ);
 	if(fr == FR_OK) {
-		fSize = f_size(&fil);
-		
-		while(!done)
+		fr = f_lseek(&fil, levelid*sizeof(struct sokobanlevel));
+		if(fr == FR_OK)
 		{
 			fr = f_read(&fil, &currentlevel, sizeof(struct sokobanlevel), &br);
-			if(levelcounter == 0) done = TRUE;
-			levelcounter--;
+			if(fr != FR_OK)
+			{
+				mos_fileError(fr);
+				return FALSE;
+			}
+		}
+		else
+		{
+			mos_fileError(fr);
+			return FALSE;
 		}
 	}
 	else {
@@ -384,7 +569,7 @@ void game_createSprites(void)
 					if(currentlevel.data[y][x] == CHAR_BOXONGOAL) sprite_setFrame(1);
 					sprite_hide();
 					sprites[y][x] = boxsprite;
-					printf("X:%d, Y:%d, box id: %d\n\r",x,y,sprites[y][x]);
+					//printf("X:%d, Y:%d, box id: %d\n\r",x,y,sprites[y][x]);
 					boxsprite++;
 					delayms(SENDDELAY);
 					break;
@@ -397,7 +582,7 @@ void game_createSprites(void)
 
 	// activate all sprites. boxsprite is allready set to one extra, we use that extra to account for the player sprite
 	sprite_activateTotal(boxsprite);
-	printf(" %d sprites activated\n\r",boxsprite);
+	//printf(" %d sprites activated\n\r",boxsprite);
 	
 	spritenumber = boxsprite;
 }

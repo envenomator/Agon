@@ -42,6 +42,7 @@ BOOL game_init(void);
 void game_resetlevel(void);
 void game_displayLevel(void);
 void game_createSprites(void);
+void game_play();
 
 #endif 
 

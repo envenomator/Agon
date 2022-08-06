@@ -106,8 +106,9 @@ int main(void) {
 				game_createSprites();
 				//print_playfieldText();
 				game_displayLevel();
+				game_play();
 				levelnumber++;
-				//printf("\n\rPress any key:\n\r");
+				printf("\n\rLevel complete - press any key:\n\r");
 				getch();
 			}
 			printf("Last level reached\n\r");				

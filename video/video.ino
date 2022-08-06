@@ -12,7 +12,7 @@
 #include "fabgl.h"
 #include "HardwareSerial.h"
 
-#define	DEBUG		1
+#define	DEBUG		0
 
 #define	ESPSerial Serial2
 
@@ -299,7 +299,7 @@ void vdu_sprite(void)
 {
     uint32_t color;
     void *dataptr;
-    uint16_t x,y;
+    int16_t x,y;
     int16_t width,height;
     uint16_t n,temp;
     bool refresh = false;
@@ -452,8 +452,8 @@ void vdu_sprite(void)
         x = readWord();
         y = readWord();
         
-        sprites[current_sprite].x = x;
-        sprites[current_sprite].y = y;
+        sprites[current_sprite].x += x;
+        sprites[current_sprite].y += y;
 
         refresh = true;
         debug_log("vdu - sprite %d - move by offset (%d,%d)\n\r", current_sprite, x, y);

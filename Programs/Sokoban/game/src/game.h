@@ -21,9 +21,6 @@
 #define TILE_GOAL			5
 #define TILE_FLOOR			6
 
-#define SPRITE_PLAYER		0
-#define SPRITE_BOX			1
-
 #define CHAR_WALL			'#'
 #define CHAR_PLAYER			'@'
 #define CHAR_PLAYERONGOAL	'+'
@@ -44,6 +41,7 @@ BOOL read_level(UINT8 levelid);
 BOOL game_init(void);
 void game_resetlevel(void);
 void game_displayLevel(void);
+void game_createSprites(void);
 
 #endif 
 

@@ -1,4 +1,4 @@
-Zilog eZ80 Macro Assembler Version 4.3 (19073001)05-Aug-22     21:44:50     page:   1
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)06-Aug-22     11:47:40     page:   1
 
 
 PC     Object              I  Line    Source 
@@ -910,14 +910,14 @@ PC     Object              I  Line    Source
 0000E7 DD27FC              A   906    	LD	HL,(IX+%FFFFFFFC)
 0000EA B7                  A   907    	OR	A,A
 0000EB 40ED42              A   908    	SBC.SIS	HL,BC
-0000EE CA 97 01 00         A   909    	JR	Z,L_13
+0000EE CA 9B 01 00         A   909    	JR	Z,L_13
                            A   910    ;   95		{
                            A   911    ;   96			if(game_init())
                            A   912    .LINE 96
                            A   913    
 0000F2 CD 00 00 00         A   914    	CALL	_game_init
 0000F6 B7                  A   915    	OR	A,A
-0000F7 CA 82 01 00         A   916    	JR	Z,L_11
+0000F7 CA 86 01 00         A   916    	JR	Z,L_11
                            A   917    ;   97			{
                            A   918    ;   98				levelnumber = 0;
                            A   919    .LINE 98
@@ -927,7 +927,7 @@ PC     Object              I  Line    Source
                            A   923    ;   99				while(levelnumber < levels)
                            A   924    .LINE 99
                            A   925    
-000103 18 5C               A   926    	JR	L_7
+000103 18 60               A   926    	JR	L_7
 000105                     A   927    L_8:
                            A   928    ;  100				{
                            A   929    ;  101					vdu_cls();
@@ -972,166 +972,172 @@ PC     Object              I  Line    Source
 000149 C5                  A   968    	PUSH	BC
 00014A CD 00 00 00         A   969    	CALL	_read_level
 00014E C1                  A   970    	POP	BC
-                           A   971    ;  106					//print_playfieldText()
-                           A   972    ;  107					game_displayLevel();
-                           A   973    .LINE 107
-                           A   974    
-00014F CD 00 00 00         A   975    	CALL	_game_displayLevel
-                           A   976    ;  108					levelnumber++;
+                           A   971    ;  106					game_createSprites();
+                           A   972    .LINE 106
+                           A   973    
+00014F CD 00 00 00         A   974    	CALL	_game_createSprites
+                           A   975    ;  107					//print_playfieldText()
+                           A   976    ;  108					game_displayLevel();
                            A   977    .LINE 108
                            A   978    
-000153 DD27FE              A   979    	LD	HL,(IX+%FFFFFFFE)
-000156 23                  A   980    	INC	HL
-000157 DD75FE              A   981    	LD	(IX+%FFFFFFFE),L
-00015A DD74FF              A   982    	LD	(IX+%FFFFFFFF),H
-                           A   983    ;  109					//printf("\n\rPress any
-                           A   984    ;  110					getch();
-                           A   985    .LINE 110
-                           A   986    
-00015D CD 00 00 00         A   987    	CALL	_getch
-                           A   988    ;  111				}
-000161                     A   989    L_7:
-                           A   990    .LINE 111
-                           A   991    
-000161 DD07FC              A   992    	LD	BC,(IX+%FFFFFFFC)
-000164 DD27FE              A   993    	LD	HL,(IX+%FFFFFFFE)
-000167 B7                  A   994    	OR	A,A
-000168 40ED42              A   995    	SBC.SIS	HL,BC
-00016B 38 98               A   996    	JR	C,L_8
-                           A   997    ;  112				printf("Last level reached\
-                           A   998    .LINE 112
-                           A   999    
-00016D 01 00 00 00         A  1000    	LD	BC,___print_uputch
-000171 ED43 00 00 00       A  1001    	LD	(___print_xputch),BC
-000176 01 25 00 00         A  1002    	LD	BC,L__11
-00017A C5                  A  1003    	PUSH	BC
-00017B CD 00 00 00         A  1004    	CALL	___print_sendstring
-00017F C1                  A  1005    	POP	BC
-                           A  1006    ;  113			}
-                           A  1007    ;  114			else printf("Error initializing
-                           A  1008    .LINE 114
-                           A  1009    
-000180 18 28               A  1010    	JR	L_14
-000182                     A  1011    L_11:
-000182 01 00 00 00         A  1012    	LD	BC,___print_uputch
-000186 ED43 00 00 00       A  1013    	LD	(___print_xputch),BC
-00018B 01 3A 00 00         A  1014    	LD	BC,L__12
-00018F C5                  A  1015    	PUSH	BC
-000190 CD 00 00 00         A  1016    	CALL	___print_sendstring
-000194 C1                  A  1017    	POP	BC
-                           A  1018    ;  115		}		
-                           A  1019    ;  116		else printf("No levels read\n\r");
-                           A  1020    .LINE 116
-                           A  1021    
-000195 18 13               A  1022    	JR	L_14
-000197                     A  1023    L_13:
-000197 01 00 00 00         A  1024    	LD	BC,___print_uputch
-00019B ED43 00 00 00       A  1025    	LD	(___print_xputch),BC
-0001A0 01 54 00 00         A  1026    	LD	BC,L__13
-0001A4 C5                  A  1027    	PUSH	BC
-0001A5 CD 00 00 00         A  1028    	CALL	___print_sendstring
-0001A9 C1                  A  1029    	POP	BC
-0001AA                     A  1030    L_14:
-                           A  1031    ;  117	
-                           A  1032    ;  118		return 0;
-                           A  1033    .LINE 118
-                           A  1034    
-0001AA B7                  A  1035    	OR	A,A
-0001AB ED62                A  1036    	SBC	HL,HL
+000153 CD 00 00 00         A   979    	CALL	_game_displayLevel
+                           A   980    ;  109					levelnumber++;
+                           A   981    .LINE 109
+                           A   982    
+000157 DD27FE              A   983    	LD	HL,(IX+%FFFFFFFE)
+00015A 23                  A   984    	INC	HL
+00015B DD75FE              A   985    	LD	(IX+%FFFFFFFE),L
+00015E DD74FF              A   986    	LD	(IX+%FFFFFFFF),H
+                           A   987    ;  110					//printf("\n\rPress any
+                           A   988    ;  111					getch();
+                           A   989    .LINE 111
+                           A   990    
+000161 CD 00 00 00         A   991    	CALL	_getch
+                           A   992    ;  112				}
+000165                     A   993    L_7:
+                           A   994    .LINE 112
+                           A   995    
+000165 DD07FC              A   996    	LD	BC,(IX+%FFFFFFFC)
+000168 DD27FE              A   997    	LD	HL,(IX+%FFFFFFFE)
+00016B B7                  A   998    	OR	A,A
+00016C 40ED42              A   999    	SBC.SIS	HL,BC
+00016F 38 94               A  1000    	JR	C,L_8
+                           A  1001    ;  113				printf("Last level reached\
+                           A  1002    .LINE 113
+                           A  1003    
+000171 01 00 00 00         A  1004    	LD	BC,___print_uputch
+000175 ED43 00 00 00       A  1005    	LD	(___print_xputch),BC
+00017A 01 25 00 00         A  1006    	LD	BC,L__11
+00017E C5                  A  1007    	PUSH	BC
+00017F CD 00 00 00         A  1008    	CALL	___print_sendstring
+000183 C1                  A  1009    	POP	BC
+                           A  1010    ;  114			}
+                           A  1011    ;  115			else printf("Error initializing
+                           A  1012    .LINE 115
+                           A  1013    
+000184 18 28               A  1014    	JR	L_14
+000186                     A  1015    L_11:
+000186 01 00 00 00         A  1016    	LD	BC,___print_uputch
+00018A ED43 00 00 00       A  1017    	LD	(___print_xputch),BC
+00018F 01 3A 00 00         A  1018    	LD	BC,L__12
+000193 C5                  A  1019    	PUSH	BC
+000194 CD 00 00 00         A  1020    	CALL	___print_sendstring
+000198 C1                  A  1021    	POP	BC
+                           A  1022    ;  116		}		
+                           A  1023    ;  117		else printf("No levels read\n\r");
+                           A  1024    .LINE 117
+                           A  1025    
+000199 18 13               A  1026    	JR	L_14
+00019B                     A  1027    L_13:
+00019B 01 00 00 00         A  1028    	LD	BC,___print_uputch
+00019F ED43 00 00 00       A  1029    	LD	(___print_xputch),BC
+0001A4 01 54 00 00         A  1030    	LD	BC,L__13
+0001A8 C5                  A  1031    	PUSH	BC
+0001A9 CD 00 00 00         A  1032    	CALL	___print_sendstring
+0001AD C1                  A  1033    	POP	BC
+0001AE                     A  1034    L_14:
+                           A  1035    ;  118	
+                           A  1036    ;  119		return 0;
                            A  1037    .LINE 119
                            A  1038    
-0001AD DDF9                A  1039    	LD	SP,IX
-0001AF DDE1                A  1040    	POP	IX
-0001B1 C9                  A  1041    	RET	
+0001AE B7                  A  1039    	OR	A,A
+0001AF ED62                A  1040    	SBC	HL,HL
+                           A  1041    .LINE 120
                            A  1042    
-                           A  1043    
-                           A  1044    ;**************************** _main ***********
-                           A  1045    ;Name                         Addr/Register   S
-                           A  1046    ;_getch                              IMPORT  --
-                           A  1047    ;_game_displayLevel                  IMPORT  --
-                           A  1048    ;_read_level                         IMPORT  --
-                           A  1049    ;_game_resetlevel                    IMPORT  --
-                           A  1050    ;__u_itoa                            IMPORT  --
-                           A  1051    ;_vdu_cls                            IMPORT  --
-                           A  1052    ;_game_init                          IMPORT  --
-                           A  1053    ;_read_numberoflevels                IMPORT  --
-                           A  1054    ;___print_sendstring                 IMPORT  --
-                           A  1055    ;___print_xputch                     IMPORT    
-                           A  1056    ;___print_uputch                     IMPORT  --
-                           A  1057    ;_vdu_setmode                        IMPORT  --
-                           A  1058    ;_coldBoot                           IMPORT    
-                           A  1059    ;_fs                                 STATIC    
-                           A  1060    ;_f_mount                            IMPORT  --
-                           A  1061    ;_open_UART0                         IMPORT  --
-                           A  1062    ;_init_UART0                         IMPORT  --
-                           A  1063    ;_init_spi                           IMPORT  --
-                           A  1064    ;_init_timer2                        IMPORT  --
-                           A  1065    ;pUART                                IX-10    
-                           A  1066    ;levels                                IX-4    
-                           A  1067    ;levelnumber                           IX-2    
-                           A  1068    
-                           A  1069    
-                           A  1070    ; Stack Frame Size: 16 (bytes)
-                           A  1071    ;       Spill Code: 0 (instruction)
-                           A  1072    
+0001B1 DDF9                A  1043    	LD	SP,IX
+0001B3 DDE1                A  1044    	POP	IX
+0001B5 C9                  A  1045    	RET	
+                           A  1046    
+                           A  1047    
+                           A  1048    ;**************************** _main ***********
+                           A  1049    ;Name                         Addr/Register   S
+                           A  1050    ;_getch                              IMPORT  --
+                           A  1051    ;_game_displayLevel                  IMPORT  --
+                           A  1052    ;_game_createSprites                 IMPORT  --
+                           A  1053    ;_read_level                         IMPORT  --
+                           A  1054    ;_game_resetlevel                    IMPORT  --
+                           A  1055    ;__u_itoa                            IMPORT  --
+                           A  1056    ;_vdu_cls                            IMPORT  --
+                           A  1057    ;_game_init                          IMPORT  --
+                           A  1058    ;_read_numberoflevels                IMPORT  --
+                           A  1059    ;___print_sendstring                 IMPORT  --
+                           A  1060    ;___print_xputch                     IMPORT    
+                           A  1061    ;___print_uputch                     IMPORT  --
+                           A  1062    ;_vdu_setmode                        IMPORT  --
+                           A  1063    ;_coldBoot                           IMPORT    
+                           A  1064    ;_fs                                 STATIC    
+                           A  1065    ;_f_mount                            IMPORT  --
+                           A  1066    ;_open_UART0                         IMPORT  --
+                           A  1067    ;_init_UART0                         IMPORT  --
+                           A  1068    ;_init_spi                           IMPORT  --
+                           A  1069    ;_init_timer2                        IMPORT  --
+                           A  1070    ;pUART                                IX-10    
+                           A  1071    ;levels                                IX-4    
+                           A  1072    ;levelnumber                           IX-2    
                            A  1073    
-                           A  1074    .ENDFUNC "main",119,"_main"
-                           A  1075    	SEGMENT STRSECT
-000000                     A  1076    L__3:
-000000 00                  A  1077    	DB	0
-000001                     A  1078    L__5:
-000001 52656164 696E6720   A  1079    	DB	"Reading 'levels.bin'..."
+                           A  1074    
+                           A  1075    ; Stack Frame Size: 16 (bytes)
+                           A  1076    ;       Spill Code: 0 (instruction)
+                           A  1077    
+                           A  1078    
+                           A  1079    .ENDFUNC "main",120,"_main"
+                           A  1080    	SEGMENT STRSECT
+000000                     A  1081    L__3:
+000000 00                  A  1082    	DB	0
+000001                     A  1083    L__5:
+000001 52656164 696E6720   A  1084    	DB	"Reading 'levels.bin'..."
 000009 276C6576 656C732E 
 000011 62696E27 2E2E2E 
-000018 00                  A  1080    	DB	0
-000019                     A  1081    L__8:
-000019 4C657665 6C20       A  1082    	DB	"Level "
-00001F 00                  A  1083    	DB	0
-000020                     A  1084    L__9:
-000020 0A0D0A0D 00         A  1085    	DB	10,13,10,13,0
-000025                     A  1086    L__11:
-000025 4C617374 206C6576   A  1087    	DB	"Last level reached"
+000018 00                  A  1085    	DB	0
+000019                     A  1086    L__8:
+000019 4C657665 6C20       A  1087    	DB	"Level "
+00001F 00                  A  1088    	DB	0
+000020                     A  1089    L__9:
+000020 0A0D0A0D 00         A  1090    	DB	10,13,10,13,0
+000025                     A  1091    L__11:
+000025 4C617374 206C6576   A  1092    	DB	"Last level reached"
 00002D 656C2072 65616368 
 000035 6564 
-000037 0A0D00              A  1088    	DB	10,13,0
-00003A                     A  1089    L__12:
-00003A 4572726F 7220696E   A  1090    	DB	"Error initializing game"
+000037 0A0D00              A  1093    	DB	10,13,0
+00003A                     A  1094    L__12:
+00003A 4572726F 7220696E   A  1095    	DB	"Error initializing game"
 000042 69746961 6C697A69 
 00004A 6E672067 616D65 
-000051 0A0D00              A  1091    	DB	10,13,0
-000054                     A  1092    L__13:
-000054 4E6F206C 6576656C   A  1093    	DB	"No levels read"
+000051 0A0D00              A  1096    	DB	10,13,0
+000054                     A  1097    L__13:
+000054 4E6F206C 6576656C   A  1098    	DB	"No levels read"
 00005C 73207265 6164 
-000062 0A0D00              A  1094    	DB	10,13,0
-                           A  1095    	XREF _keycode:ROM
-                           A  1096    	XREF _coldBoot:ROM
-                           A  1097    	XREF _vblank_handler:ROM
-                           A  1098    	XREF _set_vector:ROM
-                           A  1099    	XREF _game_displayLevel:ROM
-                           A  1100    	XREF _game_resetlevel:ROM
-                           A  1101    	XREF _game_init:ROM
-                           A  1102    	XREF _read_level:ROM
-                           A  1103    	XREF _read_numberoflevels:ROM
-                           A  1104    	XREF _vdu_setmode:ROM
-                           A  1105    	XREF _vdu_cls:ROM
-                           A  1106    	XREF _f_mount:ROM
-                           A  1107    	XREF _init_timer2:ROM
-                           A  1108    	XREF _init_spi:ROM
-                           A  1109    	XREF _getch:ROM
-                           A  1110    	XREF _open_UART0:ROM
-                           A  1111    	XREF _init_UART0:ROM
-                           A  1112    	XREF __u_itoa:ROM
-                           A  1113    	XREF ___print_sendstring:ROM
-                           A  1114    	XREF ___print_xputch:ROM
-                           A  1115    	XREF ___print_uputch:ROM
-                           A  1116    	XREF __stoiu:ROM
-                           A  1117    	XREF __itol:ROM
-                           A  1118    	XDEF _main
-                           A  1119    	XDEF _init_interrupts
-                           A  1120    	XDEF _wait_ESP32
-                           A  1121    	END
+000062 0A0D00              A  1099    	DB	10,13,0
+                           A  1100    	XREF _keycode:ROM
+                           A  1101    	XREF _coldBoot:ROM
+                           A  1102    	XREF _vblank_handler:ROM
+                           A  1103    	XREF _set_vector:ROM
+                           A  1104    	XREF _game_createSprites:ROM
+                           A  1105    	XREF _game_displayLevel:ROM
+                           A  1106    	XREF _game_resetlevel:ROM
+                           A  1107    	XREF _game_init:ROM
+                           A  1108    	XREF _read_level:ROM
+                           A  1109    	XREF _read_numberoflevels:ROM
+                           A  1110    	XREF _vdu_setmode:ROM
+                           A  1111    	XREF _vdu_cls:ROM
+                           A  1112    	XREF _f_mount:ROM
+                           A  1113    	XREF _init_timer2:ROM
+                           A  1114    	XREF _init_spi:ROM
+                           A  1115    	XREF _getch:ROM
+                           A  1116    	XREF _open_UART0:ROM
+                           A  1117    	XREF _init_UART0:ROM
+                           A  1118    	XREF __u_itoa:ROM
+                           A  1119    	XREF ___print_sendstring:ROM
+                           A  1120    	XREF ___print_xputch:ROM
+                           A  1121    	XREF ___print_uputch:ROM
+                           A  1122    	XREF __stoiu:ROM
+                           A  1123    	XREF __itol:ROM
+                           A  1124    	XDEF _main
+                           A  1125    	XDEF _init_interrupts
+                           A  1126    	XDEF _wait_ESP32
+                           A  1127    	END
 
 
 Errors: 0
 Warnings: 0
-Lines Assembled: 1122
+Lines Assembled: 1128

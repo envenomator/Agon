@@ -103,6 +103,7 @@ int main(void) {
 				
 				game_resetlevel();
 				read_level(levelnumber);
+				game_createSprites();
 				//print_playfieldText();
 				game_displayLevel();
 				levelnumber++;

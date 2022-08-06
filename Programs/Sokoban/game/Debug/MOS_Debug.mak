@@ -438,6 +438,7 @@ $(WORKDIR_ESCSPACE)\vdu.obj :  \
 
 $(WORKDIR_ESCSPACE)\game.obj :  \
             $(PRJDIR_ESCSPACE)\src\game.c  \
+            $(INCLUDE_ESCSPACE)\std\CTYPE.H  \
             $(INCLUDE_ESCSPACE)\std\FLOAT.H  \
             $(INCLUDE_ESCSPACE)\std\Format.h  \
             $(INCLUDE_ESCSPACE)\std\Stdarg.h  \
@@ -447,6 +448,7 @@ $(WORKDIR_ESCSPACE)\game.obj :  \
             $(PRJDIR_ESCSPACE)\src\game.h  \
             $(PRJDIR_ESCSPACE)\src\mos.h  \
             $(PRJDIR_ESCSPACE)\src\sokobanprep.h  \
+            $(PRJDIR_ESCSPACE)\src\timer.h  \
             $(PRJDIR_ESCSPACE)\src_fatfs\ff.h  \
             $(PRJDIR_ESCSPACE)\src_fatfs\ffconf.h
 	 $(CC) $(CFLAGS) "$(PRJDIR)\src\game.c"

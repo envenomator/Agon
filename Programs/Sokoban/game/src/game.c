@@ -10,11 +10,12 @@
 #include "String.h"
 #include "timer.h"
 
-#define SENDDELAY	5
+#define SENDDELAY	7
 
 UINT32 bitmapbuffer[BITMAPSIZE];				// will hold one bitmap at a time, to transmit to the VDU
 UINT8 sprites[MAXHEIGHT][MAXWIDTH]; // will contain all sprites on-screen
 struct sokobanlevel currentlevel;	// will contain the currentlevel;
+UINT8 spritenumber;
 
 static const UINT32 wall_data[1][256] = {
 {
@@ -166,29 +167,13 @@ BOOL game_init(void)
 	f_close(&fil);
 	*/
 	
-	// DEBUG
-	//bitmap_createSolidColor(TILE_WALL, BITMAP_WIDTH, BITMAP_HEIGHT, 0xff0000ff);
 	bitmap_sendData(TILE_WALL, BITMAP_WIDTH, BITMAP_HEIGHT, wall_data[0]);
-	//bitmap_createSolidColor(TILE_PLAYER, BITMAP_WIDTH, BITMAP_HEIGHT, 0xffff0000);
 	bitmap_sendData(TILE_PLAYER, BITMAP_WIDTH, BITMAP_HEIGHT, player_data[0]);
-	//bitmap_createSolidColor(TILE_PLAYERONGOAL, BITMAP_WIDTH, BITMAP_HEIGHT, 0xffff8080);
-	bitmap_sendData(TILE_PLAYERONGOAL, BITMAP_WIDTH, BITMAP_HEIGHT, player_data[0]);
-	
+	bitmap_sendData(TILE_PLAYERONGOAL, BITMAP_WIDTH, BITMAP_HEIGHT, player_data[0]);	
 	bitmap_sendData(TILE_BOX, BITMAP_WIDTH, BITMAP_HEIGHT, box_data[0]);
 	bitmap_sendData(TILE_BOXONGOAL, BITMAP_WIDTH, BITMAP_HEIGHT, boxongoal_data[0]);
 	bitmap_sendData(TILE_GOAL, BITMAP_WIDTH, BITMAP_HEIGHT, goal_data[0]);
 	bitmap_createSolidColor(TILE_FLOOR, BITMAP_WIDTH, BITMAP_HEIGHT, 0xff000000);
-	
-	//
-	
-	// define sprites
-	sprite_select(SPRITE_PLAYER);
-	sprite_addFrame_selected(TILE_PLAYER);
-	sprite_hide();
-	sprite_select(SPRITE_BOX);
-	sprite_addFrame_selected(TILE_BOX);
-	sprite_hide();
-	sprite_activateTotal(2);
 	
 	return TRUE;
 	
@@ -196,16 +181,29 @@ BOOL game_init(void)
 void game_resetlevel(void)
 {
 	UINT8 x,y;
+	UINT8 spriteid;
+	UINT8 n;
 	
+	// disable all sprites
+	for(n = 0; n < spritenumber; n++)
+	{
+		sprite_select(n);
+		sprite_hide();
+		sprite_clearFrames_selected();
+		delayms(SENDDELAY);
+	}
+	sprite_activateTotal(0);
+	spritenumber = 0;
+
 	// reset current level, everything zeroed out
 	memset(&currentlevel, 0, sizeof(struct sokobanlevel));
 	
-	// reset all sprite positions
+	// reset all sprite positions and clear out any sprites
 	for(y = 0; y < MAXHEIGHT; y++)
 	{
 		for(x = 0; x < MAXWIDTH; x++)
 		{
-			sprites[y][x] = NOSPRITE;
+				sprites[y][x] = NOSPRITE;
 		}
 	}
 }
@@ -244,8 +242,6 @@ void game_displayLevel(void)
 	// calculate on-screen base coordinates
 	xstart = ((MAXWIDTH - currentlevel.width) / 2) * BITMAP_WIDTH;
 	ystart = ((MAXHEIGHT - currentlevel.height) / 2) *BITMAP_HEIGHT;
-	//xstart = 0;
-	//ystart = 0;
 	
 	y = ystart;
 	for(height = 0; height < currentlevel.height; height++)
@@ -258,8 +254,27 @@ void game_displayLevel(void)
 			{
 				case CHAR_WALL:
 					bitmap_draw(TILE_WALL, x, y);
-					delayms(SENDDELAY);
 					break;
+				case CHAR_PLAYER:
+				case CHAR_PLAYERONGOAL:
+					sprite_select(0);
+					sprite_moveTo(x,y);
+					sprite_show();
+					break;
+				case CHAR_BOX:
+				case CHAR_BOXONGOAL:
+					printf("Selecting sprite %d - move to X:%d, Y:%d\n\r", sprites[height][width],x,y);
+					sprite_select(sprites[height][width]);
+					sprite_moveTo(x,y);
+					sprite_show();
+					break;
+				case CHAR_GOAL:
+					bitmap_draw(TILE_GOAL, x, y);					
+					break;
+				case CHAR_FLOOR:
+					bitmap_draw(TILE_FLOOR, x, y);			
+					break;
+				/*
 				case CHAR_PLAYER:
 					bitmap_draw(TILE_PLAYER, x, y);
 					delayms(SENDDELAY);
@@ -276,17 +291,11 @@ void game_displayLevel(void)
 					bitmap_draw(TILE_BOXONGOAL, x, y);
 					delayms(SENDDELAY);					
 					break;
-				case CHAR_GOAL:
-					bitmap_draw(TILE_GOAL, x, y);
-					delayms(SENDDELAY);					
-					break;
-				case CHAR_FLOOR:
-					bitmap_draw(TILE_FLOOR, x, y);
-					delayms(SENDDELAY);					
-					break;
+				*/
 				default:
 					break;
 			}
+			delayms(SENDDELAY);
 			x += BITMAP_WIDTH;
 		}
 		y += BITMAP_HEIGHT;
@@ -346,3 +355,50 @@ BOOL read_level(UINT8 levelid)
 	return TRUE;	
 }
 
+void game_createSprites(void)
+{
+	UINT8 x,y;
+	UINT8 boxsprite = 1;
+	
+	sprite_activateTotal(0);
+	
+	// Player sprite
+	sprite_select(0);
+	sprite_clearFrames_selected();
+	sprite_addFrame_selected(TILE_PLAYER);
+	sprite_hide();
+
+	// set sprite positions
+	for(y = 0; y < currentlevel.height; y++)
+	{
+		for(x = 0; x < currentlevel.width; x++)
+		{
+			switch(currentlevel.data[y][x])
+			{
+				case CHAR_BOX:
+				case CHAR_BOXONGOAL:
+					sprite_select(boxsprite);
+					sprite_clearFrames_selected();
+					sprite_addFrame_selected(TILE_BOX);
+					sprite_addFrame_selected(TILE_BOXONGOAL);
+					if(currentlevel.data[y][x] == CHAR_BOXONGOAL) sprite_setFrame(1);
+					sprite_hide();
+					sprites[y][x] = boxsprite;
+					printf("X:%d, Y:%d, box id: %d\n\r",x,y,sprites[y][x]);
+					boxsprite++;
+					delayms(SENDDELAY);
+					break;
+				default:
+					sprites[y][x] = NOSPRITE;
+					break;
+			}	
+		}
+	}
+
+	// activate all sprites. boxsprite is allready set to one extra, we use that extra to account for the player sprite
+	sprite_activateTotal(boxsprite);
+	printf(" %d sprites activated\n\r",boxsprite);
+	
+	spritenumber = boxsprite;
+}
+	

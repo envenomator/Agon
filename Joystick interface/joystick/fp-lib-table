@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name "joystick")(type "KiCad")(uri "C:/source/Agon/Joystick interface/joystick")(options "")(descr ""))
+)

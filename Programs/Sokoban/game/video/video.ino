@@ -24,6 +24,22 @@
 
 #define GPIO_ITRP	17		// VSync Interrupt Pin - for reference only
 
+/*
+ * Jeroen Venema
+ * SNES controllers
+ */
+#include "snescontrollers.h"
+//shared pins between all controllers
+#define LATCH_PIN 26
+#define CLOCK_PIN 27
+//individual data pin for each controller
+#define DATA_PIN  35
+SnesController controllers;
+
+/*
+ * END SNES controllers
+ */
+ 
 fabgl::PS2Controller    PS2Controller;
 fabgl::VGA16Controller  VGAController;
 
@@ -51,6 +67,13 @@ Sprite sprites[256];
 
 #if DEBUG == 1
 HardwareSerial DBGSerial(0);
+
+void joystick_log() {
+  char buffer[17];
+  controllers.controllerToBitstring(buffer);
+  DBGSerial.print(buffer); 
+  DBGSerial.print("\n");
+}
 #endif 
 
 void setup() {
@@ -74,6 +97,11 @@ void setup() {
   	set_mode(6);
 
   VGAController.setSprites(sprites, 256);   
+
+  /*
+   * JV
+   */
+  controllers.init(LATCH_PIN, CLOCK_PIN, DATA_PIN); 
 }
 
 void setRTSStatus(bool value) {
@@ -94,14 +122,17 @@ void loop() {
       //		do_cursor();
     	//}
     	do_keyboard();
+      #if DEBUG == 1
+      joystick_log();
+      #endif 
+      controllers.poll();    	
     	if(ESPSerial.available() > 0) {
       //		if(cursorState) {
  	    //		cursorState = false;
       // 		do_cursor();
       //		}
       		byte c = ESPSerial.read();
-      		vdu(c);
-			
+      		vdu(c);			
     	}
     	count++;
   	}

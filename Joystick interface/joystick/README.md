@@ -5,11 +5,11 @@
 ![PCB back](images/pcb-back.jpg)
 ![Action shot](images/action.jpg)
 ## PINOUT ESP32
-DATA -> ESPI35
-LATCH <- ESPIO26
-CLK <- ESPIO27
+- DATA -> ESPI35
+- LATCH <- ESPIO26
+- CLK <- ESPIO27
 
 ## PINOUT ez80
-DATA -> PC1 
-LATCH <- PC2
-CLK <- PC0
+- DATA -> PC1 
+- LATCH <- PC2
+- CLK <- PC0

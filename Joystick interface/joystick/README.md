@@ -13,3 +13,9 @@
 - DATA -> PC1 
 - LATCH <- PC2
 - CLK <- PC0
+
+## To do
+- Order a PCB with the option 'specify location for order number', sigh
+- Solder the headers straight next time
+- Test the ez80 interface. Working for the ESP32
+- Create some sort of 3d printed bracket/housing for the connector

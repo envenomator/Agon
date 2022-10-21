@@ -1,0 +1,411 @@
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)21-Oct-22     21:58:29     page:   1
+
+
+PC     Object              I  Line    Source 
+                           A     1    ; Zilog eZ80 ANSI C Compiler Release 3.4
+                           A     2    ; -nomodsect -optspeed -noreduceopt -nopadbranc
+                           A     3    ; -peephole -globalopt -localcse -const=ROM 
+                           A     4    	FILE	"..\main.c"
+                           A     5    	.assume ADL=1
+                           A     6    .DEBUG "C"
+                           A     7    	SEGMENT CODE
+                           A     8    ;    1	#include <ez80.h>
+                           A     9    ;    2	#include "stdint.h"
+                           A    10    ;    3	#include "mos-interface.h"
+                           A    11    ;    4	#include "vdp.h"
+                           A    12    ;    5	#include "misc.h"
+                           A    13    ;    6	
+                           A    14    ;    7	void main(void)
+                           A    15    ;    8	{
+000000                     A    16    _main:
+                           A    17    .DEFINE "_main"
+                           A    18    
+                           A    19    .VALUE _main
+                           A    20    
+                           A    21    .CLASS 2
+                           A    22    
+                           A    23    .TYPE 65
+                           A    24    
+                           A    25    .ENDEF
+                           A    26    
+                           A    27    .BEGFUNC "main",8,"_main"
+                           A    28    
+                           A    29    .LINE 8
+                           A    30    
+                           A    31    .DEFINE "y"
+                           A    32    
+                           A    33    .CLASS 65
+                           A    34    
+                           A    35    .VALUE -3
+                           A    36    
+                           A    37    .TYPE 14
+                           A    38    
+                           A    39    .ENDEF
+                           A    40    
+000000 DDE5                A    41    	PUSH	IX
+000002 DD210000 00         A    42    	LD	IX,0
+000007 DD39                A    43    	ADD	IX,SP
+000009 C5                  A    44    	PUSH	BC
+                           A    45    ;    9		char c;
+                           A    46    ;   10		unsigned int y;
+                           A    47    ;   11		
+                           A    48    ;   12		vdp_cls();
+                           A    49    .LINE 12
+                           A    50    
+00000A CD 00 00 00         A    51    	CALL	_vdp_cls
+                           A    52    ;   13		vdp_fgcolour(255,0,0);
+                           A    53    .LINE 13
+                           A    54    
+00000E 01000000            A    55    	LD	BC,0
+000012 C5                  A    56    	PUSH	BC
+000013 C5                  A    57    	PUSH	BC
+000014 01FF0000            A    58    	LD	BC,255
+000018 C5                  A    59    	PUSH	BC
+000019 CD 00 00 00         A    60    	CALL	_vdp_fgcolour
+00001D C1                  A    61    	POP	BC
+00001E C1                  A    62    	POP	BC
+00001F C1                  A    63    	POP	BC
+                           A    64    ;   14		vdp_cursorGoto(10,2);
+                           A    65    .LINE 14
+                           A    66    
+000020 01020000            A    67    	LD	BC,2
+000024 C5                  A    68    	PUSH	BC
+000025 010A0000            A    69    	LD	BC,10
+000029 C5                  A    70    	PUSH	BC
+00002A CD 00 00 00         A    71    	CALL	_vdp_cursorGoto
+00002E C1                  A    72    	POP	BC
+00002F C1                  A    73    	POP	BC
+                           A    74    ;   15		puts("#AgonLight - Hello world!\r\n
+                           A    75    .LINE 15
+                           A    76    
+000030 01 00 00 00         A    77    	LD	BC,L__0
+000034 C5                  A    78    	PUSH	BC
+000035 CD 00 00 00         A    79    	CALL	_puts
+000039 C1                  A    80    	POP	BC
+                           A    81    ;   16		
+                           A    82    ;   17		vdp_fgcolour(0,0,255);
+                           A    83    .LINE 17
+                           A    84    
+00003A 01FF0000            A    85    	LD	BC,255
+00003E C5                  A    86    	PUSH	BC
+00003F 01000000            A    87    	LD	BC,0
+000043 C5                  A    88    	PUSH	BC
+000044 C5                  A    89    	PUSH	BC
+000045 CD 00 00 00         A    90    	CALL	_vdp_fgcolour
+000049 C1                  A    91    	POP	BC
+00004A C1                  A    92    	POP	BC
+00004B C1                  A    93    	POP	BC
+                           A    94    ;   18		vdp_bgcolour(0,255,0);
+                           A    95    .LINE 18
+                           A    96    
+00004C 01000000            A    97    	LD	BC,0
+000050 C5                  A    98    	PUSH	BC
+000051 01FF0000            A    99    	LD	BC,255
+000055 C5                  A   100    	PUSH	BC
+000056 01000000            A   101    	LD	BC,0
+00005A C5                  A   102    	PUSH	BC
+00005B CD 00 00 00         A   103    	CALL	_vdp_bgcolour
+00005F C1                  A   104    	POP	BC
+000060 C1                  A   105    	POP	BC
+000061 C1                  A   106    	POP	BC
+                           A   107    ;   19		vdp_cursorGoto(10,4);
+                           A   108    .LINE 19
+                           A   109    
+000062 01040000            A   110    	LD	BC,4
+000066 C5                  A   111    	PUSH	BC
+000067 010A0000            A   112    	LD	BC,10
+00006B C5                  A   113    	PUSH	BC
+00006C CD 00 00 00         A   114    	CALL	_vdp_cursorGoto
+000070 C1                  A   115    	POP	BC
+000071 C1                  A   116    	POP	BC
+                           A   117    ;   20		puts("Press any key");
+                           A   118    .LINE 20
+                           A   119    
+000072 01 1C 00 00         A   120    	LD	BC,L__1
+000076 C5                  A   121    	PUSH	BC
+000077 CD 00 00 00         A   122    	CALL	_puts
+00007B C1                  A   123    	POP	BC
+                           A   124    ;   21		
+                           A   125    ;   22		
+                           A   126    ;   23		getch();
+                           A   127    .LINE 23
+                           A   128    
+00007C CD 00 00 00         A   129    	CALL	_getch
+                           A   130    ;   24	
+                           A   131    ;   25		vdp_mode(0);
+                           A   132    .LINE 25
+                           A   133    
+000080 01000000            A   134    	LD	BC,0
+000084 C5                  A   135    	PUSH	BC
+000085 CD 00 00 00         A   136    	CALL	_vdp_mode
+000089 C1                  A   137    	POP	BC
+                           A   138    ;   26			
+                           A   139    ;   27		vdp_plotSetOrigin(100,100);
+                           A   140    .LINE 27
+                           A   141    
+00008A 01640000            A   142    	LD	BC,100
+00008E C5                  A   143    	PUSH	BC
+00008F C5                  A   144    	PUSH	BC
+000090 CD 00 00 00         A   145    	CALL	_vdp_plotSetOrigin
+000094 C1                  A   146    	POP	BC
+000095 C1                  A   147    	POP	BC
+                           A   148    ;   28		vdp_plotMoveTo(100,100);
+                           A   149    .LINE 28
+                           A   150    
+000096 01640000            A   151    	LD	BC,100
+00009A C5                  A   152    	PUSH	BC
+00009B C5                  A   153    	PUSH	BC
+00009C CD 00 00 00         A   154    	CALL	_vdp_plotMoveTo
+0000A0 C1                  A   155    	POP	BC
+0000A1 C1                  A   156    	POP	BC
+                           A   157    ;   29		vdp_plotLineTo(200,200);
+                           A   158    .LINE 29
+                           A   159    
+0000A2 01C80000            A   160    	LD	BC,200
+0000A6 C5                  A   161    	PUSH	BC
+0000A7 C5                  A   162    	PUSH	BC
+0000A8 CD 00 00 00         A   163    	CALL	_vdp_plotLineTo
+0000AC C1                  A   164    	POP	BC
+0000AD C1                  A   165    	POP	BC
+                           A   166    ;   30		vdp_plotColour(0,255,0);
+                           A   167    .LINE 30
+                           A   168    
+0000AE 01000000            A   169    	LD	BC,0
+0000B2 C5                  A   170    	PUSH	BC
+0000B3 01FF0000            A   171    	LD	BC,255
+0000B7 C5                  A   172    	PUSH	BC
+0000B8 01000000            A   173    	LD	BC,0
+0000BC C5                  A   174    	PUSH	BC
+0000BD CD 00 00 00         A   175    	CALL	_vdp_plotColour
+0000C1 C1                  A   176    	POP	BC
+0000C2 C1                  A   177    	POP	BC
+0000C3 C1                  A   178    	POP	BC
+                           A   179    ;   31		vdp_plotCircleRadius(100);
+                           A   180    .LINE 31
+                           A   181    
+0000C4 01640000            A   182    	LD	BC,100
+0000C8 C5                  A   183    	PUSH	BC
+0000C9 CD 00 00 00         A   184    	CALL	_vdp_plotCircleRadius
+0000CD C1                  A   185    	POP	BC
+                           A   186    ;   32		
+                           A   187    ;   33		vdp_plotMoveTo(300,300);
+                           A   188    .LINE 33
+                           A   189    
+0000CE 012C0100            A   190    	LD	BC,300
+0000D2 C5                  A   191    	PUSH	BC
+0000D3 C5                  A   192    	PUSH	BC
+0000D4 CD 00 00 00         A   193    	CALL	_vdp_plotMoveTo
+0000D8 C1                  A   194    	POP	BC
+0000D9 C1                  A   195    	POP	BC
+                           A   196    ;   34		vdp_plotColour(255,0,0);
+                           A   197    .LINE 34
+                           A   198    
+0000DA 01000000            A   199    	LD	BC,0
+0000DE C5                  A   200    	PUSH	BC
+0000DF C5                  A   201    	PUSH	BC
+0000E0 01FF0000            A   202    	LD	BC,255
+0000E4 C5                  A   203    	PUSH	BC
+0000E5 CD 00 00 00         A   204    	CALL	_vdp_plotColour
+0000E9 C1                  A   205    	POP	BC
+0000EA C1                  A   206    	POP	BC
+0000EB C1                  A   207    	POP	BC
+                           A   208    ;   35		vdp_plotCircleCircumference(350,350
+                           A   209    .LINE 35
+                           A   210    
+0000EC 015E0100            A   211    	LD	BC,350
+0000F0 C5                  A   212    	PUSH	BC
+0000F1 C5                  A   213    	PUSH	BC
+0000F2 CD 00 00 00         A   214    	CALL	_vdp_plotCircleCircumference
+0000F6 C1                  A   215    	POP	BC
+0000F7 C1                  A   216    	POP	BC
+                           A   217    ;   36		
+                           A   218    ;   37		vdp_plotColour(0,0,255);
+                           A   219    .LINE 37
+                           A   220    
+0000F8 01FF0000            A   221    	LD	BC,255
+0000FC C5                  A   222    	PUSH	BC
+0000FD 01000000            A   223    	LD	BC,0
+000101 C5                  A   224    	PUSH	BC
+000102 C5                  A   225    	PUSH	BC
+000103 CD 00 00 00         A   226    	CALL	_vdp_plotColour
+000107 C1                  A   227    	POP	BC
+000108 C1                  A   228    	POP	BC
+000109 C1                  A   229    	POP	BC
+                           A   230    ;   38		vdp_plotMoveTo(400,100);
+                           A   231    .LINE 38
+                           A   232    
+00010A 01640000            A   233    	LD	BC,100
+00010E C5                  A   234    	PUSH	BC
+00010F 01900100            A   235    	LD	BC,400
+000113 C5                  A   236    	PUSH	BC
+000114 CD 00 00 00         A   237    	CALL	_vdp_plotMoveTo
+000118 C1                  A   238    	POP	BC
+000119 C1                  A   239    	POP	BC
+                           A   240    ;   39		vdp_plotTriangle(400,100);
+                           A   241    .LINE 39
+                           A   242    
+00011A 01640000            A   243    	LD	BC,100
+00011E C5                  A   244    	PUSH	BC
+00011F 01900100            A   245    	LD	BC,400
+000123 C5                  A   246    	PUSH	BC
+000124 CD 00 00 00         A   247    	CALL	_vdp_plotTriangle
+000128 C1                  A   248    	POP	BC
+000129 C1                  A   249    	POP	BC
+                           A   250    ;   40		vdp_plotTriangle(400,400);
+                           A   251    .LINE 40
+                           A   252    
+00012A 01900100            A   253    	LD	BC,400
+00012E C5                  A   254    	PUSH	BC
+00012F C5                  A   255    	PUSH	BC
+000130 CD 00 00 00         A   256    	CALL	_vdp_plotTriangle
+000134 C1                  A   257    	POP	BC
+000135 C1                  A   258    	POP	BC
+                           A   259    ;   41		vdp_plotTriangle(600,400);
+                           A   260    .LINE 41
+                           A   261    
+000136 01900100            A   262    	LD	BC,400
+00013A C5                  A   263    	PUSH	BC
+00013B 01580200            A   264    	LD	BC,600
+00013F C5                  A   265    	PUSH	BC
+000140 CD 00 00 00         A   266    	CALL	_vdp_plotTriangle
+000144 C1                  A   267    	POP	BC
+000145 C1                  A   268    	POP	BC
+                           A   269    ;   42		
+                           A   270    ;   43		vdp_plotColour(255,255,0);
+                           A   271    .LINE 43
+                           A   272    
+000146 01000000            A   273    	LD	BC,0
+00014A C5                  A   274    	PUSH	BC
+00014B 01FF0000            A   275    	LD	BC,255
+00014F C5                  A   276    	PUSH	BC
+000150 C5                  A   277    	PUSH	BC
+000151 CD 00 00 00         A   278    	CALL	_vdp_plotColour
+000155 C1                  A   279    	POP	BC
+000156 C1                  A   280    	POP	BC
+000157 C1                  A   281    	POP	BC
+                           A   282    ;   44		for(y = 0; y < 480; y+=5) vdp_plotP
+                           A   283    .LINE 44
+                           A   284    
+000158 01000000            A   285    	LD	BC,0
+00015C DD0FFD              A   286    	LD	(IX+%FFFFFFFD),BC
+00015F 18 18               A   287    	JR	L_2
+000161                     A   288    L_0:
+000161 DD07FD              A   289    	LD	BC,(IX+%FFFFFFFD)
+000164 C5                  A   290    	PUSH	BC
+000165 01320000            A   291    	LD	BC,50
+000169 C5                  A   292    	PUSH	BC
+00016A CD 00 00 00         A   293    	CALL	_vdp_plotPoint
+00016E C1                  A   294    	POP	BC
+00016F C1                  A   295    	POP	BC
+000170 DD31FD              A   296    	LD	IY,(IX+%FFFFFFFD)
+000173 ED3305              A   297    	LEA	IY,IY+%5
+000176 DD3EFD              A   298    	LD	(IX+%FFFFFFFD),IY
+000179                     A   299    L_2:
+000179 01E00100            A   300    	LD	BC,480
+00017D DD27FD              A   301    	LD	HL,(IX+%FFFFFFFD)
+000180 B7                  A   302    	OR	A,A
+000181 ED42                A   303    	SBC	HL,BC
+000183 38 DC               A   304    	JR	C,L_0
+                           A   305    ;   45		getch();
+                           A   306    .LINE 45
+                           A   307    
+000185 CD 00 00 00         A   308    	CALL	_getch
+                           A   309    ;   46	
+                           A   310    ;   47		vdp_fgcolour(255,255,255);
+                           A   311    .LINE 47
+                           A   312    
+000189 01FF0000            A   313    	LD	BC,255
+00018D C5                  A   314    	PUSH	BC
+00018E C5                  A   315    	PUSH	BC
+00018F C5                  A   316    	PUSH	BC
+000190 CD 00 00 00         A   317    	CALL	_vdp_fgcolour
+000194 C1                  A   318    	POP	BC
+000195 C1                  A   319    	POP	BC
+000196 C1                  A   320    	POP	BC
+                           A   321    ;   48		vdp_bgcolour(0,0,0);
+                           A   322    .LINE 48
+                           A   323    
+000197 01000000            A   324    	LD	BC,0
+00019B C5                  A   325    	PUSH	BC
+00019C C5                  A   326    	PUSH	BC
+00019D C5                  A   327    	PUSH	BC
+00019E CD 00 00 00         A   328    	CALL	_vdp_bgcolour
+0001A2 C1                  A   329    	POP	BC
+0001A3 C1                  A   330    	POP	BC
+0001A4 C1                  A   331    	POP	BC
+                           A   332    ;   49		vdp_mode(1);
+                           A   333    .LINE 49
+                           A   334    
+0001A5 01010000            A   335    	LD	BC,1
+0001A9 C5                  A   336    	PUSH	BC
+0001AA CD 00 00 00         A   337    	CALL	_vdp_mode
+0001AE C1                  A   338    	POP	BC
+                           A   339    ;   50		vdp_cls();
+                           A   340    .LINE 50
+                           A   341    
+0001AF CD 00 00 00         A   342    	CALL	_vdp_cls
+                           A   343    .LINE 51
+                           A   344    
+0001B3 DDF9                A   345    	LD	SP,IX
+0001B5 DDE1                A   346    	POP	IX
+0001B7 C9                  A   347    	RET	
+                           A   348    
+                           A   349    
+                           A   350    ;**************************** _main ***********
+                           A   351    ;Name                         Addr/Register   S
+                           A   352    ;_vdp_plotPoint                      IMPORT  --
+                           A   353    ;_vdp_plotTriangle                   IMPORT  --
+                           A   354    ;_vdp_plotCircleCircumference        IMPORT  --
+                           A   355    ;_vdp_plotCircleRadius               IMPORT  --
+                           A   356    ;_vdp_plotColour                     IMPORT  --
+                           A   357    ;_vdp_plotLineTo                     IMPORT  --
+                           A   358    ;_vdp_plotMoveTo                     IMPORT  --
+                           A   359    ;_vdp_plotSetOrigin                  IMPORT  --
+                           A   360    ;_vdp_mode                           IMPORT  --
+                           A   361    ;_getch                              IMPORT  --
+                           A   362    ;_vdp_bgcolour                       IMPORT  --
+                           A   363    ;_puts                               IMPORT  --
+                           A   364    ;_vdp_cursorGoto                     IMPORT  --
+                           A   365    ;_vdp_fgcolour                       IMPORT  --
+                           A   366    ;_vdp_cls                            IMPORT  --
+                           A   367    ;y                                     IX-3    
+                           A   368    
+                           A   369    
+                           A   370    ; Stack Frame Size: 9 (bytes)
+                           A   371    ;       Spill Code: 0 (instruction)
+                           A   372    
+                           A   373    
+                           A   374    .ENDFUNC "main",51,"_main"
+                           A   375    	SEGMENT STRSECT
+000000                     A   376    L__0:
+000000 2341676F 6E4C6967   A   377    	DB	"#AgonLight - Hello world!"
+000008 6874202D 2048656C 
+000010 6C6F2077 6F726C64 
+000018 21 
+000019 0D0A00              A   378    	DB	13,10,0
+00001C                     A   379    L__1:
+00001C 50726573 7320616E   A   380    	DB	"Press any key"
+000024 79206B65 79 
+000029 00                  A   381    	DB	0
+                           A   382    	XREF _puts:ROM
+                           A   383    	XREF _vdp_plotCircleCircumference:ROM
+                           A   384    	XREF _vdp_plotCircleRadius:ROM
+                           A   385    	XREF _vdp_plotTriangle:ROM
+                           A   386    	XREF _vdp_plotPoint:ROM
+                           A   387    	XREF _vdp_plotLineTo:ROM
+                           A   388    	XREF _vdp_plotMoveTo:ROM
+                           A   389    	XREF _vdp_plotSetOrigin:ROM
+                           A   390    	XREF _vdp_plotColour:ROM
+                           A   391    	XREF _vdp_bgcolour:ROM
+                           A   392    	XREF _vdp_fgcolour:ROM
+                           A   393    	XREF _vdp_cursorGoto:ROM
+                           A   394    	XREF _vdp_cls:ROM
+                           A   395    	XREF _vdp_mode:ROM
+                           A   396    	XREF _getch:ROM
+                           A   397    	XDEF _main
+                           A   398    	END
+
+
+Errors: 0
+Warnings: 0
+Lines Assembled: 399

@@ -2,28 +2,7 @@
 #include "stdint.h"
 #include "mos-interface.h"
 #include "vdp.h"
-
-void puts_slow(char *str)
-{
-	uint16_t x;
-	
-	while(*str)
-	{
-		x = 32000;
-		putch(*str);
-		str++;
-		while(x--);
-	}
-}
-
-void puts(char *str)
-{
-	while(*str)
-	{
-		putch(*str);
-		str++;
-	}
-}
+#include "misc.h"
 
 void main(void)
 {

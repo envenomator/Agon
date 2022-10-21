@@ -1,0 +1,1483 @@
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)21-Oct-22     21:58:29     page:   1
+
+
+PC     Object              I  Line    Source 
+                           A     1    ; Zilog eZ80 ANSI C Compiler Release 3.4
+                           A     2    ; -nomodsect -optspeed -noreduceopt -nopadbranc
+                           A     3    ; -peephole -globalopt -localcse -const=ROM 
+                           A     4    	FILE	"..\vdp.c"
+                           A     5    	.assume ADL=1
+                           A     6    .DEBUG "C"
+                           A     7    	SEGMENT CODE
+                           A     8    ;    1	#include "mos-interface.h"
+                           A     9    ;    2	
+                           A    10    ;    3	// Generic functions
+                           A    11    ;    4	void vdp_mode(unsigned char mode)
+                           A    12    ;    5	{
+000000                     A    13    _vdp_mode:
+                           A    14    .DEFINE "_vdp_mode"
+                           A    15    
+                           A    16    .VALUE _vdp_mode
+                           A    17    
+                           A    18    .CLASS 2
+                           A    19    
+                           A    20    .TYPE 65
+                           A    21    
+                           A    22    .ENDEF
+                           A    23    
+                           A    24    .BEGFUNC "vdp_mode",5,"_vdp_mode"
+                           A    25    
+                           A    26    .LINE 5
+                           A    27    
+                           A    28    .DEFINE "mode"
+                           A    29    
+                           A    30    .CLASS 65
+                           A    31    
+                           A    32    .VALUE 6
+                           A    33    
+                           A    34    .TYPE 12
+                           A    35    
+                           A    36    .ENDEF
+                           A    37    
+000000 DDE5                A    38    	PUSH	IX
+000002 DD210000 00         A    39    	LD	IX,0
+000007 DD39                A    40    	ADD	IX,SP
+                           A    41    ;    6	    putch(22);
+                           A    42    .LINE 6
+                           A    43    
+000009 01160000            A    44    	LD	BC,22
+00000D C5                  A    45    	PUSH	BC
+00000E CD 00 00 00         A    46    	CALL	_putch
+000012 C1                  A    47    	POP	BC
+                           A    48    ;    7	    putch(mode);
+                           A    49    .LINE 7
+                           A    50    
+000013 DD4E06              A    51    	LD	C,(IX+%6)
+000016 0600                A    52    	LD	B,%0
+000018 C5                  A    53    	PUSH	BC
+000019 CD 00 00 00         A    54    	CALL	_putch
+00001D C1                  A    55    	POP	BC
+                           A    56    ;    8	}
+                           A    57    .LINE 8
+                           A    58    
+00001E DDF9                A    59    	LD	SP,IX
+000020 DDE1                A    60    	POP	IX
+000022 C9                  A    61    	RET	
+                           A    62    
+                           A    63    
+                           A    64    ;**************************** _vdp_mode *******
+                           A    65    ;Name                         Addr/Register   S
+                           A    66    ;_putch                              IMPORT  --
+                           A    67    ;mode                                  IX+6    
+                           A    68    
+                           A    69    
+                           A    70    ; Stack Frame Size: 9 (bytes)
+                           A    71    ;       Spill Code: 0 (instruction)
+                           A    72    
+                           A    73    
+                           A    74    .ENDFUNC "vdp_mode",8,"_vdp_mode"
+                           A    75    ;    9	
+                           A    76    ;   10	// Text functions
+                           A    77    ;   11	void vdp_cls()
+                           A    78    ;   12	{
+000023                     A    79    _vdp_cls:
+                           A    80    .DEFINE "_vdp_cls"
+                           A    81    
+                           A    82    .VALUE _vdp_cls
+                           A    83    
+                           A    84    .CLASS 2
+                           A    85    
+                           A    86    .TYPE 65
+                           A    87    
+                           A    88    .ENDEF
+                           A    89    
+                           A    90    .BEGFUNC "vdp_cls",12,"_vdp_cls"
+                           A    91    
+000023 DDE5                A    92    	PUSH	IX
+000025 DD210000 00         A    93    	LD	IX,0
+00002A DD39                A    94    	ADD	IX,SP
+                           A    95    ;   13	    putch(12);
+                           A    96    .LINE 13
+                           A    97    
+00002C 010C0000            A    98    	LD	BC,12
+000030 C5                  A    99    	PUSH	BC
+000031 CD 00 00 00         A   100    	CALL	_putch
+000035 C1                  A   101    	POP	BC
+                           A   102    ;   14	}
+                           A   103    .LINE 14
+                           A   104    
+000036 DDF9                A   105    	LD	SP,IX
+000038 DDE1                A   106    	POP	IX
+00003A C9                  A   107    	RET	
+                           A   108    
+                           A   109    
+                           A   110    ;**************************** _vdp_cls ********
+                           A   111    ;Name                         Addr/Register   S
+                           A   112    ;_putch                              IMPORT  --
+                           A   113    
+                           A   114    
+                           A   115    ; Stack Frame Size: 6 (bytes)
+                           A   116    ;       Spill Code: 0 (instruction)
+                           A   117    
+                           A   118    
+                           A   119    .ENDFUNC "vdp_cls",14,"_vdp_cls"
+                           A   120    ;   15	
+                           A   121    ;   16	void vdp_cursorHome()
+                           A   122    ;   17	{
+00003B                     A   123    _vdp_cursorHome:
+                           A   124    .DEFINE "_vdp_cursorHome"
+                           A   125    
+                           A   126    .VALUE _vdp_cursorHome
+                           A   127    
+                           A   128    .CLASS 2
+                           A   129    
+                           A   130    .TYPE 65
+                           A   131    
+                           A   132    .ENDEF
+                           A   133    
+                           A   134    .BEGFUNC "vdp_cursorHome",17,"_vdp_cursorHome"
+                           A   135    
+00003B DDE5                A   136    	PUSH	IX
+00003D DD210000 00         A   137    	LD	IX,0
+000042 DD39                A   138    	ADD	IX,SP
+                           A   139    ;   18	    putch(30);
+                           A   140    .LINE 18
+                           A   141    
+000044 011E0000            A   142    	LD	BC,30
+000048 C5                  A   143    	PUSH	BC
+000049 CD 00 00 00         A   144    	CALL	_putch
+00004D C1                  A   145    	POP	BC
+                           A   146    ;   19	}
+                           A   147    .LINE 19
+                           A   148    
+00004E DDF9                A   149    	LD	SP,IX
+000050 DDE1                A   150    	POP	IX
+000052 C9                  A   151    	RET	
+                           A   152    
+                           A   153    
+                           A   154    ;**************************** _vdp_cursorHome *
+                           A   155    ;Name                         Addr/Register   S
+                           A   156    ;_putch                              IMPORT  --
+                           A   157    
+                           A   158    
+                           A   159    ; Stack Frame Size: 6 (bytes)
+                           A   160    ;       Spill Code: 0 (instruction)
+                           A   161    
+                           A   162    
+                           A   163    .ENDFUNC "vdp_cursorHome",19,"_vdp_cursorHome"
+                           A   164    ;   20	
+                           A   165    ;   21	void vdp_cursorUp()
+                           A   166    ;   22	{
+000053                     A   167    _vdp_cursorUp:
+                           A   168    .DEFINE "_vdp_cursorUp"
+                           A   169    
+                           A   170    .VALUE _vdp_cursorUp
+                           A   171    
+                           A   172    .CLASS 2
+                           A   173    
+                           A   174    .TYPE 65
+                           A   175    
+                           A   176    .ENDEF
+                           A   177    
+                           A   178    .BEGFUNC "vdp_cursorUp",22,"_vdp_cursorUp"
+                           A   179    
+000053 DDE5                A   180    	PUSH	IX
+000055 DD210000 00         A   181    	LD	IX,0
+00005A DD39                A   182    	ADD	IX,SP
+                           A   183    ;   23	    putch(11);
+                           A   184    .LINE 23
+                           A   185    
+00005C 010B0000            A   186    	LD	BC,11
+000060 C5                  A   187    	PUSH	BC
+000061 CD 00 00 00         A   188    	CALL	_putch
+000065 C1                  A   189    	POP	BC
+                           A   190    ;   24	}
+                           A   191    .LINE 24
+                           A   192    
+000066 DDF9                A   193    	LD	SP,IX
+000068 DDE1                A   194    	POP	IX
+00006A C9                  A   195    	RET	
+                           A   196    
+                           A   197    
+                           A   198    ;**************************** _vdp_cursorUp ***
+                           A   199    ;Name                         Addr/Register   S
+                           A   200    ;_putch                              IMPORT  --
+                           A   201    
+                           A   202    
+                           A   203    ; Stack Frame Size: 6 (bytes)
+                           A   204    ;       Spill Code: 0 (instruction)
+                           A   205    
+                           A   206    
+                           A   207    .ENDFUNC "vdp_cursorUp",24,"_vdp_cursorUp"
+                           A   208    ;   25	
+                           A   209    ;   26	void vdp_cursorGoto(unsigned char x, un
+                           A   210    ;   27	{
+00006B                     A   211    _vdp_cursorGoto:
+                           A   212    .DEFINE "_vdp_cursorGoto"
+                           A   213    
+                           A   214    .VALUE _vdp_cursorGoto
+                           A   215    
+                           A   216    .CLASS 2
+                           A   217    
+                           A   218    .TYPE 65
+                           A   219    
+                           A   220    .ENDEF
+                           A   221    
+                           A   222    .BEGFUNC "vdp_cursorGoto",27,"_vdp_cursorGoto"
+                           A   223    
+                           A   224    .LINE 27
+                           A   225    
+                           A   226    .DEFINE "x"
+                           A   227    
+                           A   228    .CLASS 65
+                           A   229    
+                           A   230    .VALUE 6
+                           A   231    
+                           A   232    .TYPE 12
+                           A   233    
+                           A   234    .ENDEF
+                           A   235    
+                           A   236    .DEFINE "y"
+                           A   237    
+                           A   238    .CLASS 65
+                           A   239    
+                           A   240    .VALUE 9
+                           A   241    
+                           A   242    .TYPE 12
+                           A   243    
+                           A   244    .ENDEF
+                           A   245    
+00006B DDE5                A   246    	PUSH	IX
+00006D DD210000 00         A   247    	LD	IX,0
+000072 DD39                A   248    	ADD	IX,SP
+                           A   249    ;   28	    putch(31); // TAB
+                           A   250    .LINE 28
+                           A   251    
+000074 011F0000            A   252    	LD	BC,31
+000078 C5                  A   253    	PUSH	BC
+000079 CD 00 00 00         A   254    	CALL	_putch
+00007D C1                  A   255    	POP	BC
+                           A   256    ;   29	    putch(x);
+                           A   257    .LINE 29
+                           A   258    
+00007E DD4E06              A   259    	LD	C,(IX+%6)
+000081 0600                A   260    	LD	B,%0
+000083 C5                  A   261    	PUSH	BC
+000084 CD 00 00 00         A   262    	CALL	_putch
+000088 C1                  A   263    	POP	BC
+                           A   264    ;   30	    putch(y);
+                           A   265    .LINE 30
+                           A   266    
+000089 DD4E09              A   267    	LD	C,(IX+%9)
+00008C 0600                A   268    	LD	B,%0
+00008E C5                  A   269    	PUSH	BC
+00008F CD 00 00 00         A   270    	CALL	_putch
+000093 C1                  A   271    	POP	BC
+                           A   272    ;   31	}
+                           A   273    .LINE 31
+                           A   274    
+000094 DDF9                A   275    	LD	SP,IX
+000096 DDE1                A   276    	POP	IX
+000098 C9                  A   277    	RET	
+                           A   278    
+                           A   279    
+                           A   280    ;**************************** _vdp_cursorGoto *
+                           A   281    ;Name                         Addr/Register   S
+                           A   282    ;_putch                              IMPORT  --
+                           A   283    ;y                                     IX+9    
+                           A   284    ;x                                     IX+6    
+                           A   285    
+                           A   286    
+                           A   287    ; Stack Frame Size: 12 (bytes)
+                           A   288    ;       Spill Code: 0 (instruction)
+                           A   289    
+                           A   290    
+                           A   291    .ENDFUNC "vdp_cursorGoto",31,"_vdp_cursorGoto"
+                           A   292    ;   32	
+                           A   293    ;   33	void vdp_colour(unsigned char foregroun
+                           A   294    ;   34	{
+000099                     A   295    _vdp_colour:
+                           A   296    .DEFINE "_vdp_colour"
+                           A   297    
+                           A   298    .VALUE _vdp_colour
+                           A   299    
+                           A   300    .CLASS 2
+                           A   301    
+                           A   302    .TYPE 65
+                           A   303    
+                           A   304    .ENDEF
+                           A   305    
+                           A   306    .BEGFUNC "vdp_colour",34,"_vdp_colour"
+                           A   307    
+                           A   308    .LINE 34
+                           A   309    
+                           A   310    .DEFINE "foreground"
+                           A   311    
+                           A   312    .CLASS 65
+                           A   313    
+                           A   314    .VALUE 6
+                           A   315    
+                           A   316    .TYPE 12
+                           A   317    
+                           A   318    .ENDEF
+                           A   319    
+                           A   320    .DEFINE "r"
+                           A   321    
+                           A   322    .CLASS 65
+                           A   323    
+                           A   324    .VALUE 9
+                           A   325    
+                           A   326    .TYPE 12
+                           A   327    
+                           A   328    .ENDEF
+                           A   329    
+                           A   330    .DEFINE "g"
+                           A   331    
+                           A   332    .CLASS 65
+                           A   333    
+                           A   334    .VALUE 12
+                           A   335    
+                           A   336    .TYPE 12
+                           A   337    
+                           A   338    .ENDEF
+                           A   339    
+                           A   340    .DEFINE "b"
+                           A   341    
+                           A   342    .CLASS 65
+                           A   343    
+                           A   344    .VALUE 15
+                           A   345    
+                           A   346    .TYPE 12
+                           A   347    
+                           A   348    .ENDEF
+                           A   349    
+000099 DDE5                A   350    	PUSH	IX
+00009B DD210000 00         A   351    	LD	IX,0
+0000A0 DD39                A   352    	ADD	IX,SP
+0000A2 C5                  A   353    	PUSH	BC
+                           A   354    ;   35	    putch(17); // COLOUR
+                           A   355    .LINE 35
+                           A   356    
+0000A3 01110000            A   357    	LD	BC,17
+0000A7 C5                  A   358    	PUSH	BC
+0000A8 CD 00 00 00         A   359    	CALL	_putch
+0000AC C1                  A   360    	POP	BC
+                           A   361    ;   36	    putch(!foreground);
+                           A   362    .LINE 36
+                           A   363    
+0000AD DD7E06              A   364    	LD	A,(IX+%6)
+0000B0 B7                  A   365    	OR	A,A
+0000B1 20 09               A   366    	JR	NZ,L_6
+0000B3 01010000            A   367    	LD	BC,1
+0000B7 DD0FFD              A   368    	LD	(IX+%FFFFFFFD),BC
+0000BA 18 07               A   369    	JR	L_7
+0000BC                     A   370    L_6:
+0000BC 01000000            A   371    	LD	BC,0
+0000C0 DD0FFD              A   372    	LD	(IX+%FFFFFFFD),BC
+0000C3                     A   373    L_7:
+0000C3 DD4EFD              A   374    	LD	C,(IX+%FFFFFFFD)
+0000C6 0600                A   375    	LD	B,%0
+0000C8 C5                  A   376    	PUSH	BC
+0000C9 CD 00 00 00         A   377    	CALL	_putch
+0000CD C1                  A   378    	POP	BC
+                           A   379    ;   37	    putch(r);
+                           A   380    .LINE 37
+                           A   381    
+0000CE DD4E09              A   382    	LD	C,(IX+%9)
+0000D1 0600                A   383    	LD	B,%0
+0000D3 C5                  A   384    	PUSH	BC
+0000D4 CD 00 00 00         A   385    	CALL	_putch
+0000D8 C1                  A   386    	POP	BC
+                           A   387    ;   38	    putch(g);
+                           A   388    .LINE 38
+                           A   389    
+0000D9 DD4E0C              A   390    	LD	C,(IX+%C)
+0000DC 0600                A   391    	LD	B,%0
+0000DE C5                  A   392    	PUSH	BC
+0000DF CD 00 00 00         A   393    	CALL	_putch
+0000E3 C1                  A   394    	POP	BC
+                           A   395    ;   39	    putch(b);
+                           A   396    .LINE 39
+                           A   397    
+0000E4 DD4E0F              A   398    	LD	C,(IX+%F)
+0000E7 0600                A   399    	LD	B,%0
+0000E9 C5                  A   400    	PUSH	BC
+0000EA CD 00 00 00         A   401    	CALL	_putch
+0000EE C1                  A   402    	POP	BC
+                           A   403    ;   40	}
+                           A   404    .LINE 40
+                           A   405    
+0000EF DDF9                A   406    	LD	SP,IX
+0000F1 DDE1                A   407    	POP	IX
+0000F3 C9                  A   408    	RET	
+                           A   409    
+                           A   410    
+                           A   411    ;**************************** _vdp_colour *****
+                           A   412    ;Name                         Addr/Register   S
+                           A   413    ;_putch                              IMPORT  --
+                           A   414    ;temp8                                 IX-3    
+                           A   415    ;b                                    IX+15    
+                           A   416    ;g                                    IX+12    
+                           A   417    ;r                                     IX+9    
+                           A   418    ;foreground                            IX+6    
+                           A   419    
+                           A   420    
+                           A   421    ; Stack Frame Size: 21 (bytes)
+                           A   422    ;       Spill Code: 0 (instruction)
+                           A   423    
+                           A   424    
+                           A   425    .ENDFUNC "vdp_colour",40,"_vdp_colour"
+                           A   426    ;   41	
+                           A   427    ;   42	void vdp_fgcolour(unsigned char r, unsi
+                           A   428    ;   43	{
+0000F4                     A   429    _vdp_fgcolour:
+                           A   430    .DEFINE "_vdp_fgcolour"
+                           A   431    
+                           A   432    .VALUE _vdp_fgcolour
+                           A   433    
+                           A   434    .CLASS 2
+                           A   435    
+                           A   436    .TYPE 65
+                           A   437    
+                           A   438    .ENDEF
+                           A   439    
+                           A   440    .BEGFUNC "vdp_fgcolour",43,"_vdp_fgcolour"
+                           A   441    
+                           A   442    .LINE 43
+                           A   443    
+                           A   444    .DEFINE "r"
+                           A   445    
+                           A   446    .CLASS 65
+                           A   447    
+                           A   448    .VALUE 6
+                           A   449    
+                           A   450    .TYPE 12
+                           A   451    
+                           A   452    .ENDEF
+                           A   453    
+                           A   454    .DEFINE "g"
+                           A   455    
+                           A   456    .CLASS 65
+                           A   457    
+                           A   458    .VALUE 9
+                           A   459    
+                           A   460    .TYPE 12
+                           A   461    
+                           A   462    .ENDEF
+                           A   463    
+                           A   464    .DEFINE "b"
+                           A   465    
+                           A   466    .CLASS 65
+                           A   467    
+                           A   468    .VALUE 12
+                           A   469    
+                           A   470    .TYPE 12
+                           A   471    
+                           A   472    .ENDEF
+                           A   473    
+0000F4 DDE5                A   474    	PUSH	IX
+0000F6 DD210000 00         A   475    	LD	IX,0
+0000FB DD39                A   476    	ADD	IX,SP
+                           A   477    ;   44	    vdp_colour(1,r,g,b);
+                           A   478    .LINE 44
+                           A   479    
+0000FD DD4E0C              A   480    	LD	C,(IX+%C)
+000100 0600                A   481    	LD	B,%0
+000102 C5                  A   482    	PUSH	BC
+000103 DD4E09              A   483    	LD	C,(IX+%9)
+000106 C5                  A   484    	PUSH	BC
+000107 DD4E06              A   485    	LD	C,(IX+%6)
+00010A C5                  A   486    	PUSH	BC
+00010B 01010000            A   487    	LD	BC,1
+00010F C5                  A   488    	PUSH	BC
+000110 CD 99 00 00         A   489    	CALL	_vdp_colour
+000114 C1                  A   490    	POP	BC
+000115 C1                  A   491    	POP	BC
+000116 C1                  A   492    	POP	BC
+000117 C1                  A   493    	POP	BC
+                           A   494    ;   45	}
+                           A   495    .LINE 45
+                           A   496    
+000118 DDF9                A   497    	LD	SP,IX
+00011A DDE1                A   498    	POP	IX
+00011C C9                  A   499    	RET	
+                           A   500    
+                           A   501    
+                           A   502    ;**************************** _vdp_fgcolour ***
+                           A   503    ;Name                         Addr/Register   S
+                           A   504    ;b                                    IX+12    
+                           A   505    ;g                                     IX+9    
+                           A   506    ;r                                     IX+6    
+                           A   507    
+                           A   508    
+                           A   509    ; Stack Frame Size: 15 (bytes)
+                           A   510    ;       Spill Code: 0 (instruction)
+                           A   511    
+                           A   512    
+                           A   513    .ENDFUNC "vdp_fgcolour",45,"_vdp_fgcolour"
+                           A   514    ;   46	
+                           A   515    ;   47	void vdp_bgcolour(unsigned char r, unsi
+                           A   516    ;   48	{
+00011D                     A   517    _vdp_bgcolour:
+                           A   518    .DEFINE "_vdp_bgcolour"
+                           A   519    
+                           A   520    .VALUE _vdp_bgcolour
+                           A   521    
+                           A   522    .CLASS 2
+                           A   523    
+                           A   524    .TYPE 65
+                           A   525    
+                           A   526    .ENDEF
+                           A   527    
+                           A   528    .BEGFUNC "vdp_bgcolour",48,"_vdp_bgcolour"
+                           A   529    
+                           A   530    .LINE 48
+                           A   531    
+                           A   532    .DEFINE "r"
+                           A   533    
+                           A   534    .CLASS 65
+                           A   535    
+                           A   536    .VALUE 6
+                           A   537    
+                           A   538    .TYPE 12
+                           A   539    
+                           A   540    .ENDEF
+                           A   541    
+                           A   542    .DEFINE "g"
+                           A   543    
+                           A   544    .CLASS 65
+                           A   545    
+                           A   546    .VALUE 9
+                           A   547    
+                           A   548    .TYPE 12
+                           A   549    
+                           A   550    .ENDEF
+                           A   551    
+                           A   552    .DEFINE "b"
+                           A   553    
+                           A   554    .CLASS 65
+                           A   555    
+                           A   556    .VALUE 12
+                           A   557    
+                           A   558    .TYPE 12
+                           A   559    
+                           A   560    .ENDEF
+                           A   561    
+00011D DDE5                A   562    	PUSH	IX
+00011F DD210000 00         A   563    	LD	IX,0
+000124 DD39                A   564    	ADD	IX,SP
+                           A   565    ;   49	    vdp_colour(0,r,g,b);
+                           A   566    .LINE 49
+                           A   567    
+000126 DD4E0C              A   568    	LD	C,(IX+%C)
+000129 0600                A   569    	LD	B,%0
+00012B C5                  A   570    	PUSH	BC
+00012C DD4E09              A   571    	LD	C,(IX+%9)
+00012F C5                  A   572    	PUSH	BC
+000130 DD4E06              A   573    	LD	C,(IX+%6)
+000133 C5                  A   574    	PUSH	BC
+000134 01000000            A   575    	LD	BC,0
+000138 C5                  A   576    	PUSH	BC
+000139 CD 99 00 00         A   577    	CALL	_vdp_colour
+00013D C1                  A   578    	POP	BC
+00013E C1                  A   579    	POP	BC
+00013F C1                  A   580    	POP	BC
+000140 C1                  A   581    	POP	BC
+                           A   582    ;   50	}
+                           A   583    .LINE 50
+                           A   584    
+000141 DDF9                A   585    	LD	SP,IX
+000143 DDE1                A   586    	POP	IX
+000145 C9                  A   587    	RET	
+                           A   588    
+                           A   589    
+                           A   590    ;**************************** _vdp_bgcolour ***
+                           A   591    ;Name                         Addr/Register   S
+                           A   592    ;b                                    IX+12    
+                           A   593    ;g                                     IX+9    
+                           A   594    ;r                                     IX+6    
+                           A   595    
+                           A   596    
+                           A   597    ; Stack Frame Size: 15 (bytes)
+                           A   598    ;       Spill Code: 0 (instruction)
+                           A   599    
+                           A   600    
+                           A   601    .ENDFUNC "vdp_bgcolour",50,"_vdp_bgcolour"
+                           A   602    ;   51	
+                           A   603    ;   52	//
+                           A   604    ;   53	// Graphics functions
+                           A   605    ;   54	//
+                           A   606    ;   55	
+                           A   607    ;   56	void vdp_clearGraphics()
+                           A   608    ;   57	{
+000146                     A   609    _vdp_clearGraphics:
+                           A   610    .DEFINE "_vdp_clearGraphics"
+                           A   611    
+                           A   612    .VALUE _vdp_clearGraphics
+                           A   613    
+                           A   614    .CLASS 2
+                           A   615    
+                           A   616    .TYPE 65
+                           A   617    
+                           A   618    .ENDEF
+                           A   619    
+                           A   620    .BEGFUNC "vdp_clearGraphics",57,"_vdp_clearGrap
+                           A   621    
+000146 DDE5                A   622    	PUSH	IX
+000148 DD210000 00         A   623    	LD	IX,0
+00014D DD39                A   624    	ADD	IX,SP
+                           A   625    ;   58	    putch(16);    
+                           A   626    .LINE 58
+                           A   627    
+00014F 01100000            A   628    	LD	BC,16
+000153 C5                  A   629    	PUSH	BC
+000154 CD 00 00 00         A   630    	CALL	_putch
+000158 C1                  A   631    	POP	BC
+                           A   632    ;   59	}
+                           A   633    .LINE 59
+                           A   634    
+000159 DDF9                A   635    	LD	SP,IX
+00015B DDE1                A   636    	POP	IX
+00015D C9                  A   637    	RET	
+                           A   638    
+                           A   639    
+                           A   640    ;**************************** _vdp_clearGraphic
+                           A   641    ;Name                         Addr/Register   S
+                           A   642    ;_putch                              IMPORT  --
+                           A   643    
+                           A   644    
+                           A   645    ; Stack Frame Size: 6 (bytes)
+                           A   646    ;       Spill Code: 0 (instruction)
+                           A   647    
+                           A   648    
+                           A   649    .ENDFUNC "vdp_clearGraphics",59,"_vdp_clearGrap
+                           A   650    ;   60	
+                           A   651    ;   61	void vdp_plotColour(unsigned char r, un
+                           A   652    ;   62	{
+00015E                     A   653    _vdp_plotColour:
+                           A   654    .DEFINE "_vdp_plotColour"
+                           A   655    
+                           A   656    .VALUE _vdp_plotColour
+                           A   657    
+                           A   658    .CLASS 2
+                           A   659    
+                           A   660    .TYPE 65
+                           A   661    
+                           A   662    .ENDEF
+                           A   663    
+                           A   664    .BEGFUNC "vdp_plotColour",62,"_vdp_plotColour"
+                           A   665    
+                           A   666    .LINE 62
+                           A   667    
+                           A   668    .DEFINE "r"
+                           A   669    
+                           A   670    .CLASS 65
+                           A   671    
+                           A   672    .VALUE 6
+                           A   673    
+                           A   674    .TYPE 12
+                           A   675    
+                           A   676    .ENDEF
+                           A   677    
+                           A   678    .DEFINE "g"
+                           A   679    
+                           A   680    .CLASS 65
+                           A   681    
+                           A   682    .VALUE 9
+                           A   683    
+                           A   684    .TYPE 12
+                           A   685    
+                           A   686    .ENDEF
+                           A   687    
+                           A   688    .DEFINE "b"
+                           A   689    
+                           A   690    .CLASS 65
+                           A   691    
+                           A   692    .VALUE 12
+                           A   693    
+                           A   694    .TYPE 12
+                           A   695    
+                           A   696    .ENDEF
+                           A   697    
+00015E DDE5                A   698    	PUSH	IX
+000160 DD210000 00         A   699    	LD	IX,0
+000165 DD39                A   700    	ADD	IX,SP
+                           A   701    ;   63	    putch(18); // GCOL
+                           A   702    .LINE 63
+                           A   703    
+000167 01120000            A   704    	LD	BC,18
+00016B C5                  A   705    	PUSH	BC
+00016C CD 00 00 00         A   706    	CALL	_putch
+000170 C1                  A   707    	POP	BC
+                           A   708    ;   64	    putch(0);
+                           A   709    .LINE 64
+                           A   710    
+000171 01000000            A   711    	LD	BC,0
+000175 C5                  A   712    	PUSH	BC
+000176 CD 00 00 00         A   713    	CALL	_putch
+00017A C1                  A   714    	POP	BC
+                           A   715    ;   65	    putch(r);
+                           A   716    .LINE 65
+                           A   717    
+00017B DD4E06              A   718    	LD	C,(IX+%6)
+00017E 0600                A   719    	LD	B,%0
+000180 C5                  A   720    	PUSH	BC
+000181 CD 00 00 00         A   721    	CALL	_putch
+000185 C1                  A   722    	POP	BC
+                           A   723    ;   66	    putch(g);
+                           A   724    .LINE 66
+                           A   725    
+000186 DD4E09              A   726    	LD	C,(IX+%9)
+000189 0600                A   727    	LD	B,%0
+00018B C5                  A   728    	PUSH	BC
+00018C CD 00 00 00         A   729    	CALL	_putch
+000190 C1                  A   730    	POP	BC
+                           A   731    ;   67	    putch(b);
+                           A   732    .LINE 67
+                           A   733    
+000191 DD4E0C              A   734    	LD	C,(IX+%C)
+000194 0600                A   735    	LD	B,%0
+000196 C5                  A   736    	PUSH	BC
+000197 CD 00 00 00         A   737    	CALL	_putch
+00019B C1                  A   738    	POP	BC
+                           A   739    ;   68	}
+                           A   740    .LINE 68
+                           A   741    
+00019C DDF9                A   742    	LD	SP,IX
+00019E DDE1                A   743    	POP	IX
+0001A0 C9                  A   744    	RET	
+                           A   745    
+                           A   746    
+                           A   747    ;**************************** _vdp_plotColour *
+                           A   748    ;Name                         Addr/Register   S
+                           A   749    ;_putch                              IMPORT  --
+                           A   750    ;b                                    IX+12    
+                           A   751    ;g                                     IX+9    
+                           A   752    ;r                                     IX+6    
+                           A   753    
+                           A   754    
+                           A   755    ; Stack Frame Size: 15 (bytes)
+                           A   756    ;       Spill Code: 0 (instruction)
+                           A   757    
+                           A   758    
+                           A   759    .ENDFUNC "vdp_plotColour",68,"_vdp_plotColour"
+                           A   760    ;   69	
+                           A   761    ;   70	// internal function
+                           A   762    ;   71	void vdp_plot(unsigned char mode, unsig
+                           A   763    ;   72	{
+0001A1                     A   764    _vdp_plot:
+                           A   765    .DEFINE "_vdp_plot"
+                           A   766    
+                           A   767    .VALUE _vdp_plot
+                           A   768    
+                           A   769    .CLASS 2
+                           A   770    
+                           A   771    .TYPE 65
+                           A   772    
+                           A   773    .ENDEF
+                           A   774    
+                           A   775    .BEGFUNC "vdp_plot",72,"_vdp_plot"
+                           A   776    
+                           A   777    .LINE 72
+                           A   778    
+                           A   779    .DEFINE "mode"
+                           A   780    
+                           A   781    .CLASS 65
+                           A   782    
+                           A   783    .VALUE 6
+                           A   784    
+                           A   785    .TYPE 12
+                           A   786    
+                           A   787    .ENDEF
+                           A   788    
+                           A   789    .DEFINE "x"
+                           A   790    
+                           A   791    .CLASS 65
+                           A   792    
+                           A   793    .VALUE 9
+                           A   794    
+                           A   795    .TYPE 14
+                           A   796    
+                           A   797    .ENDEF
+                           A   798    
+                           A   799    .DEFINE "y"
+                           A   800    
+                           A   801    .CLASS 65
+                           A   802    
+                           A   803    .VALUE 12
+                           A   804    
+                           A   805    .TYPE 14
+                           A   806    
+                           A   807    .ENDEF
+                           A   808    
+0001A1 DDE5                A   809    	PUSH	IX
+0001A3 DD210000 00         A   810    	LD	IX,0
+0001A8 DD39                A   811    	ADD	IX,SP
+0001AA 3B                  A   812    	DEC	SP
+                           A   813    ;   73	    putch(25); // PLOT
+                           A   814    .LINE 73
+                           A   815    
+0001AB 01190000            A   816    	LD	BC,25
+0001AF C5                  A   817    	PUSH	BC
+0001B0 CD 00 00 00         A   818    	CALL	_putch
+0001B4 C1                  A   819    	POP	BC
+                           A   820    ;   74	    putch(mode);
+                           A   821    .LINE 74
+                           A   822    
+0001B5 DD4E06              A   823    	LD	C,(IX+%6)
+0001B8 0600                A   824    	LD	B,%0
+0001BA C5                  A   825    	PUSH	BC
+0001BB CD 00 00 00         A   826    	CALL	_putch
+0001BF C1                  A   827    	POP	BC
+                           A   828    ;   75	    putch(x & 0xFF);
+                           A   829    .LINE 75
+                           A   830    
+0001C0 DD7E09              A   831    	LD	A,(IX+%9)
+0001C3 4F                  A   832    	LD	C,A
+0001C4 0600                A   833    	LD	B,%0
+0001C6 C5                  A   834    	PUSH	BC
+0001C7 DD77FF              A   835    	LD	(IX+%FFFFFFFF),A
+0001CA CD 00 00 00         A   836    	CALL	_putch
+0001CE DD7EFF              A   837    	LD	A,(IX+%FFFFFFFF)
+0001D1 C1                  A   838    	POP	BC
+                           A   839    ;   76	    putch(x >> 8);
+                           A   840    .LINE 76
+                           A   841    
+0001D2 B7ED62              A   842    	UEXT	HL
+0001D5 E5                  A   843    	PUSH	HL
+0001D6 DD2709              A   844    	LD	HL,(IX+%9)
+0001D9 E5                  A   845    	PUSH	HL
+0001DA 33                  A   846    	INC	SP
+0001DB E1                  A   847    	POP	HL
+0001DC 33                  A   848    	INC	SP
+0001DD 33                  A   849    	INC	SP
+0001DE 4D                  A   850    	LD	C,L
+0001DF 0600                A   851    	LD	B,%0
+0001E1 C5                  A   852    	PUSH	BC
+0001E2 CD 00 00 00         A   853    	CALL	_putch
+0001E6 C1                  A   854    	POP	BC
+                           A   855    ;   77	    putch(y & 0xFF);
+                           A   856    .LINE 77
+                           A   857    
+0001E7 DD7E0C              A   858    	LD	A,(IX+%C)
+0001EA 4F                  A   859    	LD	C,A
+0001EB 0600                A   860    	LD	B,%0
+0001ED C5                  A   861    	PUSH	BC
+0001EE DD77FF              A   862    	LD	(IX+%FFFFFFFF),A
+0001F1 CD 00 00 00         A   863    	CALL	_putch
+0001F5 DD7EFF              A   864    	LD	A,(IX+%FFFFFFFF)
+0001F8 C1                  A   865    	POP	BC
+                           A   866    ;   78	    putch(y >> 8);
+                           A   867    .LINE 78
+                           A   868    
+0001F9 B7ED62              A   869    	UEXT	HL
+0001FC E5                  A   870    	PUSH	HL
+0001FD DD270C              A   871    	LD	HL,(IX+%C)
+000200 E5                  A   872    	PUSH	HL
+000201 33                  A   873    	INC	SP
+000202 E1                  A   874    	POP	HL
+000203 33                  A   875    	INC	SP
+000204 33                  A   876    	INC	SP
+000205 4D                  A   877    	LD	C,L
+000206 0600                A   878    	LD	B,%0
+000208 C5                  A   879    	PUSH	BC
+000209 CD 00 00 00         A   880    	CALL	_putch
+00020D C1                  A   881    	POP	BC
+                           A   882    ;   79	}
+                           A   883    .LINE 79
+                           A   884    
+00020E DDF9                A   885    	LD	SP,IX
+000210 DDE1                A   886    	POP	IX
+000212 C9                  A   887    	RET	
+                           A   888    
+                           A   889    
+                           A   890    ;**************************** _vdp_plot *******
+                           A   891    ;Name                         Addr/Register   S
+                           A   892    ;_putch                              IMPORT  --
+                           A   893    ;y                                    IX+12    
+                           A   894    ;x                                     IX+9    
+                           A   895    ;mode                                  IX+6    
+                           A   896    
+                           A   897    
+                           A   898    ; Stack Frame Size: 16 (bytes)
+                           A   899    ;       Spill Code: 0 (instruction)
+                           A   900    
+                           A   901    
+                           A   902    .ENDFUNC "vdp_plot",79,"_vdp_plot"
+                           A   903    ;   80	
+                           A   904    ;   81	void vdp_plotMoveTo(unsigned int x, uns
+                           A   905    ;   82	{
+000213                     A   906    _vdp_plotMoveTo:
+                           A   907    .DEFINE "_vdp_plotMoveTo"
+                           A   908    
+                           A   909    .VALUE _vdp_plotMoveTo
+                           A   910    
+                           A   911    .CLASS 2
+                           A   912    
+                           A   913    .TYPE 65
+                           A   914    
+                           A   915    .ENDEF
+                           A   916    
+                           A   917    .BEGFUNC "vdp_plotMoveTo",82,"_vdp_plotMoveTo"
+                           A   918    
+                           A   919    .LINE 82
+                           A   920    
+                           A   921    .DEFINE "x"
+                           A   922    
+                           A   923    .CLASS 65
+                           A   924    
+                           A   925    .VALUE 6
+                           A   926    
+                           A   927    .TYPE 14
+                           A   928    
+                           A   929    .ENDEF
+                           A   930    
+                           A   931    .DEFINE "y"
+                           A   932    
+                           A   933    .CLASS 65
+                           A   934    
+                           A   935    .VALUE 9
+                           A   936    
+                           A   937    .TYPE 14
+                           A   938    
+                           A   939    .ENDEF
+                           A   940    
+000213 DDE5                A   941    	PUSH	IX
+000215 DD210000 00         A   942    	LD	IX,0
+00021A DD39                A   943    	ADD	IX,SP
+                           A   944    ;   83		vdp_plot(0x04,x,y);
+                           A   945    .LINE 83
+                           A   946    
+00021C DD0709              A   947    	LD	BC,(IX+%9)
+00021F C5                  A   948    	PUSH	BC
+000220 DD0706              A   949    	LD	BC,(IX+%6)
+000223 C5                  A   950    	PUSH	BC
+000224 01040000            A   951    	LD	BC,4
+000228 C5                  A   952    	PUSH	BC
+000229 CD A1 01 00         A   953    	CALL	_vdp_plot
+00022D C1                  A   954    	POP	BC
+00022E C1                  A   955    	POP	BC
+00022F C1                  A   956    	POP	BC
+                           A   957    ;   84	}
+                           A   958    .LINE 84
+                           A   959    
+000230 DDF9                A   960    	LD	SP,IX
+000232 DDE1                A   961    	POP	IX
+000234 C9                  A   962    	RET	
+                           A   963    
+                           A   964    
+                           A   965    ;**************************** _vdp_plotMoveTo *
+                           A   966    ;Name                         Addr/Register   S
+                           A   967    ;y                                     IX+9    
+                           A   968    ;x                                     IX+6    
+                           A   969    
+                           A   970    
+                           A   971    ; Stack Frame Size: 12 (bytes)
+                           A   972    ;       Spill Code: 0 (instruction)
+                           A   973    
+                           A   974    
+                           A   975    .ENDFUNC "vdp_plotMoveTo",84,"_vdp_plotMoveTo"
+                           A   976    ;   85	
+                           A   977    ;   86	void vdp_plotLineTo(unsigned int x, uns
+                           A   978    ;   87	{
+000235                     A   979    _vdp_plotLineTo:
+                           A   980    .DEFINE "_vdp_plotLineTo"
+                           A   981    
+                           A   982    .VALUE _vdp_plotLineTo
+                           A   983    
+                           A   984    .CLASS 2
+                           A   985    
+                           A   986    .TYPE 65
+                           A   987    
+                           A   988    .ENDEF
+                           A   989    
+                           A   990    .BEGFUNC "vdp_plotLineTo",87,"_vdp_plotLineTo"
+                           A   991    
+                           A   992    .LINE 87
+                           A   993    
+                           A   994    .DEFINE "x"
+                           A   995    
+                           A   996    .CLASS 65
+                           A   997    
+                           A   998    .VALUE 6
+                           A   999    
+                           A  1000    .TYPE 14
+                           A  1001    
+                           A  1002    .ENDEF
+                           A  1003    
+                           A  1004    .DEFINE "y"
+                           A  1005    
+                           A  1006    .CLASS 65
+                           A  1007    
+                           A  1008    .VALUE 9
+                           A  1009    
+                           A  1010    .TYPE 14
+                           A  1011    
+                           A  1012    .ENDEF
+                           A  1013    
+000235 DDE5                A  1014    	PUSH	IX
+000237 DD210000 00         A  1015    	LD	IX,0
+00023C DD39                A  1016    	ADD	IX,SP
+                           A  1017    ;   88		vdp_plot(0x05,x,y);
+                           A  1018    .LINE 88
+                           A  1019    
+00023E DD0709              A  1020    	LD	BC,(IX+%9)
+000241 C5                  A  1021    	PUSH	BC
+000242 DD0706              A  1022    	LD	BC,(IX+%6)
+000245 C5                  A  1023    	PUSH	BC
+000246 01050000            A  1024    	LD	BC,5
+00024A C5                  A  1025    	PUSH	BC
+00024B CD A1 01 00         A  1026    	CALL	_vdp_plot
+00024F C1                  A  1027    	POP	BC
+000250 C1                  A  1028    	POP	BC
+000251 C1                  A  1029    	POP	BC
+                           A  1030    ;   89	}
+                           A  1031    .LINE 89
+                           A  1032    
+000252 DDF9                A  1033    	LD	SP,IX
+000254 DDE1                A  1034    	POP	IX
+000256 C9                  A  1035    	RET	
+                           A  1036    
+                           A  1037    
+                           A  1038    ;**************************** _vdp_plotLineTo *
+                           A  1039    ;Name                         Addr/Register   S
+                           A  1040    ;y                                     IX+9    
+                           A  1041    ;x                                     IX+6    
+                           A  1042    
+                           A  1043    
+                           A  1044    ; Stack Frame Size: 12 (bytes)
+                           A  1045    ;       Spill Code: 0 (instruction)
+                           A  1046    
+                           A  1047    
+                           A  1048    .ENDFUNC "vdp_plotLineTo",89,"_vdp_plotLineTo"
+                           A  1049    ;   90	
+                           A  1050    ;   91	void vdp_plotPoint(unsigned int x, unsi
+                           A  1051    ;   92	{
+000257                     A  1052    _vdp_plotPoint:
+                           A  1053    .DEFINE "_vdp_plotPoint"
+                           A  1054    
+                           A  1055    .VALUE _vdp_plotPoint
+                           A  1056    
+                           A  1057    .CLASS 2
+                           A  1058    
+                           A  1059    .TYPE 65
+                           A  1060    
+                           A  1061    .ENDEF
+                           A  1062    
+                           A  1063    .BEGFUNC "vdp_plotPoint",92,"_vdp_plotPoint"
+                           A  1064    
+                           A  1065    .LINE 92
+                           A  1066    
+                           A  1067    .DEFINE "x"
+                           A  1068    
+                           A  1069    .CLASS 65
+                           A  1070    
+                           A  1071    .VALUE 6
+                           A  1072    
+                           A  1073    .TYPE 14
+                           A  1074    
+                           A  1075    .ENDEF
+                           A  1076    
+                           A  1077    .DEFINE "y"
+                           A  1078    
+                           A  1079    .CLASS 65
+                           A  1080    
+                           A  1081    .VALUE 9
+                           A  1082    
+                           A  1083    .TYPE 14
+                           A  1084    
+                           A  1085    .ENDEF
+                           A  1086    
+000257 DDE5                A  1087    	PUSH	IX
+000259 DD210000 00         A  1088    	LD	IX,0
+00025E DD39                A  1089    	ADD	IX,SP
+                           A  1090    ;   93		vdp_plot(0x40,x,y);
+                           A  1091    .LINE 93
+                           A  1092    
+000260 DD0709              A  1093    	LD	BC,(IX+%9)
+000263 C5                  A  1094    	PUSH	BC
+000264 DD0706              A  1095    	LD	BC,(IX+%6)
+000267 C5                  A  1096    	PUSH	BC
+000268 01400000            A  1097    	LD	BC,64
+00026C C5                  A  1098    	PUSH	BC
+00026D CD A1 01 00         A  1099    	CALL	_vdp_plot
+000271 C1                  A  1100    	POP	BC
+000272 C1                  A  1101    	POP	BC
+000273 C1                  A  1102    	POP	BC
+                           A  1103    ;   94	}
+                           A  1104    .LINE 94
+                           A  1105    
+000274 DDF9                A  1106    	LD	SP,IX
+000276 DDE1                A  1107    	POP	IX
+000278 C9                  A  1108    	RET	
+                           A  1109    
+                           A  1110    
+                           A  1111    ;**************************** _vdp_plotPoint **
+                           A  1112    ;Name                         Addr/Register   S
+                           A  1113    ;y                                     IX+9    
+                           A  1114    ;x                                     IX+6    
+                           A  1115    
+                           A  1116    
+                           A  1117    ; Stack Frame Size: 12 (bytes)
+                           A  1118    ;       Spill Code: 0 (instruction)
+                           A  1119    
+                           A  1120    
+                           A  1121    .ENDFUNC "vdp_plotPoint",94,"_vdp_plotPoint"
+                           A  1122    ;   95	
+                           A  1123    ;   96	void vdp_plotTriangle(unsigned int x, u
+                           A  1124    ;   97	{
+000279                     A  1125    _vdp_plotTriangle:
+                           A  1126    .DEFINE "_vdp_plotTriangle"
+                           A  1127    
+                           A  1128    .VALUE _vdp_plotTriangle
+                           A  1129    
+                           A  1130    .CLASS 2
+                           A  1131    
+                           A  1132    .TYPE 65
+                           A  1133    
+                           A  1134    .ENDEF
+                           A  1135    
+                           A  1136    .BEGFUNC "vdp_plotTriangle",97,"_vdp_plotTriang
+                           A  1137    
+                           A  1138    .LINE 97
+                           A  1139    
+                           A  1140    .DEFINE "x"
+                           A  1141    
+                           A  1142    .CLASS 65
+                           A  1143    
+                           A  1144    .VALUE 6
+                           A  1145    
+                           A  1146    .TYPE 14
+                           A  1147    
+                           A  1148    .ENDEF
+                           A  1149    
+                           A  1150    .DEFINE "y"
+                           A  1151    
+                           A  1152    .CLASS 65
+                           A  1153    
+                           A  1154    .VALUE 9
+                           A  1155    
+                           A  1156    .TYPE 14
+                           A  1157    
+                           A  1158    .ENDEF
+                           A  1159    
+000279 DDE5                A  1160    	PUSH	IX
+00027B DD210000 00         A  1161    	LD	IX,0
+000280 DD39                A  1162    	ADD	IX,SP
+                           A  1163    ;   98		vdp_plot(0x50,x,y);
+                           A  1164    .LINE 98
+                           A  1165    
+000282 DD0709              A  1166    	LD	BC,(IX+%9)
+000285 C5                  A  1167    	PUSH	BC
+000286 DD0706              A  1168    	LD	BC,(IX+%6)
+000289 C5                  A  1169    	PUSH	BC
+00028A 01500000            A  1170    	LD	BC,80
+00028E C5                  A  1171    	PUSH	BC
+00028F CD A1 01 00         A  1172    	CALL	_vdp_plot
+000293 C1                  A  1173    	POP	BC
+000294 C1                  A  1174    	POP	BC
+000295 C1                  A  1175    	POP	BC
+                           A  1176    ;   99	}
+                           A  1177    .LINE 99
+                           A  1178    
+000296 DDF9                A  1179    	LD	SP,IX
+000298 DDE1                A  1180    	POP	IX
+00029A C9                  A  1181    	RET	
+                           A  1182    
+                           A  1183    
+                           A  1184    ;**************************** _vdp_plotTriangle
+                           A  1185    ;Name                         Addr/Register   S
+                           A  1186    ;y                                     IX+9    
+                           A  1187    ;x                                     IX+6    
+                           A  1188    
+                           A  1189    
+                           A  1190    ; Stack Frame Size: 12 (bytes)
+                           A  1191    ;       Spill Code: 0 (instruction)
+                           A  1192    
+                           A  1193    
+                           A  1194    .ENDFUNC "vdp_plotTriangle",99,"_vdp_plotTriang
+                           A  1195    ;  100	
+                           A  1196    ;  101	void vdp_plotCircleRadius(unsigned int 
+                           A  1197    ;  102	{
+00029B                     A  1198    _vdp_plotCircleRadius:
+                           A  1199    .DEFINE "_vdp_plotCircleRadius"
+                           A  1200    
+                           A  1201    .VALUE _vdp_plotCircleRadius
+                           A  1202    
+                           A  1203    .CLASS 2
+                           A  1204    
+                           A  1205    .TYPE 65
+                           A  1206    
+                           A  1207    .ENDEF
+                           A  1208    
+                           A  1209    .BEGFUNC "vdp_plotCircleRadius",102,"_vdp_plotC
+                           A  1210    
+                           A  1211    .LINE 102
+                           A  1212    
+                           A  1213    .DEFINE "r"
+                           A  1214    
+                           A  1215    .CLASS 65
+                           A  1216    
+                           A  1217    .VALUE 6
+                           A  1218    
+                           A  1219    .TYPE 14
+                           A  1220    
+                           A  1221    .ENDEF
+                           A  1222    
+00029B DDE5                A  1223    	PUSH	IX
+00029D DD210000 00         A  1224    	LD	IX,0
+0002A2 DD39                A  1225    	ADD	IX,SP
+                           A  1226    ;  103		vdp_plot(0x90,r,0);
+                           A  1227    .LINE 103
+                           A  1228    
+0002A4 01000000            A  1229    	LD	BC,0
+0002A8 C5                  A  1230    	PUSH	BC
+0002A9 DD0706              A  1231    	LD	BC,(IX+%6)
+0002AC C5                  A  1232    	PUSH	BC
+0002AD 01900000            A  1233    	LD	BC,144
+0002B1 C5                  A  1234    	PUSH	BC
+0002B2 CD A1 01 00         A  1235    	CALL	_vdp_plot
+0002B6 C1                  A  1236    	POP	BC
+0002B7 C1                  A  1237    	POP	BC
+0002B8 C1                  A  1238    	POP	BC
+                           A  1239    ;  104	}
+                           A  1240    .LINE 104
+                           A  1241    
+0002B9 DDF9                A  1242    	LD	SP,IX
+0002BB DDE1                A  1243    	POP	IX
+0002BD C9                  A  1244    	RET	
+                           A  1245    
+                           A  1246    
+                           A  1247    ;**************************** _vdp_plotCircleRa
+                           A  1248    ;Name                         Addr/Register   S
+                           A  1249    ;r                                     IX+6    
+                           A  1250    
+                           A  1251    
+                           A  1252    ; Stack Frame Size: 9 (bytes)
+                           A  1253    ;       Spill Code: 0 (instruction)
+                           A  1254    
+                           A  1255    
+                           A  1256    .ENDFUNC "vdp_plotCircleRadius",104,"_vdp_plotC
+                           A  1257    ;  105	
+                           A  1258    ;  106	void vdp_plotCircleCircumference(unsign
+                           A  1259    ;  107	{
+0002BE                     A  1260    _vdp_plotCircleCircumference:
+                           A  1261    .DEFINE "_vdp_plotCircleCircumference"
+                           A  1262    
+                           A  1263    .VALUE _vdp_plotCircleCircumference
+                           A  1264    
+                           A  1265    .CLASS 2
+                           A  1266    
+                           A  1267    .TYPE 65
+                           A  1268    
+                           A  1269    .ENDEF
+                           A  1270    
+                           A  1271    .BEGFUNC "vdp_plotCircleCircumference",107,"_vd
+                           A  1272    
+                           A  1273    .LINE 107
+                           A  1274    
+                           A  1275    .DEFINE "x"
+                           A  1276    
+                           A  1277    .CLASS 65
+                           A  1278    
+                           A  1279    .VALUE 6
+                           A  1280    
+                           A  1281    .TYPE 14
+                           A  1282    
+                           A  1283    .ENDEF
+                           A  1284    
+                           A  1285    .DEFINE "y"
+                           A  1286    
+                           A  1287    .CLASS 65
+                           A  1288    
+                           A  1289    .VALUE 9
+                           A  1290    
+                           A  1291    .TYPE 14
+                           A  1292    
+                           A  1293    .ENDEF
+                           A  1294    
+0002BE DDE5                A  1295    	PUSH	IX
+0002C0 DD210000 00         A  1296    	LD	IX,0
+0002C5 DD39                A  1297    	ADD	IX,SP
+                           A  1298    ;  108		vdp_plot(0x95,x,y);
+                           A  1299    .LINE 108
+                           A  1300    
+0002C7 DD0709              A  1301    	LD	BC,(IX+%9)
+0002CA C5                  A  1302    	PUSH	BC
+0002CB DD0706              A  1303    	LD	BC,(IX+%6)
+0002CE C5                  A  1304    	PUSH	BC
+0002CF 01950000            A  1305    	LD	BC,149
+0002D3 C5                  A  1306    	PUSH	BC
+0002D4 CD A1 01 00         A  1307    	CALL	_vdp_plot
+0002D8 C1                  A  1308    	POP	BC
+0002D9 C1                  A  1309    	POP	BC
+0002DA C1                  A  1310    	POP	BC
+                           A  1311    ;  109	}
+                           A  1312    .LINE 109
+                           A  1313    
+0002DB DDF9                A  1314    	LD	SP,IX
+0002DD DDE1                A  1315    	POP	IX
+0002DF C9                  A  1316    	RET	
+                           A  1317    
+                           A  1318    
+                           A  1319    ;**************************** _vdp_plotCircleCi
+                           A  1320    ;Name                         Addr/Register   S
+                           A  1321    ;y                                     IX+9    
+                           A  1322    ;x                                     IX+6    
+                           A  1323    
+                           A  1324    
+                           A  1325    ; Stack Frame Size: 12 (bytes)
+                           A  1326    ;       Spill Code: 0 (instruction)
+                           A  1327    
+                           A  1328    
+                           A  1329    .ENDFUNC "vdp_plotCircleCircumference",109,"_vd
+                           A  1330    ;  110	
+                           A  1331    ;  111	void vdp_plotSetOrigin(unsigned int x, 
+                           A  1332    ;  112	{
+0002E0                     A  1333    _vdp_plotSetOrigin:
+                           A  1334    .DEFINE "_vdp_plotSetOrigin"
+                           A  1335    
+                           A  1336    .VALUE _vdp_plotSetOrigin
+                           A  1337    
+                           A  1338    .CLASS 2
+                           A  1339    
+                           A  1340    .TYPE 65
+                           A  1341    
+                           A  1342    .ENDEF
+                           A  1343    
+                           A  1344    .BEGFUNC "vdp_plotSetOrigin",112,"_vdp_plotSetO
+                           A  1345    
+                           A  1346    .LINE 112
+                           A  1347    
+                           A  1348    .DEFINE "x"
+                           A  1349    
+                           A  1350    .CLASS 65
+                           A  1351    
+                           A  1352    .VALUE 6
+                           A  1353    
+                           A  1354    .TYPE 14
+                           A  1355    
+                           A  1356    .ENDEF
+                           A  1357    
+                           A  1358    .DEFINE "y"
+                           A  1359    
+                           A  1360    .CLASS 65
+                           A  1361    
+                           A  1362    .VALUE 9
+                           A  1363    
+                           A  1364    .TYPE 14
+                           A  1365    
+                           A  1366    .ENDEF
+                           A  1367    
+0002E0 DDE5                A  1368    	PUSH	IX
+0002E2 DD210000 00         A  1369    	LD	IX,0
+0002E7 DD39                A  1370    	ADD	IX,SP
+0002E9 3B                  A  1371    	DEC	SP
+                           A  1372    ;  113	    putch(29); //Graphics ORIGIN
+                           A  1373    .LINE 113
+                           A  1374    
+0002EA 011D0000            A  1375    	LD	BC,29
+0002EE C5                  A  1376    	PUSH	BC
+0002EF CD 00 00 00         A  1377    	CALL	_putch
+0002F3 C1                  A  1378    	POP	BC
+                           A  1379    ;  114	    putch(x & 0xF);
+                           A  1380    .LINE 114
+                           A  1381    
+0002F4 DD7E06              A  1382    	LD	A,(IX+%6)
+0002F7 E60F                A  1383    	AND	A,%F
+0002F9 4F                  A  1384    	LD	C,A
+0002FA 0600                A  1385    	LD	B,%0
+0002FC C5                  A  1386    	PUSH	BC
+0002FD DD77FF              A  1387    	LD	(IX+%FFFFFFFF),A
+000300 CD 00 00 00         A  1388    	CALL	_putch
+000304 DD7EFF              A  1389    	LD	A,(IX+%FFFFFFFF)
+000307 C1                  A  1390    	POP	BC
+                           A  1391    ;  115	    putch(x >> 8);
+                           A  1392    .LINE 115
+                           A  1393    
+000308 B7ED62              A  1394    	UEXT	HL
+00030B E5                  A  1395    	PUSH	HL
+00030C DD2706              A  1396    	LD	HL,(IX+%6)
+00030F E5                  A  1397    	PUSH	HL
+000310 33                  A  1398    	INC	SP
+000311 E1                  A  1399    	POP	HL
+000312 33                  A  1400    	INC	SP
+000313 33                  A  1401    	INC	SP
+000314 4D                  A  1402    	LD	C,L
+000315 0600                A  1403    	LD	B,%0
+000317 C5                  A  1404    	PUSH	BC
+000318 CD 00 00 00         A  1405    	CALL	_putch
+00031C C1                  A  1406    	POP	BC
+                           A  1407    ;  116	    putch(y & 0xF);
+                           A  1408    .LINE 116
+                           A  1409    
+00031D DD7E09              A  1410    	LD	A,(IX+%9)
+000320 E60F                A  1411    	AND	A,%F
+000322 4F                  A  1412    	LD	C,A
+000323 0600                A  1413    	LD	B,%0
+000325 C5                  A  1414    	PUSH	BC
+000326 DD77FF              A  1415    	LD	(IX+%FFFFFFFF),A
+000329 CD 00 00 00         A  1416    	CALL	_putch
+00032D DD7EFF              A  1417    	LD	A,(IX+%FFFFFFFF)
+000330 C1                  A  1418    	POP	BC
+                           A  1419    ;  117	    putch(y >> 8);
+                           A  1420    .LINE 117
+                           A  1421    
+000331 B7ED62              A  1422    	UEXT	HL
+000334 E5                  A  1423    	PUSH	HL
+000335 DD2709              A  1424    	LD	HL,(IX+%9)
+000338 E5                  A  1425    	PUSH	HL
+000339 33                  A  1426    	INC	SP
+00033A E1                  A  1427    	POP	HL
+00033B 33                  A  1428    	INC	SP
+00033C 33                  A  1429    	INC	SP
+00033D 4D                  A  1430    	LD	C,L
+00033E 0600                A  1431    	LD	B,%0
+000340 C5                  A  1432    	PUSH	BC
+000341 CD 00 00 00         A  1433    	CALL	_putch
+000345 C1                  A  1434    	POP	BC
+                           A  1435    ;  118	}
+                           A  1436    .LINE 118
+                           A  1437    
+000346 DDF9                A  1438    	LD	SP,IX
+000348 DDE1                A  1439    	POP	IX
+00034A C9                  A  1440    	RET	
+                           A  1441    
+                           A  1442    
+                           A  1443    ;**************************** _vdp_plotSetOrigi
+                           A  1444    ;Name                         Addr/Register   S
+                           A  1445    ;_putch                              IMPORT  --
+                           A  1446    ;y                                     IX+9    
+                           A  1447    ;x                                     IX+6    
+                           A  1448    
+                           A  1449    
+                           A  1450    ; Stack Frame Size: 13 (bytes)
+                           A  1451    ;       Spill Code: 0 (instruction)
+                           A  1452    
+                           A  1453    
+                           A  1454    .ENDFUNC "vdp_plotSetOrigin",118,"_vdp_plotSetO
+                           A  1455    	XREF _putch:ROM
+                           A  1456    	XDEF _vdp_plotSetOrigin
+                           A  1457    	XDEF _vdp_plotCircleCircumference
+                           A  1458    	XDEF _vdp_plotCircleRadius
+                           A  1459    	XDEF _vdp_plotTriangle
+                           A  1460    	XDEF _vdp_plotPoint
+                           A  1461    	XDEF _vdp_plotLineTo
+                           A  1462    	XDEF _vdp_plotMoveTo
+                           A  1463    	XDEF _vdp_plot
+                           A  1464    	XDEF _vdp_plotColour
+                           A  1465    	XDEF _vdp_clearGraphics
+                           A  1466    	XDEF _vdp_bgcolour
+                           A  1467    	XDEF _vdp_fgcolour
+                           A  1468    	XDEF _vdp_colour
+                           A  1469    	XDEF _vdp_cursorGoto
+                           A  1470    	XDEF _vdp_cursorUp
+                           A  1471    	XDEF _vdp_cursorHome
+                           A  1472    	XDEF _vdp_cls
+                           A  1473    	XDEF _vdp_mode
+                           A  1474    	END
+
+
+Errors: 0
+Warnings: 0
+Lines Assembled: 1475

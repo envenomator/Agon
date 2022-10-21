@@ -1,0 +1,45 @@
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)21-Oct-22     21:58:29     page:   1
+
+
+PC     Object              I  Line    Source 
+                           A     1    ;
+                           A     2    ; Title:		MISC - Misc functions
+                           A     3    ; Author:		Jeroen Venema
+                           A     4    ; Created:		21/10/2022
+                           A     5    ; Last Updated:	21/10/2022
+                           A     6    ; 
+                           A     7    ; Modinfo:
+                           A     8    ; 21/10/2022:		Added _puts
+                           A     9    ;
+                           A    10    	XDEF _puts
+                           A    11    	segment CODE
+                           A    12    	.assume ADL=1
+                           A    13    	
+000000                     A    14    _puts:
+000000 DDE5                A    15    	push ix			; push ix onto stack and al
+000002 DD210000 00         A    16    	ld ix,0
+000007 DD39                A    17    	add ix, sp
+                           A    18    
+000009 DD2706              A    19    	ld hl, (ix+6)
+00000C                     A    20    _puts_loop:
+00000C 7E                  A    21    	ld a, (hl)
+00000D                     A    22    _puts_testloop:
+00000D B7                  A    23    	or a
+00000E 28 0B               A    24    	jr z, _puts_done
+000010 E5                  A    25    	push hl
+000011 DDE5                A    26    	push ix
+000013 49D7                A    27    	rst.lis 16			; output
+000015 DDE1                A    28    	pop ix
+000017 E1                  A    29    	pop hl
+000018 23                  A    30    	inc hl
+000019 18 F1               A    31    	jr _puts_loop
+                           A    32    
+00001B                     A    33    _puts_done:
+00001B DDF9                A    34    	ld sp,ix
+00001D DDE1                A    35    	pop ix
+00001F C9                  A    36    	ret
+
+
+Errors: 0
+Warnings: 0
+Lines Assembled: 37

@@ -13,6 +13,8 @@
 
 
 extern void putch(char a);
-extern char getch();
+extern char getch(void);
+extern void puts(char *str);
+extern void waitvblank(void);
 
 #endif MOS_H

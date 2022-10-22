@@ -7,7 +7,6 @@
 <file filter-key="">.\main.c</file>
 <file filter-key="">.\mos-interface.asm</file>
 <file filter-key="">.\vdp.c</file>
-<file filter-key="">.\misc.asm</file>
 </files>
 
 <!-- configuration information -->

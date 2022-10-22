@@ -1,4 +1,4 @@
-Zilog eZ80 Macro Assembler Version 4.3 (19073001)21-Oct-22     21:58:29     page:   1
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)22-Oct-22     12:26:45     page:   1
 
 
 PC     Object              I  Line    Source 
@@ -10,7 +10,9 @@ PC     Object              I  Line    Source
                            A     6    ; 
                            A     7    ; Modinfo:
                            A     8    ; 15/10/2022:		Added _putch, _getch
-                           A     9    ;
+                           A     9    ; 21/10/2022:		Added _puts
+                           A    10    ; 22/10/2022:		Added _waitvblank
+                           A    11    ;
                            B     0    	.include "mos_api.inc"
                            B     1    ;
                            B     2    ; Title:	AGON MOS - API for user projects
@@ -135,46 +137,84 @@ PC     Object              I  Line    Source
                            B   121    			LD	A, function
                            B   122    			RST.LIS	08h
                            B   123    			ENDMACRO 	
-                           A    11    
-                           A    12    	XDEF _putch
-                           A    13    	XDEF _getch
-                           A    14    	
-                           A    15    	segment CODE
-                           A    16    	.assume ADL=1
-                           A    17    	
-000000                     A    18    _putch:
-000000 DDE5                A    19    	push ix
-000002 DD210000 00         A    20    	ld ix,0
-000007 DD39                A    21    	add ix, sp
-                           A    22    	
-000009 DD7E06              A    23    	ld a, (ix+6)
-00000C DDE5                A    24    	push ix
-00000E 49D7                A    25    	rst.lis 16
-000010 DDE1                A    26    	pop ix
-                           A    27    	
-000012 DDF9                A    28    	ld sp,ix
-000014 DDE1                A    29    	pop ix
-000016 C9                  A    30    	ret
-                           A    31    
-000017                     A    32    _getch:
-000017 3E08                A    33    	ld a, mos_sysvars			; MOS Call for 
-000019 49CF                A    34    	rst.lis 08h					; returns point
-00001B                     A    35    _getch0:
-00001B DD7E05              A    36    	ld a, (ix+sysvar_keycode)	; get current k
-00001E B7                  A    37    	or a,a
-00001F 28 FA               A    38    	jr z, _getch0				; wait for keyp
-                           A    39    	
-000021 F5                  A    40    	push af						; debounce key,
-000022 AF                  A    41    	xor a
-000023 DD7705              A    42    	ld (ix+sysvar_keycode),a
-000026 F1                  A    43    	pop af
-                           A    44    	
-000027 C9                  A    45    	ret
-                           A    46    end
-                           A    47    
+                           A    13    
+                           A    14    	XDEF _putch
+                           A    15    	XDEF _getch
+                           A    16    	XDEF _puts
+                           A    17    	XDEF _waitvblank
+                           A    18    	
+                           A    19    	segment CODE
+                           A    20    	.assume ADL=1
+                           A    21    	
+000000                     A    22    _putch:
+000000 DDE5                A    23    	push ix
+000002 DD210000 00         A    24    	ld ix,0
+000007 DD39                A    25    	add ix, sp
+                           A    26    	
+000009 DD7E06              A    27    	ld a, (ix+6)
+00000C DDE5                A    28    	push ix
+00000E 49D7                A    29    	rst.lis 16
+000010 DDE1                A    30    	pop ix
+                           A    31    	
+000012 DDF9                A    32    	ld sp,ix
+000014 DDE1                A    33    	pop ix
+000016 C9                  A    34    	ret
+                           A    35    
+000017                     A    36    _getch:
+000017 3E08                A    37    	ld a, mos_sysvars			; MOS Call for 
+000019 49CF                A    38    	rst.lis 08h					; returns point
+00001B                     A    39    _getch0:
+00001B DD7E05              A    40    	ld a, (ix+sysvar_keycode)	; get current k
+00001E B7                  A    41    	or a,a
+00001F 28 FA               A    42    	jr z, _getch0				; wait for keyp
+                           A    43    	
+000021 F5                  A    44    	push af						; debounce key,
+000022 AF                  A    45    	xor a
+000023 DD7705              A    46    	ld (ix+sysvar_keycode),a
+000026 F1                  A    47    	pop af
                            A    48    	
+000027 C9                  A    49    	ret
+                           A    50    
+000028                     A    51    _puts:
+000028 DDE5                A    52    	push ix			; push ix onto stack and al
+00002A DD210000 00         A    53    	ld ix,0
+00002F DD39                A    54    	add ix, sp
+                           A    55    
+000031 DD2706              A    56    	ld hl, (ix+6)
+                           A    57    
+000034                     A    58    _puts_loop:
+000034 7E                  A    59    	ld a, (hl)
+000035                     A    60    _puts_testloop:
+000035 B7                  A    61    	or a
+000036 28 0B               A    62    	jr z, _puts_done
+000038 E5                  A    63    	push hl
+000039 DDE5                A    64    	push ix
+00003B 49D7                A    65    	rst.lis 16			; output
+00003D DDE1                A    66    	pop ix
+00003F E1                  A    67    	pop hl
+000040 23                  A    68    	inc hl
+000041 18 F1               A    69    	jr _puts_loop
+                           A    70    
+000043                     A    71    _puts_done:
+000043 DDF9                A    72    	ld sp,ix
+000045 DDE1                A    73    	pop ix
+000047 C9                  A    74    	ret
+                           A    75    
+000048                     A    76    _waitvblank:
+000048 DDE5                A    77    	push ix
+00004A 3E08                A    78    	ld a, mos_sysvars
+00004C 49CF                A    79    	rst.lis 08h
+00004E DD7E00              A    80    	ld a, (ix + sysvar_time + 0)
+000051 DDBE00              A    81    $$:	cp a, (ix + sysvar_time + 0)
+000054 28 FB               A    82    	jr z, $b
+000056 DDE1                A    83    	pop ix
+000058 C9                  A    84    	ret
+                           A    85    
+                           A    86    end
+                           A    87    
+                           A    88    	
 
 
 Errors: 0
 Warnings: 0
-Lines Assembled: 170
+Lines Assembled: 210

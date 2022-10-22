@@ -112,12 +112,6 @@ clean:
             $(RM) "$(WORKDIR)\vdp.lst"
 	@if exist "$(WORKDIR)\vdp.src"  \
             $(RM) "$(WORKDIR)\vdp.src"
-	@if exist "$(WORKDIR)\misc.obj"  \
-            $(RM) "$(WORKDIR)\misc.obj"
-	@if exist "$(WORKDIR)\misc.lis"  \
-            $(RM) "$(WORKDIR)\misc.lis"
-	@if exist "$(WORKDIR)\misc.lst"  \
-            $(RM) "$(WORKDIR)\misc.lst"
 
 # pre-4.11.0 compatibility
 rebuildall: buildall 
@@ -128,8 +122,7 @@ OBJS =  \
             $(WORKDIR_ESCSPACE)\cstartup.obj  \
             $(WORKDIR_ESCSPACE)\main.obj  \
             $(WORKDIR_ESCSPACE)\mos-interface.obj  \
-            $(WORKDIR_ESCSPACE)\vdp.obj  \
-            $(WORKDIR_ESCSPACE)\misc.obj
+            $(WORKDIR_ESCSPACE)\vdp.obj
 
 testload: $(OBJS)
 	 $(LD) $(LDFLAGS)
@@ -160,8 +153,4 @@ $(WORKDIR_ESCSPACE)\mos-interface.obj :  \
 $(WORKDIR_ESCSPACE)\vdp.obj :  \
             $(PRJDIR_ESCSPACE)\vdp.c
 	 $(CC) $(CFLAGS) "$(PRJDIR)\vdp.c"
-
-$(WORKDIR_ESCSPACE)\misc.obj :  \
-            $(PRJDIR_ESCSPACE)\misc.asm
-	 $(AS) $(ASFLAGS) "$(PRJDIR)\misc.asm"
 

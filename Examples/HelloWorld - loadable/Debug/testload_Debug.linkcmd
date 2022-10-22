@@ -81,7 +81,6 @@ define __PLL_CTL0_INIT_PARAM = $00
  ".\main.obj", \
  ".\mos-interface.obj", \
  ".\vdp.obj", \
- ".\misc.obj", \
  "C:\ZiLOG\ZDSII_eZ80Acclaim!_5.3.4\lib\std\chelpD.lib", \
  "C:\ZiLOG\ZDSII_eZ80Acclaim!_5.3.4\lib\zilog\zsldevinitdummy.obj"
 

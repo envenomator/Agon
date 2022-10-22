@@ -1,4 +1,4 @@
-Zilog eZ80 Macro Assembler Version 4.3 (19073001)22-Oct-22     18:06:06     page:   1
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)22-Oct-22     18:43:49     page:   1
 
 
 PC     Object              I  Line    Source 
@@ -11,7 +11,7 @@ PC     Object              I  Line    Source
                            A     7    ; Modinfo:
                            A     8    ; 15/10/2022:		Added _putch, _getch
                            A     9    ; 21/10/2022:		Added _puts
-                           A    10    ; 22/10/2022:		Added _waitvblank
+                           A    10    ; 22/10/2022:		Added _waitvblank, _mos_f* 
                            A    11    ;
                            B     0    	.include "mos_api.inc"
                            B     1    ;
@@ -142,81 +142,151 @@ PC     Object              I  Line    Source
                            A    15    	XDEF _getch
                            A    16    	XDEF _puts
                            A    17    	XDEF _waitvblank
-                           A    18    	
-                           A    19    	segment CODE
-                           A    20    	.assume ADL=1
-                           A    21    	
-000000                     A    22    _putch:
-000000 DDE5                A    23    	push ix
-000002 DD210000 00         A    24    	ld ix,0
-000007 DD39                A    25    	add ix, sp
+                           A    18    	XDEF _mos_fopen
+                           A    19    	XDEF _mos_fclose
+                           A    20    	XDEF _mos_fgetc
+                           A    21    	XDEF _mos_fputc
+                           A    22    	XDEF _mos_feof
+                           A    23    	
+                           A    24    	segment CODE
+                           A    25    	.assume ADL=1
                            A    26    	
-000009 DD7E06              A    27    	ld a, (ix+6)
-00000C DDE5                A    28    	push ix
-00000E 49D7                A    29    	rst.lis 16
-000010 DDE1                A    30    	pop ix
+000000                     A    27    _putch:
+000000 DDE5                A    28    	push ix
+000002 DD210000 00         A    29    	ld ix,0
+000007 DD39                A    30    	add ix, sp
                            A    31    	
-000012 DDF9                A    32    	ld sp,ix
-000014 DDE1                A    33    	pop ix
-000016 C9                  A    34    	ret
-                           A    35    
-000017                     A    36    _getch:
-000017 3E08                A    37    	ld a, mos_sysvars			; MOS Call for 
-000019 49CF                A    38    	rst.lis 08h					; returns point
-00001B                     A    39    _getch0:
-00001B DD7E05              A    40    	ld a, (ix+sysvar_keycode)	; get current k
-00001E B7                  A    41    	or a,a
-00001F 28 FA               A    42    	jr z, _getch0				; wait for keyp
-                           A    43    	
-000021 F5                  A    44    	push af						; debounce key,
-000022 AF                  A    45    	xor a
-000023 DD7705              A    46    	ld (ix+sysvar_keycode),a
-000026 F1                  A    47    	pop af
+000009 DD7E06              A    32    	ld a, (ix+6)
+00000C DDE5                A    33    	push ix
+00000E 49D7                A    34    	rst.lis 16
+000010 DDE1                A    35    	pop ix
+                           A    36    	
+000012 DDF9                A    37    	ld sp,ix
+000014 DDE1                A    38    	pop ix
+000016 C9                  A    39    	ret
+                           A    40    
+000017                     A    41    _getch:
+000017 3E08                A    42    	ld a, mos_sysvars			; MOS Call for 
+000019 49CF                A    43    	rst.lis 08h					; returns point
+00001B                     A    44    _getch0:
+00001B DD7E05              A    45    	ld a, (ix+sysvar_keycode)	; get current k
+00001E B7                  A    46    	or a,a
+00001F 28 FA               A    47    	jr z, _getch0				; wait for keyp
                            A    48    	
-000027 C9                  A    49    	ret
-                           A    50    
-000028                     A    51    _puts:
-000028 DDE5                A    52    	push ix			; push ix onto stack and al
-00002A DD210000 00         A    53    	ld ix,0
-00002F DD39                A    54    	add ix, sp
+000021 F5                  A    49    	push af						; debounce key,
+000022 AF                  A    50    	xor a
+000023 DD7705              A    51    	ld (ix+sysvar_keycode),a
+000026 F1                  A    52    	pop af
+                           A    53    	
+000027 C9                  A    54    	ret
                            A    55    
-000031 DD2706              A    56    	ld hl, (ix+6)
-                           A    57    
-000034                     A    58    _puts_loop:
-000034 7E                  A    59    	ld a, (hl)
-000035                     A    60    _puts_testloop:
-000035 B7                  A    61    	or a
-000036 28 0B               A    62    	jr z, _puts_done
-000038 E5                  A    63    	push hl
-000039 DDE5                A    64    	push ix
-00003B 49D7                A    65    	rst.lis 16			; output
-00003D DDE1                A    66    	pop ix
-00003F E1                  A    67    	pop hl
-000040 23                  A    68    	inc hl
-000041 18 F1               A    69    	jr _puts_loop
-                           A    70    
-000043                     A    71    _puts_done:
-000043 DDF9                A    72    	ld sp,ix
-000045 DDE1                A    73    	pop ix
-000047 C9                  A    74    	ret
+000028                     A    56    _puts:
+000028 DDE5                A    57    	push ix			; push ix onto stack and al
+00002A DD210000 00         A    58    	ld ix,0
+00002F DD39                A    59    	add ix, sp
+                           A    60    
+000031 DD2706              A    61    	ld hl, (ix+6)
+                           A    62    
+000034                     A    63    _puts_loop:
+000034 7E                  A    64    	ld a, (hl)
+000035                     A    65    _puts_testloop:
+000035 B7                  A    66    	or a
+000036 28 0B               A    67    	jr z, _puts_done
+000038 E5                  A    68    	push hl
+000039 DDE5                A    69    	push ix
+00003B 49D7                A    70    	rst.lis 16			; output
+00003D DDE1                A    71    	pop ix
+00003F E1                  A    72    	pop hl
+000040 23                  A    73    	inc hl
+000041 18 F1               A    74    	jr _puts_loop
                            A    75    
-000048                     A    76    _waitvblank:
-000048 DDE5                A    77    	push ix
-00004A 3E08                A    78    	ld a, mos_sysvars
-00004C 49CF                A    79    	rst.lis 08h
-00004E DD7E00              A    80    	ld a, (ix + sysvar_time + 0)
-000051 DDBE00              A    81    $$:	cp a, (ix + sysvar_time + 0)
-000054 28 FB               A    82    	jr z, $B
-000056 DDE1                A    83    	pop ix
-000058 C9                  A    84    	ret
-                           A    85    
-                           A    86    
-                           A    87    	
-                           A    88    end
-                           A    89    
-                           A    90    	
+000043                     A    76    _puts_done:
+000043 DDF9                A    77    	ld sp,ix
+000045 DDE1                A    78    	pop ix
+000047 C9                  A    79    	ret
+                           A    80    
+000048                     A    81    _waitvblank:
+000048 DDE5                A    82    	push ix
+00004A 3E08                A    83    	ld a, mos_sysvars
+00004C 49CF                A    84    	rst.lis 08h
+00004E DD7E00              A    85    	ld a, (ix + sysvar_time + 0)
+000051 DDBE00              A    86    $$:	cp a, (ix + sysvar_time + 0)
+000054 28 FB               A    87    	jr z, $B
+000056 DDE1                A    88    	pop ix
+000058 C9                  A    89    	ret
+                           A    90    
+000059                     A    91    _mos_fopen:
+000059 DDE5                A    92    	push ix
+00005B DD210000 00         A    93    	ld ix,0
+000060 DD39                A    94    	add ix, sp
+                           A    95    	
+000062 DD2706              A    96    	ld hl, (ix+6)	; address to 0-terminated f
+000065 DD4E09              A    97    	ld c,  (ix+9)	; mode : fa_read / fa_write
+000068 3E0A                A    98    	ld a, mos_fopen
+00006A 49CF                A    99    	rst.lis 08h		; returns filehandle in A
+                           A   100    	
+00006C DDF9                A   101    	ld sp,ix
+00006E DDE1                A   102    	pop ix
+000070 C9                  A   103    	ret	
+                           A   104    
+000071                     A   105    _mos_fclose:
+000071 DDE5                A   106    	push ix
+000073 DD210000 00         A   107    	ld ix,0
+000078 DD39                A   108    	add ix, sp
+                           A   109    	
+00007A DD4E06              A   110    	ld c, (ix+6)	; filehandle, or 0 to close
+00007D 3E0B                A   111    	ld a, mos_fclose
+00007F 49CF                A   112    	rst.lis 08h		; returns number of files s
+                           A   113    	
+000081 DDF9                A   114    	ld sp,ix
+000083 DDE1                A   115    	pop ix
+000085 C9                  A   116    	ret	
+                           A   117    
+000086                     A   118    _mos_fgetc:
+000086 DDE5                A   119    	push ix
+000088 DD210000 00         A   120    	ld ix,0
+00008D DD39                A   121    	add ix, sp
+                           A   122    	
+00008F DD4E06              A   123    	ld c, (ix+6)	; filehandle
+000092 3E0C                A   124    	ld a, mos_fgetc
+000094 49CF                A   125    	rst.lis 08h		; returns character in A
+                           A   126    	
+000096 DDF9                A   127    	ld sp,ix
+000098 DDE1                A   128    	pop ix
+00009A C9                  A   129    	ret	
+                           A   130    
+00009B                     A   131    _mos_fputc:
+00009B DDE5                A   132    	push ix
+00009D DD210000 00         A   133    	ld ix,0
+0000A2 DD39                A   134    	add ix, sp
+                           A   135    	
+0000A4 DD4E06              A   136    	ld c, (ix+6)	; filehandle
+0000A7 DD4609              A   137    	ld b, (ix+9)	; character to write
+0000AA 3E0D                A   138    	ld a, mos_fputc
+0000AC 49CF                A   139    	rst.lis 08h		; returns nothing
+                           A   140    	
+0000AE DDF9                A   141    	ld sp,ix
+0000B0 DDE1                A   142    	pop ix
+0000B2 C9                  A   143    	ret	
+                           A   144    
+0000B3                     A   145    _mos_feof:
+0000B3 DDE5                A   146    	push ix
+0000B5 DD210000 00         A   147    	ld ix,0
+0000BA DD39                A   148    	add ix, sp
+                           A   149    	
+0000BC DD4E06              A   150    	ld c, (ix+6)	; filehandle
+0000BF 3E0E                A   151    	ld a, mos_feof
+0000C1 49CF                A   152    	rst.lis 08h		; returns A: 1 at End-of-Fi
+                           A   153    	
+0000C3 DDF9                A   154    	ld sp,ix
+0000C5 DDE1                A   155    	pop ix
+0000C7 C9                  A   156    	ret	
+                           A   157    
+                           A   158    end
+                           A   159    
+                           A   160    	
 
 
 Errors: 0
 Warnings: 0
-Lines Assembled: 212
+Lines Assembled: 282

@@ -7,7 +7,7 @@
 ; Modinfo:
 ; 15/10/2022:		Added _putch, _getch
 ; 21/10/2022:		Added _puts
-; 22/10/2022:		Added _waitvblank
+; 22/10/2022:		Added _waitvblank, _mos_f* file functions
 ;
 	.include "mos_api.inc"
 
@@ -15,6 +15,11 @@
 	XDEF _getch
 	XDEF _puts
 	XDEF _waitvblank
+	XDEF _mos_fopen
+	XDEF _mos_fclose
+	XDEF _mos_fgetc
+	XDEF _mos_fputc
+	XDEF _mos_feof
 	
 	segment CODE
 	.assume ADL=1
@@ -83,8 +88,73 @@ $$:	cp a, (ix + sysvar_time + 0)
 	pop ix
 	ret
 
-
+_mos_fopen:
+	push ix
+	ld ix,0
+	add ix, sp
 	
+	ld hl, (ix+6)	; address to 0-terminated filename in memory
+	ld c,  (ix+9)	; mode : fa_read / fa_write etc
+	ld a, mos_fopen
+	rst.lis 08h		; returns filehandle in A
+	
+	ld sp,ix
+	pop ix
+	ret	
+
+_mos_fclose:
+	push ix
+	ld ix,0
+	add ix, sp
+	
+	ld c, (ix+6)	; filehandle, or 0 to close all files
+	ld a, mos_fclose
+	rst.lis 08h		; returns number of files still open in A
+	
+	ld sp,ix
+	pop ix
+	ret	
+
+_mos_fgetc:
+	push ix
+	ld ix,0
+	add ix, sp
+	
+	ld c, (ix+6)	; filehandle
+	ld a, mos_fgetc
+	rst.lis 08h		; returns character in A
+	
+	ld sp,ix
+	pop ix
+	ret	
+
+_mos_fputc:
+	push ix
+	ld ix,0
+	add ix, sp
+	
+	ld c, (ix+6)	; filehandle
+	ld b, (ix+9)	; character to write
+	ld a, mos_fputc
+	rst.lis 08h		; returns nothing
+	
+	ld sp,ix
+	pop ix
+	ret	
+
+_mos_feof:
+	push ix
+	ld ix,0
+	add ix, sp
+	
+	ld c, (ix+6)	; filehandle
+	ld a, mos_feof
+	rst.lis 08h		; returns A: 1 at End-of-File, 0 otherwise
+	
+	ld sp,ix
+	pop ix
+	ret	
+
 end
 
 	

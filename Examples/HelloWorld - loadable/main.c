@@ -191,7 +191,7 @@ static const UINT32 square_data[1][1024] = {
 void main(void)
 {
 	UINT16 x,y,moveclock =0, animationclock=0, movestate=0, timer2;
-	UINT8 frame,r,g,b;
+	UINT8 frame,r,g,b,filehandle;
 	
 	char c;
 	
@@ -200,9 +200,25 @@ void main(void)
 	vdp_cursorGoto(10,2);
 	puts("#AgonLight - Hello world!\r\n");
 	
+	
+	// read from textfile and dump on screen
+	vdp_cursorGoto(1,3);
+	filehandle = mos_fopen("autoexec.txt",fa_read);
+	if(filehandle)
+	{
+		puts("autoexec.txt contents:");
+		vdp_cursorGoto(1,4);
+		while(!mos_feof(filehandle))
+		{
+			putch(mos_fgetc(filehandle));
+		}
+	}	
+	else puts("Couldn't open 'autoexec.txt'");
+	mos_fclose(filehandle);
+	
 	vdp_fgcolour(0,0,255);
 	vdp_bgcolour(0,255,0);
-	vdp_cursorGoto(10,4);
+	vdp_cursorGoto(10,20);
 	puts("Press any key for Bitmap/Sprite demo:");	
 	getch();
 	vdp_bgcolour(0,0,0);

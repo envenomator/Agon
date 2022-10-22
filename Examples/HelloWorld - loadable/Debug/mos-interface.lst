@@ -1,4 +1,4 @@
-Zilog eZ80 Macro Assembler Version 4.3 (19073001)22-Oct-22     12:26:45     page:   1
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)22-Oct-22     15:19:29     page:   1
 
 
 PC     Object              I  Line    Source 
@@ -206,7 +206,7 @@ PC     Object              I  Line    Source
 00004C 49CF                A    79    	rst.lis 08h
 00004E DD7E00              A    80    	ld a, (ix + sysvar_time + 0)
 000051 DDBE00              A    81    $$:	cp a, (ix + sysvar_time + 0)
-000054 28 FB               A    82    	jr z, $b
+000054 28 FB               A    82    	jr z, $B
 000056 DDE1                A    83    	pop ix
 000058 C9                  A    84    	ret
                            A    85    

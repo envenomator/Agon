@@ -151,6 +151,7 @@ $(WORKDIR_ESCSPACE)\mos-interface.obj :  \
 	 $(AS) $(ASFLAGS) "$(PRJDIR)\mos-interface.asm"
 
 $(WORKDIR_ESCSPACE)\vdp.obj :  \
-            $(PRJDIR_ESCSPACE)\vdp.c
+            $(PRJDIR_ESCSPACE)\vdp.c  \
+            $(INCLUDE_ESCSPACE)\zilog\defines.h
 	 $(CC) $(CFLAGS) "$(PRJDIR)\vdp.c"
 

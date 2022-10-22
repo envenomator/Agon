@@ -79,7 +79,7 @@ _waitvblank:
 	rst.lis 08h
 	ld a, (ix + sysvar_time + 0)
 $$:	cp a, (ix + sysvar_time + 0)
-	jr z, $b
+	jr z, $B
 	pop ix
 	ret
 

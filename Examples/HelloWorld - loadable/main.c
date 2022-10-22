@@ -203,9 +203,10 @@ void main(void)
 	vdp_fgcolour(0,0,255);
 	vdp_bgcolour(0,255,0);
 	vdp_cursorGoto(10,4);
-	puts("Press any key");	
+	puts("Press any key for Bitmap/Sprite demo:");	
 	getch();
 	vdp_bgcolour(0,0,0);
+	vdp_fgcolour(0,0,0);
 	vdp_cls();
 	
 	// creating bitmaps
@@ -255,7 +256,7 @@ void main(void)
 	
 	while(1)
 	{
-		if(moveclock > 20)
+		if(moveclock > 10)
 		{
 			switch(movestate)
 			{
@@ -276,6 +277,7 @@ void main(void)
 					break;
 			}
 			vdp_spriteMoveTo(0, x, y);
+			waitvblank();
 			vdp_spriteRefresh();
 			moveclock = 0;
 		}
@@ -288,8 +290,12 @@ void main(void)
 		}
 		else animationclock++;
 		
-		timer2 = 250;
-		while(timer2--);
+		//while(gettimer() < 2);
+		//resettimer();
+		
+		//waitvblank();
+		//timer2 = 250;
+		//while(timer2--);
 	}
 
 	/*

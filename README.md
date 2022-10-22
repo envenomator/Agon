@@ -27,23 +27,21 @@ The following commands are structured in such a way to reflect this, and build u
 |             12            |               Hide   sprite             |                               -                             |                                                                                                                       |
 |             13            |             Move   sprite to            |                    x   (16bit), y (16bit)                   |     Move to   absolute coordinates. Sprites are at (0,0) by default                                                   |
 |             14            |          Move   sprite by offset        |                    x   (16bit), y (16bit)                   |     Move to   relative coordinates                                                                                    |
-
+|             15            |          Refresh all sprites            |                                      |     
 ### Example commands
 - Select sprite 7  - transmit byte sequence 23,27,4,7
 - Send bitmap data - transmit byte sequence 23,27,1,WidthLSB,WidthMSB,HeightLSB,HeightMSB, width x height x 4 byte of data
 - Show sprite      - transmit byte sequence 23,27,11 
 
-## Proposed C client library
-Include vdu.c and vdu.h in your ez80 project, and include the latter in your main project files to use the necessary routines.
-
 A proper sequence of events in creating bitmaps and/or sprites should be:
-1. select a bitmap - bitmap_select(id). Any number 0-255 will do
-2. send one or more bitmaps data in ABGR format - bitmap_sendData(width, height, *data)
-3. select a sprite, starting with id 0 - sprite_select(id)
-4. Potentially clear out old frames on this sprite, left by previous programs - sprite_clearFrames(id)
-5. add one or more frames to a sprite - sprite_addFrame(id, bitmap_id), using previously created bitmaps
-6. Set sprite to show immediately on activation, hidden by default - sprite_show(id), sprite_hide(id)
-7. Activate NUMBER of adjacent sprites (starting at 0) to the GDU - sprite_activateTotal(number)
+1. select a bitmap - Any number 0-255 will do
+2. send one or more bitmaps data in ABGR format
+3. select a sprite, starting with id 0
+4. Potentially clear out old frames on this sprite, left by previous programs
+5. add one or more frames to a sprite, using previously created bitmaps
+6. Set sprite to show immediately on activation, hidden by default
+7. Activate NUMBER of adjacent sprites (starting at 0) to the GDU
+8. Refresh sprites, also after changes to position
 
 Bitmaps can be drawn on the background canvas by using bitmap_draw(id), regardless of being (re)used by any sprites on the foreground.
 

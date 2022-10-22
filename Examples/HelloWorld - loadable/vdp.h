@@ -8,7 +8,7 @@
  * 20/10/2022:		Initial version: text/graphics functions
  * 22/10/2022:		Bitmap/Sprite functions added
  */
- 
+
 #include <defines.h>
 
 #ifndef VDP_H
@@ -38,7 +38,6 @@ void vdp_plotCircleCircumference(unsigned int x, unsigned int y);
 
 // Bitmap VDP functions
 void vdp_bitmapSelect(UINT8 id);
-
 void vdp_bitmapSendDataSelected(UINT16 width, UINT16 height, UINT32 *data);
 void vdp_bitmapSendData(UINT8 id, UINT16 width, UINT16 height, UINT32 *data);
 void vdp_bitmapDrawSelected(UINT16 x, UINT16 y);

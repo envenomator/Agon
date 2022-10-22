@@ -289,6 +289,6 @@ void main(void)
 			animationclock = 0;
 		}
 		else animationclock++;
-		
+	}	
 	return;
 }

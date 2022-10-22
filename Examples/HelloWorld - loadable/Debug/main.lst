@@ -1,4 +1,4 @@
-Zilog eZ80 Macro Assembler Version 4.3 (19073001)22-Oct-22     15:19:29     page:   1
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)22-Oct-22     18:06:06     page:   1
 
 
 PC     Object              I  Line    Source 
@@ -3979,124 +3979,88 @@ PC     Object              I  Line    Source
 000356 DD75F5              A  3975    	LD	(IX+%FFFFFFF5),L
 000359 DD74F6              A  3976    	LD	(IX+%FFFFFFF6),H
 00035C C3 2A 02 00         A  3977    	JR	L_45
-                           A  3978    ;  292			
-                           A  3979    ;  293			//while(gettimer() < 2);
-                           A  3980    ;  294			//resettimer();
-                           A  3981    ;  295			
-                           A  3982    ;  296			//waitvblank();
-                           A  3983    ;  297			//timer2 = 250;
-                           A  3984    ;  298			//while(timer2--);
-                           A  3985    ;  299		}
-                           A  3986    ;  300	
-                           A  3987    ;  301		/*
-                           A  3988    ;  302		vdp_mode(0);
-                           A  3989    ;  303			
-                           A  3990    ;  304		vdp_plotSetOrigin(100,100);
-                           A  3991    ;  305		vdp_plotMoveTo(100,100);
-                           A  3992    ;  306		vdp_plotLineTo(200,200);
-                           A  3993    ;  307		vdp_plotColour(0,255,0);
-                           A  3994    ;  308		vdp_plotCircleRadius(100);
-                           A  3995    ;  309		
-                           A  3996    ;  310		vdp_plotMoveTo(300,300);
-                           A  3997    ;  311		vdp_plotColour(255,0,0);
-                           A  3998    ;  312		vdp_plotCircleCircumference(350,350
-                           A  3999    ;  313		
-                           A  4000    ;  314		vdp_plotColour(0,0,255);
-                           A  4001    ;  315		vdp_plotMoveTo(400,100);
-                           A  4002    ;  316		vdp_plotTriangle(400,100);
-                           A  4003    ;  317		vdp_plotTriangle(400,400);
-                           A  4004    ;  318		vdp_plotTriangle(600,400);
-                           A  4005    ;  319		
-                           A  4006    ;  320		vdp_plotColour(255,255,0);
-                           A  4007    ;  321		for(y = 0; y < 480; y+=5) vdp_plotP
-                           A  4008    ;  322		getch();
-                           A  4009    ;  323	
-                           A  4010    ;  324		vdp_fgcolour(255,255,255);
-                           A  4011    ;  325		vdp_bgcolour(0,0,0);
-                           A  4012    ;  326		vdp_mode(1);
-                           A  4013    ;  327		vdp_cls();
-                           A  4014    ;  328		*/
-                           A  4015    ;  329		return;
-                           A  4016    .LINE 330
-                           A  4017    
-000360 DDF9                A  4018    	LD	SP,IX
-000362 DDE1                A  4019    	POP	IX
-000364 C9                  A  4020    	RET	
-                           A  4021    
-                           A  4022    
-                           A  4023    ;**************************** _main ***********
-                           A  4024    ;Name                         Addr/Register   S
-                           A  4025    ;_vdp_spritePreviousFrame            IMPORT  --
-                           A  4026    ;_waitvblank                         IMPORT  --
-                           A  4027    ;_vdp_spriteRefresh                  IMPORT  --
-                           A  4028    ;_vdp_spriteActivateTotal            IMPORT  --
-                           A  4029    ;_vdp_spriteShow                     IMPORT  --
-                           A  4030    ;_vdp_spriteMoveTo                   IMPORT  --
-                           A  4031    ;_vdp_spriteAddFrame                 IMPORT  --
-                           A  4032    ;_vdp_spriteClearFrames              IMPORT  --
-                           A  4033    ;_vdp_spriteSelect                   IMPORT  --
-                           A  4034    ;_vdp_bitmapDraw                     IMPORT  --
-                           A  4035    ;_vdp_bitmapCreateSolidColor         IMPORT  --
-                           A  4036    ;_square_data                        STATIC   4
-                           A  4037    ;_clock_data                         STATIC   8
-                           A  4038    ;_vdp_bitmapSendData                 IMPORT  --
-                           A  4039    ;_getch                              IMPORT  --
-                           A  4040    ;_vdp_bgcolour                       IMPORT  --
-                           A  4041    ;_puts                               IMPORT  --
-                           A  4042    ;_vdp_cursorGoto                     IMPORT  --
-                           A  4043    ;_vdp_fgcolour                       IMPORT  --
-                           A  4044    ;_vdp_cls                            IMPORT  --
-                           A  4045    ;animationclock                       IX-11    
-                           A  4046    ;moveclock                             IX-9    
-                           A  4047    ;movestate                             IX-7    
-                           A  4048    ;x                                     IX-5    
-                           A  4049    ;y                                     IX-3    
-                           A  4050    ;frame                                 IX-1    
-                           A  4051    
-                           A  4052    
-                           A  4053    ; Stack Frame Size: 17 (bytes)
-                           A  4054    ;       Spill Code: 0 (instruction)
-                           A  4055    
-                           A  4056    
-                           A  4057    .ENDFUNC "main",330,"_main"
-                           A  4058    	SEGMENT STRSECT
-000000                     A  4059    L__0:
-000000 2341676F 6E4C6967   A  4060    	DB	"#AgonLight - Hello world!"
+                           A  3978    ;  292		}	
+                           A  3979    ;  293		return;
+                           A  3980    .LINE 294
+                           A  3981    
+000360 DDF9                A  3982    	LD	SP,IX
+000362 DDE1                A  3983    	POP	IX
+000364 C9                  A  3984    	RET	
+                           A  3985    
+                           A  3986    
+                           A  3987    ;**************************** _main ***********
+                           A  3988    ;Name                         Addr/Register   S
+                           A  3989    ;_vdp_spritePreviousFrame            IMPORT  --
+                           A  3990    ;_waitvblank                         IMPORT  --
+                           A  3991    ;_vdp_spriteRefresh                  IMPORT  --
+                           A  3992    ;_vdp_spriteActivateTotal            IMPORT  --
+                           A  3993    ;_vdp_spriteShow                     IMPORT  --
+                           A  3994    ;_vdp_spriteMoveTo                   IMPORT  --
+                           A  3995    ;_vdp_spriteAddFrame                 IMPORT  --
+                           A  3996    ;_vdp_spriteClearFrames              IMPORT  --
+                           A  3997    ;_vdp_spriteSelect                   IMPORT  --
+                           A  3998    ;_vdp_bitmapDraw                     IMPORT  --
+                           A  3999    ;_vdp_bitmapCreateSolidColor         IMPORT  --
+                           A  4000    ;_square_data                        STATIC   4
+                           A  4001    ;_clock_data                         STATIC   8
+                           A  4002    ;_vdp_bitmapSendData                 IMPORT  --
+                           A  4003    ;_getch                              IMPORT  --
+                           A  4004    ;_vdp_bgcolour                       IMPORT  --
+                           A  4005    ;_puts                               IMPORT  --
+                           A  4006    ;_vdp_cursorGoto                     IMPORT  --
+                           A  4007    ;_vdp_fgcolour                       IMPORT  --
+                           A  4008    ;_vdp_cls                            IMPORT  --
+                           A  4009    ;animationclock                       IX-11    
+                           A  4010    ;moveclock                             IX-9    
+                           A  4011    ;movestate                             IX-7    
+                           A  4012    ;x                                     IX-5    
+                           A  4013    ;y                                     IX-3    
+                           A  4014    ;frame                                 IX-1    
+                           A  4015    
+                           A  4016    
+                           A  4017    ; Stack Frame Size: 17 (bytes)
+                           A  4018    ;       Spill Code: 0 (instruction)
+                           A  4019    
+                           A  4020    
+                           A  4021    .ENDFUNC "main",294,"_main"
+                           A  4022    	SEGMENT STRSECT
+000000                     A  4023    L__0:
+000000 2341676F 6E4C6967   A  4024    	DB	"#AgonLight - Hello world!"
 000008 6874202D 2048656C 
 000010 6C6F2077 6F726C64 
 000018 21 
-000019 0D0A00              A  4061    	DB	13,10,0
-00001C                     A  4062    L__1:
-00001C 50726573 7320616E   A  4063    	DB	"Press any key for Bitmap/Sprite demo:"
+000019 0D0A00              A  4025    	DB	13,10,0
+00001C                     A  4026    L__1:
+00001C 50726573 7320616E   A  4027    	DB	"Press any key for Bitmap/Sprite demo:"
 000024 79206B65 7920666F 
 00002C 72204269 746D6170 
 000034 2F537072 69746520 
 00003C 64656D6F 3A 
-000041 00                  A  4064    	DB	0
-                           A  4065    	XREF _vdp_spriteRefresh:ROM
-                           A  4066    	XREF _vdp_spriteActivateTotal:ROM
-                           A  4067    	XREF _vdp_spriteMoveTo:ROM
-                           A  4068    	XREF _vdp_spriteShow:ROM
-                           A  4069    	XREF _vdp_spritePreviousFrame:ROM
-                           A  4070    	XREF _vdp_spriteAddFrame:ROM
-                           A  4071    	XREF _vdp_spriteClearFrames:ROM
-                           A  4072    	XREF _vdp_spriteSelect:ROM
-                           A  4073    	XREF _vdp_bitmapCreateSolidColor:ROM
-                           A  4074    	XREF _vdp_bitmapDraw:ROM
-                           A  4075    	XREF _vdp_bitmapSendData:ROM
-                           A  4076    	XREF _vdp_bgcolour:ROM
-                           A  4077    	XREF _vdp_fgcolour:ROM
-                           A  4078    	XREF _vdp_cursorGoto:ROM
-                           A  4079    	XREF _vdp_cls:ROM
-                           A  4080    	XREF _waitvblank:ROM
-                           A  4081    	XREF _puts:ROM
-                           A  4082    	XREF _getch:ROM
-                           A  4083    	XREF __stoiu:ROM
-                           A  4084    	XREF __ishl_b:ROM
-                           A  4085    	XDEF _main
-                           A  4086    	END
+000041 00                  A  4028    	DB	0
+                           A  4029    	XREF _vdp_spriteRefresh:ROM
+                           A  4030    	XREF _vdp_spriteActivateTotal:ROM
+                           A  4031    	XREF _vdp_spriteMoveTo:ROM
+                           A  4032    	XREF _vdp_spriteShow:ROM
+                           A  4033    	XREF _vdp_spritePreviousFrame:ROM
+                           A  4034    	XREF _vdp_spriteAddFrame:ROM
+                           A  4035    	XREF _vdp_spriteClearFrames:ROM
+                           A  4036    	XREF _vdp_spriteSelect:ROM
+                           A  4037    	XREF _vdp_bitmapCreateSolidColor:ROM
+                           A  4038    	XREF _vdp_bitmapDraw:ROM
+                           A  4039    	XREF _vdp_bitmapSendData:ROM
+                           A  4040    	XREF _vdp_bgcolour:ROM
+                           A  4041    	XREF _vdp_fgcolour:ROM
+                           A  4042    	XREF _vdp_cursorGoto:ROM
+                           A  4043    	XREF _vdp_cls:ROM
+                           A  4044    	XREF _waitvblank:ROM
+                           A  4045    	XREF _puts:ROM
+                           A  4046    	XREF _getch:ROM
+                           A  4047    	XREF __stoiu:ROM
+                           A  4048    	XREF __ishl_b:ROM
+                           A  4049    	XDEF _main
+                           A  4050    	END
 
 
 Errors: 0
 Warnings: 0
-Lines Assembled: 4087
+Lines Assembled: 4051

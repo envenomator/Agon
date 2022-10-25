@@ -27,8 +27,8 @@
 <file filter-key="">src\config.h</file>
 <file filter-key="">src\mos_api.inc</file>
 <file filter-key="">.\mos_hexload.c</file>
-<file filter-key="flash">..\BBC Basic\Debug\BBC Basic.hex</file>
 <file filter-key="">.\mos_bytestream.asm</file>
+<file filter-key="flash">..\BBC Basic\Debug\BBC Basic.hex</file>
 </files>
 
 <!-- configuration information -->

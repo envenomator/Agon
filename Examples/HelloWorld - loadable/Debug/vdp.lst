@@ -1,4 +1,4 @@
-Zilog eZ80 Macro Assembler Version 4.3 (19073001)22-Oct-22     18:43:49     page:   1
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)25-Oct-22     19:48:07     page:   1
 
 
 PC     Object              I  Line    Source 
@@ -3948,60 +3948,534 @@ PC     Object              I  Line    Source
                            A  3944    
                            A  3945    
                            A  3946    .ENDFUNC "vdp_spriteRefresh",382,"_vdp_spriteRe
-                           A  3947    	XREF _putch:ROM
-                           A  3948    	XREF __imuls:ROM
-                           A  3949    	XREF __stoiu:ROM
-                           A  3950    	XDEF _vdp_spriteRefresh
-                           A  3951    	XDEF _vdp_spriteActivateTotal
-                           A  3952    	XDEF _vdp_spriteMoveBy
-                           A  3953    	XDEF _vdp_spriteMoveBySelected
-                           A  3954    	XDEF _vdp_spriteMoveTo
-                           A  3955    	XDEF _vdp_spriteMoveToSelected
-                           A  3956    	XDEF _vdp_spriteHide
-                           A  3957    	XDEF _vdp_spriteHideSelected
-                           A  3958    	XDEF _vdp_spriteShow
-                           A  3959    	XDEF _vdp_spriteShowSelected
-                           A  3960    	XDEF _vdp_spriteSetFrame
-                           A  3961    	XDEF _vdp_spriteSetFrameSelected
-                           A  3962    	XDEF _vdp_spritePreviousFrame
-                           A  3963    	XDEF _vdp_spritePreviousFrameSelected
-                           A  3964    	XDEF _vdp_spriteNextFrame
-                           A  3965    	XDEF _vdp_spriteNextFrameSelected
-                           A  3966    	XDEF _vdp_spriteAddFrame
-                           A  3967    	XDEF _vdp_spriteAddFrameSelected
-                           A  3968    	XDEF _vdp_spriteClearFrames
-                           A  3969    	XDEF _vdp_spriteClearFramesSelected
-                           A  3970    	XDEF _vdp_spriteSelect
-                           A  3971    	XDEF _vdp_bitmapCreateSolidColor
-                           A  3972    	XDEF _vdp_bitmapCreateSolidColorSelected
-                           A  3973    	XDEF _vdp_bitmapDraw
-                           A  3974    	XDEF _vdp_bitmapDrawSelected
-                           A  3975    	XDEF _vdp_bitmapSendData
-                           A  3976    	XDEF _vdp_bitmapSendDataSelected
-                           A  3977    	XDEF _vdp_bitmapSelect
-                           A  3978    	XDEF _vdp_plotSetOrigin
-                           A  3979    	XDEF _vdp_plotCircleCircumference
-                           A  3980    	XDEF _vdp_plotCircleRadius
-                           A  3981    	XDEF _vdp_plotTriangle
-                           A  3982    	XDEF _vdp_plotPoint
-                           A  3983    	XDEF _vdp_plotLineTo
-                           A  3984    	XDEF _vdp_plotMoveTo
-                           A  3985    	XDEF _vdp_plot
-                           A  3986    	XDEF _vdp_plotColour
-                           A  3987    	XDEF _vdp_clearGraphics
-                           A  3988    	XDEF _vdp_bgcolour
-                           A  3989    	XDEF _vdp_fgcolour
-                           A  3990    	XDEF _vdp_colour
-                           A  3991    	XDEF _vdp_cursorGoto
-                           A  3992    	XDEF _vdp_cursorUp
-                           A  3993    	XDEF _vdp_cursorHome
-                           A  3994    	XDEF _vdp_cls
-                           A  3995    	XDEF _vdp_mode
-                           A  3996    	XDEF _write32bit
-                           A  3997    	XDEF _write16bit
-                           A  3998    	END
+                           A  3947    ;  383	
+                           A  3948    ;  384	UINT8 vdp_cursorGetXpos(void)
+                           A  3949    ;  385	{
+000948                     A  3950    _vdp_cursorGetXpos:
+                           A  3951    .DEFINE "_vdp_cursorGetXpos"
+                           A  3952    
+                           A  3953    .VALUE _vdp_cursorGetXpos
+                           A  3954    
+                           A  3955    .CLASS 2
+                           A  3956    
+                           A  3957    .TYPE 76
+                           A  3958    
+                           A  3959    .ENDEF
+                           A  3960    
+                           A  3961    .BEGFUNC "vdp_cursorGetXpos",385,"_vdp_cursorGe
+                           A  3962    
+                           A  3963    .LINE 385
+                           A  3964    
+                           A  3965    .DEFINE "delay"
+                           A  3966    
+                           A  3967    .CLASS 65
+                           A  3968    
+                           A  3969    .VALUE -3
+                           A  3970    
+                           A  3971    .TYPE 14
+                           A  3972    
+                           A  3973    .ENDEF
+                           A  3974    
+000948 DDE5                A  3975    	PUSH	IX
+00094A DD210000 00         A  3976    	LD	IX,0
+00094F DD39                A  3977    	ADD	IX,SP
+000951 C5                  A  3978    	PUSH	BC
+                           A  3979    ;  386		unsigned int delay;
+                           A  3980    ;  387		
+                           A  3981    ;  388		putch(23);	// VDP command
+                           A  3982    .LINE 388
+                           A  3983    
+000952 01170000            A  3984    	LD	BC,23
+000956 C5                  A  3985    	PUSH	BC
+000957 CD 00 00 00         A  3986    	CALL	_putch
+00095B C1                  A  3987    	POP	BC
+                           A  3988    ;  389		putch(0);	// VDP command
+                           A  3989    .LINE 389
+                           A  3990    
+00095C 01000000            A  3991    	LD	BC,0
+000960 C5                  A  3992    	PUSH	BC
+000961 CD 00 00 00         A  3993    	CALL	_putch
+000965 C1                  A  3994    	POP	BC
+                           A  3995    ;  390		putch(2);	// Request cursor posit
+                           A  3996    .LINE 390
+                           A  3997    
+000966 01020000            A  3998    	LD	BC,2
+00096A C5                  A  3999    	PUSH	BC
+00096B CD 00 00 00         A  4000    	CALL	_putch
+00096F C1                  A  4001    	POP	BC
+                           A  4002    ;  391		
+                           A  4003    ;  392		delay = 255;
+                           A  4004    .LINE 392
+                           A  4005    
+000970 01FF0000            A  4006    	LD	BC,255
+000974 DD0FFD              A  4007    	LD	(IX+%FFFFFFFD),BC
+                           A  4008    ;  393		while(delay--);
+000977                     A  4009    L_59:
+                           A  4010    .LINE 393
+                           A  4011    
+000977 DD27FD              A  4012    	LD	HL,(IX+%FFFFFFFD)
+00097A DD31FD              A  4013    	LD	IY,(IX+%FFFFFFFD)
+00097D ED33FF              A  4014    	LEA	IY,IY+%FFFFFFFF
+000980 DD3EFD              A  4015    	LD	(IX+%FFFFFFFD),IY
+000983 01000000            A  4016    	LD	BC,0
+000987 B7                  A  4017    	OR	A,A
+000988 ED42                A  4018    	SBC	HL,BC
+00098A 20 EB               A  4019    	JR	NZ,L_59
+                           A  4020    ;  394		return(getsysvar8bit(sysvar_cursorX
+                           A  4021    .LINE 394
+                           A  4022    
+00098C 01070000            A  4023    	LD	BC,7
+000990 C5                  A  4024    	PUSH	BC
+000991 CD 00 00 00         A  4025    	CALL	_getsysvar8bit
+000995 C1                  A  4026    	POP	BC
+                           A  4027    ;  395	}
+                           A  4028    .LINE 395
+                           A  4029    
+000996 DDF9                A  4030    	LD	SP,IX
+000998 DDE1                A  4031    	POP	IX
+00099A C9                  A  4032    	RET	
+                           A  4033    
+                           A  4034    
+                           A  4035    ;**************************** _vdp_cursorGetXpo
+                           A  4036    ;Name                         Addr/Register   S
+                           A  4037    ;_getsysvar8bit                      IMPORT  --
+                           A  4038    ;_putch                              IMPORT  --
+                           A  4039    ;delay                                 IX-3    
+                           A  4040    
+                           A  4041    
+                           A  4042    ; Stack Frame Size: 9 (bytes)
+                           A  4043    ;       Spill Code: 0 (instruction)
+                           A  4044    
+                           A  4045    
+                           A  4046    .ENDFUNC "vdp_cursorGetXpos",395,"_vdp_cursorGe
+                           A  4047    ;  396	
+                           A  4048    ;  397	UINT8 vdp_cursorGetYpos(void)
+                           A  4049    ;  398	{
+00099B                     A  4050    _vdp_cursorGetYpos:
+                           A  4051    .DEFINE "_vdp_cursorGetYpos"
+                           A  4052    
+                           A  4053    .VALUE _vdp_cursorGetYpos
+                           A  4054    
+                           A  4055    .CLASS 2
+                           A  4056    
+                           A  4057    .TYPE 76
+                           A  4058    
+                           A  4059    .ENDEF
+                           A  4060    
+                           A  4061    .BEGFUNC "vdp_cursorGetYpos",398,"_vdp_cursorGe
+                           A  4062    
+                           A  4063    .LINE 398
+                           A  4064    
+                           A  4065    .DEFINE "delay"
+                           A  4066    
+                           A  4067    .CLASS 65
+                           A  4068    
+                           A  4069    .VALUE -3
+                           A  4070    
+                           A  4071    .TYPE 14
+                           A  4072    
+                           A  4073    .ENDEF
+                           A  4074    
+00099B DDE5                A  4075    	PUSH	IX
+00099D DD210000 00         A  4076    	LD	IX,0
+0009A2 DD39                A  4077    	ADD	IX,SP
+0009A4 C5                  A  4078    	PUSH	BC
+                           A  4079    ;  399		unsigned int delay;
+                           A  4080    ;  400		
+                           A  4081    ;  401		putch(23);	// VDP command
+                           A  4082    .LINE 401
+                           A  4083    
+0009A5 01170000            A  4084    	LD	BC,23
+0009A9 C5                  A  4085    	PUSH	BC
+0009AA CD 00 00 00         A  4086    	CALL	_putch
+0009AE C1                  A  4087    	POP	BC
+                           A  4088    ;  402		putch(0);	// VDP command
+                           A  4089    .LINE 402
+                           A  4090    
+0009AF 01000000            A  4091    	LD	BC,0
+0009B3 C5                  A  4092    	PUSH	BC
+0009B4 CD 00 00 00         A  4093    	CALL	_putch
+0009B8 C1                  A  4094    	POP	BC
+                           A  4095    ;  403		putch(2);	// Request cursor posit
+                           A  4096    .LINE 403
+                           A  4097    
+0009B9 01020000            A  4098    	LD	BC,2
+0009BD C5                  A  4099    	PUSH	BC
+0009BE CD 00 00 00         A  4100    	CALL	_putch
+0009C2 C1                  A  4101    	POP	BC
+                           A  4102    ;  404		
+                           A  4103    ;  405		delay = 255;
+                           A  4104    .LINE 405
+                           A  4105    
+0009C3 01FF0000            A  4106    	LD	BC,255
+0009C7 DD0FFD              A  4107    	LD	(IX+%FFFFFFFD),BC
+                           A  4108    ;  406		while(delay--);
+0009CA                     A  4109    L_64:
+                           A  4110    .LINE 406
+                           A  4111    
+0009CA DD27FD              A  4112    	LD	HL,(IX+%FFFFFFFD)
+0009CD DD31FD              A  4113    	LD	IY,(IX+%FFFFFFFD)
+0009D0 ED33FF              A  4114    	LEA	IY,IY+%FFFFFFFF
+0009D3 DD3EFD              A  4115    	LD	(IX+%FFFFFFFD),IY
+0009D6 01000000            A  4116    	LD	BC,0
+0009DA B7                  A  4117    	OR	A,A
+0009DB ED42                A  4118    	SBC	HL,BC
+0009DD 20 EB               A  4119    	JR	NZ,L_64
+                           A  4120    ;  407		return(getsysvar8bit(sysvar_cursorY
+                           A  4121    .LINE 407
+                           A  4122    
+0009DF 01080000            A  4123    	LD	BC,8
+0009E3 C5                  A  4124    	PUSH	BC
+0009E4 CD 00 00 00         A  4125    	CALL	_getsysvar8bit
+0009E8 C1                  A  4126    	POP	BC
+                           A  4127    ;  408	}
+                           A  4128    .LINE 408
+                           A  4129    
+0009E9 DDF9                A  4130    	LD	SP,IX
+0009EB DDE1                A  4131    	POP	IX
+0009ED C9                  A  4132    	RET	
+                           A  4133    
+                           A  4134    
+                           A  4135    ;**************************** _vdp_cursorGetYpo
+                           A  4136    ;Name                         Addr/Register   S
+                           A  4137    ;_getsysvar8bit                      IMPORT  --
+                           A  4138    ;_putch                              IMPORT  --
+                           A  4139    ;delay                                 IX-3    
+                           A  4140    
+                           A  4141    
+                           A  4142    ; Stack Frame Size: 9 (bytes)
+                           A  4143    ;       Spill Code: 0 (instruction)
+                           A  4144    
+                           A  4145    
+                           A  4146    .ENDFUNC "vdp_cursorGetYpos",408,"_vdp_cursorGe
+                           A  4147    ;  409	
+                           A  4148    ;  410	char vdp_asciiCodeAt(unsigned char x, u
+                           A  4149    ;  411	{
+0009EE                     A  4150    _vdp_asciiCodeAt:
+                           A  4151    .DEFINE "_vdp_asciiCodeAt"
+                           A  4152    
+                           A  4153    .VALUE _vdp_asciiCodeAt
+                           A  4154    
+                           A  4155    .CLASS 2
+                           A  4156    
+                           A  4157    .TYPE 66
+                           A  4158    
+                           A  4159    .ENDEF
+                           A  4160    
+                           A  4161    .BEGFUNC "vdp_asciiCodeAt",411,"_vdp_asciiCodeA
+                           A  4162    
+                           A  4163    .LINE 411
+                           A  4164    
+                           A  4165    .DEFINE "x"
+                           A  4166    
+                           A  4167    .CLASS 65
+                           A  4168    
+                           A  4169    .VALUE 6
+                           A  4170    
+                           A  4171    .TYPE 12
+                           A  4172    
+                           A  4173    .ENDEF
+                           A  4174    
+                           A  4175    .DEFINE "y"
+                           A  4176    
+                           A  4177    .CLASS 65
+                           A  4178    
+                           A  4179    .VALUE 9
+                           A  4180    
+                           A  4181    .TYPE 12
+                           A  4182    
+                           A  4183    .ENDEF
+                           A  4184    
+                           A  4185    .DEFINE "delay"
+                           A  4186    
+                           A  4187    .CLASS 65
+                           A  4188    
+                           A  4189    .VALUE -3
+                           A  4190    
+                           A  4191    .TYPE 14
+                           A  4192    
+                           A  4193    .ENDEF
+                           A  4194    
+0009EE DDE5                A  4195    	PUSH	IX
+0009F0 DD210000 00         A  4196    	LD	IX,0
+0009F5 DD39                A  4197    	ADD	IX,SP
+0009F7 C5                  A  4198    	PUSH	BC
+                           A  4199    ;  412		unsigned int delay;
+                           A  4200    ;  413		
+                           A  4201    ;  414		putch(23);	// VDP command
+                           A  4202    .LINE 414
+                           A  4203    
+0009F8 01170000            A  4204    	LD	BC,23
+0009FC C5                  A  4205    	PUSH	BC
+0009FD CD 00 00 00         A  4206    	CALL	_putch
+000A01 C1                  A  4207    	POP	BC
+                           A  4208    ;  415		putch(0);	// VDP command
+                           A  4209    .LINE 415
+                           A  4210    
+000A02 01000000            A  4211    	LD	BC,0
+000A06 C5                  A  4212    	PUSH	BC
+000A07 CD 00 00 00         A  4213    	CALL	_putch
+000A0B C1                  A  4214    	POP	BC
+                           A  4215    ;  416		putch(3);	// Request ascii code a
+                           A  4216    .LINE 416
+                           A  4217    
+000A0C 01030000            A  4218    	LD	BC,3
+000A10 C5                  A  4219    	PUSH	BC
+000A11 CD 00 00 00         A  4220    	CALL	_putch
+000A15 C1                  A  4221    	POP	BC
+                           A  4222    ;  417		putch(x);
+                           A  4223    .LINE 417
+                           A  4224    
+000A16 DD4E06              A  4225    	LD	C,(IX+%6)
+000A19 0600                A  4226    	LD	B,%0
+000A1B C5                  A  4227    	PUSH	BC
+000A1C CD 00 00 00         A  4228    	CALL	_putch
+000A20 C1                  A  4229    	POP	BC
+                           A  4230    ;  418		putch(0);
+                           A  4231    .LINE 418
+                           A  4232    
+000A21 01000000            A  4233    	LD	BC,0
+000A25 C5                  A  4234    	PUSH	BC
+000A26 CD 00 00 00         A  4235    	CALL	_putch
+000A2A C1                  A  4236    	POP	BC
+                           A  4237    ;  419		putch(y);
+                           A  4238    .LINE 419
+                           A  4239    
+000A2B DD4E09              A  4240    	LD	C,(IX+%9)
+000A2E 0600                A  4241    	LD	B,%0
+000A30 C5                  A  4242    	PUSH	BC
+000A31 CD 00 00 00         A  4243    	CALL	_putch
+000A35 C1                  A  4244    	POP	BC
+                           A  4245    ;  420		putch(0);
+                           A  4246    .LINE 420
+                           A  4247    
+000A36 01000000            A  4248    	LD	BC,0
+000A3A C5                  A  4249    	PUSH	BC
+000A3B CD 00 00 00         A  4250    	CALL	_putch
+000A3F C1                  A  4251    	POP	BC
+                           A  4252    ;  421		
+                           A  4253    ;  422		delay = 64000;
+                           A  4254    .LINE 422
+                           A  4255    
+000A40 0100FA00            A  4256    	LD	BC,64000
+000A44 DD0FFD              A  4257    	LD	(IX+%FFFFFFFD),BC
+                           A  4258    ;  423		while(delay--);
+000A47                     A  4259    L_69:
+                           A  4260    .LINE 423
+                           A  4261    
+000A47 DD27FD              A  4262    	LD	HL,(IX+%FFFFFFFD)
+000A4A DD31FD              A  4263    	LD	IY,(IX+%FFFFFFFD)
+000A4D ED33FF              A  4264    	LEA	IY,IY+%FFFFFFFF
+000A50 DD3EFD              A  4265    	LD	(IX+%FFFFFFFD),IY
+000A53 01000000            A  4266    	LD	BC,0
+000A57 B7                  A  4267    	OR	A,A
+000A58 ED42                A  4268    	SBC	HL,BC
+000A5A 20 EB               A  4269    	JR	NZ,L_69
+                           A  4270    ;  424		return(getsysvar8bit(sysvar_scrchar
+                           A  4271    .LINE 424
+                           A  4272    
+000A5C 01090000            A  4273    	LD	BC,9
+000A60 C5                  A  4274    	PUSH	BC
+000A61 CD 00 00 00         A  4275    	CALL	_getsysvar8bit
+000A65 C1                  A  4276    	POP	BC
+                           A  4277    ;  425	}
+                           A  4278    .LINE 425
+                           A  4279    
+000A66 DDF9                A  4280    	LD	SP,IX
+000A68 DDE1                A  4281    	POP	IX
+000A6A C9                  A  4282    	RET	
+                           A  4283    
+                           A  4284    
+                           A  4285    ;**************************** _vdp_asciiCodeAt 
+                           A  4286    ;Name                         Addr/Register   S
+                           A  4287    ;_getsysvar8bit                      IMPORT  --
+                           A  4288    ;_putch                              IMPORT  --
+                           A  4289    ;delay                                 IX-3    
+                           A  4290    ;y                                     IX+9    
+                           A  4291    ;x                                     IX+6    
+                           A  4292    
+                           A  4293    
+                           A  4294    ; Stack Frame Size: 15 (bytes)
+                           A  4295    ;       Spill Code: 0 (instruction)
+                           A  4296    
+                           A  4297    
+                           A  4298    .ENDFUNC "vdp_asciiCodeAt",425,"_vdp_asciiCodeA
+                           A  4299    ;  426	
+                           A  4300    ;  427	void vdp_cursorDisable(void)
+                           A  4301    ;  428	{
+000A6B                     A  4302    _vdp_cursorDisable:
+                           A  4303    .DEFINE "_vdp_cursorDisable"
+                           A  4304    
+                           A  4305    .VALUE _vdp_cursorDisable
+                           A  4306    
+                           A  4307    .CLASS 2
+                           A  4308    
+                           A  4309    .TYPE 65
+                           A  4310    
+                           A  4311    .ENDEF
+                           A  4312    
+                           A  4313    .BEGFUNC "vdp_cursorDisable",428,"_vdp_cursorDi
+                           A  4314    
+000A6B DDE5                A  4315    	PUSH	IX
+000A6D DD210000 00         A  4316    	LD	IX,0
+000A72 DD39                A  4317    	ADD	IX,SP
+                           A  4318    ;  429		putch(23);
+                           A  4319    .LINE 429
+                           A  4320    
+000A74 01170000            A  4321    	LD	BC,23
+000A78 C5                  A  4322    	PUSH	BC
+000A79 CD 00 00 00         A  4323    	CALL	_putch
+000A7D C1                  A  4324    	POP	BC
+                           A  4325    ;  430		putch(1);
+                           A  4326    .LINE 430
+                           A  4327    
+000A7E 01010000            A  4328    	LD	BC,1
+000A82 C5                  A  4329    	PUSH	BC
+000A83 CD 00 00 00         A  4330    	CALL	_putch
+000A87 C1                  A  4331    	POP	BC
+                           A  4332    ;  431		putch(0);
+                           A  4333    .LINE 431
+                           A  4334    
+000A88 01000000            A  4335    	LD	BC,0
+000A8C C5                  A  4336    	PUSH	BC
+000A8D CD 00 00 00         A  4337    	CALL	_putch
+000A91 C1                  A  4338    	POP	BC
+                           A  4339    ;  432	}
+                           A  4340    .LINE 432
+                           A  4341    
+000A92 DDF9                A  4342    	LD	SP,IX
+000A94 DDE1                A  4343    	POP	IX
+000A96 C9                  A  4344    	RET	
+                           A  4345    
+                           A  4346    
+                           A  4347    ;**************************** _vdp_cursorDisabl
+                           A  4348    ;Name                         Addr/Register   S
+                           A  4349    ;_putch                              IMPORT  --
+                           A  4350    
+                           A  4351    
+                           A  4352    ; Stack Frame Size: 6 (bytes)
+                           A  4353    ;       Spill Code: 0 (instruction)
+                           A  4354    
+                           A  4355    
+                           A  4356    .ENDFUNC "vdp_cursorDisable",432,"_vdp_cursorDi
+                           A  4357    ;  433	
+                           A  4358    ;  434	void vdp_cursorEnable(void)
+                           A  4359    ;  435	{
+000A97                     A  4360    _vdp_cursorEnable:
+                           A  4361    .DEFINE "_vdp_cursorEnable"
+                           A  4362    
+                           A  4363    .VALUE _vdp_cursorEnable
+                           A  4364    
+                           A  4365    .CLASS 2
+                           A  4366    
+                           A  4367    .TYPE 65
+                           A  4368    
+                           A  4369    .ENDEF
+                           A  4370    
+                           A  4371    .BEGFUNC "vdp_cursorEnable",435,"_vdp_cursorEna
+                           A  4372    
+000A97 DDE5                A  4373    	PUSH	IX
+000A99 DD210000 00         A  4374    	LD	IX,0
+000A9E DD39                A  4375    	ADD	IX,SP
+                           A  4376    ;  436		putch(23);
+                           A  4377    .LINE 436
+                           A  4378    
+000AA0 01170000            A  4379    	LD	BC,23
+000AA4 C5                  A  4380    	PUSH	BC
+000AA5 CD 00 00 00         A  4381    	CALL	_putch
+000AA9 C1                  A  4382    	POP	BC
+                           A  4383    ;  437		putch(1);
+                           A  4384    .LINE 437
+                           A  4385    
+000AAA 01010000            A  4386    	LD	BC,1
+000AAE C5                  A  4387    	PUSH	BC
+000AAF CD 00 00 00         A  4388    	CALL	_putch
+000AB3 C1                  A  4389    	POP	BC
+                           A  4390    ;  438		putch(1);
+                           A  4391    .LINE 438
+                           A  4392    
+000AB4 01010000            A  4393    	LD	BC,1
+000AB8 C5                  A  4394    	PUSH	BC
+000AB9 CD 00 00 00         A  4395    	CALL	_putch
+000ABD C1                  A  4396    	POP	BC
+                           A  4397    ;  439	}
+                           A  4398    .LINE 439
+                           A  4399    
+000ABE DDF9                A  4400    	LD	SP,IX
+000AC0 DDE1                A  4401    	POP	IX
+000AC2 C9                  A  4402    	RET	
+                           A  4403    
+                           A  4404    
+                           A  4405    ;**************************** _vdp_cursorEnable
+                           A  4406    ;Name                         Addr/Register   S
+                           A  4407    ;_putch                              IMPORT  --
+                           A  4408    
+                           A  4409    
+                           A  4410    ; Stack Frame Size: 6 (bytes)
+                           A  4411    ;       Spill Code: 0 (instruction)
+                           A  4412    
+                           A  4413    
+                           A  4414    .ENDFUNC "vdp_cursorEnable",439,"_vdp_cursorEna
+                           A  4415    	XREF _getsysvar8bit:ROM
+                           A  4416    	XREF _putch:ROM
+                           A  4417    	XREF __imuls:ROM
+                           A  4418    	XREF __stoiu:ROM
+                           A  4419    	XDEF _vdp_cursorEnable
+                           A  4420    	XDEF _vdp_cursorDisable
+                           A  4421    	XDEF _vdp_asciiCodeAt
+                           A  4422    	XDEF _vdp_cursorGetYpos
+                           A  4423    	XDEF _vdp_cursorGetXpos
+                           A  4424    	XDEF _vdp_spriteRefresh
+                           A  4425    	XDEF _vdp_spriteActivateTotal
+                           A  4426    	XDEF _vdp_spriteMoveBy
+                           A  4427    	XDEF _vdp_spriteMoveBySelected
+                           A  4428    	XDEF _vdp_spriteMoveTo
+                           A  4429    	XDEF _vdp_spriteMoveToSelected
+                           A  4430    	XDEF _vdp_spriteHide
+                           A  4431    	XDEF _vdp_spriteHideSelected
+                           A  4432    	XDEF _vdp_spriteShow
+                           A  4433    	XDEF _vdp_spriteShowSelected
+                           A  4434    	XDEF _vdp_spriteSetFrame
+                           A  4435    	XDEF _vdp_spriteSetFrameSelected
+                           A  4436    	XDEF _vdp_spritePreviousFrame
+                           A  4437    	XDEF _vdp_spritePreviousFrameSelected
+                           A  4438    	XDEF _vdp_spriteNextFrame
+                           A  4439    	XDEF _vdp_spriteNextFrameSelected
+                           A  4440    	XDEF _vdp_spriteAddFrame
+                           A  4441    	XDEF _vdp_spriteAddFrameSelected
+                           A  4442    	XDEF _vdp_spriteClearFrames
+                           A  4443    	XDEF _vdp_spriteClearFramesSelected
+                           A  4444    	XDEF _vdp_spriteSelect
+                           A  4445    	XDEF _vdp_bitmapCreateSolidColor
+                           A  4446    	XDEF _vdp_bitmapCreateSolidColorSelected
+                           A  4447    	XDEF _vdp_bitmapDraw
+                           A  4448    	XDEF _vdp_bitmapDrawSelected
+                           A  4449    	XDEF _vdp_bitmapSendData
+                           A  4450    	XDEF _vdp_bitmapSendDataSelected
+                           A  4451    	XDEF _vdp_bitmapSelect
+                           A  4452    	XDEF _vdp_plotSetOrigin
+                           A  4453    	XDEF _vdp_plotCircleCircumference
+                           A  4454    	XDEF _vdp_plotCircleRadius
+                           A  4455    	XDEF _vdp_plotTriangle
+                           A  4456    	XDEF _vdp_plotPoint
+                           A  4457    	XDEF _vdp_plotLineTo
+                           A  4458    	XDEF _vdp_plotMoveTo
+                           A  4459    	XDEF _vdp_plot
+                           A  4460    	XDEF _vdp_plotColour
+                           A  4461    	XDEF _vdp_clearGraphics
+                           A  4462    	XDEF _vdp_bgcolour
+                           A  4463    	XDEF _vdp_fgcolour
+                           A  4464    	XDEF _vdp_colour
+                           A  4465    	XDEF _vdp_cursorGoto
+                           A  4466    	XDEF _vdp_cursorUp
+                           A  4467    	XDEF _vdp_cursorHome
+                           A  4468    	XDEF _vdp_cls
+                           A  4469    	XDEF _vdp_mode
+                           A  4470    	XDEF _write32bit
+                           A  4471    	XDEF _write16bit
+                           A  4472    	END
 
 
 Errors: 0
 Warnings: 0
-Lines Assembled: 3999
+Lines Assembled: 4473

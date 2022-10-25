@@ -14,7 +14,7 @@
 
 #include <defines.h>
 
-// File access modes
+// File access modes - from mos_api.inc
 #define fa_read				0x01
 #define fa_write			0x02
 #define fa_open_existing	0x00
@@ -23,10 +23,27 @@
 #define fa_open_always		0x10
 #define fa_open_append		0x30
 
+// Indexes into sysvar - from mos_api.inc
+#define sysvar_time			0x00
+#define sysvar_vpd_pflags	0x04
+#define sysvar_keycode		0x05
+#define sysvar_keymods		0x06
+#define sysvar_cursorX		0x07
+#define sysvar_cursorY		0x08
+#define sysvar_scrchar		0x09
+#define sysvar_scrpixel		0x0A
+#define sysvar_audioChannel	0x0D
+#define syscar_audioSuccess	0x0E
+
 extern void  putch(char a);
 extern char  getch(void);
 extern void  puts(char *str);
 extern void  waitvblank(void);
+
+extern UINT8 getsysvar8bit(UINT8 sysvar);
+extern UINT16 getsysvar16bit(UINT8 sysvar);
+extern UINT24 getsysvar24bit(UINT8 sysvar);
+
 
 extern UINT8 mos_fopen(char * filename, UINT8 mode); // returns filehandle, or 0 on error
 extern UINT8 mos_fclose(UINT8 fh);					 // returns number of still open files

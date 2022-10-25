@@ -380,3 +380,69 @@ void vdp_spriteRefresh(void)
 	putch(15);	// refresh all sprites
 	return;
 }
+
+UINT8 vdp_cursorGetXpos(void)
+{
+	unsigned int delay;
+	
+	putch(23);	// VDP command
+	putch(0);	// VDP command
+	putch(2);	// Request cursor position
+	
+	delay = 255;
+	while(delay--);
+	return(getsysvar8bit(sysvar_cursorX));
+}
+
+UINT8 vdp_cursorGetYpos(void)
+{
+	unsigned int delay;
+	
+	putch(23);	// VDP command
+	putch(0);	// VDP command
+	putch(2);	// Request cursor position
+	
+	delay = 255;
+	while(delay--);
+	return(getsysvar8bit(sysvar_cursorY));
+}
+
+char vdp_asciiCodeAt(unsigned char x, unsigned char y)
+{
+	unsigned int delay;
+	
+	putch(23);	// VDP command
+	putch(0);	// VDP command
+	putch(3);	// Request ascii code at position (x,y)
+	putch(x);
+	putch(0);
+	putch(y);
+	putch(0);
+	
+	delay = 64000;
+	while(delay--);
+	return(getsysvar8bit(sysvar_scrchar));
+}
+
+void vdp_cursorDisable(void)
+{
+	putch(23);
+	putch(1);
+	putch(0);
+}
+
+void vdp_cursorEnable(void)
+{
+	putch(23);
+	putch(1);
+	putch(1);
+}
+
+void vdp_scroll(unsigned char extent, unsigned char direction, unsigned char speed)
+{
+	putch(23);
+	putch(7);	// scroll
+	putch(extend);
+	putch(direction);
+	putch(speed);
+}

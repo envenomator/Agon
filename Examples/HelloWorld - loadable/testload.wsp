@@ -21,9 +21,9 @@ ptn_Child1=ViewFrame-0
 DocPathName=.\main.c
 DocTemplateIndex=0
 DocumentString=IDE.Document
-IsActiveChildFrame=False
+IsActiveChildFrame=True
 IsFrameVisible=True
-WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPEFAAAAAAKDAAAAAAANFAAAAAOOBAAAAA
+WindowPlacement=MCAAAAAACAAAAAAADAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPEFAAAAAAKDAAAAAAANFAAAAAOOBAAAAA
 
 [WorkState_v1_2.Frames.ChildFrames.Document-1]
 ptn_Child1=ViewFrame-0
@@ -76,9 +76,9 @@ ptn_Child1=ViewFrame-0
 DocPathName=.\mos-interface.h
 DocTemplateIndex=0
 DocumentString=IDE.Document
-IsActiveChildFrame=True
+IsActiveChildFrame=False
 IsFrameVisible=True
-WindowPlacement=MCAAAAAACAAAAAAADAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPCIAAAAAACIAAAAAACAGAAAAAKDCAAAAA
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPCIAAAAAACIAAAAAACAGAAAAAKDCAAAAA
 
 [WorkState_v1_2.Frames.ChildFrames.Document-6]
 ptn_Child1=ViewFrame-0

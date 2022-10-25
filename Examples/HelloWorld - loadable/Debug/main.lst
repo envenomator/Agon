@@ -1,4 +1,4 @@
-Zilog eZ80 Macro Assembler Version 4.3 (19073001)22-Oct-22     18:43:49     page:   1
+Zilog eZ80 Macro Assembler Version 4.3 (19073001)25-Oct-22     19:48:07     page:   1
 
 
 PC     Object              I  Line    Source 
@@ -3377,822 +3377,870 @@ PC     Object              I  Line    Source
                            A  3373    
                            A  3374    .ENDEF
                            A  3375    
-000000 DDE5                A  3376    	PUSH	IX
-000002 DD210000 00         A  3377    	LD	IX,0
-000007 DD39                A  3378    	ADD	IX,SP
-000009 ED22F4              A  3379    	LEA	HL,IX+%FFFFFFF4
-00000C F9                  A  3380    	LD	SP,HL
-                           A  3381    ;  193		UINT16 x,y,moveclock =0, animationc
-                           A  3382    ;  194		UINT8 frame,r,g,b,filehandle;
-                           A  3383    ;  195		
-                           A  3384    ;  196		char c;
-                           A  3385    ;  197		
-                           A  3386    ;  198		vdp_cls();
-                           A  3387    .LINE 198
-                           A  3388    
-00000D CD 00 00 00         A  3389    	CALL	_vdp_cls
-                           A  3390    ;  199		vdp_fgcolour(255,0,0);
-                           A  3391    .LINE 199
-                           A  3392    
-000011 01000000            A  3393    	LD	BC,0
-000015 C5                  A  3394    	PUSH	BC
-000016 C5                  A  3395    	PUSH	BC
-000017 01FF0000            A  3396    	LD	BC,255
-00001B C5                  A  3397    	PUSH	BC
-00001C CD 00 00 00         A  3398    	CALL	_vdp_fgcolour
-000020 C1                  A  3399    	POP	BC
-000021 C1                  A  3400    	POP	BC
-000022 C1                  A  3401    	POP	BC
-                           A  3402    ;  200		vdp_cursorGoto(10,2);
-                           A  3403    .LINE 200
-                           A  3404    
-000023 01020000            A  3405    	LD	BC,2
-000027 C5                  A  3406    	PUSH	BC
-000028 010A0000            A  3407    	LD	BC,10
-00002C C5                  A  3408    	PUSH	BC
-00002D CD 00 00 00         A  3409    	CALL	_vdp_cursorGoto
-000031 C1                  A  3410    	POP	BC
-000032 C1                  A  3411    	POP	BC
-                           A  3412    ;  201		puts("#AgonLight - Hello world!\r\n
-                           A  3413    .LINE 201
-                           A  3414    
-000033 01 00 00 00         A  3415    	LD	BC,L__0
-000037 C5                  A  3416    	PUSH	BC
-000038 CD 00 00 00         A  3417    	CALL	_puts
-00003C C1                  A  3418    	POP	BC
-                           A  3419    ;  202		
-                           A  3420    ;  203		
-                           A  3421    ;  204		// read from textfile and dump on s
-                           A  3422    ;  205		vdp_cursorGoto(1,3);
-                           A  3423    .LINE 205
-                           A  3424    
-00003D 01030000            A  3425    	LD	BC,3
-000041 C5                  A  3426    	PUSH	BC
-000042 01010000            A  3427    	LD	BC,1
-000046 C5                  A  3428    	PUSH	BC
-000047 CD 00 00 00         A  3429    	CALL	_vdp_cursorGoto
-00004B C1                  A  3430    	POP	BC
-00004C C1                  A  3431    	POP	BC
-                           A  3432    ;  206		filehandle = mos_fopen("autoexec.tx
-                           A  3433    .LINE 206
-                           A  3434    
-00004D 01010000            A  3435    	LD	BC,1
-000051 C5                  A  3436    	PUSH	BC
-000052 01 1C 00 00         A  3437    	LD	BC,L__1
-000056 C5                  A  3438    	PUSH	BC
-000057 CD 00 00 00         A  3439    	CALL	_mos_fopen
-00005B C1                  A  3440    	POP	BC
-00005C C1                  A  3441    	POP	BC
-00005D DD77F4              A  3442    	LD	(IX+%FFFFFFF4),A
-                           A  3443    ;  207		if(filehandle)
-                           A  3444    .LINE 207
-                           A  3445    
-000060 B7                  A  3446    	OR	A,A
-000061 28 40               A  3447    	JR	Z,L_3
-                           A  3448    ;  208		{
-                           A  3449    ;  209			puts("autoexec.txt contents:");
-                           A  3450    .LINE 209
-                           A  3451    
-000063 01 29 00 00         A  3452    	LD	BC,L__3
-000067 C5                  A  3453    	PUSH	BC
-000068 CD 00 00 00         A  3454    	CALL	_puts
-00006C C1                  A  3455    	POP	BC
-                           A  3456    ;  210			vdp_cursorGoto(1,4);
-                           A  3457    .LINE 210
+                           A  3376    .DEFINE "xpos"
+                           A  3377    
+                           A  3378    .CLASS 65
+                           A  3379    
+                           A  3380    .VALUE -13
+                           A  3381    
+                           A  3382    .TYPE 12
+                           A  3383    
+                           A  3384    .ENDEF
+                           A  3385    
+                           A  3386    .DEFINE "ypos"
+                           A  3387    
+                           A  3388    .CLASS 65
+                           A  3389    
+                           A  3390    .VALUE -14
+                           A  3391    
+                           A  3392    .TYPE 12
+                           A  3393    
+                           A  3394    .ENDEF
+                           A  3395    
+000000 DDE5                A  3396    	PUSH	IX
+000002 DD210000 00         A  3397    	LD	IX,0
+000007 DD39                A  3398    	ADD	IX,SP
+000009 ED22F2              A  3399    	LEA	HL,IX+%FFFFFFF2
+00000C F9                  A  3400    	LD	SP,HL
+                           A  3401    ;  193		UINT16 x,y,moveclock =0, animationc
+                           A  3402    ;  194		UINT8 frame,r,g,b,filehandle;
+                           A  3403    ;  195		UINT8 xpos,ypos;
+                           A  3404    ;  196		
+                           A  3405    ;  197		char c;
+                           A  3406    ;  198		
+                           A  3407    ;  199		vdp_cls();
+                           A  3408    .LINE 199
+                           A  3409    
+00000D CD 00 00 00         A  3410    	CALL	_vdp_cls
+                           A  3411    ;  200		vdp_fgcolour(255,0,0);
+                           A  3412    .LINE 200
+                           A  3413    
+000011 01000000            A  3414    	LD	BC,0
+000015 C5                  A  3415    	PUSH	BC
+000016 C5                  A  3416    	PUSH	BC
+000017 01FF0000            A  3417    	LD	BC,255
+00001B C5                  A  3418    	PUSH	BC
+00001C CD 00 00 00         A  3419    	CALL	_vdp_fgcolour
+000020 C1                  A  3420    	POP	BC
+000021 C1                  A  3421    	POP	BC
+000022 C1                  A  3422    	POP	BC
+                           A  3423    ;  201		vdp_cursorGoto(10,2);
+                           A  3424    .LINE 201
+                           A  3425    
+000023 01020000            A  3426    	LD	BC,2
+000027 C5                  A  3427    	PUSH	BC
+000028 010A0000            A  3428    	LD	BC,10
+00002C C5                  A  3429    	PUSH	BC
+00002D CD 00 00 00         A  3430    	CALL	_vdp_cursorGoto
+000031 C1                  A  3431    	POP	BC
+000032 C1                  A  3432    	POP	BC
+                           A  3433    ;  202		xpos = vdp_cursorGetXpos() + 30;
+                           A  3434    .LINE 202
+                           A  3435    
+000033 CD 00 00 00         A  3436    	CALL	_vdp_cursorGetXpos
+000037 C61E                A  3437    	ADD	A,%1E
+000039 DD77F3              A  3438    	LD	(IX+%FFFFFFF3),A
+                           A  3439    ;  203		ypos = vdp_cursorGetYpos() + 30;
+                           A  3440    .LINE 203
+                           A  3441    
+00003C CD 00 00 00         A  3442    	CALL	_vdp_cursorGetYpos
+000040 C61E                A  3443    	ADD	A,%1E
+000042 DD77F2              A  3444    	LD	(IX+%FFFFFFF2),A
+                           A  3445    ;  204		vdp_cursorGoto(xpos,ypos);
+                           A  3446    .LINE 204
+                           A  3447    
+000045 DD4EF2              A  3448    	LD	C,(IX+%FFFFFFF2)
+000048 0600                A  3449    	LD	B,%0
+00004A C5                  A  3450    	PUSH	BC
+00004B DD4EF3              A  3451    	LD	C,(IX+%FFFFFFF3)
+00004E C5                  A  3452    	PUSH	BC
+00004F CD 00 00 00         A  3453    	CALL	_vdp_cursorGoto
+000053 C1                  A  3454    	POP	BC
+000054 C1                  A  3455    	POP	BC
+                           A  3456    ;  205		puts("#AgonLight - Hello world!\r\n
+                           A  3457    .LINE 205
                            A  3458    
-00006D 01040000            A  3459    	LD	BC,4
-000071 C5                  A  3460    	PUSH	BC
-000072 01010000            A  3461    	LD	BC,1
-000076 C5                  A  3462    	PUSH	BC
-000077 CD 00 00 00         A  3463    	CALL	_vdp_cursorGoto
-00007B C1                  A  3464    	POP	BC
-00007C C1                  A  3465    	POP	BC
-                           A  3466    ;  211			while(!mos_feof(filehandle))
-                           A  3467    .LINE 211
-                           A  3468    
-00007D 18 14               A  3469    	JR	L_0
-00007F                     A  3470    L_1:
-                           A  3471    ;  212			{
-                           A  3472    ;  213				putch(mos_fgetc(filehandle)
-                           A  3473    .LINE 213
-                           A  3474    
-00007F DD4EF4              A  3475    	LD	C,(IX+%FFFFFFF4)
-000082 0600                A  3476    	LD	B,%0
-000084 C5                  A  3477    	PUSH	BC
-000085 CD 00 00 00         A  3478    	CALL	_mos_fgetc
-000089 C1                  A  3479    	POP	BC
-00008A 4F                  A  3480    	LD	C,A
-00008B 0600                A  3481    	LD	B,%0
-00008D C5                  A  3482    	PUSH	BC
-00008E CD 00 00 00         A  3483    	CALL	_putch
-000092 C1                  A  3484    	POP	BC
-                           A  3485    ;  214			}
-000093                     A  3486    L_0:
-                           A  3487    .LINE 214
-                           A  3488    
-000093 DD4EF4              A  3489    	LD	C,(IX+%FFFFFFF4)
-000096 0600                A  3490    	LD	B,%0
-000098 C5                  A  3491    	PUSH	BC
-000099 CD 00 00 00         A  3492    	CALL	_mos_feof
-00009D C1                  A  3493    	POP	BC
-00009E B7                  A  3494    	OR	A,A
-00009F 20 0C               A  3495    	JR	NZ,L_4
-0000A1 18 DC               A  3496    	JR	L_1
-                           A  3497    ;  215		}	
-                           A  3498    ;  216		else puts("Couldn't open 'autoexec.
-0000A3                     A  3499    L_3:
-                           A  3500    .LINE 216
-                           A  3501    
-0000A3 01 40 00 00         A  3502    	LD	BC,L__5
-0000A7 C5                  A  3503    	PUSH	BC
-0000A8 CD 00 00 00         A  3504    	CALL	_puts
-0000AC C1                  A  3505    	POP	BC
-0000AD                     A  3506    L_4:
-                           A  3507    ;  217		mos_fclose(filehandle);
-                           A  3508    .LINE 217
-                           A  3509    
-0000AD DD4EF4              A  3510    	LD	C,(IX+%FFFFFFF4)
-0000B0 0600                A  3511    	LD	B,%0
-0000B2 C5                  A  3512    	PUSH	BC
-0000B3 CD 00 00 00         A  3513    	CALL	_mos_fclose
-0000B7 C1                  A  3514    	POP	BC
-                           A  3515    ;  218		
-                           A  3516    ;  219		vdp_fgcolour(0,0,255);
-                           A  3517    .LINE 219
-                           A  3518    
-0000B8 01FF0000            A  3519    	LD	BC,255
-0000BC C5                  A  3520    	PUSH	BC
-0000BD 01000000            A  3521    	LD	BC,0
-0000C1 C5                  A  3522    	PUSH	BC
-0000C2 C5                  A  3523    	PUSH	BC
-0000C3 CD 00 00 00         A  3524    	CALL	_vdp_fgcolour
-0000C7 C1                  A  3525    	POP	BC
-0000C8 C1                  A  3526    	POP	BC
-0000C9 C1                  A  3527    	POP	BC
-                           A  3528    ;  220		vdp_bgcolour(0,255,0);
-                           A  3529    .LINE 220
+000055 01 00 00 00         A  3459    	LD	BC,L__0
+000059 C5                  A  3460    	PUSH	BC
+00005A CD 00 00 00         A  3461    	CALL	_puts
+00005E C1                  A  3462    	POP	BC
+                           A  3463    ;  206		
+                           A  3464    ;  207		vdp_cursorGoto(1,3);
+                           A  3465    .LINE 207
+                           A  3466    
+00005F 01030000            A  3467    	LD	BC,3
+000063 C5                  A  3468    	PUSH	BC
+000064 01010000            A  3469    	LD	BC,1
+000068 C5                  A  3470    	PUSH	BC
+000069 CD 00 00 00         A  3471    	CALL	_vdp_cursorGoto
+00006D C1                  A  3472    	POP	BC
+00006E C1                  A  3473    	POP	BC
+                           A  3474    ;  208		filehandle = mos_fopen("autoexec.tx
+                           A  3475    .LINE 208
+                           A  3476    
+00006F 01010000            A  3477    	LD	BC,1
+000073 C5                  A  3478    	PUSH	BC
+000074 01 1C 00 00         A  3479    	LD	BC,L__1
+000078 C5                  A  3480    	PUSH	BC
+000079 CD 00 00 00         A  3481    	CALL	_mos_fopen
+00007D C1                  A  3482    	POP	BC
+00007E C1                  A  3483    	POP	BC
+00007F DD77F4              A  3484    	LD	(IX+%FFFFFFF4),A
+                           A  3485    ;  209		if(filehandle)
+                           A  3486    .LINE 209
+                           A  3487    
+000082 B7                  A  3488    	OR	A,A
+000083 28 40               A  3489    	JR	Z,L_3
+                           A  3490    ;  210		{
+                           A  3491    ;  211			puts("autoexec.txt contents:");
+                           A  3492    .LINE 211
+                           A  3493    
+000085 01 29 00 00         A  3494    	LD	BC,L__3
+000089 C5                  A  3495    	PUSH	BC
+00008A CD 00 00 00         A  3496    	CALL	_puts
+00008E C1                  A  3497    	POP	BC
+                           A  3498    ;  212			vdp_cursorGoto(1,4);
+                           A  3499    .LINE 212
+                           A  3500    
+00008F 01040000            A  3501    	LD	BC,4
+000093 C5                  A  3502    	PUSH	BC
+000094 01010000            A  3503    	LD	BC,1
+000098 C5                  A  3504    	PUSH	BC
+000099 CD 00 00 00         A  3505    	CALL	_vdp_cursorGoto
+00009D C1                  A  3506    	POP	BC
+00009E C1                  A  3507    	POP	BC
+                           A  3508    ;  213			while(!mos_feof(filehandle))
+                           A  3509    .LINE 213
+                           A  3510    
+00009F 18 14               A  3511    	JR	L_0
+0000A1                     A  3512    L_1:
+                           A  3513    ;  214			{
+                           A  3514    ;  215				putch(mos_fgetc(filehandle)
+                           A  3515    .LINE 215
+                           A  3516    
+0000A1 DD4EF4              A  3517    	LD	C,(IX+%FFFFFFF4)
+0000A4 0600                A  3518    	LD	B,%0
+0000A6 C5                  A  3519    	PUSH	BC
+0000A7 CD 00 00 00         A  3520    	CALL	_mos_fgetc
+0000AB C1                  A  3521    	POP	BC
+0000AC 4F                  A  3522    	LD	C,A
+0000AD 0600                A  3523    	LD	B,%0
+0000AF C5                  A  3524    	PUSH	BC
+0000B0 CD 00 00 00         A  3525    	CALL	_putch
+0000B4 C1                  A  3526    	POP	BC
+                           A  3527    ;  216			}
+0000B5                     A  3528    L_0:
+                           A  3529    .LINE 216
                            A  3530    
-0000CA 01000000            A  3531    	LD	BC,0
-0000CE C5                  A  3532    	PUSH	BC
-0000CF 01FF0000            A  3533    	LD	BC,255
-0000D3 C5                  A  3534    	PUSH	BC
-0000D4 01000000            A  3535    	LD	BC,0
-0000D8 C5                  A  3536    	PUSH	BC
-0000D9 CD 00 00 00         A  3537    	CALL	_vdp_bgcolour
-0000DD C1                  A  3538    	POP	BC
-0000DE C1                  A  3539    	POP	BC
-0000DF C1                  A  3540    	POP	BC
-                           A  3541    ;  221		vdp_cursorGoto(10,20);
-                           A  3542    .LINE 221
+0000B5 DD4EF4              A  3531    	LD	C,(IX+%FFFFFFF4)
+0000B8 0600                A  3532    	LD	B,%0
+0000BA C5                  A  3533    	PUSH	BC
+0000BB CD 00 00 00         A  3534    	CALL	_mos_feof
+0000BF C1                  A  3535    	POP	BC
+0000C0 B7                  A  3536    	OR	A,A
+0000C1 20 0C               A  3537    	JR	NZ,L_4
+0000C3 18 DC               A  3538    	JR	L_1
+                           A  3539    ;  217		}	
+                           A  3540    ;  218		else puts("Couldn't open 'autoexec.
+0000C5                     A  3541    L_3:
+                           A  3542    .LINE 218
                            A  3543    
-0000E0 01140000            A  3544    	LD	BC,20
-0000E4 C5                  A  3545    	PUSH	BC
-0000E5 010A0000            A  3546    	LD	BC,10
-0000E9 C5                  A  3547    	PUSH	BC
-0000EA CD 00 00 00         A  3548    	CALL	_vdp_cursorGoto
-0000EE C1                  A  3549    	POP	BC
-0000EF C1                  A  3550    	POP	BC
-                           A  3551    ;  222		puts("Press any key for Bitmap/Spri
-                           A  3552    .LINE 222
-                           A  3553    
-0000F0 01 5D 00 00         A  3554    	LD	BC,L__6
-0000F4 C5                  A  3555    	PUSH	BC
-0000F5 CD 00 00 00         A  3556    	CALL	_puts
-0000F9 C1                  A  3557    	POP	BC
-                           A  3558    ;  223		getch();
-                           A  3559    .LINE 223
+0000C5 01 40 00 00         A  3544    	LD	BC,L__5
+0000C9 C5                  A  3545    	PUSH	BC
+0000CA CD 00 00 00         A  3546    	CALL	_puts
+0000CE C1                  A  3547    	POP	BC
+0000CF                     A  3548    L_4:
+                           A  3549    ;  219		mos_fclose(filehandle);
+                           A  3550    .LINE 219
+                           A  3551    
+0000CF DD4EF4              A  3552    	LD	C,(IX+%FFFFFFF4)
+0000D2 0600                A  3553    	LD	B,%0
+0000D4 C5                  A  3554    	PUSH	BC
+0000D5 CD 00 00 00         A  3555    	CALL	_mos_fclose
+0000D9 C1                  A  3556    	POP	BC
+                           A  3557    ;  220	
+                           A  3558    ;  221		vdp_fgcolour(0,0,255);
+                           A  3559    .LINE 221
                            A  3560    
-0000FA CD 00 00 00         A  3561    	CALL	_getch
-                           A  3562    ;  224		vdp_bgcolour(0,0,0);
-                           A  3563    .LINE 224
-                           A  3564    
-0000FE 01000000            A  3565    	LD	BC,0
-000102 C5                  A  3566    	PUSH	BC
-000103 C5                  A  3567    	PUSH	BC
-000104 C5                  A  3568    	PUSH	BC
-000105 CD 00 00 00         A  3569    	CALL	_vdp_bgcolour
-000109 C1                  A  3570    	POP	BC
-00010A C1                  A  3571    	POP	BC
-00010B C1                  A  3572    	POP	BC
-                           A  3573    ;  225		vdp_fgcolour(0,0,0);
-                           A  3574    .LINE 225
-                           A  3575    
-00010C 01000000            A  3576    	LD	BC,0
-000110 C5                  A  3577    	PUSH	BC
-000111 C5                  A  3578    	PUSH	BC
-000112 C5                  A  3579    	PUSH	BC
-000113 CD 00 00 00         A  3580    	CALL	_vdp_fgcolour
-000117 C1                  A  3581    	POP	BC
-000118 C1                  A  3582    	POP	BC
-000119 C1                  A  3583    	POP	BC
-                           A  3584    ;  226		vdp_cls();
-                           A  3585    .LINE 226
-                           A  3586    
-00011A CD 00 00 00         A  3587    	CALL	_vdp_cls
-                           A  3588    ;  227		
-                           A  3589    ;  228		// creating bitmaps
-                           A  3590    ;  229		for(frame = 0; frame < 8; frame++)
-                           A  3591    .LINE 229
-                           A  3592    
-00011E DD36FF00            A  3593    	LD	(IX+%FFFFFFFF),%0
-000122 18 2A               A  3594    	JR	L_8
-000124                     A  3595    L_6:
-                           A  3596    ;  230		{
-                           A  3597    ;  231			vdp_bitmapSendData(frame, 16,16
-                           A  3598    .LINE 231
-                           A  3599    
-000124 DD7EFF              A  3600    	LD	A,(IX+%FFFFFFFF)
-000127 B7ED62              A  3601    	UEXT	HL
-00012A 6F                  A  3602    	LD	L,A
-00012B 3E0A                A  3603    	LD	A,%A
-00012D CD 00 00 00         A  3604    	CALL	__ishl_b
-000131 01 00 00 00         A  3605    	LD	BC,_clock_data
-000135 09                  A  3606    	ADD	HL,BC
-000136 E5                  A  3607    	PUSH	HL
-000137 01100000            A  3608    	LD	BC,16
-00013B C5                  A  3609    	PUSH	BC
-00013C C5                  A  3610    	PUSH	BC
-00013D DD4EFF              A  3611    	LD	C,(IX+%FFFFFFFF)
-000140 0600                A  3612    	LD	B,%0
-000142 C5                  A  3613    	PUSH	BC
-000143 CD 00 00 00         A  3614    	CALL	_vdp_bitmapSendData
-000147 C1                  A  3615    	POP	BC
-000148 C1                  A  3616    	POP	BC
-000149 C1                  A  3617    	POP	BC
-00014A C1                  A  3618    	POP	BC
-00014B DD34FF              A  3619    	INC	(IX+%FFFFFFFF)
-                           A  3620    ;  232		}
-00014E                     A  3621    L_8:
-                           A  3622    .LINE 232
-                           A  3623    
-00014E DD7EFF              A  3624    	LD	A,(IX+%FFFFFFFF)
-000151 FE08                A  3625    	CP	A,%8
-000153 38 CF               A  3626    	JR	C,L_6
-                           A  3627    ;  233		
-                           A  3628    ;  234		vdp_bitmapSendData(8,32,32,square_d
-                           A  3629    .LINE 234
-                           A  3630    
-000155 01 00 20 00         A  3631    	LD	BC,_square_data
-000159 C5                  A  3632    	PUSH	BC
-00015A 01200000            A  3633    	LD	BC,32
-00015E C5                  A  3634    	PUSH	BC
-00015F C5                  A  3635    	PUSH	BC
-000160 01080000            A  3636    	LD	BC,8
-000164 C5                  A  3637    	PUSH	BC
-000165 CD 00 00 00         A  3638    	CALL	_vdp_bitmapSendData
-000169 C1                  A  3639    	POP	BC
-00016A C1                  A  3640    	POP	BC
-00016B C1                  A  3641    	POP	BC
-00016C C1                  A  3642    	POP	BC
-                           A  3643    ;  235		vdp_bitmapCreateSolidColor(9, 32,32
-                           A  3644    .LINE 235
-                           A  3645    
-00016D 01FF0000            A  3646    	LD	BC,255
-000171 C5                  A  3647    	PUSH	BC
-000172 C5                  A  3648    	PUSH	BC
-000173 01200000            A  3649    	LD	BC,32
-000177 C5                  A  3650    	PUSH	BC
-000178 C5                  A  3651    	PUSH	BC
-000179 01090000            A  3652    	LD	BC,9
-00017D C5                  A  3653    	PUSH	BC
-00017E CD 00 00 00         A  3654    	CALL	_vdp_bitmapCreateSolidColor
-000182 C1                  A  3655    	POP	BC
-000183 C1                  A  3656    	POP	BC
-000184 C1                  A  3657    	POP	BC
-000185 C1                  A  3658    	POP	BC
-000186 C1                  A  3659    	POP	BC
-                           A  3660    ;  236		vdp_bitmapCreateSolidColor(10,16,16
-                           A  3661    .LINE 236
-                           A  3662    
-000187 01FF0000            A  3663    	LD	BC,255
-00018B C5                  A  3664    	PUSH	BC
-00018C 0100FF00            A  3665    	LD	BC,65280
-000190 C5                  A  3666    	PUSH	BC
-000191 01100000            A  3667    	LD	BC,16
-000195 C5                  A  3668    	PUSH	BC
-000196 C5                  A  3669    	PUSH	BC
-000197 010A0000            A  3670    	LD	BC,10
-00019B C5                  A  3671    	PUSH	BC
-00019C CD 00 00 00         A  3672    	CALL	_vdp_bitmapCreateSolidColor
-0001A0 C1                  A  3673    	POP	BC
-0001A1 C1                  A  3674    	POP	BC
-0001A2 C1                  A  3675    	POP	BC
-0001A3 C1                  A  3676    	POP	BC
-0001A4 C1                  A  3677    	POP	BC
-                           A  3678    ;  237	
-                           A  3679    ;  238		
-                           A  3680    ;  239		// drawing bitmaps
-                           A  3681    ;  240		x = 50;
-                           A  3682    ;  241		y = 32;
-                           A  3683    .LINE 241
-                           A  3684    
-0001A5 DD36FD20            A  3685    	LD	(IX+%FFFFFFFD),%20
-0001A9 DD36FE00            A  3686    	LD	(IX+%FFFFFFFE),%0
-                           A  3687    ;  242		for(frame = 0; frame < 8; frame++)
-                           A  3688    .LINE 242
-                           A  3689    
-0001AD DD36FF00            A  3690    	LD	(IX+%FFFFFFFF),%0
-0001B1 18 64               A  3691    	JR	L_13
-0001B3                     A  3692    L_11:
-                           A  3693    ;  243		{
-                           A  3694    ;  244			vdp_bitmapDraw(frame,x,y);
-                           A  3695    .LINE 244
-                           A  3696    
-0001B3 DD07FD              A  3697    	LD	BC,(IX+%FFFFFFFD)
-0001B6 C5                  A  3698    	PUSH	BC
-0001B7 01320000            A  3699    	LD	BC,50
-0001BB C5                  A  3700    	PUSH	BC
-0001BC DD4EFF              A  3701    	LD	C,(IX+%FFFFFFFF)
-0001BF 0600                A  3702    	LD	B,%0
-0001C1 C5                  A  3703    	PUSH	BC
-0001C2 CD 00 00 00         A  3704    	CALL	_vdp_bitmapDraw
-0001C6 C1                  A  3705    	POP	BC
-0001C7 C1                  A  3706    	POP	BC
-0001C8 C1                  A  3707    	POP	BC
-                           A  3708    ;  245			
-                           A  3709    ;  246			vdp_bitmapDraw(8, x+100,y);
-                           A  3710    .LINE 246
-                           A  3711    
-0001C9 DD07FD              A  3712    	LD	BC,(IX+%FFFFFFFD)
-0001CC C5                  A  3713    	PUSH	BC
-0001CD 01960000            A  3714    	LD	BC,150
-0001D1 C5                  A  3715    	PUSH	BC
-0001D2 01080000            A  3716    	LD	BC,8
-0001D6 C5                  A  3717    	PUSH	BC
-0001D7 CD 00 00 00         A  3718    	CALL	_vdp_bitmapDraw
-0001DB C1                  A  3719    	POP	BC
-0001DC C1                  A  3720    	POP	BC
-0001DD C1                  A  3721    	POP	BC
-                           A  3722    ;  247			vdp_bitmapDraw(9, x+200,y);
-                           A  3723    .LINE 247
-                           A  3724    
-0001DE DD07FD              A  3725    	LD	BC,(IX+%FFFFFFFD)
-0001E1 C5                  A  3726    	PUSH	BC
-0001E2 01FA0000            A  3727    	LD	BC,250
-0001E6 C5                  A  3728    	PUSH	BC
-0001E7 01090000            A  3729    	LD	BC,9
-0001EB C5                  A  3730    	PUSH	BC
-0001EC CD 00 00 00         A  3731    	CALL	_vdp_bitmapDraw
-0001F0 C1                  A  3732    	POP	BC
-0001F1 C1                  A  3733    	POP	BC
-0001F2 C1                  A  3734    	POP	BC
-                           A  3735    ;  248			vdp_bitmapDraw(10,x+300,y);
-                           A  3736    .LINE 248
-                           A  3737    
-0001F3 DD07FD              A  3738    	LD	BC,(IX+%FFFFFFFD)
-0001F6 C5                  A  3739    	PUSH	BC
-0001F7 015E0100            A  3740    	LD	BC,350
-0001FB C5                  A  3741    	PUSH	BC
-0001FC 010A0000            A  3742    	LD	BC,10
-000200 C5                  A  3743    	PUSH	BC
-000201 CD 00 00 00         A  3744    	CALL	_vdp_bitmapDraw
-000205 C1                  A  3745    	POP	BC
-000206 C1                  A  3746    	POP	BC
-000207 C1                  A  3747    	POP	BC
-                           A  3748    ;  249			
-                           A  3749    ;  250			y += 40;
-                           A  3750    .LINE 250
-                           A  3751    
-000208 DD31FD              A  3752    	LD	IY,(IX+%FFFFFFFD)
-00020B ED2328              A  3753    	LEA	HL,IY+%28
-00020E DD75FD              A  3754    	LD	(IX+%FFFFFFFD),L
-000211 DD74FE              A  3755    	LD	(IX+%FFFFFFFE),H
-000214 DD34FF              A  3756    	INC	(IX+%FFFFFFFF)
-                           A  3757    ;  251		}
-000217                     A  3758    L_13:
-                           A  3759    .LINE 251
-                           A  3760    
-000217 DD7EFF              A  3761    	LD	A,(IX+%FFFFFFFF)
-00021A FE08                A  3762    	CP	A,%8
-00021C 38 95               A  3763    	JR	C,L_11
-                           A  3764    ;  252		
-                           A  3765    ;  253		// sprites def
-                           A  3766    ;  254		vdp_spriteSelect(0);
-                           A  3767    .LINE 254
-                           A  3768    
-00021E 01000000            A  3769    	LD	BC,0
-000222 C5                  A  3770    	PUSH	BC
-000223 CD 00 00 00         A  3771    	CALL	_vdp_spriteSelect
-000227 C1                  A  3772    	POP	BC
-                           A  3773    ;  255		vdp_spriteClearFrames(0);
-                           A  3774    .LINE 255
-                           A  3775    
-000228 01000000            A  3776    	LD	BC,0
-00022C C5                  A  3777    	PUSH	BC
-00022D CD 00 00 00         A  3778    	CALL	_vdp_spriteClearFrames
-000231 C1                  A  3779    	POP	BC
-                           A  3780    ;  256		
-                           A  3781    ;  257		//sprite_addFrame_selected(0);
-                           A  3782    ;  258		for(frame = 0; frame < 8; frame++) 
-                           A  3783    .LINE 258
-                           A  3784    
-000232 DD36FF00            A  3785    	LD	(IX+%FFFFFFFF),%0
-000236 18 14               A  3786    	JR	L_18
-000238                     A  3787    L_16:
-000238 DD4EFF              A  3788    	LD	C,(IX+%FFFFFFFF)
-00023B 0600                A  3789    	LD	B,%0
-00023D C5                  A  3790    	PUSH	BC
-00023E 01000000            A  3791    	LD	BC,0
-000242 C5                  A  3792    	PUSH	BC
-000243 CD 00 00 00         A  3793    	CALL	_vdp_spriteAddFrame
-000247 C1                  A  3794    	POP	BC
-000248 C1                  A  3795    	POP	BC
-000249 DD34FF              A  3796    	INC	(IX+%FFFFFFFF)
-00024C                     A  3797    L_18:
-00024C DD7EFF              A  3798    	LD	A,(IX+%FFFFFFFF)
-00024F FE08                A  3799    	CP	A,%8
-000251 38 E5               A  3800    	JR	C,L_16
-                           A  3801    ;  259	
-                           A  3802    ;  260		vdp_spriteMoveTo(0,50,50);
-                           A  3803    .LINE 260
-                           A  3804    
-000253 01320000            A  3805    	LD	BC,50
-000257 C5                  A  3806    	PUSH	BC
-000258 C5                  A  3807    	PUSH	BC
-000259 01000000            A  3808    	LD	BC,0
-00025D C5                  A  3809    	PUSH	BC
-00025E CD 00 00 00         A  3810    	CALL	_vdp_spriteMoveTo
-000262 C1                  A  3811    	POP	BC
-000263 C1                  A  3812    	POP	BC
-000264 C1                  A  3813    	POP	BC
-                           A  3814    ;  261		vdp_spriteShow(0);
-                           A  3815    .LINE 261
-                           A  3816    
-000265 01000000            A  3817    	LD	BC,0
-000269 C5                  A  3818    	PUSH	BC
-00026A CD 00 00 00         A  3819    	CALL	_vdp_spriteShow
-00026E C1                  A  3820    	POP	BC
-                           A  3821    ;  262	
-                           A  3822    ;  263		// Activate one sprite
-                           A  3823    ;  264		vdp_spriteActivateTotal(1);
-                           A  3824    .LINE 264
-                           A  3825    
-00026F 01010000            A  3826    	LD	BC,1
-000273 C5                  A  3827    	PUSH	BC
-000274 CD 00 00 00         A  3828    	CALL	_vdp_spriteActivateTotal
-000278 C1                  A  3829    	POP	BC
-                           A  3830    ;  265		vdp_spriteRefresh();
-                           A  3831    .LINE 265
-                           A  3832    
-000279 CD 00 00 00         A  3833    	CALL	_vdp_spriteRefresh
-                           A  3834    ;  266		
-                           A  3835    ;  267		x = 50;
-                           A  3836    .LINE 267
-                           A  3837    
-00027D DD36FB32            A  3838    	LD	(IX+%FFFFFFFB),%32
-000281 DD36FC00            A  3839    	LD	(IX+%FFFFFFFC),%0
-                           A  3840    ;  268		y = 50;
-                           A  3841    .LINE 268
-                           A  3842    
-000285 DD36FD32            A  3843    	LD	(IX+%FFFFFFFD),%32
-000289 DD36FE00            A  3844    	LD	(IX+%FFFFFFFE),%0
-                           A  3845    ;  269		moveclock = 0;
-                           A  3846    .LINE 269
-                           A  3847    
-00028D DD36F700            A  3848    	LD	(IX+%FFFFFFF7),%0
-000291 DD36F800            A  3849    	LD	(IX+%FFFFFFF8),%0
-                           A  3850    ;  270		animationclock = 0;
-                           A  3851    .LINE 270
-                           A  3852    
-000295 DD36F500            A  3853    	LD	(IX+%FFFFFFF5),%0
-000299 DD36F600            A  3854    	LD	(IX+%FFFFFFF6),%0
-                           A  3855    ;  271		movestate = 0;
-                           A  3856    .LINE 271
-                           A  3857    
-00029D DD36F900            A  3858    	LD	(IX+%FFFFFFF9),%0
-0002A1 DD36FA00            A  3859    	LD	(IX+%FFFFFFFA),%0
-                           A  3860    ;  272		
-                           A  3861    ;  273		while(1)
-0002A5                     A  3862    L_50:
-                           A  3863    .LINE 273
-                           A  3864    
-                           A  3865    ;  274		{
-                           A  3866    ;  275			if(moveclock > 10)
-                           A  3867    .LINE 275
-                           A  3868    
-0002A5 DD07F7              A  3869    	LD	BC,(IX+%FFFFFFF7)
-0002A8 49210A00            A  3870    	LD.LIS	HL,10
-0002AC B7                  A  3871    	OR	A,A
-0002AD 40ED42              A  3872    	SBC.SIS	HL,BC
-0002B0 D2 A0 03 00         A  3873    	JR	NC,L_44
-                           A  3874    ;  276			{
-                           A  3875    ;  277				switch(movestate)
-                           A  3876    .LINE 277
-                           A  3877    
-0002B4 DD07F9              A  3878    	LD	BC,(IX+%FFFFFFF9)
-0002B7 CD 00 00 00         A  3879    	CALL	__stoiu
-0002BB E5C1                A  3880    	LD	BC,HL
-0002BD                     A  3881    L__12:
-0002BD 21030000            A  3882    	LD	HL,3
-0002C1 B7                  A  3883    	OR	A,A
-0002C2 ED42                A  3884    	SBC	HL,BC
-0002C4 DA 72 03 00         A  3885    	JR	C,L_40
-0002C8 C5E1                A  3886    	LD	HL,BC
-0002CA E5C1                A  3887    	LD	BC,HL
-0002CC 29                  A  3888    	ADD	HL,HL
-0002CD 09                  A  3889    	ADD	HL,BC
-0002CE 01 D6 02 00         A  3890    	LD	BC,L__11
-0002D2 09                  A  3891    	ADD	HL,BC
-0002D3 ED27                A  3892    	LD	HL,(HL)
-0002D5 E9                  A  3893    	JP	(HL)
-0002D6                     A  3894    L__11:
-0002D6 E20200              A  3895    	DW24	L_20	
-                           A  3896    
-0002D9 050300              A  3897    	DW24	L_25	
-                           A  3898    
-0002DC 280300              A  3899    	DW24	L_30	
-                           A  3900    
-0002DF 4D0300              A  3901    	DW24	L_35	
-                           A  3902    
-                           A  3903    ;  278				{
-                           A  3904    ;  279					case 0:
-0002E2                     A  3905    L_20:
-                           A  3906    .LINE 279
-                           A  3907    
-                           A  3908    ;  280						if(x < 150) x++; el
-                           A  3909    .LINE 280
+0000DA 01FF0000            A  3561    	LD	BC,255
+0000DE C5                  A  3562    	PUSH	BC
+0000DF 01000000            A  3563    	LD	BC,0
+0000E3 C5                  A  3564    	PUSH	BC
+0000E4 C5                  A  3565    	PUSH	BC
+0000E5 CD 00 00 00         A  3566    	CALL	_vdp_fgcolour
+0000E9 C1                  A  3567    	POP	BC
+0000EA C1                  A  3568    	POP	BC
+0000EB C1                  A  3569    	POP	BC
+                           A  3570    ;  222		vdp_bgcolour(0,255,0);
+                           A  3571    .LINE 222
+                           A  3572    
+0000EC 01000000            A  3573    	LD	BC,0
+0000F0 C5                  A  3574    	PUSH	BC
+0000F1 01FF0000            A  3575    	LD	BC,255
+0000F5 C5                  A  3576    	PUSH	BC
+0000F6 01000000            A  3577    	LD	BC,0
+0000FA C5                  A  3578    	PUSH	BC
+0000FB CD 00 00 00         A  3579    	CALL	_vdp_bgcolour
+0000FF C1                  A  3580    	POP	BC
+000100 C1                  A  3581    	POP	BC
+000101 C1                  A  3582    	POP	BC
+                           A  3583    ;  223		vdp_cursorGoto(10,20);
+                           A  3584    .LINE 223
+                           A  3585    
+000102 01140000            A  3586    	LD	BC,20
+000106 C5                  A  3587    	PUSH	BC
+000107 010A0000            A  3588    	LD	BC,10
+00010B C5                  A  3589    	PUSH	BC
+00010C CD 00 00 00         A  3590    	CALL	_vdp_cursorGoto
+000110 C1                  A  3591    	POP	BC
+000111 C1                  A  3592    	POP	BC
+                           A  3593    ;  224		puts("Press any key for Bitmap/Spri
+                           A  3594    .LINE 224
+                           A  3595    
+000112 01 5D 00 00         A  3596    	LD	BC,L__6
+000116 C5                  A  3597    	PUSH	BC
+000117 CD 00 00 00         A  3598    	CALL	_puts
+00011B C1                  A  3599    	POP	BC
+                           A  3600    ;  225		getch();
+                           A  3601    .LINE 225
+                           A  3602    
+00011C CD 00 00 00         A  3603    	CALL	_getch
+                           A  3604    ;  226		vdp_bgcolour(0,0,0);
+                           A  3605    .LINE 226
+                           A  3606    
+000120 01000000            A  3607    	LD	BC,0
+000124 C5                  A  3608    	PUSH	BC
+000125 C5                  A  3609    	PUSH	BC
+000126 C5                  A  3610    	PUSH	BC
+000127 CD 00 00 00         A  3611    	CALL	_vdp_bgcolour
+00012B C1                  A  3612    	POP	BC
+00012C C1                  A  3613    	POP	BC
+00012D C1                  A  3614    	POP	BC
+                           A  3615    ;  227		vdp_fgcolour(0,0,0);
+                           A  3616    .LINE 227
+                           A  3617    
+00012E 01000000            A  3618    	LD	BC,0
+000132 C5                  A  3619    	PUSH	BC
+000133 C5                  A  3620    	PUSH	BC
+000134 C5                  A  3621    	PUSH	BC
+000135 CD 00 00 00         A  3622    	CALL	_vdp_fgcolour
+000139 C1                  A  3623    	POP	BC
+00013A C1                  A  3624    	POP	BC
+00013B C1                  A  3625    	POP	BC
+                           A  3626    ;  228		vdp_cls();
+                           A  3627    .LINE 228
+                           A  3628    
+00013C CD 00 00 00         A  3629    	CALL	_vdp_cls
+                           A  3630    ;  229		
+                           A  3631    ;  230		// creating bitmaps
+                           A  3632    ;  231		for(frame = 0; frame < 8; frame++)
+                           A  3633    .LINE 231
+                           A  3634    
+000140 DD36FF00            A  3635    	LD	(IX+%FFFFFFFF),%0
+000144 18 2A               A  3636    	JR	L_8
+000146                     A  3637    L_6:
+                           A  3638    ;  232		{
+                           A  3639    ;  233			vdp_bitmapSendData(frame, 16,16
+                           A  3640    .LINE 233
+                           A  3641    
+000146 DD7EFF              A  3642    	LD	A,(IX+%FFFFFFFF)
+000149 B7ED62              A  3643    	UEXT	HL
+00014C 6F                  A  3644    	LD	L,A
+00014D 3E0A                A  3645    	LD	A,%A
+00014F CD 00 00 00         A  3646    	CALL	__ishl_b
+000153 01 00 00 00         A  3647    	LD	BC,_clock_data
+000157 09                  A  3648    	ADD	HL,BC
+000158 E5                  A  3649    	PUSH	HL
+000159 01100000            A  3650    	LD	BC,16
+00015D C5                  A  3651    	PUSH	BC
+00015E C5                  A  3652    	PUSH	BC
+00015F DD4EFF              A  3653    	LD	C,(IX+%FFFFFFFF)
+000162 0600                A  3654    	LD	B,%0
+000164 C5                  A  3655    	PUSH	BC
+000165 CD 00 00 00         A  3656    	CALL	_vdp_bitmapSendData
+000169 C1                  A  3657    	POP	BC
+00016A C1                  A  3658    	POP	BC
+00016B C1                  A  3659    	POP	BC
+00016C C1                  A  3660    	POP	BC
+00016D DD34FF              A  3661    	INC	(IX+%FFFFFFFF)
+                           A  3662    ;  234		}
+000170                     A  3663    L_8:
+                           A  3664    .LINE 234
+                           A  3665    
+000170 DD7EFF              A  3666    	LD	A,(IX+%FFFFFFFF)
+000173 FE08                A  3667    	CP	A,%8
+000175 38 CF               A  3668    	JR	C,L_6
+                           A  3669    ;  235		
+                           A  3670    ;  236		vdp_bitmapSendData(8,32,32,square_d
+                           A  3671    .LINE 236
+                           A  3672    
+000177 01 00 20 00         A  3673    	LD	BC,_square_data
+00017B C5                  A  3674    	PUSH	BC
+00017C 01200000            A  3675    	LD	BC,32
+000180 C5                  A  3676    	PUSH	BC
+000181 C5                  A  3677    	PUSH	BC
+000182 01080000            A  3678    	LD	BC,8
+000186 C5                  A  3679    	PUSH	BC
+000187 CD 00 00 00         A  3680    	CALL	_vdp_bitmapSendData
+00018B C1                  A  3681    	POP	BC
+00018C C1                  A  3682    	POP	BC
+00018D C1                  A  3683    	POP	BC
+00018E C1                  A  3684    	POP	BC
+                           A  3685    ;  237		vdp_bitmapCreateSolidColor(9, 32,32
+                           A  3686    .LINE 237
+                           A  3687    
+00018F 01FF0000            A  3688    	LD	BC,255
+000193 C5                  A  3689    	PUSH	BC
+000194 C5                  A  3690    	PUSH	BC
+000195 01200000            A  3691    	LD	BC,32
+000199 C5                  A  3692    	PUSH	BC
+00019A C5                  A  3693    	PUSH	BC
+00019B 01090000            A  3694    	LD	BC,9
+00019F C5                  A  3695    	PUSH	BC
+0001A0 CD 00 00 00         A  3696    	CALL	_vdp_bitmapCreateSolidColor
+0001A4 C1                  A  3697    	POP	BC
+0001A5 C1                  A  3698    	POP	BC
+0001A6 C1                  A  3699    	POP	BC
+0001A7 C1                  A  3700    	POP	BC
+0001A8 C1                  A  3701    	POP	BC
+                           A  3702    ;  238		vdp_bitmapCreateSolidColor(10,16,16
+                           A  3703    .LINE 238
+                           A  3704    
+0001A9 01FF0000            A  3705    	LD	BC,255
+0001AD C5                  A  3706    	PUSH	BC
+0001AE 0100FF00            A  3707    	LD	BC,65280
+0001B2 C5                  A  3708    	PUSH	BC
+0001B3 01100000            A  3709    	LD	BC,16
+0001B7 C5                  A  3710    	PUSH	BC
+0001B8 C5                  A  3711    	PUSH	BC
+0001B9 010A0000            A  3712    	LD	BC,10
+0001BD C5                  A  3713    	PUSH	BC
+0001BE CD 00 00 00         A  3714    	CALL	_vdp_bitmapCreateSolidColor
+0001C2 C1                  A  3715    	POP	BC
+0001C3 C1                  A  3716    	POP	BC
+0001C4 C1                  A  3717    	POP	BC
+0001C5 C1                  A  3718    	POP	BC
+0001C6 C1                  A  3719    	POP	BC
+                           A  3720    ;  239	
+                           A  3721    ;  240		
+                           A  3722    ;  241		// drawing bitmaps
+                           A  3723    ;  242		x = 50;
+                           A  3724    ;  243		y = 32;
+                           A  3725    .LINE 243
+                           A  3726    
+0001C7 DD36FD20            A  3727    	LD	(IX+%FFFFFFFD),%20
+0001CB DD36FE00            A  3728    	LD	(IX+%FFFFFFFE),%0
+                           A  3729    ;  244		for(frame = 0; frame < 8; frame++)
+                           A  3730    .LINE 244
+                           A  3731    
+0001CF DD36FF00            A  3732    	LD	(IX+%FFFFFFFF),%0
+0001D3 18 64               A  3733    	JR	L_13
+0001D5                     A  3734    L_11:
+                           A  3735    ;  245		{
+                           A  3736    ;  246			vdp_bitmapDraw(frame,x,y);
+                           A  3737    .LINE 246
+                           A  3738    
+0001D5 DD07FD              A  3739    	LD	BC,(IX+%FFFFFFFD)
+0001D8 C5                  A  3740    	PUSH	BC
+0001D9 01320000            A  3741    	LD	BC,50
+0001DD C5                  A  3742    	PUSH	BC
+0001DE DD4EFF              A  3743    	LD	C,(IX+%FFFFFFFF)
+0001E1 0600                A  3744    	LD	B,%0
+0001E3 C5                  A  3745    	PUSH	BC
+0001E4 CD 00 00 00         A  3746    	CALL	_vdp_bitmapDraw
+0001E8 C1                  A  3747    	POP	BC
+0001E9 C1                  A  3748    	POP	BC
+0001EA C1                  A  3749    	POP	BC
+                           A  3750    ;  247			
+                           A  3751    ;  248			vdp_bitmapDraw(8, x+100,y);
+                           A  3752    .LINE 248
+                           A  3753    
+0001EB DD07FD              A  3754    	LD	BC,(IX+%FFFFFFFD)
+0001EE C5                  A  3755    	PUSH	BC
+0001EF 01960000            A  3756    	LD	BC,150
+0001F3 C5                  A  3757    	PUSH	BC
+0001F4 01080000            A  3758    	LD	BC,8
+0001F8 C5                  A  3759    	PUSH	BC
+0001F9 CD 00 00 00         A  3760    	CALL	_vdp_bitmapDraw
+0001FD C1                  A  3761    	POP	BC
+0001FE C1                  A  3762    	POP	BC
+0001FF C1                  A  3763    	POP	BC
+                           A  3764    ;  249			vdp_bitmapDraw(9, x+200,y);
+                           A  3765    .LINE 249
+                           A  3766    
+000200 DD07FD              A  3767    	LD	BC,(IX+%FFFFFFFD)
+000203 C5                  A  3768    	PUSH	BC
+000204 01FA0000            A  3769    	LD	BC,250
+000208 C5                  A  3770    	PUSH	BC
+000209 01090000            A  3771    	LD	BC,9
+00020D C5                  A  3772    	PUSH	BC
+00020E CD 00 00 00         A  3773    	CALL	_vdp_bitmapDraw
+000212 C1                  A  3774    	POP	BC
+000213 C1                  A  3775    	POP	BC
+000214 C1                  A  3776    	POP	BC
+                           A  3777    ;  250			vdp_bitmapDraw(10,x+300,y);
+                           A  3778    .LINE 250
+                           A  3779    
+000215 DD07FD              A  3780    	LD	BC,(IX+%FFFFFFFD)
+000218 C5                  A  3781    	PUSH	BC
+000219 015E0100            A  3782    	LD	BC,350
+00021D C5                  A  3783    	PUSH	BC
+00021E 010A0000            A  3784    	LD	BC,10
+000222 C5                  A  3785    	PUSH	BC
+000223 CD 00 00 00         A  3786    	CALL	_vdp_bitmapDraw
+000227 C1                  A  3787    	POP	BC
+000228 C1                  A  3788    	POP	BC
+000229 C1                  A  3789    	POP	BC
+                           A  3790    ;  251			
+                           A  3791    ;  252			y += 40;
+                           A  3792    .LINE 252
+                           A  3793    
+00022A DD31FD              A  3794    	LD	IY,(IX+%FFFFFFFD)
+00022D ED2328              A  3795    	LEA	HL,IY+%28
+000230 DD75FD              A  3796    	LD	(IX+%FFFFFFFD),L
+000233 DD74FE              A  3797    	LD	(IX+%FFFFFFFE),H
+000236 DD34FF              A  3798    	INC	(IX+%FFFFFFFF)
+                           A  3799    ;  253		}
+000239                     A  3800    L_13:
+                           A  3801    .LINE 253
+                           A  3802    
+000239 DD7EFF              A  3803    	LD	A,(IX+%FFFFFFFF)
+00023C FE08                A  3804    	CP	A,%8
+00023E 38 95               A  3805    	JR	C,L_11
+                           A  3806    ;  254		
+                           A  3807    ;  255		// sprites def
+                           A  3808    ;  256		vdp_spriteSelect(0);
+                           A  3809    .LINE 256
+                           A  3810    
+000240 01000000            A  3811    	LD	BC,0
+000244 C5                  A  3812    	PUSH	BC
+000245 CD 00 00 00         A  3813    	CALL	_vdp_spriteSelect
+000249 C1                  A  3814    	POP	BC
+                           A  3815    ;  257		vdp_spriteClearFrames(0);
+                           A  3816    .LINE 257
+                           A  3817    
+00024A 01000000            A  3818    	LD	BC,0
+00024E C5                  A  3819    	PUSH	BC
+00024F CD 00 00 00         A  3820    	CALL	_vdp_spriteClearFrames
+000253 C1                  A  3821    	POP	BC
+                           A  3822    ;  258		
+                           A  3823    ;  259		//sprite_addFrame_selected(0);
+                           A  3824    ;  260		for(frame = 0; frame < 8; frame++) 
+                           A  3825    .LINE 260
+                           A  3826    
+000254 DD36FF00            A  3827    	LD	(IX+%FFFFFFFF),%0
+000258 18 14               A  3828    	JR	L_18
+00025A                     A  3829    L_16:
+00025A DD4EFF              A  3830    	LD	C,(IX+%FFFFFFFF)
+00025D 0600                A  3831    	LD	B,%0
+00025F C5                  A  3832    	PUSH	BC
+000260 01000000            A  3833    	LD	BC,0
+000264 C5                  A  3834    	PUSH	BC
+000265 CD 00 00 00         A  3835    	CALL	_vdp_spriteAddFrame
+000269 C1                  A  3836    	POP	BC
+00026A C1                  A  3837    	POP	BC
+00026B DD34FF              A  3838    	INC	(IX+%FFFFFFFF)
+00026E                     A  3839    L_18:
+00026E DD7EFF              A  3840    	LD	A,(IX+%FFFFFFFF)
+000271 FE08                A  3841    	CP	A,%8
+000273 38 E5               A  3842    	JR	C,L_16
+                           A  3843    ;  261	
+                           A  3844    ;  262		vdp_spriteMoveTo(0,50,50);
+                           A  3845    .LINE 262
+                           A  3846    
+000275 01320000            A  3847    	LD	BC,50
+000279 C5                  A  3848    	PUSH	BC
+00027A C5                  A  3849    	PUSH	BC
+00027B 01000000            A  3850    	LD	BC,0
+00027F C5                  A  3851    	PUSH	BC
+000280 CD 00 00 00         A  3852    	CALL	_vdp_spriteMoveTo
+000284 C1                  A  3853    	POP	BC
+000285 C1                  A  3854    	POP	BC
+000286 C1                  A  3855    	POP	BC
+                           A  3856    ;  263		vdp_spriteShow(0);
+                           A  3857    .LINE 263
+                           A  3858    
+000287 01000000            A  3859    	LD	BC,0
+00028B C5                  A  3860    	PUSH	BC
+00028C CD 00 00 00         A  3861    	CALL	_vdp_spriteShow
+000290 C1                  A  3862    	POP	BC
+                           A  3863    ;  264	
+                           A  3864    ;  265		// Activate one sprite
+                           A  3865    ;  266		vdp_spriteActivateTotal(1);
+                           A  3866    .LINE 266
+                           A  3867    
+000291 01010000            A  3868    	LD	BC,1
+000295 C5                  A  3869    	PUSH	BC
+000296 CD 00 00 00         A  3870    	CALL	_vdp_spriteActivateTotal
+00029A C1                  A  3871    	POP	BC
+                           A  3872    ;  267		vdp_spriteRefresh();
+                           A  3873    .LINE 267
+                           A  3874    
+00029B CD 00 00 00         A  3875    	CALL	_vdp_spriteRefresh
+                           A  3876    ;  268		
+                           A  3877    ;  269		x = 50;
+                           A  3878    .LINE 269
+                           A  3879    
+00029F DD36FB32            A  3880    	LD	(IX+%FFFFFFFB),%32
+0002A3 DD36FC00            A  3881    	LD	(IX+%FFFFFFFC),%0
+                           A  3882    ;  270		y = 50;
+                           A  3883    .LINE 270
+                           A  3884    
+0002A7 DD36FD32            A  3885    	LD	(IX+%FFFFFFFD),%32
+0002AB DD36FE00            A  3886    	LD	(IX+%FFFFFFFE),%0
+                           A  3887    ;  271		moveclock = 0;
+                           A  3888    .LINE 271
+                           A  3889    
+0002AF DD36F700            A  3890    	LD	(IX+%FFFFFFF7),%0
+0002B3 DD36F800            A  3891    	LD	(IX+%FFFFFFF8),%0
+                           A  3892    ;  272		animationclock = 0;
+                           A  3893    .LINE 272
+                           A  3894    
+0002B7 DD36F500            A  3895    	LD	(IX+%FFFFFFF5),%0
+0002BB DD36F600            A  3896    	LD	(IX+%FFFFFFF6),%0
+                           A  3897    ;  273		movestate = 0;
+                           A  3898    .LINE 273
+                           A  3899    
+0002BF DD36F900            A  3900    	LD	(IX+%FFFFFFF9),%0
+0002C3 DD36FA00            A  3901    	LD	(IX+%FFFFFFFA),%0
+                           A  3902    ;  274		
+                           A  3903    ;  275		while(1)
+0002C7                     A  3904    L_50:
+                           A  3905    .LINE 275
+                           A  3906    
+                           A  3907    ;  276		{
+                           A  3908    ;  277			if(moveclock > 10)
+                           A  3909    .LINE 277
                            A  3910    
-0002E2 49019600            A  3911    	LD.LIS	BC,150
-0002E6 DD27FB              A  3912    	LD	HL,(IX+%FFFFFFFB)
-0002E9 B7                  A  3913    	OR	A,A
-0002EA 40ED42              A  3914    	SBC.SIS	HL,BC
-0002ED 30 0C               A  3915    	JR	NC,L_23
-0002EF DD27FB              A  3916    	LD	HL,(IX+%FFFFFFFB)
-0002F2 23                  A  3917    	INC	HL
-0002F3 DD75FB              A  3918    	LD	(IX+%FFFFFFFB),L
-0002F6 DD74FC              A  3919    	LD	(IX+%FFFFFFFC),H
-0002F9 18 7F               A  3920    	JR	L_41
-0002FB                     A  3921    L_23:
-0002FB DD36F901            A  3922    	LD	(IX+%FFFFFFF9),%1
-0002FF DD36FA00            A  3923    	LD	(IX+%FFFFFFFA),%0
-                           A  3924    ;  281						break;
-                           A  3925    .LINE 281
-                           A  3926    
-000303 18 75               A  3927    	JR	L_41
-                           A  3928    ;  282					case 1:
-000305                     A  3929    L_25:
-                           A  3930    .LINE 282
-                           A  3931    
-                           A  3932    ;  283						if(y < 100) y++; el
-                           A  3933    .LINE 283
-                           A  3934    
-000305 49016400            A  3935    	LD.LIS	BC,100
-000309 DD27FD              A  3936    	LD	HL,(IX+%FFFFFFFD)
-00030C B7                  A  3937    	OR	A,A
-00030D 40ED42              A  3938    	SBC.SIS	HL,BC
-000310 30 0C               A  3939    	JR	NC,L_28
-000312 DD27FD              A  3940    	LD	HL,(IX+%FFFFFFFD)
-000315 23                  A  3941    	INC	HL
-000316 DD75FD              A  3942    	LD	(IX+%FFFFFFFD),L
-000319 DD74FE              A  3943    	LD	(IX+%FFFFFFFE),H
-00031C 18 5C               A  3944    	JR	L_41
-00031E                     A  3945    L_28:
-00031E DD36F902            A  3946    	LD	(IX+%FFFFFFF9),%2
-000322 DD36FA00            A  3947    	LD	(IX+%FFFFFFFA),%0
-                           A  3948    ;  284						break;
-                           A  3949    .LINE 284
-                           A  3950    
-000326 18 52               A  3951    	JR	L_41
-                           A  3952    ;  285					case 2:
-000328                     A  3953    L_30:
-                           A  3954    .LINE 285
-                           A  3955    
-                           A  3956    ;  286						if(x > 50) x--; els
-                           A  3957    .LINE 286
-                           A  3958    
-000328 DD07FB              A  3959    	LD	BC,(IX+%FFFFFFFB)
-00032B 49213200            A  3960    	LD.LIS	HL,50
-00032F B7                  A  3961    	OR	A,A
-000330 40ED42              A  3962    	SBC.SIS	HL,BC
-000333 30 0E               A  3963    	JR	NC,L_33
-000335 DD31FB              A  3964    	LD	IY,(IX+%FFFFFFFB)
-000338 ED23FF              A  3965    	LEA	HL,IY+%FFFFFFFF
-00033B DD75FB              A  3966    	LD	(IX+%FFFFFFFB),L
-00033E DD74FC              A  3967    	LD	(IX+%FFFFFFFC),H
-000341 18 37               A  3968    	JR	L_41
-000343                     A  3969    L_33:
-000343 DD36F903            A  3970    	LD	(IX+%FFFFFFF9),%3
-000347 DD36FA00            A  3971    	LD	(IX+%FFFFFFFA),%0
-                           A  3972    ;  287						break;
-                           A  3973    .LINE 287
-                           A  3974    
-00034B 18 2D               A  3975    	JR	L_41
-                           A  3976    ;  288					case 3:
-00034D                     A  3977    L_35:
-                           A  3978    .LINE 288
-                           A  3979    
-                           A  3980    ;  289						if(y > 50) y--; els
-                           A  3981    .LINE 289
-                           A  3982    
-00034D DD07FD              A  3983    	LD	BC,(IX+%FFFFFFFD)
-000350 49213200            A  3984    	LD.LIS	HL,50
-000354 B7                  A  3985    	OR	A,A
-000355 40ED42              A  3986    	SBC.SIS	HL,BC
-000358 30 0E               A  3987    	JR	NC,L_38
-00035A DD31FD              A  3988    	LD	IY,(IX+%FFFFFFFD)
-00035D ED23FF              A  3989    	LEA	HL,IY+%FFFFFFFF
-000360 DD75FD              A  3990    	LD	(IX+%FFFFFFFD),L
-000363 DD74FE              A  3991    	LD	(IX+%FFFFFFFE),H
-000366 18 12               A  3992    	JR	L_41
-000368                     A  3993    L_38:
-000368 DD36F900            A  3994    	LD	(IX+%FFFFFFF9),%0
-00036C DD36FA00            A  3995    	LD	(IX+%FFFFFFFA),%0
-                           A  3996    ;  290						break;
-                           A  3997    .LINE 290
-                           A  3998    
-000370 18 08               A  3999    	JR	L_41
-                           A  4000    ;  291					default:
-000372                     A  4001    L_40:
-                           A  4002    .LINE 291
-                           A  4003    
-                           A  4004    ;  292						movestate = 0;
-                           A  4005    .LINE 292
-                           A  4006    
-000372 DD36F900            A  4007    	LD	(IX+%FFFFFFF9),%0
-000376 DD36FA00            A  4008    	LD	(IX+%FFFFFFFA),%0
-                           A  4009    ;  293						break;
-                           A  4010    ;  294				}
-00037A                     A  4011    L_41:
-                           A  4012    .LINE 294
-                           A  4013    
-                           A  4014    ;  295				vdp_spriteMoveTo(0, x, y);
-                           A  4015    .LINE 295
+0002C7 DD07F7              A  3911    	LD	BC,(IX+%FFFFFFF7)
+0002CA 49210A00            A  3912    	LD.LIS	HL,10
+0002CE B7                  A  3913    	OR	A,A
+0002CF 40ED42              A  3914    	SBC.SIS	HL,BC
+0002D2 D2 C2 03 00         A  3915    	JR	NC,L_44
+                           A  3916    ;  278			{
+                           A  3917    ;  279				switch(movestate)
+                           A  3918    .LINE 279
+                           A  3919    
+0002D6 DD07F9              A  3920    	LD	BC,(IX+%FFFFFFF9)
+0002D9 CD 00 00 00         A  3921    	CALL	__stoiu
+0002DD E5C1                A  3922    	LD	BC,HL
+0002DF                     A  3923    L__12:
+0002DF 21030000            A  3924    	LD	HL,3
+0002E3 B7                  A  3925    	OR	A,A
+0002E4 ED42                A  3926    	SBC	HL,BC
+0002E6 DA 94 03 00         A  3927    	JR	C,L_40
+0002EA C5E1                A  3928    	LD	HL,BC
+0002EC E5C1                A  3929    	LD	BC,HL
+0002EE 29                  A  3930    	ADD	HL,HL
+0002EF 09                  A  3931    	ADD	HL,BC
+0002F0 01 F8 02 00         A  3932    	LD	BC,L__11
+0002F4 09                  A  3933    	ADD	HL,BC
+0002F5 ED27                A  3934    	LD	HL,(HL)
+0002F7 E9                  A  3935    	JP	(HL)
+0002F8                     A  3936    L__11:
+0002F8 040300              A  3937    	DW24	L_20	
+                           A  3938    
+0002FB 270300              A  3939    	DW24	L_25	
+                           A  3940    
+0002FE 4A0300              A  3941    	DW24	L_30	
+                           A  3942    
+000301 6F0300              A  3943    	DW24	L_35	
+                           A  3944    
+                           A  3945    ;  280				{
+                           A  3946    ;  281					case 0:
+000304                     A  3947    L_20:
+                           A  3948    .LINE 281
+                           A  3949    
+                           A  3950    ;  282						if(x < 150) x++; el
+                           A  3951    .LINE 282
+                           A  3952    
+000304 49019600            A  3953    	LD.LIS	BC,150
+000308 DD27FB              A  3954    	LD	HL,(IX+%FFFFFFFB)
+00030B B7                  A  3955    	OR	A,A
+00030C 40ED42              A  3956    	SBC.SIS	HL,BC
+00030F 30 0C               A  3957    	JR	NC,L_23
+000311 DD27FB              A  3958    	LD	HL,(IX+%FFFFFFFB)
+000314 23                  A  3959    	INC	HL
+000315 DD75FB              A  3960    	LD	(IX+%FFFFFFFB),L
+000318 DD74FC              A  3961    	LD	(IX+%FFFFFFFC),H
+00031B 18 7F               A  3962    	JR	L_41
+00031D                     A  3963    L_23:
+00031D DD36F901            A  3964    	LD	(IX+%FFFFFFF9),%1
+000321 DD36FA00            A  3965    	LD	(IX+%FFFFFFFA),%0
+                           A  3966    ;  283						break;
+                           A  3967    .LINE 283
+                           A  3968    
+000325 18 75               A  3969    	JR	L_41
+                           A  3970    ;  284					case 1:
+000327                     A  3971    L_25:
+                           A  3972    .LINE 284
+                           A  3973    
+                           A  3974    ;  285						if(y < 100) y++; el
+                           A  3975    .LINE 285
+                           A  3976    
+000327 49016400            A  3977    	LD.LIS	BC,100
+00032B DD27FD              A  3978    	LD	HL,(IX+%FFFFFFFD)
+00032E B7                  A  3979    	OR	A,A
+00032F 40ED42              A  3980    	SBC.SIS	HL,BC
+000332 30 0C               A  3981    	JR	NC,L_28
+000334 DD27FD              A  3982    	LD	HL,(IX+%FFFFFFFD)
+000337 23                  A  3983    	INC	HL
+000338 DD75FD              A  3984    	LD	(IX+%FFFFFFFD),L
+00033B DD74FE              A  3985    	LD	(IX+%FFFFFFFE),H
+00033E 18 5C               A  3986    	JR	L_41
+000340                     A  3987    L_28:
+000340 DD36F902            A  3988    	LD	(IX+%FFFFFFF9),%2
+000344 DD36FA00            A  3989    	LD	(IX+%FFFFFFFA),%0
+                           A  3990    ;  286						break;
+                           A  3991    .LINE 286
+                           A  3992    
+000348 18 52               A  3993    	JR	L_41
+                           A  3994    ;  287					case 2:
+00034A                     A  3995    L_30:
+                           A  3996    .LINE 287
+                           A  3997    
+                           A  3998    ;  288						if(x > 50) x--; els
+                           A  3999    .LINE 288
+                           A  4000    
+00034A DD07FB              A  4001    	LD	BC,(IX+%FFFFFFFB)
+00034D 49213200            A  4002    	LD.LIS	HL,50
+000351 B7                  A  4003    	OR	A,A
+000352 40ED42              A  4004    	SBC.SIS	HL,BC
+000355 30 0E               A  4005    	JR	NC,L_33
+000357 DD31FB              A  4006    	LD	IY,(IX+%FFFFFFFB)
+00035A ED23FF              A  4007    	LEA	HL,IY+%FFFFFFFF
+00035D DD75FB              A  4008    	LD	(IX+%FFFFFFFB),L
+000360 DD74FC              A  4009    	LD	(IX+%FFFFFFFC),H
+000363 18 37               A  4010    	JR	L_41
+000365                     A  4011    L_33:
+000365 DD36F903            A  4012    	LD	(IX+%FFFFFFF9),%3
+000369 DD36FA00            A  4013    	LD	(IX+%FFFFFFFA),%0
+                           A  4014    ;  289						break;
+                           A  4015    .LINE 289
                            A  4016    
-00037A DD07FD              A  4017    	LD	BC,(IX+%FFFFFFFD)
-00037D C5                  A  4018    	PUSH	BC
-00037E DD07FB              A  4019    	LD	BC,(IX+%FFFFFFFB)
-000381 C5                  A  4020    	PUSH	BC
-000382 01000000            A  4021    	LD	BC,0
-000386 C5                  A  4022    	PUSH	BC
-000387 CD 00 00 00         A  4023    	CALL	_vdp_spriteMoveTo
-00038B C1                  A  4024    	POP	BC
-00038C C1                  A  4025    	POP	BC
-00038D C1                  A  4026    	POP	BC
-                           A  4027    ;  296				waitvblank();
-                           A  4028    .LINE 296
-                           A  4029    
-00038E CD 00 00 00         A  4030    	CALL	_waitvblank
-                           A  4031    ;  297				vdp_spriteRefresh();
-                           A  4032    .LINE 297
-                           A  4033    
-000392 CD 00 00 00         A  4034    	CALL	_vdp_spriteRefresh
-                           A  4035    ;  298				moveclock = 0;
-                           A  4036    .LINE 298
-                           A  4037    
-000396 DD36F700            A  4038    	LD	(IX+%FFFFFFF7),%0
-00039A DD36F800            A  4039    	LD	(IX+%FFFFFFF8),%0
-                           A  4040    ;  299			}
-                           A  4041    ;  300			else moveclock++;
-                           A  4042    .LINE 300
-                           A  4043    
-00039E 18 0A               A  4044    	JR	L_48
-0003A0                     A  4045    L_44:
-0003A0 DD27F7              A  4046    	LD	HL,(IX+%FFFFFFF7)
-0003A3 23                  A  4047    	INC	HL
-0003A4 DD75F7              A  4048    	LD	(IX+%FFFFFFF7),L
-0003A7 DD74F8              A  4049    	LD	(IX+%FFFFFFF8),H
-0003AA                     A  4050    L_48:
-                           A  4051    ;  301			
-                           A  4052    ;  302			if(animationclock > 250)
-                           A  4053    .LINE 302
-                           A  4054    
-0003AA DD07F5              A  4055    	LD	BC,(IX+%FFFFFFF5)
-0003AD 4921FA00            A  4056    	LD.LIS	HL,250
-0003B1 B7                  A  4057    	OR	A,A
-0003B2 40ED42              A  4058    	SBC.SIS	HL,BC
-0003B5 30 16               A  4059    	JR	NC,L_47
-                           A  4060    ;  303			{
-                           A  4061    ;  304				vdp_spritePreviousFrame(0);
-                           A  4062    .LINE 304
-                           A  4063    
-0003B7 01000000            A  4064    	LD	BC,0
-0003BB C5                  A  4065    	PUSH	BC
-0003BC CD 00 00 00         A  4066    	CALL	_vdp_spritePreviousFrame
-0003C0 C1                  A  4067    	POP	BC
-                           A  4068    ;  305				animationclock = 0;
-                           A  4069    .LINE 305
-                           A  4070    
-0003C1 DD36F500            A  4071    	LD	(IX+%FFFFFFF5),%0
-0003C5 DD36F600            A  4072    	LD	(IX+%FFFFFFF6),%0
-                           A  4073    ;  306			}
-                           A  4074    ;  307			else animationclock++;
-                           A  4075    .LINE 307
-                           A  4076    
-0003C9 C3 A5 02 00         A  4077    	JR	L_50
-0003CD                     A  4078    L_47:
-0003CD DD27F5              A  4079    	LD	HL,(IX+%FFFFFFF5)
-0003D0 23                  A  4080    	INC	HL
-0003D1 DD75F5              A  4081    	LD	(IX+%FFFFFFF5),L
-0003D4 DD74F6              A  4082    	LD	(IX+%FFFFFFF6),H
-0003D7 C3 A5 02 00         A  4083    	JR	L_50
-                           A  4084    ;  308		}	
-                           A  4085    ;  309		return;
-                           A  4086    .LINE 310
-                           A  4087    
-0003DB DDF9                A  4088    	LD	SP,IX
-0003DD DDE1                A  4089    	POP	IX
-0003DF C9                  A  4090    	RET	
-                           A  4091    
-                           A  4092    
-                           A  4093    ;**************************** _main ***********
-                           A  4094    ;Name                         Addr/Register   S
-                           A  4095    ;_vdp_spritePreviousFrame            IMPORT  --
-                           A  4096    ;_waitvblank                         IMPORT  --
-                           A  4097    ;_vdp_spriteRefresh                  IMPORT  --
-                           A  4098    ;_vdp_spriteActivateTotal            IMPORT  --
-                           A  4099    ;_vdp_spriteShow                     IMPORT  --
-                           A  4100    ;_vdp_spriteMoveTo                   IMPORT  --
-                           A  4101    ;_vdp_spriteAddFrame                 IMPORT  --
-                           A  4102    ;_vdp_spriteClearFrames              IMPORT  --
-                           A  4103    ;_vdp_spriteSelect                   IMPORT  --
-                           A  4104    ;_vdp_bitmapDraw                     IMPORT  --
-                           A  4105    ;_vdp_bitmapCreateSolidColor         IMPORT  --
-                           A  4106    ;_square_data                        STATIC   4
-                           A  4107    ;_clock_data                         STATIC   8
-                           A  4108    ;_vdp_bitmapSendData                 IMPORT  --
-                           A  4109    ;_getch                              IMPORT  --
-                           A  4110    ;_vdp_bgcolour                       IMPORT  --
-                           A  4111    ;_mos_fclose                         IMPORT  --
-                           A  4112    ;_mos_feof                           IMPORT  --
-                           A  4113    ;_mos_fgetc                          IMPORT  --
-                           A  4114    ;_putch                              IMPORT  --
-                           A  4115    ;_mos_fopen                          IMPORT  --
-                           A  4116    ;_puts                               IMPORT  --
-                           A  4117    ;_vdp_cursorGoto                     IMPORT  --
-                           A  4118    ;_vdp_fgcolour                       IMPORT  --
-                           A  4119    ;_vdp_cls                            IMPORT  --
-                           A  4120    ;filehandle                           IX-12    
-                           A  4121    ;animationclock                       IX-11    
-                           A  4122    ;moveclock                             IX-9    
-                           A  4123    ;movestate                             IX-7    
-                           A  4124    ;x                                     IX-5    
-                           A  4125    ;y                                     IX-3    
-                           A  4126    ;frame                                 IX-1    
-                           A  4127    
-                           A  4128    
-                           A  4129    ; Stack Frame Size: 18 (bytes)
-                           A  4130    ;       Spill Code: 0 (instruction)
-                           A  4131    
-                           A  4132    
-                           A  4133    .ENDFUNC "main",310,"_main"
-                           A  4134    	SEGMENT STRSECT
-000000                     A  4135    L__0:
-000000 2341676F 6E4C6967   A  4136    	DB	"#AgonLight - Hello world!"
+00036D 18 2D               A  4017    	JR	L_41
+                           A  4018    ;  290					case 3:
+00036F                     A  4019    L_35:
+                           A  4020    .LINE 290
+                           A  4021    
+                           A  4022    ;  291						if(y > 50) y--; els
+                           A  4023    .LINE 291
+                           A  4024    
+00036F DD07FD              A  4025    	LD	BC,(IX+%FFFFFFFD)
+000372 49213200            A  4026    	LD.LIS	HL,50
+000376 B7                  A  4027    	OR	A,A
+000377 40ED42              A  4028    	SBC.SIS	HL,BC
+00037A 30 0E               A  4029    	JR	NC,L_38
+00037C DD31FD              A  4030    	LD	IY,(IX+%FFFFFFFD)
+00037F ED23FF              A  4031    	LEA	HL,IY+%FFFFFFFF
+000382 DD75FD              A  4032    	LD	(IX+%FFFFFFFD),L
+000385 DD74FE              A  4033    	LD	(IX+%FFFFFFFE),H
+000388 18 12               A  4034    	JR	L_41
+00038A                     A  4035    L_38:
+00038A DD36F900            A  4036    	LD	(IX+%FFFFFFF9),%0
+00038E DD36FA00            A  4037    	LD	(IX+%FFFFFFFA),%0
+                           A  4038    ;  292						break;
+                           A  4039    .LINE 292
+                           A  4040    
+000392 18 08               A  4041    	JR	L_41
+                           A  4042    ;  293					default:
+000394                     A  4043    L_40:
+                           A  4044    .LINE 293
+                           A  4045    
+                           A  4046    ;  294						movestate = 0;
+                           A  4047    .LINE 294
+                           A  4048    
+000394 DD36F900            A  4049    	LD	(IX+%FFFFFFF9),%0
+000398 DD36FA00            A  4050    	LD	(IX+%FFFFFFFA),%0
+                           A  4051    ;  295						break;
+                           A  4052    ;  296				}
+00039C                     A  4053    L_41:
+                           A  4054    .LINE 296
+                           A  4055    
+                           A  4056    ;  297				vdp_spriteMoveTo(0, x, y);
+                           A  4057    .LINE 297
+                           A  4058    
+00039C DD07FD              A  4059    	LD	BC,(IX+%FFFFFFFD)
+00039F C5                  A  4060    	PUSH	BC
+0003A0 DD07FB              A  4061    	LD	BC,(IX+%FFFFFFFB)
+0003A3 C5                  A  4062    	PUSH	BC
+0003A4 01000000            A  4063    	LD	BC,0
+0003A8 C5                  A  4064    	PUSH	BC
+0003A9 CD 00 00 00         A  4065    	CALL	_vdp_spriteMoveTo
+0003AD C1                  A  4066    	POP	BC
+0003AE C1                  A  4067    	POP	BC
+0003AF C1                  A  4068    	POP	BC
+                           A  4069    ;  298				waitvblank();
+                           A  4070    .LINE 298
+                           A  4071    
+0003B0 CD 00 00 00         A  4072    	CALL	_waitvblank
+                           A  4073    ;  299				vdp_spriteRefresh();
+                           A  4074    .LINE 299
+                           A  4075    
+0003B4 CD 00 00 00         A  4076    	CALL	_vdp_spriteRefresh
+                           A  4077    ;  300				moveclock = 0;
+                           A  4078    .LINE 300
+                           A  4079    
+0003B8 DD36F700            A  4080    	LD	(IX+%FFFFFFF7),%0
+0003BC DD36F800            A  4081    	LD	(IX+%FFFFFFF8),%0
+                           A  4082    ;  301			}
+                           A  4083    ;  302			else moveclock++;
+                           A  4084    .LINE 302
+                           A  4085    
+0003C0 18 0A               A  4086    	JR	L_48
+0003C2                     A  4087    L_44:
+0003C2 DD27F7              A  4088    	LD	HL,(IX+%FFFFFFF7)
+0003C5 23                  A  4089    	INC	HL
+0003C6 DD75F7              A  4090    	LD	(IX+%FFFFFFF7),L
+0003C9 DD74F8              A  4091    	LD	(IX+%FFFFFFF8),H
+0003CC                     A  4092    L_48:
+                           A  4093    ;  303			
+                           A  4094    ;  304			if(animationclock > 250)
+                           A  4095    .LINE 304
+                           A  4096    
+0003CC DD07F5              A  4097    	LD	BC,(IX+%FFFFFFF5)
+0003CF 4921FA00            A  4098    	LD.LIS	HL,250
+0003D3 B7                  A  4099    	OR	A,A
+0003D4 40ED42              A  4100    	SBC.SIS	HL,BC
+0003D7 30 16               A  4101    	JR	NC,L_47
+                           A  4102    ;  305			{
+                           A  4103    ;  306				vdp_spritePreviousFrame(0);
+                           A  4104    .LINE 306
+                           A  4105    
+0003D9 01000000            A  4106    	LD	BC,0
+0003DD C5                  A  4107    	PUSH	BC
+0003DE CD 00 00 00         A  4108    	CALL	_vdp_spritePreviousFrame
+0003E2 C1                  A  4109    	POP	BC
+                           A  4110    ;  307				animationclock = 0;
+                           A  4111    .LINE 307
+                           A  4112    
+0003E3 DD36F500            A  4113    	LD	(IX+%FFFFFFF5),%0
+0003E7 DD36F600            A  4114    	LD	(IX+%FFFFFFF6),%0
+                           A  4115    ;  308			}
+                           A  4116    ;  309			else animationclock++;
+                           A  4117    .LINE 309
+                           A  4118    
+0003EB C3 C7 02 00         A  4119    	JR	L_50
+0003EF                     A  4120    L_47:
+0003EF DD27F5              A  4121    	LD	HL,(IX+%FFFFFFF5)
+0003F2 23                  A  4122    	INC	HL
+0003F3 DD75F5              A  4123    	LD	(IX+%FFFFFFF5),L
+0003F6 DD74F6              A  4124    	LD	(IX+%FFFFFFF6),H
+0003F9 C3 C7 02 00         A  4125    	JR	L_50
+                           A  4126    ;  310		}	
+                           A  4127    ;  311		return;
+                           A  4128    .LINE 312
+                           A  4129    
+0003FD DDF9                A  4130    	LD	SP,IX
+0003FF DDE1                A  4131    	POP	IX
+000401 C9                  A  4132    	RET	
+                           A  4133    
+                           A  4134    
+                           A  4135    ;**************************** _main ***********
+                           A  4136    ;Name                         Addr/Register   S
+                           A  4137    ;_vdp_spritePreviousFrame            IMPORT  --
+                           A  4138    ;_waitvblank                         IMPORT  --
+                           A  4139    ;_vdp_spriteRefresh                  IMPORT  --
+                           A  4140    ;_vdp_spriteActivateTotal            IMPORT  --
+                           A  4141    ;_vdp_spriteShow                     IMPORT  --
+                           A  4142    ;_vdp_spriteMoveTo                   IMPORT  --
+                           A  4143    ;_vdp_spriteAddFrame                 IMPORT  --
+                           A  4144    ;_vdp_spriteClearFrames              IMPORT  --
+                           A  4145    ;_vdp_spriteSelect                   IMPORT  --
+                           A  4146    ;_vdp_bitmapDraw                     IMPORT  --
+                           A  4147    ;_vdp_bitmapCreateSolidColor         IMPORT  --
+                           A  4148    ;_square_data                        STATIC   4
+                           A  4149    ;_clock_data                         STATIC   8
+                           A  4150    ;_vdp_bitmapSendData                 IMPORT  --
+                           A  4151    ;_getch                              IMPORT  --
+                           A  4152    ;_vdp_bgcolour                       IMPORT  --
+                           A  4153    ;_mos_fclose                         IMPORT  --
+                           A  4154    ;_mos_feof                           IMPORT  --
+                           A  4155    ;_mos_fgetc                          IMPORT  --
+                           A  4156    ;_putch                              IMPORT  --
+                           A  4157    ;_mos_fopen                          IMPORT  --
+                           A  4158    ;_puts                               IMPORT  --
+                           A  4159    ;_vdp_cursorGetYpos                  IMPORT  --
+                           A  4160    ;_vdp_cursorGetXpos                  IMPORT  --
+                           A  4161    ;_vdp_cursorGoto                     IMPORT  --
+                           A  4162    ;_vdp_fgcolour                       IMPORT  --
+                           A  4163    ;_vdp_cls                            IMPORT  --
+                           A  4164    ;ypos                                 IX-14    
+                           A  4165    ;xpos                                 IX-13    
+                           A  4166    ;filehandle                           IX-12    
+                           A  4167    ;animationclock                       IX-11    
+                           A  4168    ;moveclock                             IX-9    
+                           A  4169    ;movestate                             IX-7    
+                           A  4170    ;x                                     IX-5    
+                           A  4171    ;y                                     IX-3    
+                           A  4172    ;frame                                 IX-1    
+                           A  4173    
+                           A  4174    
+                           A  4175    ; Stack Frame Size: 20 (bytes)
+                           A  4176    ;       Spill Code: 0 (instruction)
+                           A  4177    
+                           A  4178    
+                           A  4179    .ENDFUNC "main",312,"_main"
+                           A  4180    	SEGMENT STRSECT
+000000                     A  4181    L__0:
+000000 2341676F 6E4C6967   A  4182    	DB	"#AgonLight - Hello world!"
 000008 6874202D 2048656C 
 000010 6C6F2077 6F726C64 
 000018 21 
-000019 0D0A00              A  4137    	DB	13,10,0
-00001C                     A  4138    L__1:
-00001C 6175746F 65786563   A  4139    	DB	"autoexec.txt"
+000019 0D0A00              A  4183    	DB	13,10,0
+00001C                     A  4184    L__1:
+00001C 6175746F 65786563   A  4185    	DB	"autoexec.txt"
 000024 2E747874 
-000028 00                  A  4140    	DB	0
-000029                     A  4141    L__3:
-000029 6175746F 65786563   A  4142    	DB	"autoexec.txt contents:"
+000028 00                  A  4186    	DB	0
+000029                     A  4187    L__3:
+000029 6175746F 65786563   A  4188    	DB	"autoexec.txt contents:"
 000031 2E747874 20636F6E 
 000039 74656E74 733A 
-00003F 00                  A  4143    	DB	0
-000040                     A  4144    L__5:
-000040 436F756C 646E2774   A  4145    	DB	"Couldn't open 'autoexec.txt'"
+00003F 00                  A  4189    	DB	0
+000040                     A  4190    L__5:
+000040 436F756C 646E2774   A  4191    	DB	"Couldn't open 'autoexec.txt'"
 000048 206F7065 6E202761 
 000050 75746F65 7865632E 
 000058 74787427 
-00005C 00                  A  4146    	DB	0
-00005D                     A  4147    L__6:
-00005D 50726573 7320616E   A  4148    	DB	"Press any key for Bitmap/Sprite demo:"
+00005C 00                  A  4192    	DB	0
+00005D                     A  4193    L__6:
+00005D 50726573 7320616E   A  4194    	DB	"Press any key for Bitmap/Sprite demo:"
 000065 79206B65 7920666F 
 00006D 72204269 746D6170 
 000075 2F537072 69746520 
 00007D 64656D6F 3A 
-000082 00                  A  4149    	DB	0
-                           A  4150    	XREF _vdp_spriteRefresh:ROM
-                           A  4151    	XREF _vdp_spriteActivateTotal:ROM
-                           A  4152    	XREF _vdp_spriteMoveTo:ROM
-                           A  4153    	XREF _vdp_spriteShow:ROM
-                           A  4154    	XREF _vdp_spritePreviousFrame:ROM
-                           A  4155    	XREF _vdp_spriteAddFrame:ROM
-                           A  4156    	XREF _vdp_spriteClearFrames:ROM
-                           A  4157    	XREF _vdp_spriteSelect:ROM
-                           A  4158    	XREF _vdp_bitmapCreateSolidColor:ROM
-                           A  4159    	XREF _vdp_bitmapDraw:ROM
-                           A  4160    	XREF _vdp_bitmapSendData:ROM
-                           A  4161    	XREF _vdp_bgcolour:ROM
-                           A  4162    	XREF _vdp_fgcolour:ROM
-                           A  4163    	XREF _vdp_cursorGoto:ROM
-                           A  4164    	XREF _vdp_cls:ROM
-                           A  4165    	XREF _mos_feof:ROM
-                           A  4166    	XREF _mos_fgetc:ROM
-                           A  4167    	XREF _mos_fclose:ROM
-                           A  4168    	XREF _mos_fopen:ROM
-                           A  4169    	XREF _waitvblank:ROM
-                           A  4170    	XREF _puts:ROM
-                           A  4171    	XREF _getch:ROM
-                           A  4172    	XREF _putch:ROM
-                           A  4173    	XREF __stoiu:ROM
-                           A  4174    	XREF __ishl_b:ROM
-                           A  4175    	XDEF _main
-                           A  4176    	END
+000082 00                  A  4195    	DB	0
+                           A  4196    	XREF _vdp_spriteRefresh:ROM
+                           A  4197    	XREF _vdp_spriteActivateTotal:ROM
+                           A  4198    	XREF _vdp_spriteMoveTo:ROM
+                           A  4199    	XREF _vdp_spriteShow:ROM
+                           A  4200    	XREF _vdp_spritePreviousFrame:ROM
+                           A  4201    	XREF _vdp_spriteAddFrame:ROM
+                           A  4202    	XREF _vdp_spriteClearFrames:ROM
+                           A  4203    	XREF _vdp_spriteSelect:ROM
+                           A  4204    	XREF _vdp_bitmapCreateSolidColor:ROM
+                           A  4205    	XREF _vdp_bitmapDraw:ROM
+                           A  4206    	XREF _vdp_bitmapSendData:ROM
+                           A  4207    	XREF _vdp_bgcolour:ROM
+                           A  4208    	XREF _vdp_fgcolour:ROM
+                           A  4209    	XREF _vdp_cursorGetYpos:ROM
+                           A  4210    	XREF _vdp_cursorGetXpos:ROM
+                           A  4211    	XREF _vdp_cursorGoto:ROM
+                           A  4212    	XREF _vdp_cls:ROM
+                           A  4213    	XREF _mos_feof:ROM
+                           A  4214    	XREF _mos_fgetc:ROM
+                           A  4215    	XREF _mos_fclose:ROM
+                           A  4216    	XREF _mos_fopen:ROM
+                           A  4217    	XREF _waitvblank:ROM
+                           A  4218    	XREF _puts:ROM
+                           A  4219    	XREF _getch:ROM
+                           A  4220    	XREF _putch:ROM
+                           A  4221    	XREF __stoiu:ROM
+                           A  4222    	XREF __ishl_b:ROM
+                           A  4223    	XDEF _main
+                           A  4224    	END
 
 
 Errors: 0
 Warnings: 0
-Lines Assembled: 4177
+Lines Assembled: 4225

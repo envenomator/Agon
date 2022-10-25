@@ -20,7 +20,10 @@
 	XDEF _mos_fgetc
 	XDEF _mos_fputc
 	XDEF _mos_feof
-	
+	XDEF _getsysvar8bit
+	XDEF _getsysvar16bit
+	XDEF _getsysvar24bit
+
 	segment CODE
 	.assume ADL=1
 	
@@ -85,6 +88,32 @@ _waitvblank:
 	ld a, (ix + sysvar_time + 0)
 $$:	cp a, (ix + sysvar_time + 0)
 	jr z, $B
+	pop ix
+	ret
+
+
+_getsysvar8bit:
+	push ix
+	ld a, mos_sysvars
+	rst.lis 08h
+	ld a, (ix)					; sysvars base address
+	ld d,0
+	ld e,a
+	add ix,de					; ix now points to (mos_sysvars)+parameter
+	ld a, (ix)
+	pop ix
+	ret
+
+_getsysvar16bit:
+_getsysvar24bit:
+	push ix
+	ld a, mos_sysvars
+	rst.lis 08h
+	ld a, (ix)					; sysvars base address
+	ld d,0
+	ld e,a
+	add ix,de					; ix now points to (mos_sysvars)+parameter
+	ld hl, (ix)
 	pop ix
 	ret
 

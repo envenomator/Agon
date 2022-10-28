@@ -23,3 +23,4 @@ For people using this from Windows, consider installing the Windows Subsystem fo
 ## Code details
 - The MOS requests transfer using VDU 23,28 currently. I might need to move this in the future, but for now, this sequence seems unused
 - Because of serial speed differences and lack of flowcontrol on both serial interfaces (inbound serial-usb and VDP->CPU), the VDP having more power to decode the iHex stream, the z80 CPU just receives the inbound stream in chunks. At the end of chunk transmissions, both sides calculate CRC32 and the CPU reports the value to the VDP which then matches the results
+- To avoid a complete overhaul and additional code, just to transfer bytes differently than in the current serial packet protocol, the PACKET_KEYCODE is used for transfer of all byte values. In order to transfer '0' as a value and still be able to differentiate a receipt at the CPU, the keyboard modifier byte is used as an escape sequence.

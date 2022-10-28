@@ -17,9 +17,10 @@ cp ihexload.h agon-vdp-patched/
 cp ihexload.cpp agon-vdp-patched/
 echo "Patching MOS.zdsproj"
 sed -i 's/0BE0000/0BD0000/g' agon-mos-patched/MOS.zdsproj
+sed -i 's/<\/files>/<file filter-key=\"\">src\\mos_hexload.c<\/file>\n<file filter-key=\"\">src\\mos_bytestream.asm<\/file>\n<\/files>/g' agon-mos-patched/MOS.zdsproj
 echo "Patching mos.c"
 sed -i 's/#include \"ff.h\"/#include \"ff.h\"\n#include \"mos_hexload.h\"/g' agon-mos-patched/src/mos.c
-sed -i 's/&mos_cmdSET },/\&mod_cmdSET },\n\t{ \"HL\",\t\t\&mos_HEXLOAD },/g' agon-mos-patched/src/mos.c
+sed -i 's/&mos_cmdSET },/\&mos_cmdSET },\n\t{ \"HL\",\t\t\&mos_cmdHEXLOAD },/g' agon-mos-patched/src/mos.c
 echo "Patching main.c"
 sed -i 's/Agon Quark MOS Version %d\.%02d/Agon Quark MOS Version %d\.%02d Hexload patch/g' agon-mos-patched/main.c
 echo "Patching video.ino"

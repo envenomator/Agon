@@ -16,7 +16,7 @@ cp mos_bytestream.asm agon-mos-patched/src/
 cp ihexload.h agon-vdp-patched/
 cp ihexload.cpp agon-vdp-patched/
 echo "Patching MOS.zdsproj"
-sed -i 's/0BE0000/0BD0000/g' agon-mos-patched/MOS.zdsproj
+sed -i 's/0BE000/0BD000/g' agon-mos-patched/MOS.zdsproj
 sed -i 's/<\/files>/<file filter-key=\"\">src\\mos_hexload.c<\/file>\n<file filter-key=\"\">src\\mos_bytestream.asm<\/file>\n<\/files>/g' agon-mos-patched/MOS.zdsproj
 echo "Patching mos.c"
 sed -i 's/#include \"ff.h\"/#include \"ff.h\"\n#include \"mos_hexload.h\"/g' agon-mos-patched/src/mos.c
@@ -28,7 +28,7 @@ sed -i 's/#include \"agon.h\"/#include \"agon.h\"\n#include \"ihexload.h\"/g' ag
 sed -i 's/HardwareSerial DBGSerial\x280\x29;//g' agon-vdp-patched/video.ino
 sed -i 's/DBGSerial/Serial/g' agon-vdp-patched/video.ino
 sed -i 's/500000/115200/g' agon-vdp-patched/video.ino
-sed -i 's/\/\/ Sprite system control/\/\/ Sprite system control\n\t\t\t\tbreak;\n\t\t\tcase 0x1C:\t\t\t\t\/\/ HEXLOAD VDU 23,28\n\t\t\t\tvdu_sys_hexload\(\);/g' agon-vdp-patched/video.ino
+sed -i 's/vdu_sys_sprites();.*$/vdu_sys_sprites\(\);\t\t\t\/\/ Sprite system control\n\t\t\t\tbreak;\n\t\t\tcase 0x1C:\t\t\t\t\/\/ HEXLOAD VDU 23,28\n\t\t\t\tvdu_sys_hexload\(\);/g' agon-vdp-patched/video.ino
 sed -i 's/Agon Quark VPD Version %d\.%02d/Agon Quark VPD Version %d\.%02d Hexload patch/g' agon-vdp-patched/video.ino
 echo "Relocating video code"
 cd agon-vdp-patched

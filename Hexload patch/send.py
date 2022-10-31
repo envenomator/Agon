@@ -36,7 +36,8 @@ f = open(sys.argv[1], "r")
 content = f.readlines()
 
 try:
-  with serial.Serial(serialport, 115200,rtscts=0) as ser:
+  with serial.Serial(serialport, 115200,rtscts=False,dsrdtr=False) as ser:
+    ##ser.setDTR(None)
     print('Opening serial port...')
     time.sleep(1)
     print('Writing textfile to serial port')

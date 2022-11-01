@@ -17,5 +17,5 @@
 ## To do
 - Order a PCB with the option 'specify location for order number', sigh
 - Solder the headers straight next time
-- Test the ez80 interface. Working for the ESP32
+- Remove the ESP32 side as this will not be used in the future
 - Create some sort of 3d printed bracket/housing for the connector

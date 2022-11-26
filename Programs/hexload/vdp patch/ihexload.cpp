@@ -19,33 +19,6 @@ extern void send_packet(uint8_t code, uint8_t len, uint8_t data[]);
 extern void printFmt(const char *format, ...);
 extern uint8_t readByte();
 
-// helper method to send a uint8_t transparently as a KEYCODE
-/*
-void send_byte(uint8_t b)
-{
-  uint8_t packet[2] = {0,0};
-
-  switch(b)
-  {
-    case 0: // escape with 0x01/0x02 - meaning 0x00
-      packet[0] = 1;
-      send_packet(PACKET_KEYCODE, sizeof packet, packet);                       
-      packet[0] = 2;
-      send_packet(PACKET_KEYCODE, sizeof packet, packet);                       
-      break;
-    case 1: // escape with 0x01/0x01 - meaning 0x01
-      packet[0] = 1;
-      send_packet(PACKET_KEYCODE, sizeof packet, packet);                       
-      packet[0] = 1;
-      send_packet(PACKET_KEYCODE, sizeof packet, packet);                           
-      break;
-    default:
-      packet[0] = b;
-      send_packet(PACKET_KEYCODE, sizeof packet, packet);                           
-      break;
-  }
-}
-*/
 void send_byte(uint8_t b)
 {
   uint8_t packet[2] = {0,0};
@@ -152,7 +125,11 @@ bool ihex_data_read (struct ihex_state *ihex, ihex_record_type_t type, bool chec
       ihex->next_address = ihex->address + ihex->length;
 
       //printFmt("Addr 0x%lx len 0x%02x\r\n",ihex->address, ihex->length);
-      printFmt(".");      
+      if(!checksum_error)
+          printFmt(".");
+        else
+          printFmt("X");
+      
       //
       // now start sending the actual bytes in this record
       //
@@ -251,23 +228,32 @@ void vdu_sys_hexload(void)
   ihex_read_bytes(&ihex, buffer, count); // read remaining count characters
   ihex_end_read(&ihex); // flush remaining processed buffer bytes to ez80
   printFmt("\r\n");
+  send_byte(0x0); // signal termination of transmission to ez80
+
   if(ihex.checksum_error || ihex.length_error)
   {
     if(ihex.checksum_error) printFmt("Input checksum error(s)\r\n");
-    if(ihex.length_error)   printFmt("Input line(s) too long\r\n");    
+    if(ihex.length_error)   printFmt("Input line(s) too long\r\n");
+
+    // discard CPU CRC32 results
+    readByte();
+    readByte();
+    readByte();
+    readByte();    
   }
-  else printFmt("%d bytes\r\n", ihex.total);
+  else
+  {
+    printFmt("%d bytes\r\n", ihex.total);
 
-  send_byte(0x0); // signal termination of transmission to ez80
-
-  // calculate crc and match receiving crc
-  crc_sent = crc32(0,0,false);
-  crc_rec = readByte(); // LSB
-  crc_rec |= (readByte() << 8);
-  crc_rec |= (readByte() << 16);
-  crc_rec |= (readByte() << 24);
-  if(crc_sent == crc_rec) printFmt("CRC32 OK\r\n");
-  else printFmt("CRC32 ERROR\r\n");
+    // calculate crc and match receiving crc
+    crc_sent = crc32(0,0,false);
+    crc_rec = readByte(); // LSB
+    crc_rec |= (readByte() << 8);
+    crc_rec |= (readByte() << 16);
+    crc_rec |= (readByte() << 24);
+    if(crc_sent == crc_rec) printFmt("CRC32 OK\r\n");
+    else printFmt("CRC32 ERROR\r\n");
+  }
 }
 
 #define IHEX_START ':'

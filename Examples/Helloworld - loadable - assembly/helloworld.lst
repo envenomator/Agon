@@ -1,19 +1,27 @@
     1 00:0000 -  -  -  -      .ASSUME ADL=1
     2 00:0000 -  -  -  -  
     3 00:0000 -  -  -  -      .org 40000h
-    4 04:0000 -  -  -  -  start:
-    5 04:0000 21 0F 00 04     ld hl,hello
-    6 04:0004 -  -  -  -  loop:
-    7 04:0004 7E -  -  -      ld a,(hl)
-    8 04:0005 B7 -  -  -      or a
-    9 04:0006 28 05 -  -      jr z, done
-   10 04:0008 49 D7 -  -      rst.lis 10h
-   11 04:000A 23 -  -  -      inc hl
-   12 04:000B 18 F7 -  -      jr loop
-   13 04:000D -  -  -  -  done:
-   14 04:000D 18 FE -  -      jr done
-   15 04:000F -  -  -  -  hello:
-   16 04:000F 48 65 6C 6C 
+    4 04:0000 C3 45 00 04     jp start
+    5 04:0004 -  -  -  -  
+    6 04:0004 -  -  -  -      .seek 40040h
+    7 04:0040 4D 4F 53 -      .DB		"MOS"		; Flag for MOS - to confirm this is a valid MOS command
+    8 04:0043 00 -  -  -      .DB		00h		; MOS header version 0
+    9 04:0044 01 -  -  -      .DB		01h		; Flag for run mode (0: Z80, 1: ADL)
+   10 04:0045 -  -  -  -  
+   11 04:0045 -  -  -  -  start:
+   12 04:0045 21 57 00 04     ld hl,hello
+   13 04:0049 -  -  -  -  loop:
+   14 04:0049 7E -  -  -      ld a,(hl)
+   15 04:004A B7 -  -  -      or a
+   16 04:004B 28 05 -  -      jr z, done
+   17 04:004D 49 D7 -  -      rst.lis 10h
+   18 04:004F 23 -  -  -      inc hl
+   19 04:0050 18 F7 -  -      jr loop
+   20 04:0052 -  -  -  -  done:
+   21 04:0052 21 00 00 00     ld hl,0
+   22 04:0056 C9 -  -  -      ret
+   23 04:0057 -  -  -  -  hello:
+   24 04:0057 48 65 6C 6C 
               6F 20 77 6F 
               72 6C 64 21 
-              00 -  -  -      .db "Hello world!",0
+              0D 0A 00 -      .db "Hello world!\r\n",0

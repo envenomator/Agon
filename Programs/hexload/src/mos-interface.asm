@@ -2,16 +2,18 @@
 ; Title:		AGON MOS - MOS assembly interface
 ; Author:		Jeroen Venema
 ; Created:		15/10/2022
-; Last Updated:	15/10/2022
+; Last Updated:	26/11/2022
 ; 
 ; Modinfo:
 ; 15/10/2022:		Added _putch, _getch
 ; 21/10/2022:		Added _puts
 ; 22/10/2022:		Added _waitvblank, _mos_f* file functions
-;
+; 26/11/2022:       __putch, changed default routine entries to use IY
+
 	.include "mos_api.inc"
 
 	XDEF _putch
+	XDEF __putch
 	XDEF _getch
 	XDEF _puts
 	XDEF _waitvblank
@@ -28,21 +30,20 @@
 	.assume ADL=1
 	
 _putch:
-	push ix
-	ld ix,0
-	add ix, sp
-	
-	ld a, (ix+6)
-	push ix
-	rst.lil 16
-	pop ix
-	
-	ld sp,ix
-	pop ix
+__putch:
+	push 	iy
+	ld 		iy,0
+	add 	iy, sp
+	ld 		a, (iy+6)
+	rst.lil	10h
+	ld		hl,0
+	ld		l,a
+	ld		sp,iy
+	pop		iy
 	ret
 
 _getch:
-	push ix
+	push iy
 	ld a, mos_sysvars			; MOS Call for mos_sysvars
 	rst.lil 08h					; returns pointer to sysvars in ixu
 _getch0:
@@ -54,15 +55,15 @@ _getch0:
 	xor a
 	ld (ix+sysvar_keycode),a
 	pop af
-	pop ix
+	pop iy
 	ret
 
 _puts:
-	push ix			; push ix onto stack and allocate local frame
-	ld ix,0
-	add ix, sp
+	push iy			; push iy onto stack and allocate local frame
+	ld iy,0
+	add iy, sp
 
-	ld hl, (ix+6)
+	ld hl, (iy+6)
 
 _puts_loop:
 	ld a, (hl)
@@ -70,119 +71,117 @@ _puts_testloop:
 	or a
 	jr z, _puts_done
 	push hl
-	push ix
-	rst.lil 16			; output
-	pop ix
+	rst.lil 10h			; output
 	pop hl
 	inc hl
 	jr _puts_loop
 
 _puts_done:
-	ld sp,ix
-	pop ix
+	ld sp,iy
+	pop iy
 	ret
 
 _waitvblank:
-	push ix
+	push iy
 	ld a, mos_sysvars
 	rst.lil 08h
-	ld a, (ix + sysvar_time + 0)
-$$:	cp a, (ix + sysvar_time + 0)
+	ld a, (iy + sysvar_time + 0)
+$$:	cp a, (iy + sysvar_time + 0)
 	jr z, $B
-	pop ix
+	pop iy
 	ret
 
 
 _getsysvar8bit:
-	push ix
+	push iy
 	ld a, mos_sysvars
 	rst.lil 08h
-	ld a, (ix)					; sysvars base address
+	ld a, (iy)					; sysvars base address
 	ld d,0
 	ld e,a
-	add ix,de					; ix now points to (mos_sysvars)+parameter
-	ld a, (ix)
-	pop ix
+	add iy,de					; iy now points to (mos_sysvars)+parameter
+	ld a, (iy)
+	pop iy
 	ret
 
 _getsysvar16bit:
 _getsysvar24bit:
-	push ix
+	push iy
 	ld a, mos_sysvars
 	rst.lil 08h
-	ld a, (ix)					; sysvars base address
+	ld a, (iy)					; sysvars base address
 	ld d,0
 	ld e,a
-	add ix,de					; ix now points to (mos_sysvars)+parameter
-	ld hl, (ix)
-	pop ix
+	add iy,de					; ix now points to (mos_sysvars)+parameter
+	ld hl, (iy)
+	pop iy
 	ret
 
 _mos_fopen:
-	push ix
-	ld ix,0
-	add ix, sp
+	push iy
+	ld iy,0
+	add iy, sp
 	
-	ld hl, (ix+6)	; address to 0-terminated filename in memory
-	ld c,  (ix+9)	; mode : fa_read / fa_write etc
+	ld hl, (iy+6)	; address to 0-terminated filename in memory
+	ld c,  (iy+9)	; mode : fa_read / fa_write etc
 	ld a, mos_fopen
 	rst.lil 08h		; returns filehandle in A
 	
-	ld sp,ix
-	pop ix
+	ld sp,iy
+	pop iy
 	ret	
 
 _mos_fclose:
-	push ix
-	ld ix,0
-	add ix, sp
+	push iy
+	ld iy,0
+	add iy, sp
 	
-	ld c, (ix+6)	; filehandle, or 0 to close all files
+	ld c, (iy+6)	; filehandle, or 0 to close all files
 	ld a, mos_fclose
 	rst.lil 08h		; returns number of files still open in A
 	
-	ld sp,ix
-	pop ix
+	ld sp,iy
+	pop iy
 	ret	
 
 _mos_fgetc:
-	push ix
-	ld ix,0
-	add ix, sp
+	push iy
+	ld iy,0
+	add iy, sp
 	
-	ld c, (ix+6)	; filehandle
+	ld c, (iy+6)	; filehandle
 	ld a, mos_fgetc
 	rst.lil 08h		; returns character in A
 	
-	ld sp,ix
-	pop ix
+	ld sp,iy
+	pop iy
 	ret	
 
 _mos_fputc:
-	push ix
-	ld ix,0
-	add ix, sp
+	push iy
+	ld iy,0
+	add iy, sp
 	
-	ld c, (ix+6)	; filehandle
-	ld b, (ix+9)	; character to write
+	ld c, (iy+6)	; filehandle
+	ld b, (iy+9)	; character to write
 	ld a, mos_fputc
 	rst.lil 08h		; returns nothing
 	
-	ld sp,ix
-	pop ix
+	ld sp,iy
+	pop iy
 	ret	
 
 _mos_feof:
-	push ix
-	ld ix,0
-	add ix, sp
+	push iy
+	ld iy,0
+	add iy, sp
 	
-	ld c, (ix+6)	; filehandle
+	ld c, (iy+6)	; filehandle
 	ld a, mos_feof
 	rst.lil 08h		; returns A: 1 at End-of-File, 0 otherwise
 	
-	ld sp,ix
-	pop ix
+	ld sp,iy
+	pop iy
 	ret	
 
 end

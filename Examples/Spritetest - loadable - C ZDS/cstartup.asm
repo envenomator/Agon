@@ -29,16 +29,14 @@ _rst0:
 	push bc
 	push de
 	push hl
-	push ix
-	push iy
 	
-    jp __c_startup
+    jp.lil __c_startup
 
 		ALIGN		64
 		
 		DB		"MOS"		; Flag for MOS - to confirm this is a valid MOS command
 		DB		00h		; MOS header version 0
-		DB		01h		; Flag for run mode (0: Z80, 1: ADL)
+		DB		00h		; Flag for run mode (0: Z80, 1: ADL)
 
 ;*****************************************************************************
 ; This segment must be aligned on a 512 byte boundary anywhere in RAM
@@ -102,8 +100,6 @@ __exit:
 _exit:
 _abort:
 	
-	pop iy
-	pop ix
 	pop hl
 	pop de
 	pop bc

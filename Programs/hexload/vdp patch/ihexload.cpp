@@ -122,7 +122,7 @@ bool ihex_data_read (struct ihex_state *ihex, ihex_record_type_t type, bool chec
       if(ihex->next_address == 0)
       {
         ihex->next_address = ihex->address; // start first record at first given address, so everything becomes relative
-
+        printFmt("Start address 0x%lx\r\n",ihex->address);
         // send 24bit start address
         xsb = (uint8_t)(ihex->address & 0xFF); // LSB
         send_byte(xsb);
@@ -136,7 +136,7 @@ bool ihex_data_read (struct ihex_state *ihex, ihex_record_type_t type, bool chec
       address_delta = ihex->address - ihex->next_address;
       if(address_delta)
       {
-        printFmt("Addr 0x%lx len 0x%04x padding\r\n", ihex->next_address, address_delta);
+        //printFmt("Addr 0x%lx len 0x%04x padding\r\n", ihex->next_address, address_delta);
         send_byte(address_delta);
         char zero = 0; // need this as a source for crc32
         while(address_delta) // send padding bytes
@@ -151,8 +151,8 @@ bool ihex_data_read (struct ihex_state *ihex, ihex_record_type_t type, bool chec
       // prepare anticipated address for next record
       ihex->next_address = ihex->address + ihex->length;
 
-      printFmt("Addr 0x%lx len 0x%02x\r\n",ihex->address, ihex->length);
-            
+      //printFmt("Addr 0x%lx len 0x%02x\r\n",ihex->address, ihex->length);
+      printFmt(".");      
       //
       // now start sending the actual bytes in this record
       //
@@ -250,14 +250,14 @@ void vdu_sys_hexload(void)
 
   ihex_read_bytes(&ihex, buffer, count); // read remaining count characters
   ihex_end_read(&ihex); // flush remaining processed buffer bytes to ez80
+  printFmt("\r\n");
   if(ihex.checksum_error || ihex.length_error)
   {
     if(ihex.checksum_error) printFmt("Input checksum error(s)\r\n");
     if(ihex.length_error)   printFmt("Input line(s) too long\r\n");    
   }
-  else printFmt("%d bytes sent to CPU\r\n", ihex.total);
+  else printFmt("%d bytes\r\n", ihex.total);
 
-  printFmt("Waiting for CPU confirmation\r\n");
   send_byte(0x0); // signal termination of transmission to ez80
 
   // calculate crc and match receiving crc
@@ -266,8 +266,8 @@ void vdu_sys_hexload(void)
   crc_rec |= (readByte() << 8);
   crc_rec |= (readByte() << 16);
   crc_rec |= (readByte() << 24);
-  if(crc_sent == crc_rec) printFmt("CPU CRC32 OK\r\n");
-  else printFmt("CPU CRC32 ERROR\r\n");
+  if(crc_sent == crc_rec) printFmt("CRC32 OK\r\n");
+  else printFmt("CRC32 ERROR\r\n");
 }
 
 #define IHEX_START ':'

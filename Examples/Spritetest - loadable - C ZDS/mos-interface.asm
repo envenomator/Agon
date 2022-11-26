@@ -34,7 +34,7 @@ _putch:
 	
 	ld a, (ix+6)
 	push ix
-	rst.lil 16
+	rst.lis 16
 	pop ix
 	
 	ld sp,ix
@@ -42,9 +42,8 @@ _putch:
 	ret
 
 _getch:
-	push ix
 	ld a, mos_sysvars			; MOS Call for mos_sysvars
-	rst.lil 08h					; returns pointer to sysvars in ixu
+	rst.lis 08h					; returns pointer to sysvars in ixu
 _getch0:
 	ld a, (ix+sysvar_keycode)	; get current keycode
 	or a,a
@@ -54,7 +53,7 @@ _getch0:
 	xor a
 	ld (ix+sysvar_keycode),a
 	pop af
-	pop ix
+	
 	ret
 
 _puts:
@@ -71,7 +70,7 @@ _puts_testloop:
 	jr z, _puts_done
 	push hl
 	push ix
-	rst.lil 16			; output
+	rst.lis 16			; output
 	pop ix
 	pop hl
 	inc hl
@@ -85,7 +84,7 @@ _puts_done:
 _waitvblank:
 	push ix
 	ld a, mos_sysvars
-	rst.lil 08h
+	rst.lis 08h
 	ld a, (ix + sysvar_time + 0)
 $$:	cp a, (ix + sysvar_time + 0)
 	jr z, $B
@@ -96,7 +95,7 @@ $$:	cp a, (ix + sysvar_time + 0)
 _getsysvar8bit:
 	push ix
 	ld a, mos_sysvars
-	rst.lil 08h
+	rst.lis 08h
 	ld a, (ix)					; sysvars base address
 	ld d,0
 	ld e,a
@@ -109,7 +108,7 @@ _getsysvar16bit:
 _getsysvar24bit:
 	push ix
 	ld a, mos_sysvars
-	rst.lil 08h
+	rst.lis 08h
 	ld a, (ix)					; sysvars base address
 	ld d,0
 	ld e,a
@@ -126,7 +125,7 @@ _mos_fopen:
 	ld hl, (ix+6)	; address to 0-terminated filename in memory
 	ld c,  (ix+9)	; mode : fa_read / fa_write etc
 	ld a, mos_fopen
-	rst.lil 08h		; returns filehandle in A
+	rst.lis 08h		; returns filehandle in A
 	
 	ld sp,ix
 	pop ix
@@ -139,7 +138,7 @@ _mos_fclose:
 	
 	ld c, (ix+6)	; filehandle, or 0 to close all files
 	ld a, mos_fclose
-	rst.lil 08h		; returns number of files still open in A
+	rst.lis 08h		; returns number of files still open in A
 	
 	ld sp,ix
 	pop ix
@@ -152,7 +151,7 @@ _mos_fgetc:
 	
 	ld c, (ix+6)	; filehandle
 	ld a, mos_fgetc
-	rst.lil 08h		; returns character in A
+	rst.lis 08h		; returns character in A
 	
 	ld sp,ix
 	pop ix
@@ -166,7 +165,7 @@ _mos_fputc:
 	ld c, (ix+6)	; filehandle
 	ld b, (ix+9)	; character to write
 	ld a, mos_fputc
-	rst.lil 08h		; returns nothing
+	rst.lis 08h		; returns nothing
 	
 	ld sp,ix
 	pop ix
@@ -179,7 +178,7 @@ _mos_feof:
 	
 	ld c, (ix+6)	; filehandle
 	ld a, mos_feof
-	rst.lil 08h		; returns A: 1 at End-of-File, 0 otherwise
+	rst.lis 08h		; returns A: 1 at End-of-File, 0 otherwise
 	
 	ld sp,ix
 	pop ix

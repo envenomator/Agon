@@ -2,13 +2,13 @@
 ; Title:		AGON MOS - MOS assembly interface
 ; Author:		Jeroen Venema
 ; Created:		15/10/2022
-; Last Updated:	15/10/2022
+; Last Updated:	26/11/2022
 ; 
 ; Modinfo:
 ; 15/10/2022:		Added _putch, _getch
 ; 21/10/2022:		Added _puts
 ; 22/10/2022:		Added _waitvblank, _mos_f* file functions
-; 26/11/2022:       __putch
+; 26/11/2022:       __putch, changed default routine entries to use IY
 
 	.include "mos_api.inc"
 
@@ -31,18 +31,20 @@
 	
 _putch:
 __putch:
-	push iy
-	ld iy,0
-	add iy, sp
-	
-	ld a, (iy+6)
-	rst.lil 10h
-	
-	ld sp,iy
-	pop iy
+	push 	iy
+	ld 		iy,0
+	add 	iy, sp
+	ld 		a, (iy+6)
+	rst.lil	10h
+	ld		hl,0
+	ld		l,a
+	ld		sp,iy
+	pop		iy
 	ret
 
 _getch:
+	push iy
+	push ix
 	ld a, mos_sysvars			; MOS Call for mos_sysvars
 	rst.lil 08h					; returns pointer to sysvars in ixu
 _getch0:
@@ -54,7 +56,8 @@ _getch0:
 	xor a
 	ld (ix+sysvar_keycode),a
 	pop af
-	
+	pop ix
+	pop iy
 	ret
 
 _puts:

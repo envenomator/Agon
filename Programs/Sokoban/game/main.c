@@ -94,7 +94,16 @@ int main(int argc, char * argv[]) {
 		game_resetSprites();
 		vdp_mode(1);	// 512x384 pixels - default console
 	}
-	else printf("No level available\r\n");
+	else
+	{
+		vdp_cursorGoto(15,38);
+		vdp_fgcolour(255,0,0);
+		puts("No level available! - press any key");
+		getch();
+		vdp_cls();
+		vdp_fgcolour(255,255,255);
+	}
+	puts("Thank you for playing Sokoban\r\n");
 	return 0;
 }
 

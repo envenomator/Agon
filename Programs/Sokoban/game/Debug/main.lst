@@ -1,4 +1,4 @@
-Zilog eZ80 Macro Assembler Version 4.3 (19073001) RELISTED10-Dec-22     18:06:53     page:   1
+Zilog eZ80 Macro Assembler Version 4.3 (19073001) RELISTED10-Dec-22     18:16:46     page:   1
 
 
 PC     Object              I  Line    Source 
@@ -179,7 +179,7 @@ PC     Object              I  Line    Source
                            A   175    ;   11		vdp_cls();
                            A   176    .LINE 11
                            A   177    
-0400E0 CD 4D 04 04         A   178    	CALL	_vdp_cls
+0400E0 CD 86 04 04         A   178    	CALL	_vdp_cls
                            A   179    ;   12		vdp_cursorGoto(0,10);
                            A   180    .LINE 12
                            A   181    
@@ -187,13 +187,13 @@ PC     Object              I  Line    Source
 0400E8 C5                  A   183    	PUSH	BC
 0400E9 01000000            A   184    	LD	BC,0
 0400ED C5                  A   185    	PUSH	BC
-0400EE CD 95 04 04         A   186    	CALL	_vdp_cursorGoto
+0400EE CD CE 04 04         A   186    	CALL	_vdp_cursorGoto
 0400F2 C1                  A   187    	POP	BC
 0400F3 C1                  A   188    	POP	BC
                            A   189    ;   13		vdp_cursorDisable();
                            A   190    .LINE 13
                            A   191    
-0400F4 CD E5 0D 04         A   192    	CALL	_vdp_cursorDisable
+0400F4 CD 1E 0E 04         A   192    	CALL	_vdp_cursorDisable
                            A   193    ;   14		vdp_fgcolour(255,0,0);
                            A   194    .LINE 14
                            A   195    
@@ -202,16 +202,16 @@ PC     Object              I  Line    Source
 0400FD C5                  A   198    	PUSH	BC
 0400FE 01FF0000            A   199    	LD	BC,255
 040102 C5                  A   200    	PUSH	BC
-040103 CD 26 05 04         A   201    	CALL	_vdp_fgcolour
+040103 CD 5F 05 04         A   201    	CALL	_vdp_fgcolour
 040107 C1                  A   202    	POP	BC
 040108 C1                  A   203    	POP	BC
 040109 C1                  A   204    	POP	BC
                            A   205    ;   15		puts("             _____       _   
                            A   206    .LINE 15
                            A   207    
-04010A 01 27 35 04         A   208    	LD	BC,L__0
+04010A 01 60 35 04         A   208    	LD	BC,L__0
 04010E C5                  A   209    	PUSH	BC
-04010F CD 50 1F 04         A   210    	CALL	_puts
+04010F CD 89 1F 04         A   210    	CALL	_puts
 040113 C1                  A   211    	POP	BC
                            A   212    ;   16		vdp_fgcolour(255,255,0);
                            A   213    .LINE 16
@@ -221,16 +221,16 @@ PC     Object              I  Line    Source
 040119 01FF0000            A   217    	LD	BC,255
 04011D C5                  A   218    	PUSH	BC
 04011E C5                  A   219    	PUSH	BC
-04011F CD 26 05 04         A   220    	CALL	_vdp_fgcolour
+04011F CD 5F 05 04         A   220    	CALL	_vdp_fgcolour
 040123 C1                  A   221    	POP	BC
 040124 C1                  A   222    	POP	BC
 040125 C1                  A   223    	POP	BC
                            A   224    ;   17		puts("            / ____|     | |  
                            A   225    .LINE 17
                            A   226    
-040126 01 5F 35 04         A   227    	LD	BC,L__1
+040126 01 98 35 04         A   227    	LD	BC,L__1
 04012A C5                  A   228    	PUSH	BC
-04012B CD 50 1F 04         A   229    	CALL	_puts
+04012B CD 89 1F 04         A   229    	CALL	_puts
 04012F C1                  A   230    	POP	BC
                            A   231    ;   18		vdp_fgcolour(0,255,255);
                            A   232    .LINE 18
@@ -240,16 +240,16 @@ PC     Object              I  Line    Source
 040135 C5                  A   236    	PUSH	BC
 040136 01000000            A   237    	LD	BC,0
 04013A C5                  A   238    	PUSH	BC
-04013B CD 26 05 04         A   239    	CALL	_vdp_fgcolour
+04013B CD 5F 05 04         A   239    	CALL	_vdp_fgcolour
 04013F C1                  A   240    	POP	BC
 040140 C1                  A   241    	POP	BC
 040141 C1                  A   242    	POP	BC
                            A   243    ;   19		puts("           | (___   ___ | | _
                            A   244    .LINE 19
                            A   245    
-040142 01 97 35 04         A   246    	LD	BC,L__2
+040142 01 D0 35 04         A   246    	LD	BC,L__2
 040146 C5                  A   247    	PUSH	BC
-040147 CD 50 1F 04         A   248    	CALL	_puts
+040147 CD 89 1F 04         A   248    	CALL	_puts
 04014B C1                  A   249    	POP	BC
                            A   250    ;   20		vdp_fgcolour(0,0,255);
                            A   251    .LINE 20
@@ -259,16 +259,16 @@ PC     Object              I  Line    Source
 040151 01000000            A   255    	LD	BC,0
 040155 C5                  A   256    	PUSH	BC
 040156 C5                  A   257    	PUSH	BC
-040157 CD 26 05 04         A   258    	CALL	_vdp_fgcolour
+040157 CD 5F 05 04         A   258    	CALL	_vdp_fgcolour
 04015B C1                  A   259    	POP	BC
 04015C C1                  A   260    	POP	BC
 04015D C1                  A   261    	POP	BC
                            A   262    ;   21		puts("            \\___ \\ / _ \\| 
                            A   263    .LINE 21
                            A   264    
-04015E 01 CF 35 04         A   265    	LD	BC,L__3
+04015E 01 08 36 04         A   265    	LD	BC,L__3
 040162 C5                  A   266    	PUSH	BC
-040163 CD 50 1F 04         A   267    	CALL	_puts
+040163 CD 89 1F 04         A   267    	CALL	_puts
 040167 C1                  A   268    	POP	BC
                            A   269    ;   22		vdp_fgcolour(255,0,255);
                            A   270    .LINE 22
@@ -279,16 +279,16 @@ PC     Object              I  Line    Source
 040171 C5                  A   275    	PUSH	BC
 040172 01FF0000            A   276    	LD	BC,255
 040176 C5                  A   277    	PUSH	BC
-040177 CD 26 05 04         A   278    	CALL	_vdp_fgcolour
+040177 CD 5F 05 04         A   278    	CALL	_vdp_fgcolour
 04017B C1                  A   279    	POP	BC
 04017C C1                  A   280    	POP	BC
 04017D C1                  A   281    	POP	BC
                            A   282    ;   23		puts("            ____) | (_) |   <
                            A   283    .LINE 23
                            A   284    
-04017E 01 07 36 04         A   285    	LD	BC,L__4
+04017E 01 40 36 04         A   285    	LD	BC,L__4
 040182 C5                  A   286    	PUSH	BC
-040183 CD 50 1F 04         A   287    	CALL	_puts
+040183 CD 89 1F 04         A   287    	CALL	_puts
 040187 C1                  A   288    	POP	BC
                            A   289    ;   24		vdp_fgcolour(255,255,255);
                            A   290    .LINE 24
@@ -297,30 +297,30 @@ PC     Object              I  Line    Source
 04018C C5                  A   293    	PUSH	BC
 04018D C5                  A   294    	PUSH	BC
 04018E C5                  A   295    	PUSH	BC
-04018F CD 26 05 04         A   296    	CALL	_vdp_fgcolour
+04018F CD 5F 05 04         A   296    	CALL	_vdp_fgcolour
 040193 C1                  A   297    	POP	BC
 040194 C1                  A   298    	POP	BC
 040195 C1                  A   299    	POP	BC
                            A   300    ;   25		puts("           |_____/ \\___/|_|\
                            A   301    .LINE 25
                            A   302    
-040196 01 3F 36 04         A   303    	LD	BC,L__5
+040196 01 78 36 04         A   303    	LD	BC,L__5
 04019A C5                  A   304    	PUSH	BC
-04019B CD 50 1F 04         A   305    	CALL	_puts
+04019B CD 89 1F 04         A   305    	CALL	_puts
 04019F C1                  A   306    	POP	BC
                            A   307    ;   26		puts("\r\n");
                            A   308    .LINE 26
                            A   309    
-0401A0 01 77 36 04         A   310    	LD	BC,L__6
+0401A0 01 B0 36 04         A   310    	LD	BC,L__6
 0401A4 C5                  A   311    	PUSH	BC
-0401A5 CD 50 1F 04         A   312    	CALL	_puts
+0401A5 CD 89 1F 04         A   312    	CALL	_puts
 0401A9 C1                  A   313    	POP	BC
                            A   314    ;   27		puts("\r\n");
                            A   315    .LINE 27
                            A   316    
-0401AA 01 7A 36 04         A   317    	LD	BC,L__7
+0401AA 01 B3 36 04         A   317    	LD	BC,L__7
 0401AE C5                  A   318    	PUSH	BC
-0401AF CD 50 1F 04         A   319    	CALL	_puts
+0401AF CD 89 1F 04         A   319    	CALL	_puts
 0401B3 C1                  A   320    	POP	BC
                            A   321    ;   28		vdp_fgcolour(0,255,0);
                            A   322    .LINE 28
@@ -331,23 +331,23 @@ PC     Object              I  Line    Source
 0401BD C5                  A   327    	PUSH	BC
 0401BE 01000000            A   328    	LD	BC,0
 0401C2 C5                  A   329    	PUSH	BC
-0401C3 CD 26 05 04         A   330    	CALL	_vdp_fgcolour
+0401C3 CD 5F 05 04         A   330    	CALL	_vdp_fgcolour
 0401C7 C1                  A   331    	POP	BC
 0401C8 C1                  A   332    	POP	BC
 0401C9 C1                  A   333    	POP	BC
                            A   334    ;   29		puts("                           Fo
                            A   335    .LINE 29
                            A   336    
-0401CA 01 7D 36 04         A   337    	LD	BC,L__8
+0401CA 01 B6 36 04         A   337    	LD	BC,L__8
 0401CE C5                  A   338    	PUSH	BC
-0401CF CD 50 1F 04         A   339    	CALL	_puts
+0401CF CD 89 1F 04         A   339    	CALL	_puts
 0401D3 C1                  A   340    	POP	BC
                            A   341    ;   30		puts("\r\n");
                            A   342    .LINE 30
                            A   343    
-0401D4 01 A8 36 04         A   344    	LD	BC,L__9
+0401D4 01 E1 36 04         A   344    	LD	BC,L__9
 0401D8 C5                  A   345    	PUSH	BC
-0401D9 CD 50 1F 04         A   346    	CALL	_puts
+0401D9 CD 89 1F 04         A   346    	CALL	_puts
 0401DD C1                  A   347    	POP	BC
                            A   348    ;   31		vdp_fgcolour(128,128,128);
                            A   349    .LINE 31
@@ -356,16 +356,16 @@ PC     Object              I  Line    Source
 0401E2 C5                  A   352    	PUSH	BC
 0401E3 C5                  A   353    	PUSH	BC
 0401E4 C5                  A   354    	PUSH	BC
-0401E5 CD 26 05 04         A   355    	CALL	_vdp_fgcolour
+0401E5 CD 5F 05 04         A   355    	CALL	_vdp_fgcolour
 0401E9 C1                  A   356    	POP	BC
 0401EA C1                  A   357    	POP	BC
 0401EB C1                  A   358    	POP	BC
                            A   359    ;   32		puts("                     (c) 2023
                            A   360    .LINE 32
                            A   361    
-0401EC 01 AB 36 04         A   362    	LD	BC,L__10
+0401EC 01 E4 36 04         A   362    	LD	BC,L__10
 0401F0 C5                  A   363    	PUSH	BC
-0401F1 CD 50 1F 04         A   364    	CALL	_puts
+0401F1 CD 89 1F 04         A   364    	CALL	_puts
 0401F5 C1                  A   365    	POP	BC
                            A   366    ;   33		vdp_cursorGoto(25,38);
                            A   367    .LINE 33
@@ -374,7 +374,7 @@ PC     Object              I  Line    Source
 0401FA C5                  A   370    	PUSH	BC
 0401FB 01190000            A   371    	LD	BC,25
 0401FF C5                  A   372    	PUSH	BC
-040200 CD 95 04 04         A   373    	CALL	_vdp_cursorGoto
+040200 CD CE 04 04         A   373    	CALL	_vdp_cursorGoto
 040204 C1                  A   374    	POP	BC
 040205 C1                  A   375    	POP	BC
                            A   376    ;   34		vdp_fgcolour(255,255,255);
@@ -384,16 +384,16 @@ PC     Object              I  Line    Source
 04020A C5                  A   380    	PUSH	BC
 04020B C5                  A   381    	PUSH	BC
 04020C C5                  A   382    	PUSH	BC
-04020D CD 26 05 04         A   383    	CALL	_vdp_fgcolour
+04020D CD 5F 05 04         A   383    	CALL	_vdp_fgcolour
 040211 C1                  A   384    	POP	BC
 040212 C1                  A   385    	POP	BC
 040213 C1                  A   386    	POP	BC
                            A   387    ;   35		puts("Reading levels...");
                            A   388    .LINE 35
                            A   389    
-040214 01 D9 36 04         A   390    	LD	BC,L__11
+040214 01 12 37 04         A   390    	LD	BC,L__11
 040218 C5                  A   391    	PUSH	BC
-040219 CD 50 1F 04         A   392    	CALL	_puts
+040219 CD 89 1F 04         A   392    	CALL	_puts
 04021D C1                  A   393    	POP	BC
                            A   394    ;   36	
                            A   395    ;   37	}
@@ -419,86 +419,86 @@ PC     Object              I  Line    Source
                            A   415    
                            A   416    .ENDFUNC "splash_screen",37,"_splash_screen"
                            A   417    	SEGMENT STRSECT
-043527                     A   418    L__0:
-043527 20202020 20202020   A   419    	DB	"             _____       _         _  
-04352F 20202020 205F5F5F 
-043537 5F5F2020 20202020 
-04353F 205F2020 20202020 
-043547 2020205F 20202020 
-04354F 20202020 20202020 
-043557 20202020 20 
-04355C 0D0A00              A   420    	DB	13,10,0
-04355F                     A   421    L__1:
-04355F 20202020 20202020   A   422    	DB	"            / ____|     | |       | | 
-043567 20202020 2F205F5F 
-04356F 5F5F7C20 20202020 
-043577 7C207C20 20202020 
-04357F 20207C20 7C202020 
-043587 20202020 20202020 
-04358F 20202020 20 
-043594 0D0A00              A   423    	DB	13,10,0
-043597                     A   424    L__2:
-043597 20202020 20202020   A   425    	DB	"           | (___   ___ | | _____ | |_
-04359F 2020207C 20285F5F 
-0435A7 5F202020 5F5F5F20 
-0435AF 7C207C20 5F5F5F5F 
-0435B7 5F207C20 7C5F5F20 
-0435BF 20205F5F 205F205F 
-0435C7 205F5F20 20 
-0435CC 0D0A00              A   426    	DB	13,10,0
-0435CF                     A   427    L__3:
-0435CF 20202020 20202020   A   428    	DB	"            \\___ \\ / _ \\| |/ / _ \\
-0435D7 20202020 5C5F5F5F 
-0435DF 205C202F 205F205C 
-0435E7 7C207C2F 202F205F 
-0435EF 205C7C20 275F205C 
-0435F7 202F205F 2E207C20 
-0435FF 275F205C 20 
-043604 0D0A00              A   429    	DB	13,10,0
-043607                     A   430    L__4:
-043607 20202020 20202020   A   431    	DB	"            ____) | (_) |   < (_) | |_
-04360F 20202020 5F5F5F5F 
-043617 29207C20 285F2920 
-04361F 7C202020 3C20285F 
-043627 29207C20 7C5F2920 
-04362F 7C20285F 7C207C20 
-043637 7C207C20 7C 
-04363C 0D0A00              A   432    	DB	13,10,0
-04363F                     A   433    L__5:
-04363F 20202020 20202020   A   434    	DB	"           |_____/ \\___/|_|\\_\\___/|
-043647 2020207C 5F5F5F5F 
-04364F 5F2F205C 5F5F5F2F 
-043657 7C5F7C5C 5F5C5F5F 
-04365F 5F2F7C5F 2E5F5F2F 
-043667 205C5F5F 2C5F7C5F 
-04366F 7C207C5F 7C 
-043674 0D0A00              A   435    	DB	13,10,0
-043677                     A   436    L__6:
-043677 0D0A00              A   437    	DB	13,10,0
-04367A                     A   438    L__7:
-04367A 0D0A00              A   439    	DB	13,10,0
-04367D                     A   440    L__8:
-04367D 20202020 20202020   A   441    	DB	"                           For Agon (T
-043685 20202020 20202020 
-04368D 20202020 20202020 
-043695 20202046 6F722041 
-04369D 676F6E20 28544D29 
-0436A5 0D0A00              A   442    	DB	13,10,0
-0436A8                     A   443    L__9:
-0436A8 0D0A00              A   444    	DB	13,10,0
-0436AB                     A   445    L__10:
-0436AB 20202020 20202020   A   446    	DB	"                     (c) 2023 Jeroen V
-0436B3 20202020 20202020 
-0436BB 20202020 20286329 
-0436C3 20323032 33204A65 
-0436CB 726F656E 2056656E 
-0436D3 656D61 
-0436D6 0D0A00              A   447    	DB	13,10,0
-0436D9                     A   448    L__11:
-0436D9 52656164 696E6720   A   449    	DB	"Reading levels..."
-0436E1 6C657665 6C732E2E 
-0436E9 2E 
-0436EA 00                  A   450    	DB	0
+043560                     A   418    L__0:
+043560 20202020 20202020   A   419    	DB	"             _____       _         _  
+043568 20202020 205F5F5F 
+043570 5F5F2020 20202020 
+043578 205F2020 20202020 
+043580 2020205F 20202020 
+043588 20202020 20202020 
+043590 20202020 20 
+043595 0D0A00              A   420    	DB	13,10,0
+043598                     A   421    L__1:
+043598 20202020 20202020   A   422    	DB	"            / ____|     | |       | | 
+0435A0 20202020 2F205F5F 
+0435A8 5F5F7C20 20202020 
+0435B0 7C207C20 20202020 
+0435B8 20207C20 7C202020 
+0435C0 20202020 20202020 
+0435C8 20202020 20 
+0435CD 0D0A00              A   423    	DB	13,10,0
+0435D0                     A   424    L__2:
+0435D0 20202020 20202020   A   425    	DB	"           | (___   ___ | | _____ | |_
+0435D8 2020207C 20285F5F 
+0435E0 5F202020 5F5F5F20 
+0435E8 7C207C20 5F5F5F5F 
+0435F0 5F207C20 7C5F5F20 
+0435F8 20205F5F 205F205F 
+043600 205F5F20 20 
+043605 0D0A00              A   426    	DB	13,10,0
+043608                     A   427    L__3:
+043608 20202020 20202020   A   428    	DB	"            \\___ \\ / _ \\| |/ / _ \\
+043610 20202020 5C5F5F5F 
+043618 205C202F 205F205C 
+043620 7C207C2F 202F205F 
+043628 205C7C20 275F205C 
+043630 202F205F 2E207C20 
+043638 275F205C 20 
+04363D 0D0A00              A   429    	DB	13,10,0
+043640                     A   430    L__4:
+043640 20202020 20202020   A   431    	DB	"            ____) | (_) |   < (_) | |_
+043648 20202020 5F5F5F5F 
+043650 29207C20 285F2920 
+043658 7C202020 3C20285F 
+043660 29207C20 7C5F2920 
+043668 7C20285F 7C207C20 
+043670 7C207C20 7C 
+043675 0D0A00              A   432    	DB	13,10,0
+043678                     A   433    L__5:
+043678 20202020 20202020   A   434    	DB	"           |_____/ \\___/|_|\\_\\___/|
+043680 2020207C 5F5F5F5F 
+043688 5F2F205C 5F5F5F2F 
+043690 7C5F7C5C 5F5C5F5F 
+043698 5F2F7C5F 2E5F5F2F 
+0436A0 205C5F5F 2C5F7C5F 
+0436A8 7C207C5F 7C 
+0436AD 0D0A00              A   435    	DB	13,10,0
+0436B0                     A   436    L__6:
+0436B0 0D0A00              A   437    	DB	13,10,0
+0436B3                     A   438    L__7:
+0436B3 0D0A00              A   439    	DB	13,10,0
+0436B6                     A   440    L__8:
+0436B6 20202020 20202020   A   441    	DB	"                           For Agon (T
+0436BE 20202020 20202020 
+0436C6 20202020 20202020 
+0436CE 20202046 6F722041 
+0436D6 676F6E20 28544D29 
+0436DE 0D0A00              A   442    	DB	13,10,0
+0436E1                     A   443    L__9:
+0436E1 0D0A00              A   444    	DB	13,10,0
+0436E4                     A   445    L__10:
+0436E4 20202020 20202020   A   446    	DB	"                     (c) 2023 Jeroen V
+0436EC 20202020 20202020 
+0436F4 20202020 20286329 
+0436FC 20323032 33204A65 
+043704 726F656E 2056656E 
+04370C 656D61 
+04370F 0D0A00              A   447    	DB	13,10,0
+043712                     A   448    L__11:
+043712 52656164 696E6720   A   449    	DB	"Reading levels..."
+04371A 6C657665 6C732E2E 
+043722 2E 
+043723 00                  A   450    	DB	0
                            A   451    	SEGMENT CODE
                            A   452    ;   38	int main(int argc, char * argv[]) {
 040223                     A   453    _main:
@@ -610,9 +610,9 @@ PC     Object              I  Line    Source
                            A   559    ;   48		levels = game_readLevels(FILE_LEVEL
                            A   560    .LINE 48
                            A   561    
-040237 01 EB 36 04         A   562    	LD	BC,L__13
+040237 01 24 37 04         A   562    	LD	BC,L__13
 04023B C5                  A   563    	PUSH	BC
-04023C CD 16 1A 04         A   564    	CALL	_game_readLevels
+04023C CD 4F 1A 04         A   564    	CALL	_game_readLevels
 040240 C1                  A   565    	POP	BC
 040241 DD77FD              A   566    	LD	(IX+%FFFFFFFD),A
                            A   567    ;   49		if(levels)
@@ -628,37 +628,37 @@ PC     Object              I  Line    Source
 04024D C5                  A   577    	PUSH	BC
 04024E 01140000            A   578    	LD	BC,20
 040252 C5                  A   579    	PUSH	BC
-040253 CD 95 04 04         A   580    	CALL	_vdp_cursorGoto
+040253 CD CE 04 04         A   580    	CALL	_vdp_cursorGoto
 040257 C1                  A   581    	POP	BC
 040258 C1                  A   582    	POP	BC
                            A   583    ;   52			puts("Press any key to continue
                            A   584    .LINE 52
                            A   585    
-040259 01 F6 36 04         A   586    	LD	BC,L__15
+040259 01 2F 37 04         A   586    	LD	BC,L__15
 04025D C5                  A   587    	PUSH	BC
-04025E CD 50 1F 04         A   588    	CALL	_puts
+04025E CD 89 1F 04         A   588    	CALL	_puts
 040262 C1                  A   589    	POP	BC
                            A   590    ;   53			getch();
                            A   591    .LINE 53
                            A   592    
-040263 CD 19 1C 04         A   593    	CALL	_getch
+040263 CD 52 1C 04         A   593    	CALL	_getch
                            A   594    ;   54			
                            A   595    ;   55			vdp_mode(0);	// 640x480 pixe
                            A   596    .LINE 55
                            A   597    
 040267 01000000            A   598    	LD	BC,0
 04026B C5                  A   599    	PUSH	BC
-04026C CD 28 04 04         A   600    	CALL	_vdp_mode
+04026C CD 61 04 04         A   600    	CALL	_vdp_mode
 040270 C1                  A   601    	POP	BC
                            A   602    ;   56			vdp_cursorDisable();
                            A   603    .LINE 56
                            A   604    
-040271 CD E5 0D 04         A   605    	CALL	_vdp_cursorDisable
+040271 CD 1E 0E 04         A   605    	CALL	_vdp_cursorDisable
                            A   606    ;   57			
                            A   607    ;   58			game_sendSpriteData();
                            A   608    .LINE 58
                            A   609    
-040275 CD 86 0E 04         A   610    	CALL	_game_sendSpriteData
+040275 CD BF 0E 04         A   610    	CALL	_game_sendSpriteData
                            A   611    ;   59			
                            A   612    ;   60			while(!doneplaying)
                            A   613    .LINE 60
@@ -672,7 +672,7 @@ PC     Object              I  Line    Source
 04027D DD4EFD              A   621    	LD	C,(IX+%FFFFFFFD)
 040280 0600                A   622    	LD	B,%0
 040282 C5                  A   623    	PUSH	BC
-040283 CD C9 16 04         A   624    	CALL	_game_selectLevel
+040283 CD 02 17 04         A   624    	CALL	_game_selectLevel
 040287 C1                  A   625    	POP	BC
 040288 DD75FA              A   626    	LD	(IX+%FFFFFFFA),L
 04028B DD74FB              A   627    	LD	(IX+%FFFFFFFB),H
@@ -680,7 +680,7 @@ PC     Object              I  Line    Source
                            A   629    .LINE 63
                            A   630    
 04028E DD27FA              A   631    	LD	HL,(IX+%FFFFFFFA)
-040291 CD 8E 20 04         A   632    	CALL	__scmpzero
+040291 CD C7 20 04         A   632    	CALL	__scmpzero
 040295 FA 43 03 04         A   633    	JP	M,L_14
                            A   634    ;   64				{
                            A   635    ;   65					// Start game
@@ -691,29 +691,29 @@ PC     Object              I  Line    Source
                            A   640    ;   67					game_resetSprites();	
                            A   641    .LINE 67
                            A   642    
-04029D CD 42 0F 04         A   643    	CALL	_game_resetSprites
+04029D CD 7B 0F 04         A   643    	CALL	_game_resetSprites
                            A   644    ;   68					game_initLevel(levelnum
                            A   645    .LINE 68
                            A   646    
 0402A1 DD4EFA              A   647    	LD	C,(IX+%FFFFFFFA)
 0402A4 0600                A   648    	LD	B,%0
 0402A6 C5                  A   649    	PUSH	BC
-0402A7 CD A1 1A 04         A   650    	CALL	_game_initLevel
+0402A7 CD DA 1A 04         A   650    	CALL	_game_initLevel
 0402AB C1                  A   651    	POP	BC
                            A   652    ;   69					game_initSprites();		
                            A   653    .LINE 69
                            A   654    
-0402AC CD D7 1A 04         A   655    	CALL	_game_initSprites
+0402AC CD 10 1B 04         A   655    	CALL	_game_initSprites
                            A   656    ;   70					
                            A   657    ;   71					vdp_cls();	// clear ou
                            A   658    .LINE 71
                            A   659    
-0402B0 CD 4D 04 04         A   660    	CALL	_vdp_cls
+0402B0 CD 86 04 04         A   660    	CALL	_vdp_cls
                            A   661    ;   72					
                            A   662    ;   73					game_displayLevel();
                            A   663    .LINE 73
                            A   664    
-0402B4 CD 44 18 04         A   665    	CALL	_game_displayLevel
+0402B4 CD 7D 18 04         A   665    	CALL	_game_displayLevel
                            A   666    ;   74					while(ingame)
                            A   667    .LINE 74
                            A   668    
@@ -723,7 +723,7 @@ PC     Object              I  Line    Source
                            A   672    ;   76						key = getch();
                            A   673    .LINE 76
                            A   674    
-0402BA CD 19 1C 04         A   675    	CALL	_getch
+0402BA CD 52 1C 04         A   675    	CALL	_getch
 0402BE DD77FE              A   676    	LD	(IX+%FFFFFFFE),A
                            A   677    ;   77						if((key == 'q') || 
                            A   678    .LINE 77
@@ -741,7 +741,7 @@ PC     Object              I  Line    Source
                            A   690    ;   79							game_resetSprit
                            A   691    .LINE 79
                            A   692    
-0402D3 CD 42 0F 04         A   693    	CALL	_game_resetSprites
+0402D3 CD 7B 0F 04         A   693    	CALL	_game_resetSprites
                            A   694    ;   80							ingame = (game_
                            A   695    .LINE 80
                            A   696    
@@ -749,9 +749,9 @@ PC     Object              I  Line    Source
 0402DB C5                  A   698    	PUSH	BC
 0402DC 01790000            A   699    	LD	BC,121
 0402E0 C5                  A   700    	PUSH	BC
-0402E1 01 11 37 04         A   701    	LD	BC,L__20
+0402E1 01 4A 37 04         A   701    	LD	BC,L__20
 0402E5 C5                  A   702    	PUSH	BC
-0402E6 CD D2 15 04         A   703    	CALL	_game_getResponse
+0402E6 CD 0B 16 04         A   703    	CALL	_game_getResponse
 0402EA C1                  A   704    	POP	BC
 0402EB C1                  A   705    	POP	BC
 0402EC C1                  A   706    	POP	BC
@@ -778,11 +778,11 @@ PC     Object              I  Line    Source
                            A   727    ;   83								game_initSp
                            A   728    .LINE 83
                            A   729    
-040307 CD D7 1A 04         A   730    	CALL	_game_initSprites
+040307 CD 10 1B 04         A   730    	CALL	_game_initSprites
                            A   731    ;   84								game_displa
                            A   732    .LINE 84
                            A   733    
-04030B CD 44 18 04         A   734    	CALL	_game_displayLevel
+04030B CD 7D 18 04         A   734    	CALL	_game_displayLevel
                            A   735    ;   85							}
 04030F                     A   736    L_4:
                            A   737    .LINE 85
@@ -790,7 +790,7 @@ PC     Object              I  Line    Source
                            A   739    ;   86							game_displayLev
                            A   740    .LINE 86
                            A   741    
-04030F CD 44 18 04         A   742    	CALL	_game_displayLevel
+04030F CD 7D 18 04         A   742    	CALL	_game_displayLevel
                            A   743    ;   87						}
                            A   744    ;   88						else ingame = !game
                            A   745    .LINE 88
@@ -800,7 +800,7 @@ PC     Object              I  Line    Source
 040315 DD4EFE              A   749    	LD	C,(IX+%FFFFFFFE)
 040318 0600                A   750    	LD	B,%0
 04031A C5                  A   751    	PUSH	BC
-04031B CD 02 14 04         A   752    	CALL	_game_handleKey
+04031B CD 3B 14 04         A   752    	CALL	_game_handleKey
 04031F C1                  A   753    	POP	BC
 040320 B7                  A   754    	OR	A,A
 040321 20 09               A   755    	JR	NZ,L_6
@@ -838,121 +838,177 @@ PC     Object              I  Line    Source
                            A   787    ;   94			game_resetSprites();
                            A   788    .LINE 94
                            A   789    
-04034F CD 42 0F 04         A   790    	CALL	_game_resetSprites
+04034F CD 7B 0F 04         A   790    	CALL	_game_resetSprites
                            A   791    ;   95			vdp_mode(1);	// 512x384 pixe
                            A   792    .LINE 95
                            A   793    
 040353 01010000            A   794    	LD	BC,1
 040357 C5                  A   795    	PUSH	BC
-040358 CD 28 04 04         A   796    	CALL	_vdp_mode
+040358 CD 61 04 04         A   796    	CALL	_vdp_mode
 04035C C1                  A   797    	POP	BC
                            A   798    ;   96		}
-                           A   799    ;   97		else printf("No level available\r\n
+                           A   799    ;   97		else
                            A   800    .LINE 97
                            A   801    
-04035D 18 13               A   802    	JR	L_20
+04035D 18 42               A   802    	JR	L_20
 04035F                     A   803    L_19:
-04035F 01 80 1E 04         A   804    	LD	BC,___print_uputch
-040363 ED43 24 35 04       A   805    	LD	(___print_xputch),BC
-040368 01 2A 37 04         A   806    	LD	BC,L__28
-04036C C5                  A   807    	PUSH	BC
-04036D CD 00 1D 04         A   808    	CALL	___print_sendstring
-040371 C1                  A   809    	POP	BC
-040372                     A   810    L_20:
-                           A   811    ;   98		return 0;
-                           A   812    .LINE 98
-                           A   813    
-040372 B7                  A   814    	OR	A,A
-040373 ED62                A   815    	SBC	HL,HL
-                           A   816    ;   99	}
-                           A   817    .LINE 99
-                           A   818    
-040375 DDF9                A   819    	LD	SP,IX
-040377 DDE1                A   820    	POP	IX
-040379 C9                  A   821    	RET	
-                           A   822    
-                           A   823    
-                           A   824    ;**************************** _main ***********
-                           A   825    ;Name                         Addr/Register   S
-                           A   826    ;___print_sendstring                 IMPORT  --
-                           A   827    ;___print_xputch                     IMPORT    
-                           A   828    ;___print_uputch                     IMPORT  --
-                           A   829    ;_game_handleKey                     IMPORT  --
-                           A   830    ;_game_getResponse                   IMPORT  --
-                           A   831    ;_game_displayLevel                  IMPORT  --
-                           A   832    ;_vdp_cls                            IMPORT  --
-                           A   833    ;_game_initSprites                   IMPORT  --
-                           A   834    ;_game_initLevel                     IMPORT  --
-                           A   835    ;_game_resetSprites                  IMPORT  --
-                           A   836    ;_game_selectLevel                   IMPORT  --
-                           A   837    ;_game_sendSpriteData                IMPORT  --
-                           A   838    ;_vdp_cursorDisable                  IMPORT  --
-                           A   839    ;_vdp_mode                           IMPORT  --
-                           A   840    ;_getch                              IMPORT  --
-                           A   841    ;_puts                               IMPORT  --
-                           A   842    ;_vdp_cursorGoto                     IMPORT  --
-                           A   843    ;_game_readLevels                    IMPORT  --
-                           A   844    ;temp8                                 IX-9    
-                           A   845    ;levelnumber                           IX-6    
-                           A   846    ;doneplaying                           IX-4    
-                           A   847    ;levels                                IX-3    
-                           A   848    ;key                                   IX-2    
-                           A   849    ;ingame                                IX-1    
-                           A   850    ;argv                                  IX+9    
-                           A   851    ;argc                                  IX+6    
-                           A   852    
-                           A   853    
-                           A   854    ; Stack Frame Size: 21 (bytes)
-                           A   855    ;       Spill Code: 0 (instruction)
+                           A   804    ;   98		{
+                           A   805    ;   99			vdp_cursorGoto(15,38);
+                           A   806    .LINE 99
+                           A   807    
+04035F 01260000            A   808    	LD	BC,38
+040363 C5                  A   809    	PUSH	BC
+040364 010F0000            A   810    	LD	BC,15
+040368 C5                  A   811    	PUSH	BC
+040369 CD CE 04 04         A   812    	CALL	_vdp_cursorGoto
+04036D C1                  A   813    	POP	BC
+04036E C1                  A   814    	POP	BC
+                           A   815    ;  100			vdp_fgcolour(255,0,0);
+                           A   816    .LINE 100
+                           A   817    
+04036F 01000000            A   818    	LD	BC,0
+040373 C5                  A   819    	PUSH	BC
+040374 C5                  A   820    	PUSH	BC
+040375 01FF0000            A   821    	LD	BC,255
+040379 C5                  A   822    	PUSH	BC
+04037A CD 5F 05 04         A   823    	CALL	_vdp_fgcolour
+04037E C1                  A   824    	POP	BC
+04037F C1                  A   825    	POP	BC
+040380 C1                  A   826    	POP	BC
+                           A   827    ;  101			puts("No level available! - pre
+                           A   828    .LINE 101
+                           A   829    
+040381 01 63 37 04         A   830    	LD	BC,L__28
+040385 C5                  A   831    	PUSH	BC
+040386 CD 89 1F 04         A   832    	CALL	_puts
+04038A C1                  A   833    	POP	BC
+                           A   834    ;  102			getch();
+                           A   835    .LINE 102
+                           A   836    
+04038B CD 52 1C 04         A   837    	CALL	_getch
+                           A   838    ;  103			vdp_cls();
+                           A   839    .LINE 103
+                           A   840    
+04038F CD 86 04 04         A   841    	CALL	_vdp_cls
+                           A   842    ;  104			vdp_fgcolour(255,255,255);
+                           A   843    .LINE 104
+                           A   844    
+040393 01FF0000            A   845    	LD	BC,255
+040397 C5                  A   846    	PUSH	BC
+040398 C5                  A   847    	PUSH	BC
+040399 C5                  A   848    	PUSH	BC
+04039A CD 5F 05 04         A   849    	CALL	_vdp_fgcolour
+04039E C1                  A   850    	POP	BC
+04039F C1                  A   851    	POP	BC
+0403A0 C1                  A   852    	POP	BC
+                           A   853    ;  105		}
+0403A1                     A   854    L_20:
+                           A   855    .LINE 105
                            A   856    
-                           A   857    
-                           A   858    .ENDFUNC "main",99,"_main"
-                           A   859    	SEGMENT STRSECT
-0436EB                     A   860    L__13:
-0436EB 6C657665 6C732E62   A   861    	DB	"levels.bin"
-0436F3 696E 
-0436F5 00                  A   862    	DB	0
-0436F6                     A   863    L__15:
-0436F6 50726573 7320616E   A   864    	DB	"Press any key to continue "
-0436FE 79206B65 7920746F 
-043706 20636F6E 74696E75 
-04370E 6520 
-043710 00                  A   865    	DB	0
-043711                     A   866    L__20:
-043711 5265616C 6C792051   A   867    	DB	"Really QUIT level (y/n)?"
-043719 55495420 6C657665 
-043721 6C202879 2F6E293F 
-043729 00                  A   868    	DB	0
-04372A                     A   869    L__28:
-04372A 4E6F206C 6576656C   A   870    	DB	"No level available"
-043732 20617661 696C6162 
-04373A 6C65 
-04373C 0D0A00              A   871    	DB	13,10,0
-                           A   872    	XREF _game_getResponse:ROM
-                           A   873    	XREF _game_selectLevel:ROM
-                           A   874    	XREF _game_handleKey:ROM
-                           A   875    	XREF _game_displayLevel:ROM
-                           A   876    	XREF _game_resetSprites:ROM
-                           A   877    	XREF _game_initSprites:ROM
-                           A   878    	XREF _game_initLevel:ROM
-                           A   879    	XREF _game_sendSpriteData:ROM
-                           A   880    	XREF _game_readLevels:ROM
-                           A   881    	XREF _vdp_fgcolour:ROM
-                           A   882    	XREF _vdp_cursorDisable:ROM
-                           A   883    	XREF _vdp_cursorGoto:ROM
-                           A   884    	XREF _vdp_cls:ROM
-                           A   885    	XREF _vdp_mode:ROM
-                           A   886    	XREF _getch:ROM
-                           A   887    	XREF _puts:ROM
-                           A   888    	XREF ___print_sendstring:ROM
-                           A   889    	XREF ___print_xputch:ROM
-                           A   890    	XREF ___print_uputch:ROM
-                           A   891    	XREF __scmpzero:ROM
-                           A   892    	XDEF _main
-                           A   893    	XDEF _splash_screen
-                           A   894    	END
+                           A   857    ;  106		puts("Thank you for playing Sokoban
+                           A   858    .LINE 106
+                           A   859    
+0403A1 01 87 37 04         A   860    	LD	BC,L__29
+0403A5 C5                  A   861    	PUSH	BC
+0403A6 CD 89 1F 04         A   862    	CALL	_puts
+0403AA C1                  A   863    	POP	BC
+                           A   864    ;  107		return 0;
+                           A   865    .LINE 107
+                           A   866    
+0403AB B7                  A   867    	OR	A,A
+0403AC ED62                A   868    	SBC	HL,HL
+                           A   869    ;  108	}
+                           A   870    .LINE 108
+                           A   871    
+0403AE DDF9                A   872    	LD	SP,IX
+0403B0 DDE1                A   873    	POP	IX
+0403B2 C9                  A   874    	RET	
+                           A   875    
+                           A   876    
+                           A   877    ;**************************** _main ***********
+                           A   878    ;Name                         Addr/Register   S
+                           A   879    ;_vdp_fgcolour                       IMPORT  --
+                           A   880    ;_game_handleKey                     IMPORT  --
+                           A   881    ;_game_getResponse                   IMPORT  --
+                           A   882    ;_game_displayLevel                  IMPORT  --
+                           A   883    ;_vdp_cls                            IMPORT  --
+                           A   884    ;_game_initSprites                   IMPORT  --
+                           A   885    ;_game_initLevel                     IMPORT  --
+                           A   886    ;_game_resetSprites                  IMPORT  --
+                           A   887    ;_game_selectLevel                   IMPORT  --
+                           A   888    ;_game_sendSpriteData                IMPORT  --
+                           A   889    ;_vdp_cursorDisable                  IMPORT  --
+                           A   890    ;_vdp_mode                           IMPORT  --
+                           A   891    ;_getch                              IMPORT  --
+                           A   892    ;_puts                               IMPORT  --
+                           A   893    ;_vdp_cursorGoto                     IMPORT  --
+                           A   894    ;_game_readLevels                    IMPORT  --
+                           A   895    ;temp8                                 IX-9    
+                           A   896    ;levelnumber                           IX-6    
+                           A   897    ;doneplaying                           IX-4    
+                           A   898    ;levels                                IX-3    
+                           A   899    ;key                                   IX-2    
+                           A   900    ;ingame                                IX-1    
+                           A   901    ;argv                                  IX+9    
+                           A   902    ;argc                                  IX+6    
+                           A   903    
+                           A   904    
+                           A   905    ; Stack Frame Size: 21 (bytes)
+                           A   906    ;       Spill Code: 0 (instruction)
+                           A   907    
+                           A   908    
+                           A   909    .ENDFUNC "main",108,"_main"
+                           A   910    	SEGMENT STRSECT
+043724                     A   911    L__13:
+043724 6C657665 6C732E62   A   912    	DB	"levels.bin"
+04372C 696E 
+04372E 00                  A   913    	DB	0
+04372F                     A   914    L__15:
+04372F 50726573 7320616E   A   915    	DB	"Press any key to continue "
+043737 79206B65 7920746F 
+04373F 20636F6E 74696E75 
+043747 6520 
+043749 00                  A   916    	DB	0
+04374A                     A   917    L__20:
+04374A 5265616C 6C792051   A   918    	DB	"Really QUIT level (y/n)?"
+043752 55495420 6C657665 
+04375A 6C202879 2F6E293F 
+043762 00                  A   919    	DB	0
+043763                     A   920    L__28:
+043763 4E6F206C 6576656C   A   921    	DB	"No level available! - press any key"
+04376B 20617661 696C6162 
+043773 6C652120 2D207072 
+04377B 65737320 616E7920 
+043783 6B6579 
+043786 00                  A   922    	DB	0
+043787                     A   923    L__29:
+043787 5468616E 6B20796F   A   924    	DB	"Thank you for playing Sokoban"
+04378F 7520666F 7220706C 
+043797 6179696E 6720536F 
+04379F 6B6F6261 6E 
+0437A4 0D0A00              A   925    	DB	13,10,0
+                           A   926    	XREF _game_getResponse:ROM
+                           A   927    	XREF _game_selectLevel:ROM
+                           A   928    	XREF _game_handleKey:ROM
+                           A   929    	XREF _game_displayLevel:ROM
+                           A   930    	XREF _game_resetSprites:ROM
+                           A   931    	XREF _game_initSprites:ROM
+                           A   932    	XREF _game_initLevel:ROM
+                           A   933    	XREF _game_sendSpriteData:ROM
+                           A   934    	XREF _game_readLevels:ROM
+                           A   935    	XREF _vdp_fgcolour:ROM
+                           A   936    	XREF _vdp_cursorDisable:ROM
+                           A   937    	XREF _vdp_cursorGoto:ROM
+                           A   938    	XREF _vdp_cls:ROM
+                           A   939    	XREF _vdp_mode:ROM
+                           A   940    	XREF _getch:ROM
+                           A   941    	XREF _puts:ROM
+                           A   942    	XREF __scmpzero:ROM
+                           A   943    	XDEF _main
+                           A   944    	XDEF _splash_screen
+                           A   945    	END
 
 
 Errors: 0
 Warnings: 0
-Lines Assembled: 895
+Lines Assembled: 946

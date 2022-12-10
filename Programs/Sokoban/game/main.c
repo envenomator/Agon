@@ -1,121 +1,66 @@
-/*
- * Title:			AGON MOS
- * Author:			Dean Belfield
- * Created:			19/06/2022
- * Last Updated:	15/07/2022
- *
- * Modinfo:
- * 11/07/2022:		Version 0.01: Tweaks for Agon Light, Command Line code added
- * 13/07/2022:		Version 0.02
- * 15/07/2022:		Version 0.03: Warm boot support, VBLANK interrupt
- */
-
-#include <eZ80.h>
-#include <defines.h>
 #include <stdio.h>
-#include <CTYPE.h>
-#include <String.h>
-#include <stdlib.h>
-
-#include "uart.h"
-#include "spi.h"
-#include "timer.h"
-#include "ff.h"
-#include "mos.h"
-#include "vdu.h"
+#include <ctype.h>
+#include "mos-interface.h"
+#include "vdp.h"
 #include "game.h"
-#include "sokobanprep.h"
 
-#define		MOS_version		0
-#define		MOS_revision 	3
+#define FILE_LEVELS	"levels.bin"
 
-extern void *	set_vector(unsigned int vector, void(*handler)(void));
-extern void 	vblank_handler(void);
-
-extern char  	coldBoot;			// 1 = cold boot, 0 = warm boot
-extern char  	keycode;			// Keycode 		
-
-static FATFS 	fs;					// Handle for the file system
-static char  	cmd[256];			// Array for the command line handler
-
-// Wait for the ESP32 to respond with an ESC character to signify it is ready
-// Parameters: None
-// Returns: None
-//
-void wait_ESP32(void) {
-	INT ch = 0; 	
-	while(ch != 27) {
-//		ch = getch();
-		ch = keycode;
-	}	
-}
-
-// Initialise the interrupts
-//
-void init_interrupts(void) {
-	DI();
-	set_vector(PORTB1_IVECT, &vblank_handler);
-	EI();
-}
-
-// The main loop
-//
-int main(void) {
-	UART 	pUART;
-
-	FRESULT	fr;
+int main(int argc, char * argv[]) {
+	UINT8 levels;
+	INT16 levelnumber;
+	BOOL doneplaying = FALSE;
+	BOOL quit;
+	BOOL ingame;
+	char key;
 	
-	UINT16  levelnumber;
-	UINT16	levels;
-	UINT16	n;
-	
-	pUART.baudRate = 384000;
-	pUART.dataBits = 8;
-	pUART.stopBits = 1;
-	pUART.parity = PAR_NOPARITY;
-	
-	init_timer2(1);			// Initialise Timer 2 @ 1ms interval
-	init_spi();				// Initialise SPI comms for the SD card interface
-	init_UART0();			// Initialise UART0 for the ESP32 interface
-	open_UART0(&pUART);		// Open the UART 
-	init_interrupts();		// Initialise the interrupt vectors
-	
-	f_mount(&fs, "", 1);	// Mount the SD card
-	
-	if(coldBoot > 0) {		// If a cold boot has been detected
-		wait_ESP32();		// Wait for the ESP32 to finish its bootup
-	}
-
-	vdu_setmode(7);
-	
-	printf("Reading 'levels.bin'...");
-	levels = read_numberoflevels();
-	
+	printf("Reading levels.bin\r\n");
+	levels = game_readLevels(FILE_LEVELS);
 	if(levels)
 	{
-		if(game_init())
+		vdp_mode(0);	// 640x480 pixels
+		vdp_cursorDisable();
+		
+		game_sendSpriteData();
+		
+		while(!doneplaying)
 		{
-			levelnumber = 0;
-			while(levelnumber < levels)
+			levelnumber = game_selectLevel(levels); // returns -1 if abort, or valid number between 0-(levels-1)
+			if(levelnumber >= 0)
 			{
-				vdu_cls();
-				printf("Level %d\n\r\n\r",levelnumber);
+				// Start game
+				ingame = TRUE;
+				game_resetSprites();			// clear out any onscreen sprites
+				game_initLevel(levelnumber);	// initialize playing field data from memory or disk
+				game_initSprites();				// position sprites in grid, according to level data
 				
-				game_resetlevel();
-				read_level(levelnumber);
-				game_createSprites();
-				//print_playfieldText();
+				vdp_cls();	// clear out any text
+				
 				game_displayLevel();
-				game_play();
-				levelnumber++;
-				printf("\n\rLevel complete - press any key:\n\r");
-				getch();
+				while(ingame)
+				{
+					key = getch();
+					if((key == 'q') || (key == 'Q') || (key == 27)) // quit pressed
+					{
+						game_resetSprites();
+						ingame = (game_getResponse("Really QUIT level (y/n)?",'y','n') != 'y');
+						if(ingame)
+						{
+							game_initSprites();
+							game_displayLevel();
+						}
+						game_displayLevel();
+					}
+					else ingame = !game_handleKey(key);	// handleKey returns TRUE when game is finished
+				}
 			}
-			printf("Last level reached\n\r");				
+			else doneplaying = TRUE;
 		}
-		else printf("Error initializing game\n\r");
-	}		
-	else printf("No levels read\n\r");
 
+		game_resetSprites();
+		vdp_mode(1);	// 512x384 pixels - default console
+	}
+	else printf("No level available\r\n");
 	return 0;
 }
+

@@ -1,9 +1,9 @@
-Zilog eZ80 Macro Assembler Version 4.3 (19073001)06-Aug-22     16:31:58     page:   1
+Zilog eZ80 Macro Assembler Version 4.3 (19073001) RELISTED10-Dec-22     17:34:41     page:   1
 
 
 PC     Object              I  Line    Source 
                            A     1    ; Zilog eZ80 ANSI C Compiler Release 3.4
-                           A     2    ; -nomodsect -optspeed -noreduceopt -nopadbranc
+                           A     2    ; -nomodsect -optsize -noreduceopt -nopadbranch
                            A     3    ; -peephole -globalopt -localcse -const=ROM 
                            A     4    	FILE	"..\main.c"
                            A     5    	.assume ADL=1
@@ -94,1071 +94,498 @@ PC     Object              I  Line    Source
                            A    90    .TYPE 108
                            A    91    .ENDEF
                            A    92    .ENDREC "flt_info"
-                           A    93    .BEGREC "NONAME0",6
-                           A    94    .DEFINE "quot"
+                           A    93    .BEGREC "sokobanlevel",1207
+                           A    94    .DEFINE "xpos"
                            A    95    .VALUE 0
                            A    96    .CLASS 8
-                           A    97    .TYPE 4
+                           A    97    .TYPE 12
                            A    98    .ENDEF
-                           A    99    .DEFINE "rem"
-                           A   100    .VALUE 3
+                           A    99    .DEFINE "ypos"
+                           A   100    .VALUE 1
                            A   101    .CLASS 8
-                           A   102    .TYPE 4
+                           A   102    .TYPE 12
                            A   103    .ENDEF
-                           A   104    .ENDREC "NONAME0"
-                           A   105    .BEGREC "NONAME1",8
-                           A   106    .DEFINE "quot"
-                           A   107    .VALUE 0
-                           A   108    .CLASS 8
-                           A   109    .TYPE 5
-                           A   110    .ENDEF
-                           A   111    .DEFINE "rem"
-                           A   112    .VALUE 4
-                           A   113    .CLASS 8
-                           A   114    .TYPE 5
-                           A   115    .ENDEF
-                           A   116    .ENDREC "NONAME1"
-                           A   117    .BEGREC "header",6
-                           A   118    .DEFINE "s"
-                           A   119    .VALUE 0
-                           A   120    .CLASS 11
-                           A   121    .TAG "NONAME2"
-                           A   122    .TYPE 8
+                           A   104    .DEFINE "width"
+                           A   105    .VALUE 2
+                           A   106    .CLASS 8
+                           A   107    .TYPE 12
+                           A   108    .ENDEF
+                           A   109    .DEFINE "height"
+                           A   110    .VALUE 3
+                           A   111    .CLASS 8
+                           A   112    .TYPE 12
+                           A   113    .ENDEF
+                           A   114    .DEFINE "goals"
+                           A   115    .VALUE 4
+                           A   116    .CLASS 8
+                           A   117    .TYPE 12
+                           A   118    .ENDEF
+                           A   119    .DEFINE "goalstaken"
+                           A   120    .VALUE 5
+                           A   121    .CLASS 8
+                           A   122    .TYPE 12
                            A   123    .ENDEF
-                           A   124    .DEFINE "x"
-                           A   125    .VALUE 0
-                           A   126    .CLASS 11
-                           A   127    .TYPE 2
+                           A   124    .DEFINE "crates"
+                           A   125    .VALUE 6
+                           A   126    .CLASS 8
+                           A   127    .TYPE 12
                            A   128    .ENDEF
-                           A   129    .ENDREC "header"
-                           A   130    .BEGREC "NONAME2",6
-                           A   131    .DEFINE "ptr"
-                           A   132    .VALUE 0
-                           A   133    .CLASS 8
-                           A   134    .TAG "header"
-                           A   135    .TYPE 40
-                           A   136    .ENDEF
-                           A   137    .DEFINE "size"
-                           A   138    .VALUE 3
-                           A   139    .CLASS 8
-                           A   140    .TYPE 14
-                           A   141    .ENDEF
-                           A   142    .ENDREC "NONAME2"
-                           A   143    .BEGREC "NONAME3",4
-                           A   144    .DEFINE "dr"
-                           A   145    .VALUE 0
-                           A   146    .CLASS 8
-                           A   147    .TYPE 12
-                           A   148    .ENDEF
-                           A   149    .DEFINE "ddr"
-                           A   150    .VALUE 1
-                           A   151    .CLASS 8
-                           A   152    .TYPE 12
-                           A   153    .ENDEF
-                           A   154    .DEFINE "alt1"
-                           A   155    .VALUE 2
-                           A   156    .CLASS 8
-                           A   157    .TYPE 12
-                           A   158    .ENDEF
-                           A   159    .DEFINE "alt2"
-                           A   160    .VALUE 3
-                           A   161    .CLASS 8
-                           A   162    .TYPE 12
-                           A   163    .ENDEF
-                           A   164    .ENDREC "NONAME3"
-                           A   165    .BEGREC "NONAME4",6
-                           A   166    .DEFINE "baudRate"
-                           A   167    .VALUE 0
-                           A   168    .CLASS 8
-                           A   169    .TYPE 4
-                           A   170    .ENDEF
-                           A   171    .DEFINE "dataBits"
-                           A   172    .VALUE 3
-                           A   173    .CLASS 8
-                           A   174    .TYPE 12
-                           A   175    .ENDEF
-                           A   176    .DEFINE "stopBits"
-                           A   177    .VALUE 4
-                           A   178    .CLASS 8
-                           A   179    .TYPE 12
-                           A   180    .ENDEF
-                           A   181    .DEFINE "parity"
-                           A   182    .VALUE 5
-                           A   183    .CLASS 8
-                           A   184    .TYPE 12
-                           A   185    .ENDEF
-                           A   186    .ENDREC "NONAME4"
-                           A   187    .BEGREC "NONAME5",562
-                           A   188    .DEFINE "fs_type"
-                           A   189    .VALUE 0
-                           A   190    .CLASS 8
-                           A   191    .TYPE 12
-                           A   192    .ENDEF
-                           A   193    .DEFINE "pdrv"
-                           A   194    .VALUE 1
-                           A   195    .CLASS 8
-                           A   196    .TYPE 12
-                           A   197    .ENDEF
-                           A   198    .DEFINE "n_fats"
-                           A   199    .VALUE 2
-                           A   200    .CLASS 8
-                           A   201    .TYPE 12
-                           A   202    .ENDEF
-                           A   203    .DEFINE "wflag"
-                           A   204    .VALUE 3
-                           A   205    .CLASS 8
-                           A   206    .TYPE 12
-                           A   207    .ENDEF
-                           A   208    .DEFINE "fsi_flag"
-                           A   209    .VALUE 4
-                           A   210    .CLASS 8
-                           A   211    .TYPE 12
-                           A   212    .ENDEF
-                           A   213    .DEFINE "id"
-                           A   214    .VALUE 5
-                           A   215    .CLASS 8
-                           A   216    .TYPE 13
-                           A   217    .ENDEF
-                           A   218    .DEFINE "n_rootdir"
-                           A   219    .VALUE 7
-                           A   220    .CLASS 8
-                           A   221    .TYPE 13
-                           A   222    .ENDEF
-                           A   223    .DEFINE "csize"
-                           A   224    .VALUE 9
-                           A   225    .CLASS 8
-                           A   226    .TYPE 13
-                           A   227    .ENDEF
-                           A   228    .DEFINE "lfnbuf"
-                           A   229    .VALUE 11
-                           A   230    .CLASS 8
-                           A   231    .TYPE 45
-                           A   232    .ENDEF
-                           A   233    .DEFINE "last_clst"
-                           A   234    .VALUE 14
-                           A   235    .CLASS 8
-                           A   236    .TYPE 15
-                           A   237    .ENDEF
-                           A   238    .DEFINE "free_clst"
-                           A   239    .VALUE 18
-                           A   240    .CLASS 8
-                           A   241    .TYPE 15
-                           A   242    .ENDEF
-                           A   243    .DEFINE "n_fatent"
-                           A   244    .VALUE 22
-                           A   245    .CLASS 8
-                           A   246    .TYPE 15
-                           A   247    .ENDEF
-                           A   248    .DEFINE "fsize"
-                           A   249    .VALUE 26
-                           A   250    .CLASS 8
-                           A   251    .TYPE 15
-                           A   252    .ENDEF
-                           A   253    .DEFINE "volbase"
-                           A   254    .VALUE 30
-                           A   255    .CLASS 8
-                           A   256    .TYPE 15
-                           A   257    .ENDEF
-                           A   258    .DEFINE "fatbase"
-                           A   259    .VALUE 34
-                           A   260    .CLASS 8
-                           A   261    .TYPE 15
-                           A   262    .ENDEF
-                           A   263    .DEFINE "dirbase"
-                           A   264    .VALUE 38
-                           A   265    .CLASS 8
-                           A   266    .TYPE 15
-                           A   267    .ENDEF
-                           A   268    .DEFINE "database"
-                           A   269    .VALUE 42
-                           A   270    .CLASS 8
-                           A   271    .TYPE 15
-                           A   272    .ENDEF
-                           A   273    .DEFINE "winsect"
-                           A   274    .VALUE 46
-                           A   275    .CLASS 8
-                           A   276    .TYPE 15
-                           A   277    .ENDEF
-                           A   278    .DEFINE "win"
-                           A   279    .VALUE 50
-                           A   280    .CLASS 8
-                           A   281    .DIM 512
-                           A   282    .TYPE 108
-                           A   283    .ENDEF
-                           A   284    .ENDREC "NONAME5"
-                           A   285    .BEGREC "NONAME6",15
-                           A   286    .DEFINE "fs"
-                           A   287    .VALUE 0
-                           A   288    .CLASS 8
-                           A   289    .TAG "NONAME5"
-                           A   290    .TYPE 40
-                           A   291    .ENDEF
-                           A   292    .DEFINE "id"
-                           A   293    .VALUE 3
-                           A   294    .CLASS 8
-                           A   295    .TYPE 13
-                           A   296    .ENDEF
-                           A   297    .DEFINE "attr"
-                           A   298    .VALUE 5
-                           A   299    .CLASS 8
-                           A   300    .TYPE 12
-                           A   301    .ENDEF
-                           A   302    .DEFINE "stat"
-                           A   303    .VALUE 6
-                           A   304    .CLASS 8
-                           A   305    .TYPE 12
-                           A   306    .ENDEF
-                           A   307    .DEFINE "sclust"
-                           A   308    .VALUE 7
-                           A   309    .CLASS 8
-                           A   310    .TYPE 15
-                           A   311    .ENDEF
-                           A   312    .DEFINE "objsize"
-                           A   313    .VALUE 11
-                           A   314    .CLASS 8
-                           A   315    .TYPE 15
-                           A   316    .ENDEF
-                           A   317    .ENDREC "NONAME6"
-                           A   318    .BEGREC "NONAME7",548
-                           A   319    .DEFINE "obj"
-                           A   320    .VALUE 0
-                           A   321    .CLASS 8
-                           A   322    .TAG "NONAME6"
-                           A   323    .TYPE 8
-                           A   324    .ENDEF
-                           A   325    .DEFINE "flag"
-                           A   326    .VALUE 15
-                           A   327    .CLASS 8
-                           A   328    .TYPE 12
-                           A   329    .ENDEF
-                           A   330    .DEFINE "err"
-                           A   331    .VALUE 16
-                           A   332    .CLASS 8
-                           A   333    .TYPE 12
-                           A   334    .ENDEF
-                           A   335    .DEFINE "fptr"
-                           A   336    .VALUE 17
-                           A   337    .CLASS 8
-                           A   338    .TYPE 15
-                           A   339    .ENDEF
-                           A   340    .DEFINE "clust"
-                           A   341    .VALUE 21
-                           A   342    .CLASS 8
-                           A   343    .TYPE 15
-                           A   344    .ENDEF
-                           A   345    .DEFINE "sect"
-                           A   346    .VALUE 25
-                           A   347    .CLASS 8
-                           A   348    .TYPE 15
-                           A   349    .ENDEF
-                           A   350    .DEFINE "dir_sect"
-                           A   351    .VALUE 29
-                           A   352    .CLASS 8
-                           A   353    .TYPE 15
-                           A   354    .ENDEF
-                           A   355    .DEFINE "dir_ptr"
-                           A   356    .VALUE 33
-                           A   357    .CLASS 8
-                           A   358    .TYPE 44
-                           A   359    .ENDEF
-                           A   360    .DEFINE "buf"
-                           A   361    .VALUE 36
-                           A   362    .CLASS 8
-                           A   363    .DIM 512
-                           A   364    .TYPE 108
-                           A   365    .ENDEF
-                           A   366    .ENDREC "NONAME7"
-                           A   367    .BEGREC "NONAME8",46
-                           A   368    .DEFINE "obj"
-                           A   369    .VALUE 0
-                           A   370    .CLASS 8
-                           A   371    .TAG "NONAME6"
-                           A   372    .TYPE 8
-                           A   373    .ENDEF
-                           A   374    .DEFINE "dptr"
-                           A   375    .VALUE 15
-                           A   376    .CLASS 8
-                           A   377    .TYPE 15
-                           A   378    .ENDEF
-                           A   379    .DEFINE "clust"
-                           A   380    .VALUE 19
-                           A   381    .CLASS 8
-                           A   382    .TYPE 15
-                           A   383    .ENDEF
-                           A   384    .DEFINE "sect"
-                           A   385    .VALUE 23
-                           A   386    .CLASS 8
-                           A   387    .TYPE 15
-                           A   388    .ENDEF
-                           A   389    .DEFINE "dir"
-                           A   390    .VALUE 27
-                           A   391    .CLASS 8
-                           A   392    .TYPE 44
-                           A   393    .ENDEF
-                           A   394    .DEFINE "fn"
-                           A   395    .VALUE 30
-                           A   396    .CLASS 8
-                           A   397    .DIM 12
-                           A   398    .TYPE 108
-                           A   399    .ENDEF
-                           A   400    .DEFINE "blk_ofs"
-                           A   401    .VALUE 42
-                           A   402    .CLASS 8
-                           A   403    .TYPE 15
-                           A   404    .ENDEF
-                           A   405    .ENDREC "NONAME8"
-                           A   406    .BEGREC "NONAME9",278
-                           A   407    .DEFINE "fsize"
-                           A   408    .VALUE 0
-                           A   409    .CLASS 8
-                           A   410    .TYPE 15
-                           A   411    .ENDEF
-                           A   412    .DEFINE "fdate"
-                           A   413    .VALUE 4
-                           A   414    .CLASS 8
-                           A   415    .TYPE 13
-                           A   416    .ENDEF
-                           A   417    .DEFINE "ftime"
-                           A   418    .VALUE 6
-                           A   419    .CLASS 8
-                           A   420    .TYPE 13
-                           A   421    .ENDEF
-                           A   422    .DEFINE "fattrib"
-                           A   423    .VALUE 8
-                           A   424    .CLASS 8
-                           A   425    .TYPE 12
-                           A   426    .ENDEF
-                           A   427    .DEFINE "altname"
-                           A   428    .VALUE 9
-                           A   429    .CLASS 8
-                           A   430    .DIM 13
-                           A   431    .TYPE 98
-                           A   432    .ENDEF
-                           A   433    .DEFINE "fname"
-                           A   434    .VALUE 22
-                           A   435    .CLASS 8
-                           A   436    .DIM 256
-                           A   437    .TYPE 98
-                           A   438    .ENDEF
-                           A   439    .ENDREC "NONAME9"
-                           A   440    .BEGREC "NONAME10",12
-                           A   441    .DEFINE "fmt"
-                           A   442    .VALUE 0
-                           A   443    .CLASS 8
-                           A   444    .TYPE 12
-                           A   445    .ENDEF
-                           A   446    .DEFINE "n_fat"
-                           A   447    .VALUE 1
-                           A   448    .CLASS 8
-                           A   449    .TYPE 12
-                           A   450    .ENDEF
-                           A   451    .DEFINE "align"
-                           A   452    .VALUE 2
-                           A   453    .CLASS 8
-                           A   454    .TYPE 14
-                           A   455    .ENDEF
-                           A   456    .DEFINE "n_root"
-                           A   457    .VALUE 5
-                           A   458    .CLASS 8
-                           A   459    .TYPE 14
-                           A   460    .ENDEF
-                           A   461    .DEFINE "au_size"
-                           A   462    .VALUE 8
-                           A   463    .CLASS 8
-                           A   464    .TYPE 15
-                           A   465    .ENDEF
-                           A   466    .ENDREC "NONAME10"
-                           A   467    .BEGREC "NONAME11",6
-                           A   468    .DEFINE "name"
-                           A   469    .VALUE 0
-                           A   470    .CLASS 8
-                           A   471    .TYPE 34
-                           A   472    .ENDEF
-                           A   473    .DEFINE "func"
-                           A   474    .VALUE 3
-                           A   475    .CLASS 8
-                           A   476    .TYPE 548
-                           A   477    .ENDEF
-                           A   478    .ENDREC "NONAME11"
-                           A   479    .BEGREC "sokobanlevel",1207
-                           A   480    .DEFINE "xpos"
-                           A   481    .VALUE 0
-                           A   482    .CLASS 8
-                           A   483    .TYPE 12
-                           A   484    .ENDEF
-                           A   485    .DEFINE "ypos"
-                           A   486    .VALUE 1
-                           A   487    .CLASS 8
-                           A   488    .TYPE 12
-                           A   489    .ENDEF
-                           A   490    .DEFINE "width"
-                           A   491    .VALUE 2
-                           A   492    .CLASS 8
-                           A   493    .TYPE 12
-                           A   494    .ENDEF
-                           A   495    .DEFINE "height"
-                           A   496    .VALUE 3
-                           A   497    .CLASS 8
-                           A   498    .TYPE 12
-                           A   499    .ENDEF
-                           A   500    .DEFINE "goals"
-                           A   501    .VALUE 4
-                           A   502    .CLASS 8
-                           A   503    .TYPE 12
-                           A   504    .ENDEF
-                           A   505    .DEFINE "goalstaken"
-                           A   506    .VALUE 5
-                           A   507    .CLASS 8
-                           A   508    .TYPE 12
-                           A   509    .ENDEF
-                           A   510    .DEFINE "crates"
-                           A   511    .VALUE 6
-                           A   512    .CLASS 8
-                           A   513    .TYPE 12
-                           A   514    .ENDEF
-                           A   515    .DEFINE "data"
-                           A   516    .VALUE 7
-                           A   517    .CLASS 8
-                           A   518    .DIM 30
-                           A   519    .DIM 40
-                           A   520    .TYPE 876
-                           A   521    .ENDEF
-                           A   522    .ENDREC "sokobanlevel"
-                           A   523    .BEGREC "NONAME12",2
-                           A   524    .DEFINE "ch"
-                           A   525    .VALUE 0
-                           A   526    .CLASS 8
-                           A   527    .TYPE 2
-                           A   528    .ENDEF
-                           A   529    .DEFINE "tile_id"
-                           A   530    .VALUE 1
-                           A   531    .CLASS 8
-                           A   532    .TYPE 12
-                           A   533    .ENDEF
-                           A   534    .ENDREC "NONAME12"
-                           A   535    	SEGMENT BSS
-000000                     A   536    _fs:
-000000                     A   537    	DS	562
-                           A   538    .DEFINE "fs"
-                           A   539    .ALIAS "_fs"
-                           A   540    .CLASS 83
-                           A   541    .VALUE _fs
-                           A   542    .TAG "NONAME5"
-                           A   543    .TYPE 8
-                           A   544    .ENDEF
-000232                     A   545    _cmd:
-000232                     A   546    	DS	256
-                           A   547    .DEFINE "cmd"
-                           A   548    .ALIAS "_cmd"
-                           A   549    .CLASS 83
-                           A   550    .VALUE _cmd
-                           A   551    .DIM 256
-                           A   552    .TYPE 98
-                           A   553    .ENDEF
-                           A   554    ;    1	/*
-                           A   555    ;    2	 * Title:			AGON MOS
-                           A   556    ;    3	 * Author:			Dean Belfield
-                           A   557    ;    4	 * Created:			19/06/2022
-                           A   558    ;    5	 * Last Updated:	15/07/2022
-                           A   559    ;    6	 *
-                           A   560    ;    7	 * Modinfo:
-                           A   561    ;    8	 * 11/07/2022:		Version 0.01: Tweak
-                           A   562    ;    9	 * 13/07/2022:		Version 0.02
-                           A   563    ;   10	 * 15/07/2022:		Version 0.03: Warm 
-                           A   564    ;   11	 */
-                           A   565    ;   12	
-                           A   566    ;   13	#include <eZ80.h>
-                           A   567    ;   14	#include <defines.h>
-                           A   568    ;   15	#include <stdio.h>
-                           A   569    ;   16	#include <CTYPE.h>
-                           A   570    ;   17	#include <String.h>
-                           A   571    ;   18	#include <stdlib.h>
-                           A   572    ;   19	
-                           A   573    ;   20	#include "uart.h"
-                           A   574    ;   21	#include "spi.h"
-                           A   575    ;   22	#include "timer.h"
-                           A   576    ;   23	#include "ff.h"
-                           A   577    ;   24	#include "mos.h"
-                           A   578    ;   25	#include "vdu.h"
-                           A   579    ;   26	#include "game.h"
-                           A   580    ;   27	#include "sokobanprep.h"
-                           A   581    ;   28	
-                           A   582    ;   29	#define		MOS_version		0
-                           A   583    ;   30	#define		MOS_revision 	3
-                           A   584    ;   31	
-                           A   585    ;   32	extern void *	set_vector(unsigned int
-                           A   586    ;   33	extern void 	vblank_handler(void);
-                           A   587    ;   34	
-                           A   588    ;   35	extern char  	coldBoot;			// 
-                           A   589    ;   36	extern char  	keycode;			// 
-                           A   590    ;   37	
-                           A   591    ;   38	static FATFS 	fs;					// 
-                           A   592    ;   39	static char  	cmd[256];			// 
-                           A   593    	SEGMENT CODE
-                           A   594    ;   40	
-                           A   595    ;   41	// Wait for the ESP32 to respond with a
-                           A   596    ;   42	// Parameters: None
-                           A   597    ;   43	// Returns: None
-                           A   598    ;   44	//
-                           A   599    ;   45	void wait_ESP32(void) {
-000000                     A   600    _wait_ESP32:
-                           A   601    .DEFINE "_wait_ESP32"
-                           A   602    
-                           A   603    .VALUE _wait_ESP32
-                           A   604    
-                           A   605    .CLASS 2
-                           A   606    
-                           A   607    .TYPE 65
-                           A   608    
-                           A   609    .ENDEF
-                           A   610    
-                           A   611    .BEGFUNC "wait_ESP32",45,"_wait_ESP32"
-                           A   612    
-                           A   613    .LINE 45
-                           A   614    
-                           A   615    .DEFINE "ch"
-                           A   616    
-                           A   617    .CLASS 65
-                           A   618    
-                           A   619    .VALUE -3
-                           A   620    
-                           A   621    .TYPE 4
-                           A   622    
-                           A   623    .ENDEF
-                           A   624    
-000000 DDE5                A   625    	PUSH	IX
-000002 DD210000 00         A   626    	LD	IX,0
-000007 DD39                A   627    	ADD	IX,SP
-000009 C5                  A   628    	PUSH	BC
-                           A   629    ;   46		INT ch = 0; 	
-                           A   630    .LINE 46
-                           A   631    
-00000A 01000000            A   632    	LD	BC,0
-00000E DD0FFD              A   633    	LD	(IX+%FFFFFFFD),BC
-                           A   634    ;   47		while(ch != 27) {
-                           A   635    .LINE 47
-                           A   636    
-000011 18 0C               A   637    	JR	L_0
-000013                     A   638    L_1:
-                           A   639    ;   48	//		ch = getch();
-                           A   640    ;   49			ch = keycode;
-                           A   641    .LINE 49
-                           A   642    
-000013 3A 00 00 00         A   643    	LD	A,(_keycode)
-000017 47                  A   644    	LD	B,A
-000018 17ED62              A   645    	SEXT	HL
-00001B 68                  A   646    	LD	L,B
-00001C DD2FFD              A   647    	LD	(IX+%FFFFFFFD),HL
-                           A   648    ;   50		}	
-00001F                     A   649    L_0:
-                           A   650    .LINE 50
-                           A   651    
-00001F 011B0000            A   652    	LD	BC,27
-000023 DD27FD              A   653    	LD	HL,(IX+%FFFFFFFD)
-000026 B7                  A   654    	OR	A,A
-000027 ED42                A   655    	SBC	HL,BC
-000029 20 E8               A   656    	JR	NZ,L_1
-                           A   657    ;   51	}
-                           A   658    .LINE 51
-                           A   659    
-00002B DDF9                A   660    	LD	SP,IX
-00002D DDE1                A   661    	POP	IX
-00002F C9                  A   662    	RET	
-                           A   663    
-                           A   664    
-                           A   665    ;**************************** _wait_ESP32 *****
-                           A   666    ;Name                         Addr/Register   S
-                           A   667    ;_keycode                            IMPORT    
-                           A   668    ;ch                                    IX-3    
-                           A   669    
-                           A   670    
-                           A   671    ; Stack Frame Size: 9 (bytes)
-                           A   672    ;       Spill Code: 0 (instruction)
-                           A   673    
-                           A   674    
-                           A   675    .ENDFUNC "wait_ESP32",51,"_wait_ESP32"
-                           A   676    ;   52	
-                           A   677    ;   53	// Initialise the interrupts
-                           A   678    ;   54	//
-                           A   679    ;   55	void init_interrupts(void) {
-000030                     A   680    _init_interrupts:
-                           A   681    .DEFINE "_init_interrupts"
-                           A   682    
-                           A   683    .VALUE _init_interrupts
-                           A   684    
-                           A   685    .CLASS 2
-                           A   686    
-                           A   687    .TYPE 65
-                           A   688    
-                           A   689    .ENDEF
-                           A   690    
-                           A   691    .BEGFUNC "init_interrupts",55,"_init_interrupts
-                           A   692    
-000030 DDE5                A   693    	PUSH	IX
-000032 DD210000 00         A   694    	LD	IX,0
-000037 DD39                A   695    	ADD	IX,SP
-                           A   696    ;   56		DI();
-                           A   697    .LINE 56
-                           A   698    
-000039 F3                  A   699    	di
-                           A   700    ;   57		set_vector(PORTB1_IVECT, &vblank_ha
-                           A   701    .LINE 57
-                           A   702    
-00003A 01 00 00 00         A   703    	LD	BC,_vblank_handler
-00003E C5                  A   704    	PUSH	BC
-00003F 01320000            A   705    	LD	BC,50
-000043 C5                  A   706    	PUSH	BC
-000044 CD 00 00 00         A   707    	CALL	_set_vector
-000048 C1                  A   708    	POP	BC
-000049 C1                  A   709    	POP	BC
-                           A   710    ;   58		EI();
-                           A   711    .LINE 58
-                           A   712    
-00004A FB                  A   713    	ei
-                           A   714    ;   59	}
-                           A   715    .LINE 59
-                           A   716    
-00004B DDF9                A   717    	LD	SP,IX
-00004D DDE1                A   718    	POP	IX
-00004F C9                  A   719    	RET	
-                           A   720    
-                           A   721    
-                           A   722    ;**************************** _init_interrupts 
-                           A   723    ;Name                         Addr/Register   S
-                           A   724    ;_vblank_handler                     IMPORT  --
-                           A   725    ;_set_vector                         IMPORT  --
-                           A   726    
-                           A   727    
-                           A   728    ; Stack Frame Size: 6 (bytes)
-                           A   729    ;       Spill Code: 0 (instruction)
-                           A   730    
-                           A   731    
-                           A   732    .ENDFUNC "init_interrupts",59,"_init_interrupts
-                           A   733    ;   60	
-                           A   734    ;   61	// The main loop
-                           A   735    ;   62	//
-                           A   736    ;   63	int main(void) {
-000050                     A   737    _main:
-                           A   738    .DEFINE "_main"
-                           A   739    
-                           A   740    .VALUE _main
-                           A   741    
-                           A   742    .CLASS 2
-                           A   743    
-                           A   744    .TYPE 68
-                           A   745    
-                           A   746    .ENDEF
-                           A   747    
-                           A   748    .BEGFUNC "main",63,"_main"
-                           A   749    
-                           A   750    .LINE 63
-                           A   751    
-                           A   752    .DEFINE "levelnumber"
-                           A   753    
-                           A   754    .CLASS 65
-                           A   755    
-                           A   756    .VALUE -2
-                           A   757    
-                           A   758    .TYPE 13
-                           A   759    
-                           A   760    .ENDEF
-                           A   761    
-                           A   762    .DEFINE "levels"
-                           A   763    
-                           A   764    .CLASS 65
-                           A   765    
-                           A   766    .VALUE -4
-                           A   767    
-                           A   768    .TYPE 13
-                           A   769    
-                           A   770    .ENDEF
-                           A   771    
-                           A   772    .DEFINE "pUART"
-                           A   773    
-                           A   774    .CLASS 65
-                           A   775    
-                           A   776    .VALUE -10
-                           A   777    
-                           A   778    .TAG "NONAME4"
-                           A   779    
-                           A   780    .TYPE 8
-                           A   781    
-                           A   782    .ENDEF
-                           A   783    
-000050 DDE5                A   784    	PUSH	IX
-000052 DD210000 00         A   785    	LD	IX,0
-000057 DD39                A   786    	ADD	IX,SP
-000059 C5                  A   787    	PUSH	BC
-00005A C5                  A   788    	PUSH	BC
-00005B C5                  A   789    	PUSH	BC
-00005C 3B                  A   790    	DEC	SP
-                           A   791    ;   64		UART 	pUART;
-                           A   792    ;   65	
-                           A   793    ;   66		FRESULT	fr;
-                           A   794    ;   67		
-                           A   795    ;   68		UINT16  levelnumber;
-                           A   796    ;   69		UINT16	levels;
-                           A   797    ;   70		UINT16	n;
-                           A   798    ;   71		
-                           A   799    ;   72		pUART.baudRate = 384000;
-                           A   800    .LINE 72
-                           A   801    
-00005D 0100DC05            A   802    	LD	BC,384000
-000061 DD0FF6              A   803    	LD	(IX+%FFFFFFF6),BC
-                           A   804    ;   73		pUART.dataBits = 8;
-                           A   805    .LINE 73
-                           A   806    
-000064 DD36F908            A   807    	LD	(IX+%FFFFFFF9),%8
-                           A   808    ;   74		pUART.stopBits = 1;
-                           A   809    .LINE 74
-                           A   810    
-000068 DD36FA01            A   811    	LD	(IX+%FFFFFFFA),%1
-                           A   812    ;   75		pUART.parity = PAR_NOPARITY;
-                           A   813    .LINE 75
-                           A   814    
-00006C DD36FB00            A   815    	LD	(IX+%FFFFFFFB),%0
-                           A   816    ;   76		
-                           A   817    ;   77		init_timer2(1);			// Initiali
-                           A   818    .LINE 77
-                           A   819    
-000070 01010000            A   820    	LD	BC,1
-000074 C5                  A   821    	PUSH	BC
-000075 CD 00 00 00         A   822    	CALL	_init_timer2
-000079 C1                  A   823    	POP	BC
-                           A   824    ;   78		init_spi();				// Initiali
-                           A   825    .LINE 78
-                           A   826    
-00007A CD 00 00 00         A   827    	CALL	_init_spi
-                           A   828    ;   79		init_UART0();			// Initiali
-                           A   829    .LINE 79
-                           A   830    
-00007E CD 00 00 00         A   831    	CALL	_init_UART0
-                           A   832    ;   80		open_UART0(&pUART);		// Open the
-                           A   833    .LINE 80
-                           A   834    
-000082 ED65F6              A   835    	PEA	IX+%FFFFFFF6
-000085 CD 00 00 00         A   836    	CALL	_open_UART0
-000089 C1                  A   837    	POP	BC
-                           A   838    ;   81		init_interrupts();		// Initiali
-                           A   839    .LINE 81
-                           A   840    
-00008A CD 30 00 00         A   841    	CALL	_init_interrupts
-                           A   842    ;   82		
-                           A   843    ;   83		f_mount(&fs, "", 1);	// Mount th
-                           A   844    .LINE 83
-                           A   845    
-00008E 01010000            A   846    	LD	BC,1
-000092 C5                  A   847    	PUSH	BC
-000093 01 00 00 00         A   848    	LD	BC,L__3
-000097 C5                  A   849    	PUSH	BC
-000098 01 00 00 00         A   850    	LD	BC,_fs
-00009C C5                  A   851    	PUSH	BC
-00009D CD 00 00 00         A   852    	CALL	_f_mount
-0000A1 C1                  A   853    	POP	BC
-0000A2 C1                  A   854    	POP	BC
-0000A3 C1                  A   855    	POP	BC
-                           A   856    ;   84		
-                           A   857    ;   85		if(coldBoot > 0) {		// If a col
-                           A   858    .LINE 85
-                           A   859    
-0000A4 AF                  A   860    	XOR	A,A
-0000A5 21 00 00 00         A   861    	LD	HL,_coldBoot
-0000A9 BE                  A   862    	CP	A,(HL)
-0000AA F2 B4 00 00         A   863    	JP	P,L__15
-0000AE EA BC 00 00         A   864    	JP	PE,L_5
-0000B2 18 04               A   865    	JR	L__16
-0000B4                     A   866    L__15:
-0000B4 E2 BC 00 00         A   867    	JP	PO,L_5
-0000B8                     A   868    L__16:
-                           A   869    ;   86			wait_ESP32();		// Wait for
-                           A   870    .LINE 86
-                           A   871    
-0000B8 CD 00 00 00         A   872    	CALL	_wait_ESP32
-                           A   873    ;   87		}
-0000BC                     A   874    L_5:
-                           A   875    .LINE 87
-                           A   876    
-                           A   877    ;   88	
-                           A   878    ;   89		vdu_setmode(7);
-                           A   879    .LINE 89
-                           A   880    
-0000BC 01070000            A   881    	LD	BC,7
-0000C0 C5                  A   882    	PUSH	BC
-0000C1 CD 00 00 00         A   883    	CALL	_vdu_setmode
-0000C5 C1                  A   884    	POP	BC
-                           A   885    ;   90		
-                           A   886    ;   91		printf("Reading 'levels.bin'...");
-                           A   887    .LINE 91
-                           A   888    
-0000C6 01 00 00 00         A   889    	LD	BC,___print_uputch
-0000CA ED43 00 00 00       A   890    	LD	(___print_xputch),BC
-0000CF 01 01 00 00         A   891    	LD	BC,L__5
-0000D3 C5                  A   892    	PUSH	BC
-0000D4 CD 00 00 00         A   893    	CALL	___print_sendstring
-0000D8 C1                  A   894    	POP	BC
-                           A   895    ;   92		levels = read_numberoflevels();
-                           A   896    .LINE 92
-                           A   897    
-0000D9 CD 00 00 00         A   898    	CALL	_read_numberoflevels
-0000DD DD75FC              A   899    	LD	(IX+%FFFFFFFC),L
-0000E0 DD74FD              A   900    	LD	(IX+%FFFFFFFD),H
-                           A   901    ;   93		
-                           A   902    ;   94		if(levels)
-                           A   903    .LINE 94
-                           A   904    
-0000E3 49010000            A   905    	LD.LIS	BC,0
-0000E7 DD27FC              A   906    	LD	HL,(IX+%FFFFFFFC)
-0000EA B7                  A   907    	OR	A,A
-0000EB 40ED42              A   908    	SBC.SIS	HL,BC
-0000EE CA B4 01 00         A   909    	JR	Z,L_13
-                           A   910    ;   95		{
-                           A   911    ;   96			if(game_init())
-                           A   912    .LINE 96
-                           A   913    
-0000F2 CD 00 00 00         A   914    	CALL	_game_init
-0000F6 B7                  A   915    	OR	A,A
-0000F7 CA 9F 01 00         A   916    	JR	Z,L_11
-                           A   917    ;   97			{
-                           A   918    ;   98				levelnumber = 0;
-                           A   919    .LINE 98
-                           A   920    
-0000FB DD36FE00            A   921    	LD	(IX+%FFFFFFFE),%0
-0000FF DD36FF00            A   922    	LD	(IX+%FFFFFFFF),%0
-                           A   923    ;   99				while(levelnumber < levels)
-                           A   924    .LINE 99
-                           A   925    
-000103 18 77               A   926    	JR	L_7
-000105                     A   927    L_8:
-                           A   928    ;  100				{
-                           A   929    ;  101					vdu_cls();
-                           A   930    .LINE 101
-                           A   931    
-000105 CD 00 00 00         A   932    	CALL	_vdu_cls
-                           A   933    ;  102					printf("Level %d\n\r\n\
-                           A   934    .LINE 102
-                           A   935    
-000109 01 00 00 00         A   936    	LD	BC,___print_uputch
-00010D ED43 00 00 00       A   937    	LD	(___print_xputch),BC
-000112 01 19 00 00         A   938    	LD	BC,L__8
-000116 C5                  A   939    	PUSH	BC
-000117 CD 00 00 00         A   940    	CALL	___print_sendstring
-00011B C1                  A   941    	POP	BC
-00011C DD07FE              A   942    	LD	BC,(IX+%FFFFFFFE)
-00011F CD 00 00 00         A   943    	CALL	__stoiu
-000123 E5C1                A   944    	LD	BC,HL
-000125 CD 00 00 00         A   945    	CALL	__itol
-000129 C5D1                A   946    	LD	DE,BC
-00012B 4F                  A   947    	LD	C,A
-00012C 0600                A   948    	LD	B,%0
-00012E C5                  A   949    	PUSH	BC
-00012F D5                  A   950    	PUSH	DE
-000130 CD 00 00 00         A   951    	CALL	__u_itoa
-000134 C1                  A   952    	POP	BC
-000135 C1                  A   953    	POP	BC
-000136 01 20 00 00         A   954    	LD	BC,L__9
-00013A C5                  A   955    	PUSH	BC
-00013B CD 00 00 00         A   956    	CALL	___print_sendstring
-00013F C1                  A   957    	POP	BC
-                           A   958    ;  103					
-                           A   959    ;  104					game_resetlevel();
-                           A   960    .LINE 104
-                           A   961    
-000140 CD 00 00 00         A   962    	CALL	_game_resetlevel
-                           A   963    ;  105					read_level(levelnumber)
-                           A   964    .LINE 105
-                           A   965    
-000144 DD4EFE              A   966    	LD	C,(IX+%FFFFFFFE)
-000147 0600                A   967    	LD	B,%0
-000149 C5                  A   968    	PUSH	BC
-00014A CD 00 00 00         A   969    	CALL	_read_level
-00014E C1                  A   970    	POP	BC
-                           A   971    ;  106					game_createSprites();
-                           A   972    .LINE 106
-                           A   973    
-00014F CD 00 00 00         A   974    	CALL	_game_createSprites
-                           A   975    ;  107					//print_playfieldText()
-                           A   976    ;  108					game_displayLevel();
-                           A   977    .LINE 108
-                           A   978    
-000153 CD 00 00 00         A   979    	CALL	_game_displayLevel
-                           A   980    ;  109					game_play();
-                           A   981    .LINE 109
-                           A   982    
-000157 CD 00 00 00         A   983    	CALL	_game_play
-                           A   984    ;  110					levelnumber++;
-                           A   985    .LINE 110
-                           A   986    
-00015B DD27FE              A   987    	LD	HL,(IX+%FFFFFFFE)
-00015E 23                  A   988    	INC	HL
-00015F DD75FE              A   989    	LD	(IX+%FFFFFFFE),L
-000162 DD74FF              A   990    	LD	(IX+%FFFFFFFF),H
-                           A   991    ;  111					printf("\n\rLevel compl
-                           A   992    .LINE 111
-                           A   993    
-000165 01 00 00 00         A   994    	LD	BC,___print_uputch
-000169 ED43 00 00 00       A   995    	LD	(___print_xputch),BC
-00016E 01 25 00 00         A   996    	LD	BC,L__10
-000172 C5                  A   997    	PUSH	BC
-000173 CD 00 00 00         A   998    	CALL	___print_sendstring
-000177 C1                  A   999    	POP	BC
-                           A  1000    ;  112					getch();
-                           A  1001    .LINE 112
-                           A  1002    
-000178 CD 00 00 00         A  1003    	CALL	_getch
-                           A  1004    ;  113				}
-00017C                     A  1005    L_7:
-                           A  1006    .LINE 113
-                           A  1007    
-00017C DD07FC              A  1008    	LD	BC,(IX+%FFFFFFFC)
-00017F DD27FE              A  1009    	LD	HL,(IX+%FFFFFFFE)
-000182 B7                  A  1010    	OR	A,A
-000183 40ED42              A  1011    	SBC.SIS	HL,BC
-000186 DA 05 01 00         A  1012    	JR	C,L_8
-                           A  1013    ;  114				printf("Last level reached\
-                           A  1014    .LINE 114
-                           A  1015    
-00018A 01 00 00 00         A  1016    	LD	BC,___print_uputch
-00018E ED43 00 00 00       A  1017    	LD	(___print_xputch),BC
-000193 01 49 00 00         A  1018    	LD	BC,L__12
-000197 C5                  A  1019    	PUSH	BC
-000198 CD 00 00 00         A  1020    	CALL	___print_sendstring
-00019C C1                  A  1021    	POP	BC
-                           A  1022    ;  115			}
-                           A  1023    ;  116			else printf("Error initializing
-                           A  1024    .LINE 116
-                           A  1025    
-00019D 18 28               A  1026    	JR	L_14
-00019F                     A  1027    L_11:
-00019F 01 00 00 00         A  1028    	LD	BC,___print_uputch
-0001A3 ED43 00 00 00       A  1029    	LD	(___print_xputch),BC
-0001A8 01 5E 00 00         A  1030    	LD	BC,L__13
-0001AC C5                  A  1031    	PUSH	BC
-0001AD CD 00 00 00         A  1032    	CALL	___print_sendstring
-0001B1 C1                  A  1033    	POP	BC
-                           A  1034    ;  117		}		
-                           A  1035    ;  118		else printf("No levels read\n\r");
-                           A  1036    .LINE 118
-                           A  1037    
-0001B2 18 13               A  1038    	JR	L_14
-0001B4                     A  1039    L_13:
-0001B4 01 00 00 00         A  1040    	LD	BC,___print_uputch
-0001B8 ED43 00 00 00       A  1041    	LD	(___print_xputch),BC
-0001BD 01 78 00 00         A  1042    	LD	BC,L__14
-0001C1 C5                  A  1043    	PUSH	BC
-0001C2 CD 00 00 00         A  1044    	CALL	___print_sendstring
-0001C6 C1                  A  1045    	POP	BC
-0001C7                     A  1046    L_14:
-                           A  1047    ;  119	
-                           A  1048    ;  120		return 0;
-                           A  1049    .LINE 120
-                           A  1050    
-0001C7 B7                  A  1051    	OR	A,A
-0001C8 ED62                A  1052    	SBC	HL,HL
-                           A  1053    .LINE 121
-                           A  1054    
-0001CA DDF9                A  1055    	LD	SP,IX
-0001CC DDE1                A  1056    	POP	IX
-0001CE C9                  A  1057    	RET	
-                           A  1058    
-                           A  1059    
-                           A  1060    ;**************************** _main ***********
-                           A  1061    ;Name                         Addr/Register   S
-                           A  1062    ;_getch                              IMPORT  --
-                           A  1063    ;_game_play                          IMPORT  --
-                           A  1064    ;_game_displayLevel                  IMPORT  --
-                           A  1065    ;_game_createSprites                 IMPORT  --
-                           A  1066    ;_read_level                         IMPORT  --
-                           A  1067    ;_game_resetlevel                    IMPORT  --
-                           A  1068    ;__u_itoa                            IMPORT  --
-                           A  1069    ;_vdu_cls                            IMPORT  --
-                           A  1070    ;_game_init                          IMPORT  --
-                           A  1071    ;_read_numberoflevels                IMPORT  --
-                           A  1072    ;___print_sendstring                 IMPORT  --
-                           A  1073    ;___print_xputch                     IMPORT    
-                           A  1074    ;___print_uputch                     IMPORT  --
-                           A  1075    ;_vdu_setmode                        IMPORT  --
-                           A  1076    ;_coldBoot                           IMPORT    
-                           A  1077    ;_fs                                 STATIC    
-                           A  1078    ;_f_mount                            IMPORT  --
-                           A  1079    ;_open_UART0                         IMPORT  --
-                           A  1080    ;_init_UART0                         IMPORT  --
-                           A  1081    ;_init_spi                           IMPORT  --
-                           A  1082    ;_init_timer2                        IMPORT  --
-                           A  1083    ;pUART                                IX-10    
-                           A  1084    ;levels                                IX-4    
-                           A  1085    ;levelnumber                           IX-2    
-                           A  1086    
-                           A  1087    
-                           A  1088    ; Stack Frame Size: 16 (bytes)
-                           A  1089    ;       Spill Code: 0 (instruction)
-                           A  1090    
-                           A  1091    
-                           A  1092    .ENDFUNC "main",121,"_main"
-                           A  1093    	SEGMENT STRSECT
-000000                     A  1094    L__3:
-000000 00                  A  1095    	DB	0
-000001                     A  1096    L__5:
-000001 52656164 696E6720   A  1097    	DB	"Reading 'levels.bin'..."
-000009 276C6576 656C732E 
-000011 62696E27 2E2E2E 
-000018 00                  A  1098    	DB	0
-000019                     A  1099    L__8:
-000019 4C657665 6C20       A  1100    	DB	"Level "
-00001F 00                  A  1101    	DB	0
-000020                     A  1102    L__9:
-000020 0A0D0A0D 00         A  1103    	DB	10,13,10,13,0
-000025                     A  1104    L__10:
-000025 0A0D                A  1105    	DB	10,13
-000027 4C657665 6C20636F   A  1106    	DB	"Level complete - press any key:"
-00002F 6D706C65 7465202D 
-000037 20707265 73732061 
-00003F 6E79206B 65793A 
-000046 0A0D00              A  1107    	DB	10,13,0
-000049                     A  1108    L__12:
-000049 4C617374 206C6576   A  1109    	DB	"Last level reached"
-000051 656C2072 65616368 
-000059 6564 
-00005B 0A0D00              A  1110    	DB	10,13,0
-00005E                     A  1111    L__13:
-00005E 4572726F 7220696E   A  1112    	DB	"Error initializing game"
-000066 69746961 6C697A69 
-00006E 6E672067 616D65 
-000075 0A0D00              A  1113    	DB	10,13,0
-000078                     A  1114    L__14:
-000078 4E6F206C 6576656C   A  1115    	DB	"No levels read"
-000080 73207265 6164 
-000086 0A0D00              A  1116    	DB	10,13,0
-                           A  1117    	XREF _keycode:ROM
-                           A  1118    	XREF _coldBoot:ROM
-                           A  1119    	XREF _vblank_handler:ROM
-                           A  1120    	XREF _set_vector:ROM
-                           A  1121    	XREF _game_play:ROM
-                           A  1122    	XREF _game_createSprites:ROM
-                           A  1123    	XREF _game_displayLevel:ROM
-                           A  1124    	XREF _game_resetlevel:ROM
-                           A  1125    	XREF _game_init:ROM
-                           A  1126    	XREF _read_level:ROM
-                           A  1127    	XREF _read_numberoflevels:ROM
-                           A  1128    	XREF _vdu_setmode:ROM
-                           A  1129    	XREF _vdu_cls:ROM
-                           A  1130    	XREF _f_mount:ROM
-                           A  1131    	XREF _init_timer2:ROM
-                           A  1132    	XREF _init_spi:ROM
-                           A  1133    	XREF _getch:ROM
-                           A  1134    	XREF _open_UART0:ROM
-                           A  1135    	XREF _init_UART0:ROM
-                           A  1136    	XREF __u_itoa:ROM
-                           A  1137    	XREF ___print_sendstring:ROM
-                           A  1138    	XREF ___print_xputch:ROM
-                           A  1139    	XREF ___print_uputch:ROM
-                           A  1140    	XREF __stoiu:ROM
-                           A  1141    	XREF __itol:ROM
-                           A  1142    	XDEF _main
-                           A  1143    	XDEF _init_interrupts
-                           A  1144    	XDEF _wait_ESP32
-                           A  1145    	END
+                           A   129    .DEFINE "data"
+                           A   130    .VALUE 7
+                           A   131    .CLASS 8
+                           A   132    .DIM 30
+                           A   133    .DIM 40
+                           A   134    .TYPE 876
+                           A   135    .ENDEF
+                           A   136    .ENDREC "sokobanlevel"
+                           A   137    .BEGREC "NONAME0",2
+                           A   138    .DEFINE "ch"
+                           A   139    .VALUE 0
+                           A   140    .CLASS 8
+                           A   141    .TYPE 2
+                           A   142    .ENDEF
+                           A   143    .DEFINE "tile_id"
+                           A   144    .VALUE 1
+                           A   145    .CLASS 8
+                           A   146    .TYPE 12
+                           A   147    .ENDEF
+                           A   148    .ENDREC "NONAME0"
+                           A   149    ;    1	#include <stdio.h>
+                           A   150    ;    2	#include <ctype.h>
+                           A   151    ;    3	#include "mos-interface.h"
+                           A   152    ;    4	#include "vdp.h"
+                           A   153    ;    5	#include "game.h"
+                           A   154    ;    6	
+                           A   155    ;    7	#define FILE_LEVELS	"levels.bin"
+                           A   156    ;    8	
+                           A   157    ;    9	int main(int argc, char * argv[]) {
+0400D7                     A   158    _main:
+                           A   159    .DEFINE "_main"
+                           A   160    
+                           A   161    .VALUE _main
+                           A   162    
+                           A   163    .CLASS 2
+                           A   164    
+                           A   165    .TYPE 68
+                           A   166    
+                           A   167    .ENDEF
+                           A   168    
+                           A   169    .BEGFUNC "main",9,"_main"
+                           A   170    
+                           A   171    .LINE 9
+                           A   172    
+                           A   173    .DEFINE "argc"
+                           A   174    
+                           A   175    .CLASS 65
+                           A   176    
+                           A   177    .VALUE 6
+                           A   178    
+                           A   179    .TYPE 4
+                           A   180    
+                           A   181    .ENDEF
+                           A   182    
+                           A   183    .DEFINE "argv"
+                           A   184    
+                           A   185    .CLASS 65
+                           A   186    
+                           A   187    .VALUE 9
+                           A   188    
+                           A   189    .TYPE 290
+                           A   190    
+                           A   191    .ENDEF
+                           A   192    
+                           A   193    .DEFINE "ingame"
+                           A   194    
+                           A   195    .CLASS 65
+                           A   196    
+                           A   197    .VALUE -1
+                           A   198    
+                           A   199    .TYPE 12
+                           A   200    
+                           A   201    .ENDEF
+                           A   202    
+                           A   203    .DEFINE "key"
+                           A   204    
+                           A   205    .CLASS 65
+                           A   206    
+                           A   207    .VALUE -2
+                           A   208    
+                           A   209    .TYPE 2
+                           A   210    
+                           A   211    .ENDEF
+                           A   212    
+                           A   213    .DEFINE "levels"
+                           A   214    
+                           A   215    .CLASS 65
+                           A   216    
+                           A   217    .VALUE -3
+                           A   218    
+                           A   219    .TYPE 12
+                           A   220    
+                           A   221    .ENDEF
+                           A   222    
+                           A   223    .DEFINE "doneplaying"
+                           A   224    
+                           A   225    .CLASS 65
+                           A   226    
+                           A   227    .VALUE -4
+                           A   228    
+                           A   229    .TYPE 12
+                           A   230    
+                           A   231    .ENDEF
+                           A   232    
+                           A   233    .DEFINE "levelnumber"
+                           A   234    
+                           A   235    .CLASS 65
+                           A   236    
+                           A   237    .VALUE -6
+                           A   238    
+                           A   239    .TYPE 3
+                           A   240    
+                           A   241    .ENDEF
+                           A   242    
+0400D7 DDE5                A   243    	PUSH	IX
+0400D9 DD210000 00         A   244    	LD	IX,0
+0400DE DD39                A   245    	ADD	IX,SP
+0400E0 C5                  A   246    	PUSH	BC
+0400E1 C5                  A   247    	PUSH	BC
+0400E2 C5                  A   248    	PUSH	BC
+                           A   249    ;   10		UINT8 levels;
+                           A   250    ;   11		INT16 levelnumber;
+                           A   251    ;   12		BOOL doneplaying = FALSE;
+                           A   252    .LINE 12
+                           A   253    
+0400E3 DD36FC00            A   254    	LD	(IX+%FFFFFFFC),%0
+                           A   255    ;   13		BOOL quit;
+                           A   256    ;   14		BOOL ingame;
+                           A   257    ;   15		char key;
+                           A   258    ;   16		
+                           A   259    ;   17		printf("Reading levels.bin\r\n");
+                           A   260    .LINE 17
+                           A   261    
+0400E7 01 2F 1D 04         A   262    	LD	BC,___print_uputch
+0400EB ED43 9F 33 04       A   263    	LD	(___print_xputch),BC
+0400F0 01 A2 33 04         A   264    	LD	BC,L__0
+0400F4 C5                  A   265    	PUSH	BC
+0400F5 CD AF 1B 04         A   266    	CALL	___print_sendstring
+0400F9 C1                  A   267    	POP	BC
+                           A   268    ;   18		levels = game_readLevels(FILE_LEVEL
+                           A   269    .LINE 18
+                           A   270    
+0400FA 01 B7 33 04         A   271    	LD	BC,L__1
+0400FE C5                  A   272    	PUSH	BC
+0400FF CD BB 18 04         A   273    	CALL	_game_readLevels
+040103 C1                  A   274    	POP	BC
+040104 DD77FD              A   275    	LD	(IX+%FFFFFFFD),A
+                           A   276    ;   19		if(levels)
+                           A   277    .LINE 19
+                           A   278    
+040107 B7                  A   279    	OR	A,A
+040108 CA 04 02 04         A   280    	JR	Z,L_18
+                           A   281    ;   20		{
+                           A   282    ;   21			vdp_mode(0);	// 640x480 pixe
+                           A   283    .LINE 21
+                           A   284    
+04010C 01000000            A   285    	LD	BC,0
+040110 C5                  A   286    	PUSH	BC
+040111 CD CD 02 04         A   287    	CALL	_vdp_mode
+040115 C1                  A   288    	POP	BC
+                           A   289    ;   22			vdp_cursorDisable();
+                           A   290    .LINE 22
+                           A   291    
+040116 CD 8A 0C 04         A   292    	CALL	_vdp_cursorDisable
+                           A   293    ;   23			
+                           A   294    ;   24			game_sendSpriteData();
+                           A   295    .LINE 24
+                           A   296    
+04011A CD 2B 0D 04         A   297    	CALL	_game_sendSpriteData
+                           A   298    ;   25			
+                           A   299    ;   26			while(!doneplaying)
+                           A   300    .LINE 26
+                           A   301    
+04011E C3 EC 01 04         A   302    	JR	L_14
+040122                     A   303    L_15:
+                           A   304    ;   27			{
+                           A   305    ;   28				levelnumber = game_selectLe
+                           A   306    .LINE 28
+                           A   307    
+040122 DD4EFD              A   308    	LD	C,(IX+%FFFFFFFD)
+040125 0600                A   309    	LD	B,%0
+040127 C5                  A   310    	PUSH	BC
+040128 CD 6E 15 04         A   311    	CALL	_game_selectLevel
+04012C C1                  A   312    	POP	BC
+04012D DD75FA              A   313    	LD	(IX+%FFFFFFFA),L
+040130 DD74FB              A   314    	LD	(IX+%FFFFFFFB),H
+                           A   315    ;   29				if(levelnumber >= 0)
+                           A   316    .LINE 29
+                           A   317    
+040133 DD27FA              A   318    	LD	HL,(IX+%FFFFFFFA)
+040136 CD 09 1F 04         A   319    	CALL	__scmpzero
+04013A FA E8 01 04         A   320    	JP	M,L_13
+                           A   321    ;   30				{
+                           A   322    ;   31					// Start game
+                           A   323    ;   32					ingame = TRUE;
+                           A   324    .LINE 32
+                           A   325    
+04013E DD36FF01            A   326    	LD	(IX+%FFFFFFFF),%1
+                           A   327    ;   33					game_resetSprites();	
+                           A   328    .LINE 33
+                           A   329    
+040142 CD E7 0D 04         A   330    	CALL	_game_resetSprites
+                           A   331    ;   34					game_initLevel(levelnum
+                           A   332    .LINE 34
+                           A   333    
+040146 DD4EFA              A   334    	LD	C,(IX+%FFFFFFFA)
+040149 0600                A   335    	LD	B,%0
+04014B C5                  A   336    	PUSH	BC
+04014C CD 50 19 04         A   337    	CALL	_game_initLevel
+040150 C1                  A   338    	POP	BC
+                           A   339    ;   35					game_initSprites();		
+                           A   340    .LINE 35
+                           A   341    
+040151 CD 86 19 04         A   342    	CALL	_game_initSprites
+                           A   343    ;   36					
+                           A   344    ;   37					vdp_cls();	// clear ou
+                           A   345    .LINE 37
+                           A   346    
+040155 CD F2 02 04         A   347    	CALL	_vdp_cls
+                           A   348    ;   38					
+                           A   349    ;   39					game_displayLevel();
+                           A   350    .LINE 39
+                           A   351    
+040159 CD E9 16 04         A   352    	CALL	_game_displayLevel
+                           A   353    ;   40					while(ingame)
+                           A   354    .LINE 40
+                           A   355    
+04015D 18 7F               A   356    	JR	L_10
+04015F                     A   357    L_11:
+                           A   358    ;   41					{
+                           A   359    ;   42						key = getch();
+                           A   360    .LINE 42
+                           A   361    
+04015F CD C8 1A 04         A   362    	CALL	_getch
+040163 DD77FE              A   363    	LD	(IX+%FFFFFFFE),A
+                           A   364    ;   43						if((key == 'q') || 
+                           A   365    .LINE 43
+                           A   366    
+040166 FE71                A   367    	CP	A,%71
+040168 28 0E               A   368    	JR	Z,L_8
+04016A DD7EFE              A   369    	LD	A,(IX+%FFFFFFFE)
+04016D FE51                A   370    	CP	A,%51
+04016F 28 07               A   371    	JR	Z,L_8
+040171 DD7EFE              A   372    	LD	A,(IX+%FFFFFFFE)
+040174 FE1B                A   373    	CP	A,%1B
+040176 20 42               A   374    	JR	NZ,L_9
+040178                     A   375    L_8:
+                           A   376    ;   44						{
+                           A   377    ;   45							game_resetSprit
+                           A   378    .LINE 45
+                           A   379    
+040178 CD E7 0D 04         A   380    	CALL	_game_resetSprites
+                           A   381    ;   46							ingame = (game_
+                           A   382    .LINE 46
+                           A   383    
+04017C 016E0000            A   384    	LD	BC,110
+040180 C5                  A   385    	PUSH	BC
+040181 01790000            A   386    	LD	BC,121
+040185 C5                  A   387    	PUSH	BC
+040186 01 C2 33 04         A   388    	LD	BC,L__7
+04018A C5                  A   389    	PUSH	BC
+04018B CD 77 14 04         A   390    	CALL	_game_getResponse
+04018F C1                  A   391    	POP	BC
+040190 C1                  A   392    	POP	BC
+040191 C1                  A   393    	POP	BC
+040192 47                  A   394    	LD	B,A
+040193 78                  A   395    	LD	A,B
+040194 17ED62              A   396    	SEXT	HL
+040197 68                  A   397    	LD	L,B
+040198 01790000            A   398    	LD	BC,121
+04019C B7                  A   399    	OR	A,A
+04019D ED42                A   400    	SBC	HL,BC
+04019F 28 04               A   401    	JR	Z,L__9
+0401A1 3E01                A   402    	LD	A,%1
+0401A3 18 01               A   403    	JR	L__10
+0401A5                     A   404    L__9:
+0401A5 AF                  A   405    	XOR	A,A
+0401A6                     A   406    L__10:
+0401A6 DD77FF              A   407    	LD	(IX+%FFFFFFFF),A
+                           A   408    ;   47							if(ingame)
+                           A   409    .LINE 47
+                           A   410    
+0401A9 B7                  A   411    	OR	A,A
+0401AA 28 08               A   412    	JR	Z,L_3
+                           A   413    ;   48							{
+                           A   414    ;   49								game_initSp
+                           A   415    .LINE 49
+                           A   416    
+0401AC CD 86 19 04         A   417    	CALL	_game_initSprites
+                           A   418    ;   50								game_displa
+                           A   419    .LINE 50
+                           A   420    
+0401B0 CD E9 16 04         A   421    	CALL	_game_displayLevel
+                           A   422    ;   51							}
+0401B4                     A   423    L_3:
+                           A   424    .LINE 51
+                           A   425    
+                           A   426    ;   52							game_displayLev
+                           A   427    .LINE 52
+                           A   428    
+0401B4 CD E9 16 04         A   429    	CALL	_game_displayLevel
+                           A   430    ;   53						}
+                           A   431    ;   54						else ingame = !game
+                           A   432    .LINE 54
+                           A   433    
+0401B8 18 24               A   434    	JR	L_10
+0401BA                     A   435    L_9:
+0401BA DD4EFE              A   436    	LD	C,(IX+%FFFFFFFE)
+0401BD 0600                A   437    	LD	B,%0
+0401BF C5                  A   438    	PUSH	BC
+0401C0 CD A7 12 04         A   439    	CALL	_game_handleKey
+0401C4 C1                  A   440    	POP	BC
+0401C5 B7                  A   441    	OR	A,A
+0401C6 20 09               A   442    	JR	NZ,L_5
+0401C8 01010000            A   443    	LD	BC,1
+0401CC DD0FF7              A   444    	LD	(IX+%FFFFFFF7),BC
+0401CF 18 07               A   445    	JR	L_6
+0401D1                     A   446    L_5:
+0401D1 01000000            A   447    	LD	BC,0
+0401D5 DD0FF7              A   448    	LD	(IX+%FFFFFFF7),BC
+0401D8                     A   449    L_6:
+0401D8 DD7EF7              A   450    	LD	A,(IX+%FFFFFFF7)
+0401DB DD77FF              A   451    	LD	(IX+%FFFFFFFF),A
+                           A   452    ;   55					}
+0401DE                     A   453    L_10:
+                           A   454    .LINE 55
+                           A   455    
+0401DE DD7EFF              A   456    	LD	A,(IX+%FFFFFFFF)
+0401E1 B7                  A   457    	OR	A,A
+0401E2 C2 5F 01 04         A   458    	JR	NZ,L_11
+0401E6 18 04               A   459    	JR	L_14
+                           A   460    ;   56				}
+                           A   461    ;   57				else doneplaying = TRUE;
+0401E8                     A   462    L_13:
+                           A   463    .LINE 57
+                           A   464    
+0401E8 DD36FC01            A   465    	LD	(IX+%FFFFFFFC),%1
+                           A   466    ;   58			}
+0401EC                     A   467    L_14:
+                           A   468    .LINE 58
+                           A   469    
+0401EC DD7EFC              A   470    	LD	A,(IX+%FFFFFFFC)
+0401EF B7                  A   471    	OR	A,A
+0401F0 CA 22 01 04         A   472    	JR	Z,L_15
+                           A   473    ;   59	
+                           A   474    ;   60			game_resetSprites();
+                           A   475    .LINE 60
+                           A   476    
+0401F4 CD E7 0D 04         A   477    	CALL	_game_resetSprites
+                           A   478    ;   61			vdp_mode(1);	// 512x384 pixe
+                           A   479    .LINE 61
+                           A   480    
+0401F8 01010000            A   481    	LD	BC,1
+0401FC C5                  A   482    	PUSH	BC
+0401FD CD CD 02 04         A   483    	CALL	_vdp_mode
+040201 C1                  A   484    	POP	BC
+                           A   485    ;   62		}
+                           A   486    ;   63		else printf("No level available\r\n
+                           A   487    .LINE 63
+                           A   488    
+040202 18 13               A   489    	JR	L_19
+040204                     A   490    L_18:
+040204 01 2F 1D 04         A   491    	LD	BC,___print_uputch
+040208 ED43 9F 33 04       A   492    	LD	(___print_xputch),BC
+04020D 01 DB 33 04         A   493    	LD	BC,L__15
+040211 C5                  A   494    	PUSH	BC
+040212 CD AF 1B 04         A   495    	CALL	___print_sendstring
+040216 C1                  A   496    	POP	BC
+040217                     A   497    L_19:
+                           A   498    ;   64		return 0;
+                           A   499    .LINE 64
+                           A   500    
+040217 B7                  A   501    	OR	A,A
+040218 ED62                A   502    	SBC	HL,HL
+                           A   503    ;   65	}
+                           A   504    .LINE 65
+                           A   505    
+04021A DDF9                A   506    	LD	SP,IX
+04021C DDE1                A   507    	POP	IX
+04021E C9                  A   508    	RET	
+                           A   509    
+                           A   510    
+                           A   511    ;**************************** _main ***********
+                           A   512    ;Name                         Addr/Register   S
+                           A   513    ;_game_handleKey                     IMPORT  --
+                           A   514    ;_game_getResponse                   IMPORT  --
+                           A   515    ;_getch                              IMPORT  --
+                           A   516    ;_game_displayLevel                  IMPORT  --
+                           A   517    ;_vdp_cls                            IMPORT  --
+                           A   518    ;_game_initSprites                   IMPORT  --
+                           A   519    ;_game_initLevel                     IMPORT  --
+                           A   520    ;_game_resetSprites                  IMPORT  --
+                           A   521    ;_game_selectLevel                   IMPORT  --
+                           A   522    ;_game_sendSpriteData                IMPORT  --
+                           A   523    ;_vdp_cursorDisable                  IMPORT  --
+                           A   524    ;_vdp_mode                           IMPORT  --
+                           A   525    ;_game_readLevels                    IMPORT  --
+                           A   526    ;___print_sendstring                 IMPORT  --
+                           A   527    ;___print_xputch                     IMPORT    
+                           A   528    ;___print_uputch                     IMPORT  --
+                           A   529    ;temp7                                 IX-9    
+                           A   530    ;levelnumber                           IX-6    
+                           A   531    ;doneplaying                           IX-4    
+                           A   532    ;levels                                IX-3    
+                           A   533    ;key                                   IX-2    
+                           A   534    ;ingame                                IX-1    
+                           A   535    ;argv                                  IX+9    
+                           A   536    ;argc                                  IX+6    
+                           A   537    
+                           A   538    
+                           A   539    ; Stack Frame Size: 21 (bytes)
+                           A   540    ;       Spill Code: 0 (instruction)
+                           A   541    
+                           A   542    
+                           A   543    .ENDFUNC "main",65,"_main"
+                           A   544    	SEGMENT STRSECT
+0433A2                     A   545    L__0:
+0433A2 52656164 696E6720   A   546    	DB	"Reading levels.bin"
+0433AA 6C657665 6C732E62 
+0433B2 696E 
+0433B4 0D0A00              A   547    	DB	13,10,0
+0433B7                     A   548    L__1:
+0433B7 6C657665 6C732E62   A   549    	DB	"levels.bin"
+0433BF 696E 
+0433C1 00                  A   550    	DB	0
+0433C2                     A   551    L__7:
+0433C2 5265616C 6C792051   A   552    	DB	"Really QUIT level (y/n)?"
+0433CA 55495420 6C657665 
+0433D2 6C202879 2F6E293F 
+0433DA 00                  A   553    	DB	0
+0433DB                     A   554    L__15:
+0433DB 4E6F206C 6576656C   A   555    	DB	"No level available"
+0433E3 20617661 696C6162 
+0433EB 6C65 
+0433ED 0D0A00              A   556    	DB	13,10,0
+                           A   557    	XREF _game_getResponse:ROM
+                           A   558    	XREF _game_selectLevel:ROM
+                           A   559    	XREF _game_handleKey:ROM
+                           A   560    	XREF _game_displayLevel:ROM
+                           A   561    	XREF _game_resetSprites:ROM
+                           A   562    	XREF _game_initSprites:ROM
+                           A   563    	XREF _game_initLevel:ROM
+                           A   564    	XREF _game_sendSpriteData:ROM
+                           A   565    	XREF _game_readLevels:ROM
+                           A   566    	XREF _vdp_cursorDisable:ROM
+                           A   567    	XREF _vdp_cls:ROM
+                           A   568    	XREF _vdp_mode:ROM
+                           A   569    	XREF _getch:ROM
+                           A   570    	XREF ___print_sendstring:ROM
+                           A   571    	XREF ___print_xputch:ROM
+                           A   572    	XREF ___print_uputch:ROM
+                           A   573    	XREF __scmpzero:ROM
+                           A   574    	XDEF _main
+                           A   575    	END
 
 
 Errors: 0
 Warnings: 0
-Lines Assembled: 1146
+Lines Assembled: 576

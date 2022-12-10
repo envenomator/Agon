@@ -501,7 +501,6 @@ UINT8 game_readLevels(char *filename)
 				ptr++;
 				size--;
 			}
-			putch('.');
 			numlevels++;
 		}		
 		mos_fclose(file);

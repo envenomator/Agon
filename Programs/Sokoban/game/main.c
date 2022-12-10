@@ -6,6 +6,35 @@
 
 #define FILE_LEVELS	"levels.bin"
 
+void splash_screen()
+{
+	vdp_cls();
+	vdp_cursorGoto(0,10);
+	vdp_cursorDisable();
+	vdp_fgcolour(255,0,0);
+	puts("             _____       _         _                 \r\n");
+	vdp_fgcolour(255,255,0);
+	puts("            / ____|     | |       | |                \r\n");
+	vdp_fgcolour(0,255,255);
+	puts("           | (___   ___ | | _____ | |__   __ _ _ __  \r\n");
+	vdp_fgcolour(0,0,255);
+	puts("            \\___ \\ / _ \\| |/ / _ \\| '_ \\ / _. | '_ \\ \r\n");
+	vdp_fgcolour(255,0,255);
+	puts("            ____) | (_) |   < (_) | |_) | (_| | | | |\r\n");
+	vdp_fgcolour(255,255,255);
+	puts("           |_____/ \\___/|_|\\_\\___/|_.__/ \\__,_|_| |_|\r\n");
+	puts("\r\n");
+	puts("\r\n");
+	vdp_fgcolour(0,255,0);
+	puts("                           For Agon (TM)\r\n");
+	puts("\r\n");
+	vdp_fgcolour(128,128,128);
+	puts("                     (c) 2023 Jeroen Venema\r\n");
+	vdp_cursorGoto(25,38);
+	vdp_fgcolour(255,255,255);
+	puts("Reading levels...");
+
+}
 int main(int argc, char * argv[]) {
 	UINT8 levels;
 	INT16 levelnumber;
@@ -14,10 +43,15 @@ int main(int argc, char * argv[]) {
 	BOOL ingame;
 	char key;
 	
-	printf("Reading levels.bin\r\n");
+	splash_screen();
+	
 	levels = game_readLevels(FILE_LEVELS);
 	if(levels)
 	{
+		vdp_cursorGoto(20,38);
+		puts("Press any key to continue ");
+		getch();
+		
 		vdp_mode(0);	// 640x480 pixels
 		vdp_cursorDisable();
 		

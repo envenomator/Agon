@@ -4,7 +4,7 @@
 #include <defines.h>
 #include "sokobanprep.h"
 
-#define LEVELDATA		0x80000
+#define LEVELDATA		0x60000
 
 #define NOSPRITE		255
 #define BITMAPNUMBER	7
@@ -14,8 +14,10 @@
 #define MINIMAP_HEIGHT	8
 #define BITMAPSIZE		(BITMAP_WIDTH*BITMAP_HEIGHT)
 
-#define FILENAME_BITMAPS	"bitmaps.bin"
-#define FILENAME_LEVELS		"levels.bin"
+#define HELP_XPOS_MODE1		44
+#define HELP_YPOS_MODE1		10
+#define HELP_XPOS_MODE0		30
+#define HELP_YPOS_MODE0		13
 
 
 #define TILE_WALL				0
@@ -64,6 +66,9 @@ BOOL game_handleKey(char key);
 INT16 game_selectLevel(UINT8 levels, UINT16 levelnumber);
 //BOOL game_checkQuit(char key);
 char game_getResponse(char *message, char option1, char option2);
+void game_displayHelp(UINT8 x, UINT8 y);
+void game_handleUndoMove(void);
+void game_splash_screen(void);
 
 #endif 
 

@@ -217,23 +217,7 @@ Comment: Sokoban2 #1
     #####     ###
         #     #
         #######
-Title: 12
-Author: Hachiro Kajiwara
-Comment: Sokoban2 #4
 
-################
-#              #
-# # ######     #
-# #  $ $ $ $#  #
-# #   $@$   ## ##
-# #  $ $ $###...#
-# #   $ $  ##...#
-# ###$$$ $ ##...#
-#     # ## ##...#
-#####   ## ##...#
-    #####     ###
-        #     #
-        #######
 Title: 12X
 Author: Hachiro Kajiwara
 Comment: Sokoban2 #4. The wall at E6( E'th collumn, 6th row) was 
@@ -380,25 +364,7 @@ Comment: Sokoban2 #9. Arranged. Minus five boxes.
    #    $$ ###....#
    #      ## ######
    ########
-Title: 20
-Comment: Sokoban2 #10. Arranged and rotated. Minus nine(!) boxes.
 
-    ##########
-#####        ####
-#     #   $  #@ #
-# #######$####  ###
-# #    ## #  #$ ..#
-# # $     #  #  #.#
-# # $  #     #$ ..#
-# #  ### ##     #.#
-# ###  #  #  #$ ..#
-# #    #  ####  #.#
-# #$   $  $  #$ ..#
-#    $ # $ $ #  #.#
-#### $###    #$ ..#
-   #    $$ ###....#
-   #      ## ######
-   ########
 Title: 20X
 Comment: Sokoban2 #10. Arranged and rotated. Minus nine(!) boxes. In 
 the XSokoban levelset the boxes at H6 and J10 and the goals at O11 and 
@@ -490,25 +456,6 @@ Comment: Sokoban2 #14. Arranged. Minus one box.
 # #### #$$$$$    #
 # #    $     #   #
 # #   ## ##     ###
-# ######$###### $ #
-#        #    #   #
-##########    #####
-Title: 25
-Comment: Sokoban2 #15. Arranged. Minus two boxes.
-
-####
-#  ##############
-#  #   ..#......#
-#  # # ##### ...#
-##$#    ........#
-#   ##$######  ####
-# $ #     ######@ #
-##$ # $   ######  #
-#  $ #$$$##       #
-#      #    #$#$###
-# #### #$$$$$    #
-# #    $     #   #
-# #   ##        ###
 # ######$###### $ #
 #        #    #   #
 ##########    #####
@@ -729,24 +676,7 @@ Comment: Sokoban2 #26. Arranged and rotated.
    ##   # #   #
     #####@#####
         ###
-Title: 37
-Comment: Sokoban2 #27. Arranged.
 
-###########
-#......   #########
-#......   #  ##   #
-#..### $    $     #
-#... $ $ #   ##   #
-#...#$#####    #  #
-###    #   #$  #$ #
-  #  $$ $ $  $##  #
-  #  $   #$#$ ##$ #
-  ### ## #    ##  #
-   #  $ $ ## ######
-   #    $  $  #
-   ##   # #   #
-    #####@#####
-        ###
 Title: 37X
 Comment: Sokoban2 #27. Arranged. In the XSokoban levelset the wall at 
 M5 was removed.
@@ -836,23 +766,7 @@ Comment: Sokoban2 #31. Arranged. Minus one box.
   #  $  $  $  $ #
   ######   ######
        #####
-Title: 42
-Author: Yoshiki Kondo.
-Comment: Sokoban2 #32. Arranged.
 
-     ########
-  ####      ######
-  #    ## $ $   @#
-  # ## ##$#$ $ $##
-### ......#  $$ ##
-#   ......#  #   #
-# # ......#$  $  #
-# #$...... $$# $ #
-#   ### ###$  $ ##
-###  $  $  $  $ #
-  #  $  $  $  $ #
-  ######   ######
-       #####
 Title: 42X
 Author: Yoshiki Kondo.
 Comment: Sokoban2 #32. Arranged. In the XSokoban levelset the box at 
@@ -996,25 +910,7 @@ Comment: Sokoban2 #38.
   #  ###   ##     #
   #  #      #    ##
   ####      ######
-Title: 50
-Comment: Sokoban2 #39.
 
-      ############
-     ##..    #   #
-    ##..* $    $ #
-   ##..*.# # # $##
-   #..*.# # # $  #
-####...#  #    # #
-#  ## #          #
-# @$ $ ###  #   ##
-# $   $   # #   #
-###$$   # # # # #
-  #   $   # # #####
-  # $# #####      #
-  #$   #   #    # #
-  #  ###   ##     #
-  #  #      #    ##
-  ####      ######
 Title: 50X
 Comment: Sokoban2 #39. In the XSokoban levelset the box at O4 moved to 
 P4, the wall at O8 disappeared and the wall at P13 moved to Q13

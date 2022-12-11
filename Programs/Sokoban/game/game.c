@@ -599,9 +599,6 @@ BOOL game_handleKey(char key)
 			yn2 = currentlevel.ypos;
 			move = TRUE;
 			break;
-		case 'u': // undo move
-			game_handleUndoMove();
-			break;
 		default:
 			move = FALSE;
 			break;
@@ -652,6 +649,90 @@ char game_getResponse(char *message, char option1, char option2)
 	return ret;
 }
 
+void game_splash_screen()
+{
+	vdp_cls();
+	vdp_cursorGoto(0,10);
+	vdp_cursorDisable();
+	vdp_fgcolour(255,0,0);
+	puts("             _____       _         _                 \r\n");
+	vdp_fgcolour(255,255,0);
+	puts("            / ____|     | |       | |                \r\n");
+	vdp_fgcolour(0,255,255);
+	puts("           | (___   ___ | | _____ | |__   __ _ _ __  \r\n");
+	vdp_fgcolour(0,0,255);
+	puts("            \\___ \\ / _ \\| |/ / _ \\| '_ \\ / _. | '_ \\ \r\n");
+	vdp_fgcolour(255,0,255);
+	puts("            ____) | (_) |   < (_) | |_) | (_| | | | |\r\n");
+	vdp_fgcolour(255,255,255);
+	puts("           |_____/ \\___/|_|\\_\\___/|_.__/ \\__,_|_| |_|\r\n");
+	puts("\r\n");
+	puts("\r\n");
+	vdp_fgcolour(0,255,0);
+	puts("                           For Agon (TM)\r\n");
+	puts("\r\n");
+	vdp_fgcolour(128,128,128);
+	puts("                     (c) 2023 Jeroen Venema\r\n");
+	//vdp_cursorGoto(25,38);
+	//vdp_fgcolour(255,255,255);
+	//puts("Reading levels...");
+
+}
+
+void game_displayHelp(UINT8 xpos, UINT8 ypos)
+{
+	UINT16 gxpos = xpos * MINIMAP_WIDTH;
+	UINT16 gypos = (ypos * 8) + 72;
+	vdp_cursorGoto(xpos,ypos);
+	vdp_fgcolour(255,255,255);
+	puts("Game objective");
+	vdp_cursorGoto(xpos,ypos+2);
+	vdp_fgcolour(128,128,128);
+	puts("Push all boxes");
+	vdp_cursorGoto(xpos,ypos+3);
+	puts("in this warehouse");
+	vdp_cursorGoto(xpos,ypos+4);
+	puts("to the target goals.");
+	
+	vdp_cursorGoto(xpos,ypos+7);
+	vdp_fgcolour(255,255,255);
+	puts("Legend");
+	
+	vdp_bitmapDraw(TILE_PLAYER_MINI,gxpos,gypos);
+	vdp_bitmapDraw(TILE_BOX_MINI, gxpos, gypos + 16);
+	vdp_bitmapDraw(TILE_BOXONGOAL_MINI, gxpos, gypos + 32);
+	vdp_bitmapDraw(TILE_GOAL_MINI, gxpos, gypos + 56);
+	
+	vdp_fgcolour(128,128,128);
+	vdp_cursorGoto(xpos+2,ypos+9);
+	puts("You, hard at work");
+	vdp_cursorGoto(xpos+2,ypos+11);
+	puts("Boxes with stuff");
+	vdp_cursorGoto(xpos+2,ypos+13);
+	puts("Boxes in shipping");
+	vdp_cursorGoto(xpos+2,ypos+14);
+	puts("position");
+	vdp_cursorGoto(xpos+2,ypos+16);
+	puts("Shipping goal");
+	
+	vdp_fgcolour(255,255,255);
+	vdp_cursorGoto(xpos,ypos+19);
+	puts("Game controls");
+	
+	vdp_fgcolour(128,128,128);
+	vdp_cursorGoto(xpos,ypos+21);
+	puts("Cursor");
+	vdp_cursorGoto(xpos,ypos+22);
+	puts(" keys  - move player");
+	vdp_cursorGoto(xpos,ypos+23);
+	puts("    u  - undo move");
+	vdp_cursorGoto(xpos,ypos+24);
+	puts("esc/q  - quit level");
+	vdp_cursorGoto(xpos,ypos+26);
+	puts("ENTER  - start level");
+
+	return;
+}
 
 INT16 game_selectLevel(UINT8 levels, UINT16 previouslevel)
 {
@@ -675,7 +756,7 @@ INT16 game_selectLevel(UINT8 levels, UINT16 previouslevel)
 
 		vdp_cursorGoto(0,4);
 		vdp_fgcolour(255,255,255);
-		printf("Level %03d",lvl);
+		printf("Level %03d / %03d",lvl+1,levels); // user level# starts at 1, internally this is level 0
 
 		vdp_cursorGoto(5,39);
 		puts("Select level with cursor keys");
@@ -687,53 +768,9 @@ INT16 game_selectLevel(UINT8 levels, UINT16 previouslevel)
 		vdp_plotColour(0,128,128);
 		vdp_plotLineTo(328,328);
 		
-		vdp_cursorGoto(44,10);
-		vdp_fgcolour(255,255,255);
-		puts("Game objective");
-		vdp_cursorGoto(44,12);
-		vdp_fgcolour(128,128,128);
-		puts("Push all boxes");
-		vdp_cursorGoto(44,13);
-		puts("in this warehouse");
-		vdp_cursorGoto(44,14);
-		puts("to the target goals.");
+
+		game_displayHelp(HELP_XPOS_MODE1, HELP_YPOS_MODE1);
 		
-		vdp_cursorGoto(44,17);
-		vdp_fgcolour(255,255,255);
-		puts("Legend");
-		
-		vdp_bitmapDraw(TILE_PLAYER_MINI,352,152);
-		vdp_bitmapDraw(TILE_BOX_MINI, 352, 168);
-		vdp_bitmapDraw(TILE_BOXONGOAL_MINI, 352, 184);
-		vdp_bitmapDraw(TILE_GOAL_MINI, 352, 208);
-		
-		vdp_fgcolour(128,128,128);
-		vdp_cursorGoto(46,19);
-		puts("You, hard at work");
-		vdp_cursorGoto(46,21);
-		puts("Boxes with stuff");
-		vdp_cursorGoto(46,23);
-		puts("Boxes in shipping");
-		vdp_cursorGoto(46,24);
-		puts("position");
-		vdp_cursorGoto(46,26);
-		puts("Shipping goal");
-		
-		vdp_fgcolour(255,255,255);
-		vdp_cursorGoto(44,29);
-		puts("Game controls");
-		
-		vdp_fgcolour(128,128,128);
-		vdp_cursorGoto(44,31);
-		puts("Cursor");
-		vdp_cursorGoto(44,32);
-		puts(" keys  - move player");
-		vdp_cursorGoto(44,33);
-		puts("    u  - undo move");
-		vdp_cursorGoto(44,34);
-		puts("esc/q  - quit level");
-		vdp_cursorGoto(44,36);
-		puts("ENTER  - start level");
 		
 		switch(getch())
 		{
@@ -758,8 +795,6 @@ INT16 game_selectLevel(UINT8 levels, UINT16 previouslevel)
 	}
 	return lvl;
 }
-
-
 
 void game_displayLevel(void)
 {
@@ -822,15 +857,6 @@ void game_displayMinimap(void)
 	UINT16 ystart,xstart,x,y;
 	char c;
 	
-	// clear out target area first
-	//for(height = 0; height < (MAXHEIGHT*MINIMAP_HEIGHT); height += MINIMAP_HEIGHT)
-	//{
-	//	for(width = 0; width < (MAXWIDTH*MINIMAP_WIDTH); width += MINIMAP_WIDTH)
-	//	{
-	//		vdp_bitmapDraw(TILE_MINIMAP_CLEAR, width, height+56);
-	//	}
-	//}
-	
 	// calculate on-screen base coordinates
 	xstart = ((MAXWIDTH - currentlevel.width) / 2) * MINIMAP_WIDTH;
 	ystart = (((MAXHEIGHT - currentlevel.height) / 2) * MINIMAP_HEIGHT) + 56;
@@ -883,7 +909,9 @@ UINT8 game_readLevels(char *filename)
 	UINT16 size;
 	UINT8 file;
 	char* ptr = (char*)LEVELDATA;
-	
+
+	vdp_fgcolour(255,255,255);
+
 	file = mos_fopen(filename, fa_read);
 	if(file)
 	{
@@ -899,6 +927,9 @@ UINT8 game_readLevels(char *filename)
 				size--;
 			}
 			numlevels++;
+			vdp_cursorGoto(20,38);
+			printf("Loading levels (%03d)....",numlevels);
+
 		}		
 		mos_fclose(file);
 	}

@@ -5,6 +5,15 @@
 #include <stdio.h>
 #include <string.h>
 
+struct undoitem
+{
+	UINT8 movekey;	// the key pressed to initiate this move to potentially undo
+	BOOL  pushed;	// an item was pushed in this move to potentially undo
+};
+
+struct undoitem undomove;			// a single undo makes it harder. A buffer could be easily created in future using this struct
+UINT8 num_undomoves;
+
 UINT32 bitmapbuffer[BITMAPSIZE];	// will hold one bitmap at a time, to transmit to the VDU
 UINT8 sprites[MAXHEIGHT][MAXWIDTH]; // will contain all sprites on-screen
 struct sokobanlevel currentlevel;	// will contain the currentlevel;
@@ -115,20 +124,97 @@ UINT32 boxongoal_data[1][256] = {
 }
 };
 
-chartotile lookup[] =
+UINT32 boxmini_data[1][64] = {
 {
-	{CHAR_WALL, TILE_WALL},
-	{CHAR_PLAYER, TILE_PLAYER},
-	{CHAR_PLAYERONGOAL, TILE_PLAYERONGOAL},
-	{CHAR_BOX, TILE_BOX},
-	{CHAR_BOXONGOAL, TILE_BOXONGOAL},
-	{CHAR_GOAL, TILE_GOAL},
-	{CHAR_FLOOR, TILE_FLOOR}
+0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 
+0xff000000, 0xff008080, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff008080, 0xff000000, 
+0xff000000, 0xff00ffff, 0xff000000, 0xff008080, 0xff008080, 0xff000000, 0xff00ffff, 0xff000000, 
+0xff000000, 0xff00ffff, 0xff008080, 0xff000000, 0xff000000, 0xff008080, 0xff00ffff, 0xff000000, 
+0xff000000, 0xff00ffff, 0xff008080, 0xff000000, 0xff000000, 0xff008080, 0xff00ffff, 0xff000000, 
+0xff000000, 0xff00ffff, 0xff000000, 0xff008080, 0xff008080, 0xff000000, 0xff00ffff, 0xff000000, 
+0xff000000, 0xff008080, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff008080, 0xff000000, 
+0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000
+}
 };
+
+UINT32 wallmini_data[1][64] = {
+{
+0xff008080, 0xff008080, 0xff008080, 0xff404040, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 
+0xff000080, 0xff000080, 0xff000080, 0xff404040, 0xff008080, 0xff000080, 0xff000080, 0xff808080, 
+0xff000080, 0xff000080, 0xff000080, 0xff404040, 0xff008080, 0xff000080, 0xff000080, 0xff000080, 
+0xff404040, 0xff404040, 0xff404040, 0xff404040, 0xff404040, 0xff404040, 0xff404040, 0xff404040, 
+0xff404040, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 0xff008080, 
+0xff404040, 0xff008080, 0xff000080, 0xff000080, 0xff808080, 0xff000080, 0xff000080, 0xff000080, 
+0xff404040, 0xff008080, 0xff000080, 0xff000080, 0xff000080, 0xff000080, 0xff000080, 0xff000080, 
+0xff404040, 0xff404040, 0xff404040, 0xff404040, 0xff404040, 0xff404040, 0xff404040, 0xff404040
+}
+};
+
+UINT32 goalmini_data[1][64] = {
+{
+0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 
+0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 
+0xff000000, 0xff000000, 0xff00ff00, 0xff000000, 0xff000000, 0xff00ff00, 0xff000000, 0xff000000, 
+0xff000000, 0xff000000, 0xff000000, 0xff00ff00, 0xff00ff00, 0xff000000, 0xff000000, 0xff000000, 
+0xff000000, 0xff000000, 0xff000000, 0xff00ff00, 0xff00ff00, 0xff000000, 0xff000000, 0xff000000, 
+0xff000000, 0xff000000, 0xff00ff00, 0xff000000, 0xff000000, 0xff00ff00, 0xff000000, 0xff000000, 
+0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 
+0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000
+}
+};
+
+UINT32 boxongoalmini_data[1][64] = {
+{
+0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 
+0xff000000, 0xff008080, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff008080, 0xff000000, 
+0xff000000, 0xff00ffff, 0xff000000, 0xff008080, 0xff008080, 0xff000000, 0xff00ffff, 0xff000000, 
+0xff000000, 0xff00ffff, 0xff008080, 0xff00ff00, 0xff00ff00, 0xff008080, 0xff00ffff, 0xff000000, 
+0xff000000, 0xff00ffff, 0xff008080, 0xff00ff00, 0xff00ff00, 0xff008080, 0xff00ffff, 0xff000000, 
+0xff000000, 0xff00ffff, 0xff000000, 0xff008080, 0xff008080, 0xff000000, 0xff00ffff, 0xff000000, 
+0xff000000, 0xff008080, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff00ffff, 0xff008080, 0xff000000, 
+0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000, 0xff000000
+}
+};
+
+UINT32 playermini_data[1][64] = {
+{
+0xff000000, 0xff000000, 0xff404040, 0xff404040, 0xff404040, 0xff404040, 0xff404040, 0xff000000, 
+0xff000000, 0xff000000, 0xff404040, 0xff008080, 0xff008080, 0xff008080, 0xff404040, 0xff000000, 
+0xff000000, 0xff000000, 0xff000000, 0xff008080, 0xff008080, 0xff008080, 0xff000000, 0xff000000, 
+0xff000000, 0xff000000, 0xff000000, 0xff404040, 0xff000080, 0xff404040, 0xff000000, 0xff000000, 
+0xff000000, 0xff000000, 0xff008080, 0xff0000ff, 0xff0000ff, 0xff0000ff, 0xff008080, 0xff000000, 
+0xff000000, 0xff000000, 0xff000000, 0xff0000ff, 0xff0000ff, 0xff0000ff, 0xff000000, 0xff000000, 
+0xff000000, 0xff000000, 0xff000000, 0xffff0000, 0xff800000, 0xffff0000, 0xff000000, 0xff000000, 
+0xff000000, 0xff000000, 0xffff0000, 0xffff0000, 0xff000000, 0xffff0000, 0xffff0000, 0xff000000
+}
+};
+
+void debug_print_playfieldText(void)
+{
+	UINT16 width, height;
+	char c;
+	
+	for(height = 0; height < currentlevel.height; height++)
+	{
+		for(width = 0; width < currentlevel.width; width++)
+		{
+			c = currentlevel.data[height][width];
+			printf("%c",c?c:' ');
+		}
+		printf(" ");
+		for(width = 0; width < currentlevel.width; width++)
+		{
+			c = sprites[height][width] + '0';
+			if(c > '9') c = 'X';
+			printf("%c",c);
+		}
+		printf("\n\r");
+	}
+}
 
 void game_sendSpriteData(void)
 {
-	// needs to be called once, to load all bitmaps and sprites
+	// needs to be called once, to load all bitmaps and sprites to the VDU
 	
 	vdp_bitmapSendData(TILE_WALL, BITMAP_WIDTH, BITMAP_HEIGHT, wall_data[0]);
 	vdp_bitmapSendData(TILE_PLAYER, BITMAP_WIDTH, BITMAP_HEIGHT, player_data[0]);
@@ -137,6 +223,15 @@ void game_sendSpriteData(void)
 	vdp_bitmapSendData(TILE_BOXONGOAL, BITMAP_WIDTH, BITMAP_HEIGHT, boxongoal_data[0]);
 	vdp_bitmapSendData(TILE_GOAL, BITMAP_WIDTH, BITMAP_HEIGHT, goal_data[0]);
 	vdp_bitmapCreateSolidColor(TILE_FLOOR, BITMAP_WIDTH, BITMAP_HEIGHT, 0xff000000);
+	
+	vdp_bitmapSendData(TILE_WALL_MINI, MINIMAP_WIDTH, MINIMAP_HEIGHT, wallmini_data[0]);
+	vdp_bitmapSendData(TILE_PLAYER_MINI, MINIMAP_WIDTH, MINIMAP_HEIGHT, playermini_data[0]);
+	vdp_bitmapSendData(TILE_PLAYERONGOAL_MINI, MINIMAP_WIDTH, MINIMAP_HEIGHT, playermini_data[0]);
+	vdp_bitmapSendData(TILE_BOX_MINI, MINIMAP_WIDTH, MINIMAP_HEIGHT, boxmini_data[0]);
+	vdp_bitmapSendData(TILE_BOXONGOAL_MINI, MINIMAP_WIDTH, MINIMAP_HEIGHT, boxongoalmini_data[0]);
+	vdp_bitmapSendData(TILE_GOAL_MINI, MINIMAP_WIDTH, MINIMAP_HEIGHT, goalmini_data[0]);
+	vdp_bitmapCreateSolidColor(TILE_FLOOR_MINI,MINIMAP_WIDTH, MINIMAP_HEIGHT, 0xff000000);
+	vdp_bitmapCreateSolidColor(TILE_MINIMAP_CLEAR,MINIMAP_WIDTH, MINIMAP_HEIGHT, 0xff000000);
 	
 	return;
 }
@@ -214,7 +309,7 @@ void move_sprites(UINT16 xn1, UINT16 yn1, UINT16 xn2, UINT16 yn2)
 			vdp_spriteSelect(spriteid);
 			vdp_spriteMoveBySelected(dx, dy);
 		}
-		vdp_spriteSelect(0);
+		vdp_spriteSelect(0); // player
 		vdp_spriteMoveBySelected(dx, dy);
 	}
 
@@ -246,12 +341,65 @@ void move_sprites(UINT16 xn1, UINT16 yn1, UINT16 xn2, UINT16 yn2)
 	vdp_spriteRefresh();
 }
 
+void undomove_sprites(UINT16 xn1, UINT16 yn1, UINT16 xn2, UINT16 yn2)
+{
+	// move can happen, no need to check again
+	UINT8 spriteid = sprites[yn1][xn1];
+	UINT8 n;
+	INT16 dx, dy;
+	UINT8 n2;
+		
+	dx = xn2 - xn1;
+	dy = yn2 - yn1;
+	
+	for(n = 0; n < BITMAP_WIDTH; n++)
+	{
+		if((undomove.pushed) && (spriteid != NOSPRITE))
+		{
+			vdp_spriteSelect(spriteid);
+			vdp_spriteMoveBySelected(dx, dy);
+		}
+		vdp_spriteSelect(0); // player
+		vdp_spriteMoveBySelected(dx, dy);
+	}
+
+	// set destination sprite frame
+	if((undomove.pushed) && (spriteid != NOSPRITE))
+	{
+		vdp_spriteSelect(spriteid);
+		// Check if the sprite moved to a goal or floor
+		n2 = currentlevel.data[yn2][xn2];
+		switch(n2)
+		{
+			case CHAR_PLAYER:
+				vdp_spriteSetFrameSelected(0);
+				break;
+			case CHAR_PLAYERONGOAL:
+				vdp_spriteSetFrameSelected(1);
+				break;
+		}
+	}
+	// update sprite number matrix
+	if(undomove.pushed)
+	{
+		if(spriteid != NOSPRITE)
+		{
+			// player shoved a box here
+			sprites[yn2][xn2] = sprites[yn1][xn1];
+		}
+		sprites[yn1][xn1] = NOSPRITE; // player's sprite isn't handled by using a box spriteid			
+	}
+	
+	vdp_spriteRefresh();
+}
+
 void move_updatelevel(UINT16 xn1, UINT16 yn1, UINT16 xn2, UINT16 yn2)
 {
 	// move can happen, no need to check again
 	UINT8 n1, n2;
 	BOOL onlyplayermoves;
 	
+	// move n1 => n2
 	n1 = currentlevel.data[yn1][xn1];
 	n2 = currentlevel.data[yn2][xn2];
 
@@ -309,6 +457,112 @@ void move_updatelevel(UINT16 xn1, UINT16 yn1, UINT16 xn2, UINT16 yn2)
 	currentlevel.ypos = yn1;
 }
 
+void undomove_updatelevel(UINT16 xn1, UINT16 yn1, UINT16 xn2, UINT16 yn2, UINT16 xn3, UINT16 yn3)
+{
+	UINT8 n1, n2, n3;
+	
+	// move n1 => n2 => n3
+	n1 = currentlevel.data[yn1][xn1]; // Source / from
+	n2 = currentlevel.data[yn2][xn2]; // This is the curent player's position
+	n3 = currentlevel.data[yn3][xn3]; // Destination / to
+	
+	switch(n3)
+	{
+		case CHAR_FLOOR:
+			currentlevel.data[yn3][xn3] = CHAR_PLAYER;
+			break;
+		case CHAR_GOAL:
+			currentlevel.data[yn3][xn3] = CHAR_PLAYERONGOAL;
+			break;
+		default:
+			break;
+	}
+	
+	if(undomove.pushed)
+	{
+		switch(n1)
+		{
+			case CHAR_BOX:
+				currentlevel.data[yn1][xn1] = CHAR_FLOOR;
+				break;
+			case CHAR_BOXONGOAL:
+				currentlevel.data[yn1][xn1] = CHAR_GOAL;
+				currentlevel.goalstaken--;
+				break;
+			default:
+				break;
+		}
+		switch(n2) // revert push to box
+		{
+			case CHAR_PLAYERONGOAL:
+				currentlevel.data[yn2][xn2] = CHAR_BOXONGOAL;
+				currentlevel.goalstaken++;
+				break;
+			default:
+				currentlevel.data[yn2][xn2] = CHAR_BOX;
+				break;
+		}
+	}
+	else // only the player switched position, nothing was pushed
+	{
+		switch(n2)
+		{
+			case CHAR_PLAYERONGOAL:
+				currentlevel.data[yn2][xn2] = CHAR_GOAL;
+				break;
+			default:
+				currentlevel.data[yn2][xn2] = CHAR_FLOOR;
+				break;
+		}
+	}
+	
+	// update player position
+	currentlevel.xpos = xn3;
+	currentlevel.ypos = yn3;
+}
+
+void game_handleUndoMove(void)
+{
+	INT16 xn1 = 0, xn2 = 0, yn1 = 0, yn2 = 0, xn3 = 0, yn3 = 0;
+	
+	if(num_undomoves)
+	{
+		xn2 = currentlevel.xpos;
+		yn2 = currentlevel.ypos;
+		
+		switch(undomove.movekey)
+		{
+			case 0x8: // undo LEFT
+				yn1 = yn2;
+				yn3 = yn2;
+				xn1 = xn2 - 1;
+				xn3 = xn2 + 1;
+				break;
+			case 0xb: // undo UP
+				xn1 = xn2;
+				xn3 = xn2;
+				yn1 = yn2 - 1;
+				yn3 = yn2 + 1;
+				break;
+			case 0xa: // undo DOWN
+				xn1 = xn2;
+				xn3 = xn2;
+				yn1 = yn2 + 1;
+				yn3 = yn2 - 1;
+				break;
+			case 0x15: // undo RIGHT
+				yn1 = yn2;
+				yn3 = yn2;
+				xn1 = xn2 + 1;
+				xn3 = xn2 - 1;
+				break;
+		}
+		undomove_sprites(xn1,yn1,xn2,yn2);			
+		undomove_updatelevel(xn1, yn1, xn2, yn2, xn3, yn3);
+		num_undomoves = 0;
+	}
+}
+
 BOOL game_handleKey(char key)
 {
 	BOOL done = FALSE;
@@ -317,33 +571,36 @@ BOOL game_handleKey(char key)
 	
 	switch(key)
 	{
-		case 'a':
+		case 0x8: // LEFT
 			xn1 = currentlevel.xpos - 1;
 			yn1 = currentlevel.ypos;
 			xn2 = currentlevel.xpos - 2;
 			yn2 = currentlevel.ypos;
 			move = TRUE;
 			break;
-		case 'w':
+		case 0xb:
 			xn1 = currentlevel.xpos;
 			yn1 = currentlevel.ypos - 1;
 			xn2 = currentlevel.xpos;
 			yn2 = currentlevel.ypos - 2;
 			move = TRUE;
 			break;
-		case 's':
+		case 0xa:
 			xn1 = currentlevel.xpos;
 			yn1 = currentlevel.ypos + 1;
 			xn2 = currentlevel.xpos;
 			yn2 = currentlevel.ypos + 2;
 			move = TRUE;
 			break;
-		case 'd':
+		case 0x15: // RIGHT
 			xn1 = currentlevel.xpos + 1;
 			yn1 = currentlevel.ypos;
 			xn2 = currentlevel.xpos + 2;
 			yn2 = currentlevel.ypos;
 			move = TRUE;
+			break;
+		case 'u': // undo move
+			game_handleUndoMove();
 			break;
 		default:
 			move = FALSE;
@@ -353,11 +610,17 @@ BOOL game_handleKey(char key)
 	{
 		if(canmove(xn1,yn1,xn2,yn2))
 		{
+			undomove.movekey = key;
+			undomove.pushed = (currentlevel.data[yn1][xn1] == CHAR_BOX) || (currentlevel.data[yn1][xn1] == CHAR_BOXONGOAL);
+			num_undomoves = 1;
+			
 			move_sprites(xn1,yn1,xn2,yn2);
 			move_updatelevel(xn1,yn1,xn2,yn2);
 			done = (currentlevel.goals == currentlevel.goalstaken);
 		}
 	}
+	vdp_cursorGoto(0,0);
+	//debug_print_playfieldText();
 	return done;
 }
 
@@ -390,38 +653,113 @@ char game_getResponse(char *message, char option1, char option2)
 }
 
 
-INT16 game_selectLevel(UINT8 levels)
+INT16 game_selectLevel(UINT8 levels, UINT16 previouslevel)
 {
-	static INT16 lvl = -1;
+	INT16 lvl;
+	BOOL selected = FALSE;
+	vdp_mode(1); // standard console mode
+	vdp_cls();
+	vdp_cursorDisable();
 	
-	lvl++;
-	if(lvl == levels) lvl = -1;
+	lvl = previouslevel + 1; // next level?
+	if(lvl == levels) lvl = 0;
+	
+	game_resetSprites();			// clear out any onscreen sprites
+
+	while(!selected)
+	{
+		
+		game_initLevel(lvl);			// initialize playing field data from memory or disk
+		vdp_clearGraphics();
+		game_displayMinimap();			// display 'current' level
+
+		vdp_cursorGoto(0,4);
+		vdp_fgcolour(255,255,255);
+		printf("Level %03d",lvl);
+
+		vdp_cursorGoto(5,39);
+		puts("Select level with cursor keys");
+		vdp_cursorGoto(14,41);
+		vdp_fgcolour(128,128,128);
+		puts("ESC to quit");
+
+		vdp_plotMoveTo(328,48);
+		vdp_plotColour(0,128,128);
+		vdp_plotLineTo(328,328);
+		
+		vdp_cursorGoto(44,10);
+		vdp_fgcolour(255,255,255);
+		puts("Game objective");
+		vdp_cursorGoto(44,12);
+		vdp_fgcolour(128,128,128);
+		puts("Push all boxes");
+		vdp_cursorGoto(44,13);
+		puts("in this warehouse");
+		vdp_cursorGoto(44,14);
+		puts("to the target goals.");
+		
+		vdp_cursorGoto(44,17);
+		vdp_fgcolour(255,255,255);
+		puts("Legend");
+		
+		vdp_bitmapDraw(TILE_PLAYER_MINI,352,152);
+		vdp_bitmapDraw(TILE_BOX_MINI, 352, 168);
+		vdp_bitmapDraw(TILE_BOXONGOAL_MINI, 352, 184);
+		vdp_bitmapDraw(TILE_GOAL_MINI, 352, 208);
+		
+		vdp_fgcolour(128,128,128);
+		vdp_cursorGoto(46,19);
+		puts("You, hard at work");
+		vdp_cursorGoto(46,21);
+		puts("Boxes with stuff");
+		vdp_cursorGoto(46,23);
+		puts("Boxes in shipping");
+		vdp_cursorGoto(46,24);
+		puts("position");
+		vdp_cursorGoto(46,26);
+		puts("Shipping goal");
+		
+		vdp_fgcolour(255,255,255);
+		vdp_cursorGoto(44,29);
+		puts("Game controls");
+		
+		vdp_fgcolour(128,128,128);
+		vdp_cursorGoto(44,31);
+		puts("Cursor");
+		vdp_cursorGoto(44,32);
+		puts(" keys  - move player");
+		vdp_cursorGoto(44,33);
+		puts("    u  - undo move");
+		vdp_cursorGoto(44,34);
+		puts("esc/q  - quit level");
+		vdp_cursorGoto(44,36);
+		puts("ENTER  - start level");
+		
+		switch(getch())
+		{
+			case 0x8:
+			case 0x0a:
+				if(lvl > 0) lvl --;
+				break;
+			case 0x0b:
+			case 0x15:
+				if(lvl < levels-1) lvl++;
+				break;
+			case 0xd:
+				selected = TRUE;
+				break;
+			case 27:
+				lvl = -1;
+				selected = TRUE;
+				break;
+			default:
+				break;
+		}
+	}
 	return lvl;
 }
 
-void debug_print_playfieldText(void)
-{
-	UINT16 width, height;
-	char c;
-	
-	for(height = 0; height < currentlevel.height; height++)
-	{
-		for(width = 0; width < currentlevel.width; width++)
-		{
-			c = currentlevel.data[height][width];
-			printf("%c",c?c:' ');
-		}
-		printf(" ");
-		for(width = 0; width < currentlevel.width; width++)
-		{
-			c = sprites[height][width] + '0';
-			if(c > '9') c = 'X';
-			printf("%c",c);
-		}
-		printf("\n\r");
-	}
-	
-}
+
 
 void game_displayLevel(void)
 {
@@ -478,6 +816,65 @@ void game_displayLevel(void)
 	vdp_spriteRefresh();
 }
 
+void game_displayMinimap(void)
+{
+	UINT16 width, height;
+	UINT16 ystart,xstart,x,y;
+	char c;
+	
+	// clear out target area first
+	//for(height = 0; height < (MAXHEIGHT*MINIMAP_HEIGHT); height += MINIMAP_HEIGHT)
+	//{
+	//	for(width = 0; width < (MAXWIDTH*MINIMAP_WIDTH); width += MINIMAP_WIDTH)
+	//	{
+	//		vdp_bitmapDraw(TILE_MINIMAP_CLEAR, width, height+56);
+	//	}
+	//}
+	
+	// calculate on-screen base coordinates
+	xstart = ((MAXWIDTH - currentlevel.width) / 2) * MINIMAP_WIDTH;
+	ystart = (((MAXHEIGHT - currentlevel.height) / 2) * MINIMAP_HEIGHT) + 56;
+	
+	y = ystart;
+	for(height = 0; height < currentlevel.height; height++)
+	{
+		x = xstart;
+		for(width = 0; width < currentlevel.width; width++)
+		{
+			c = currentlevel.data[height][width];
+			switch(c)
+			{
+				case CHAR_WALL:
+					vdp_bitmapDraw(TILE_WALL_MINI, x, y);
+					break;
+				case CHAR_PLAYER:
+					vdp_bitmapDraw(TILE_PLAYER_MINI, x, y);
+					break;
+				case CHAR_PLAYERONGOAL:
+					vdp_bitmapDraw(TILE_PLAYERONGOAL_MINI, x, y);
+					break;
+				case CHAR_BOX:
+					vdp_bitmapDraw(TILE_BOX_MINI, x, y);
+					break;
+				case CHAR_BOXONGOAL:
+					vdp_bitmapDraw(TILE_BOXONGOAL_MINI, x, y);
+					break;
+					break;
+				case CHAR_GOAL:
+					vdp_bitmapDraw(TILE_GOAL_MINI, x, y);					
+					break;
+				case CHAR_FLOOR:
+					vdp_bitmapDraw(TILE_FLOOR_MINI, x, y);			
+					break;
+				default:
+					break;
+			}
+			x += MINIMAP_WIDTH;
+		}
+		y += MINIMAP_HEIGHT;
+	}
+}
+
 
 UINT8 game_readLevels(char *filename)
 {
@@ -512,6 +909,7 @@ UINT8 game_readLevels(char *filename)
 void game_initLevel(UINT8 levelid)
 {
 	memcpy(&currentlevel, (void*)(LEVELDATA+(sizeof(struct sokobanlevel))*levelid), sizeof(struct sokobanlevel));
+	num_undomoves = 0;
 }
 
 void game_initSprites(void)

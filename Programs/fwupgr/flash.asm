@@ -91,9 +91,9 @@ _writeflash:
 	push de
 	push hl
 	
-	ld		bc, (ix+6)	; number of bytes to write to flash
-	ld		de, 0		; destination address
-	ld		hl, 60000h	; source buffer address
+	ld		de, (ix+6)	; destination address
+	ld		hl, (ix+9)	; source
+	ld		bc, (ix+12)	; number of bytes to write to flash
 	ldir
 
 	pop hl

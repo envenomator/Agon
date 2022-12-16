@@ -162,7 +162,7 @@ int main(int argc, char * argv[]) {
 	}		
 	mos_fclose(file);
 	printf("\rFile size    : %d byte(s)\n\r", size);
-	printf("CRC32 to test: 0x%08lx\n\r",crcuser);
+	printf("Testing CRC32: 0x%08lx\n\r",crcuser);
 
 	crcresult = crc32((char*)BUFFER, size);
 
@@ -185,7 +185,7 @@ int main(int argc, char * argv[]) {
 				
 		printf("Erasing flash...\n\r");
 		
-		/*
+		
 		enableFlashKeyRegister();	// unlock Flash Key Register, so we can write to the Flash Write/Erase protection registers
 		FLASH_PROT = 0;				// disable protection on all 8x16KB blocks in the flash
 
@@ -201,18 +201,19 @@ int main(int argc, char * argv[]) {
 		}
 		while(value & 0x02);// wait for completion of erase
 
-		*/
+		
 		printf("Writing new firmware\n\r");
 		printf("This will take less than 10s...");
 		       
 		di();						// no more access to the old MOS firmware from now on
 		
-		/*
-		writerow();
+		
+		writeflash(0x1C000, 0x60000, 256);
+		//writerow();
 		
 		lockFlashKeyRegister();
 
-		*/
+		
 		delayms(6000);
 		puts_UART0("\rDone                           \n\r\n\r");
 		for(counter = 5; counter >0; counter--)

@@ -8,8 +8,7 @@
 
 	XDEF _enableFlashKeyRegister
 	XDEF _lockFlashKeyRegister
-	XDEF _writeflash
-	XDEF _writerow
+	XDEF _fastmemcpy
 	XDEF _reset
 	
 	segment CODE
@@ -47,42 +46,7 @@ _reset:
 	rst 0h
 	ret	;will never get here
 	
-_writerow2:
-	push bc
-	push de
-	push hl
-	
-	ld hl, 1c000h
-	ld b, 128
-	ld a, 1
-loop:
-	ld (hl), a		; 2 cycles
-	inc hl			; 4 cycles
-	dec b			; 1 cycle
-	jr nz, loop		; 2/3 cycles
-	
-
-	pop hl
-	pop de
-	pop bc
-	ret
-	
-_writerow:
-	push bc
-	push de
-	push hl
-	
-	ld de, 1c000h
-	ld hl, 60000h
-	ld bc, 256
-	ldir
-
-	pop hl
-	pop de
-	pop bc
-	ret
-
-_writeflash:
+_fastmemcpy:
 	push	ix
 	ld		ix,0
 	add		ix,sp

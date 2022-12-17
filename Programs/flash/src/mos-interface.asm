@@ -9,39 +9,20 @@
 ; 21/10/2022:		Added _puts
 ; 22/10/2022:		Added _waitvblank, _mos_f* file functions
 ; 26/11/2022:       __putch, changed default routine entries to use IY
+; 17/12/2022:		Only required functions included
 
 	.include "mos_api.inc"
 
-	XDEF _putch
-	XDEF __putch
 	XDEF _getch
 	XDEF __getch
-	XDEF _waitvblank
 	XDEF _mos_fopen
 	XDEF _mos_fclose
 	XDEF _mos_fgetc
-	XDEF _mos_fputc
 	XDEF _mos_feof
-	XDEF _getsysvar8bit
-	XDEF _getsysvar16bit
-	XDEF _getsysvar24bit
 
 	segment CODE
 	.assume ADL=1
 	
-_putch:
-__putch:
-	push 	iy
-	ld 		iy,0
-	add 	iy, sp
-	ld 		a, (iy+6)
-	rst.lil	10h
-	ld		hl,0
-	ld		l,a
-	ld		sp,iy
-	pop		iy
-	ret
-
 _getch:
 __getch:
 	push iy
@@ -58,42 +39,6 @@ _getch0:
 	ld (ix+sysvar_keycode),a
 	pop af
 	pop ix
-	pop iy
-	ret
-
-_waitvblank:
-	push iy
-	ld a, mos_sysvars
-	rst.lil 08h
-	ld a, (iy + sysvar_time + 0)
-$$:	cp a, (iy + sysvar_time + 0)
-	jr z, $B
-	pop iy
-	ret
-
-
-_getsysvar8bit:
-	push iy
-	ld a, mos_sysvars
-	rst.lil 08h
-	ld a, (iy)					; sysvars base address
-	ld d,0
-	ld e,a
-	add iy,de					; iy now points to (mos_sysvars)+parameter
-	ld a, (iy)
-	pop iy
-	ret
-
-_getsysvar16bit:
-_getsysvar24bit:
-	push iy
-	ld a, mos_sysvars
-	rst.lil 08h
-	ld a, (iy)					; sysvars base address
-	ld d,0
-	ld e,a
-	add iy,de					; ix now points to (mos_sysvars)+parameter
-	ld hl, (iy)
 	pop iy
 	ret
 
@@ -132,20 +77,6 @@ _mos_fgetc:
 	ld c, (iy+6)	; filehandle
 	ld a, mos_fgetc
 	rst.lil 08h		; returns character in A
-	
-	ld sp,iy
-	pop iy
-	ret	
-
-_mos_fputc:
-	push iy
-	ld iy,0
-	add iy, sp
-	
-	ld c, (iy+6)	; filehandle
-	ld b, (iy+9)	; character to write
-	ld a, mos_fputc
-	rst.lil 08h		; returns nothing
 	
 	ld sp,iy
 	pop iy

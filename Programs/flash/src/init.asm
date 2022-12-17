@@ -26,7 +26,7 @@ argv_ptrs_max:		EQU	16			; Maximum number of arguments allowed in argv
 ;
 ; The header stuff
 ;
-_exec_name:		DB	"FWUPGR.BIN", 0		; The executable name, only used in argv
+_exec_name:		DB	"FLASH.BIN", 0		; The executable name, only used in argv
 
 			ALIGN	64			; The executable header is from byte 64 onwards
 			

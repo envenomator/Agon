@@ -23,9 +23,10 @@ This version can run on MOS version 1.01 and will do a single upgrade to MOS ver
 2. Place the firmware102.bin in the root directory of the microSD card
 3. Load and Jump to the binary in memory:
 
+```console
 LOAD flash_legacy.bin
 JMP &040000
-
+```
 ## Workflow
 The utility reads in the given firmware file to memory and verifies this against the given CRC32 checksum.
 If the file is larger than the amount of flash, the tool will exit.

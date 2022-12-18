@@ -1,16 +1,32 @@
 # Agon MOS firmware upgrade utility
-## Installation
+This utility comes in two flavors:
+1. A generic version that will flash new versions of Agon MOS, needing at least version 1.02. This version is loaded as a MOS command and can take arguments from the commandline.
+2. A specific 'legacy' version that can upgrade MOS 1.01 to MOS 1.02 only. Afterwards, the generic version can be used to upgrade to later versions.
+
+## Generic version (Needs current MOS firmware 1.02)
+This version needs at least MOS version 1.02 to accept loadable commands
+### Installation
 1. Make sure to create a 'mos' directory on the microSD card
 2. Place the flash.bin in the 'mos' directory
 3. Place the required firmware file in the root directory of the microSD card
 4. Obtain the CRC32 checksum for the new firmware. On Linux you can use the crc32 utility. A suitable website to obtain this might be https://simplycalc.com/crc32-file.php. Use the default polynomial of 04C11DB7, upload the firmware and note the result for use in the utility.
 
-## Usage
+### Usage
 Run the upgrade utility as - FLASH \<filename\> \<crc32\>. The CRC32 needs to be 4byte, with or without a leading 0x. 
 
 I.e. firmware version 1.02 can be upgraded like FLASH firmware102.bin 0xfe59e98d
 
-This utility needs at least MOS version 1.02 to accept loadable commands
+## Legacy version
+This version can run on MOS version 1.01 and will do a single upgrade to MOS version 1.02
+### Installation
+1. Place the flash_legacy.bin in the root directory of the microSD card
+2. Place the firmware102.bin in the root directory of the microSD card
+3. Load and Jump to the binary in memory:
+
+```console
+LOAD flash_legacy.bin
+```console
+JMP &040000
 
 ## Workflow
 The utility reads in the given firmware file to memory and verifies this against the given CRC32 checksum.

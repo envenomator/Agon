@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Target name="eZ80F92_99C0873_Flash" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schemas/target.tsd" xsi:type="TargetEZ80">
+<Target name="eZ80F92_AGON_Flash" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="target.tsd" xsi:type="Target">
    <Clock>
       <clockType>Oscillator</clockType>
       <frequency>18432000</frequency>
    </Clock>
    <ControlReg>
-      <pc>0</pc>
+      <pc>000000</pc>
       <splStackPtr>C0000</splStackPtr>
-      <spsStackPtr>ffff</spsStackPtr>
+      <spsStackPtr>FFFF</spsStackPtr>
       <useAdlMode>true</useAdlMode>
    </ControlReg>
    <ExtFlash>
       <device />
-      <externalAddress>100000</externalAddress>
+      <externalAddress>0</externalAddress>
       <externalAutoSelect>false</externalAutoSelect>
       <externalRamLower>40000</externalRamLower>
       <externalRamUpper>BFFFF</externalRamUpper>
@@ -30,33 +30,33 @@
             <upper>9</upper>
          </CS0>
          <CS1>
-            <busMode>0</busMode>
-            <controlRegister>08</controlRegister>
-            <lower>c0</lower>
-            <upper>c7</upper>
+            <busMode>02</busMode>
+            <controlRegister>28</controlRegister>
+            <lower>C0</lower>
+            <upper>C7</upper>
          </CS1>
          <CS2>
-            <busMode>0</busMode>
-            <controlRegister>08</controlRegister>
+            <busMode>81</busMode>
+            <controlRegister>28</controlRegister>
             <lower>80</lower>
-            <upper>bf</upper>
+            <upper>BF</upper>
          </CS2>
          <CS3>
-            <busMode>82</busMode>
-            <controlRegister>18</controlRegister>
-            <lower>03</lower>
-            <upper>03</upper>
+            <busMode>02</busMode>
+            <controlRegister>00</controlRegister>
+            <lower>00</lower>
+            <upper>00</upper>
          </CS3>
       </ChipSelects>
       <Internal>
          <mapFlashToPage>0</mapFlashToPage>
-         <mapRamToPage>FF</mapRamToPage>
+         <mapRamToPage>ff</mapRamToPage>
          <useFlashRam>true</useFlashRam>
          <useInternalDataRam>true</useInternalDataRam>
       </Internal>
       <waitStates>1</waitStates>
    </Memory>
-   <cpu>EZ80F92</cpu>
+   <cpu>eZ80F92</cpu>
    <schemaVersion>1.0.1</schemaVersion>
    <version>1.00</version>
 </Target>

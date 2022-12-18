@@ -5,6 +5,9 @@
 <files>
 <file filter-key="">.\init.asm</file>
 <file filter-key="">.\main.c</file>
+<file filter-key="">.\mos-interface.asm</file>
+<file filter-key="">.\vdp.c</file>
+<file filter-key="">.\template.linkcmd</file>
 </files>
 
 <!-- configuration information -->
@@ -29,7 +32,7 @@
 <option name="padbranch" type="string" change-action="compile">Off</option>
 <option name="define" type="string" change-action="compile">_DEBUG,_EZ80F92,_EZ80ACCLAIM!</option>
 <option name="genprintf" type="boolean" change-action="compile">true</option>
-<option name="keepasm" type="boolean" change-action="none">false</option>
+<option name="keepasm" type="boolean" change-action="none">true</option>
 <option name="keeplst" type="boolean" change-action="none">true</option>
 <option name="list" type="boolean" change-action="none">false</option>
 <option name="listinc" type="boolean" change-action="none">false</option>
@@ -45,7 +48,7 @@
 </tool>
 <tool name="Debugger">
 <options>
-<option name="target" type="string" change-action="rebuild">eZ80F92_99C0873_Flash_Agon</option>
+<option name="target" type="string" change-action="rebuild">eZ80F92_AGON_Flash</option>
 <option name="debugtool" type="string" change-action="none">USBSmartCable</option>
 <option name="usepageerase" type="boolean" change-action="none">true</option>
 </options>
@@ -82,26 +85,28 @@
 </tool>
 <tool name="Librarian">
 <options>
-<option name="outfile" type="string" change-action="build">.\Debug\test.lib</option>
+<option name="outfile" type="string" change-action="build">.\Debug\template.lib</option>
 </options>
 </tool>
 <tool name="Linker">
 <options>
-<option name="directives" type="string" change-action="build">SEQUENCE __VECTORS, CODE, DATA, TEXT, STRSECT, LORAM
-CHANGE __VECTORS=RAM
-CHANGE CODE=RAM
-CHANGE LORAM=RAM
-COPY DATA RAM
-COPY TEXT RAM</option>
+<option name="directives" type="string" change-action="build">CHANGE CODE = RAM
+CHANGE STRSECT = RAM
+CHANGE DATA = RAM 
+
+ORDER CODE,DATA
+
+DEFINE __low_bss = base of BSS
+DEFINE __len_bss = length of BSS</option>
 <option name="createnew" type="boolean" change-action="build">false</option>
 <option name="exeform" type="string" change-action="build">OMF695,INTEL32</option>
-<option name="linkctlfile" type="string" change-action="build">.\test.linkcmd</option>
+<option name="linkctlfile" type="string" change-action="build">.\template.linkcmd</option>
 <option name="map" type="boolean" change-action="none">true</option>
 <option name="maxhexlen" type="integer" change-action="build">64</option>
 <option name="objlibmods" type="string" change-action="build"></option>
-<option name="of" type="string" change-action="build">Debug\test</option>
+<option name="of" type="string" change-action="build">Debug\template</option>
 <option name="quiet" type="boolean" change-action="none">true</option>
-<option name="relist" type="boolean" change-action="build">false</option>
+<option name="relist" type="boolean" change-action="build">true</option>
 <option name="startuptype" type="string" change-action="build">Included</option>
 <option name="startuplnkcmds" type="boolean" change-action="build">true</option>
 <option name="usecrun" type="boolean" change-action="build">true</option>
@@ -113,7 +118,7 @@ COPY TEXT RAM</option>
 <option name="padhex" type="boolean" change-action="build">false</option>
 <option name="fplib" type="string" change-action="build">None</option>
 <option name="useadddirectives" type="boolean" change-action="build">true</option>
-<option name="linkconfig" type="string" change-action="build">Standard</option>
+<option name="linkconfig" type="string" change-action="build">Custom</option>
 <option name="flashinfo" type="string" change-action="build">000000-0000FF</option>
 <option name="ram" type="string" change-action="build">040000-0BFFFF</option>
 <option name="rom" type="string" change-action="build">000000-01FFFF</option>
@@ -170,8 +175,8 @@ COPY TEXT RAM</option>
 </tool>
 <tool name="Debugger">
 <options>
-<option name="target" type="string" change-action="rebuild">eZ80F92_99C0873_Flash_Agon</option>
-<option name="debugtool" type="string" change-action="none">USBSmartCable</option>
+<option name="target" type="string" change-action="rebuild"></option>
+<option name="debugtool" type="string" change-action="none">Simulator</option>
 <option name="usepageerase" type="boolean" change-action="none">true</option>
 </options>
 </tool>
@@ -207,7 +212,7 @@ COPY TEXT RAM</option>
 </tool>
 <tool name="Librarian">
 <options>
-<option name="outfile" type="string" change-action="build">.\Release\test.lib</option>
+<option name="outfile" type="string" change-action="build">.\Release\template.lib</option>
 </options>
 </tool>
 <tool name="Linker">
@@ -219,10 +224,10 @@ COPY TEXT RAM</option>
 <option name="map" type="boolean" change-action="none">true</option>
 <option name="maxhexlen" type="integer" change-action="build">64</option>
 <option name="objlibmods" type="string" change-action="build"></option>
-<option name="of" type="string" change-action="build">.\Release\test</option>
+<option name="of" type="string" change-action="build">.\Release\template</option>
 <option name="quiet" type="boolean" change-action="none">true</option>
 <option name="relist" type="boolean" change-action="build">false</option>
-<option name="startuptype" type="string" change-action="build">Included</option>
+<option name="startuptype" type="string" change-action="build">Standard</option>
 <option name="startuplnkcmds" type="boolean" change-action="build">true</option>
 <option name="usecrun" type="boolean" change-action="build">true</option>
 <option name="warnoverlap" type="boolean" change-action="none">true</option>
@@ -231,11 +236,11 @@ COPY TEXT RAM</option>
 <option name="warnisfatal" type="boolean" change-action="none">false</option>
 <option name="sort" type="string" change-action="none">name</option>
 <option name="padhex" type="boolean" change-action="build">false</option>
-<option name="fplib" type="string" change-action="build">None</option>
+<option name="fplib" type="string" change-action="build">Real</option>
 <option name="useadddirectives" type="boolean" change-action="build">false</option>
 <option name="linkconfig" type="string" change-action="build">Standard</option>
 <option name="flashinfo" type="string" change-action="build">000000-0000FF</option>
-<option name="ram" type="string" change-action="build">040000-0BFFFF</option>
+<option name="ram" type="string" change-action="build">B7E000-B7FFFF</option>
 <option name="rom" type="string" change-action="build">000000-01FFFF</option>
 <option name="extio" type="string" change-action="build">000000-00FFFF</option>
 <option name="intio" type="string" change-action="build">000000-0000FF</option>

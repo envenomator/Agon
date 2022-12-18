@@ -6,6 +6,7 @@
  * 
  * Modinfo:
  * 17/12/2022:		Initial version
+ * 18/12/2022:		MOS 1.00/1.01 one-off upgrade branch with fixed filename/CRC32 code, changed MOS API and while(1) loops
  */
 
 #include <ez80.h>

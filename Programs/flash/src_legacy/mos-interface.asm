@@ -10,6 +10,7 @@
 ; 22/10/2022:		Added _waitvblank, _mos_f* file functions
 ; 26/11/2022:       __putch, changed default routine entries to use IY
 ; 17/12/2022:		Only required functions included
+; 18/12/2022:		Regression needed for MOS 1.00/1.01 - using RST.LIS with the intent to not return to MOS after program ending
 
 	.include "mos_api.inc"
 

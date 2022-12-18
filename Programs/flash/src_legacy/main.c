@@ -47,7 +47,7 @@ int main(int argc, char * argv[]) {
 	enum states state;
 	
 	printf("Agon MOS firmware upgrade utility\n\r");
-	printf("This utility will upgrade an existing 1.01 firmware to 1.02\r\n\r\n");
+	printf("This utility will upgrade an existing 1.00/1.01 firmware to 1.02\r\n\r\n");
 	
 	file = mos_fopen(FILENAME, fa_read);
 	if(!file)

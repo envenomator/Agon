@@ -14,8 +14,10 @@ This version needs at least MOS version 1.02 to accept loadable commands
 ### Usage
 Run the upgrade utility as - FLASH \<filename\> \<crc32\>. The CRC32 needs to be 4byte, with or without a leading 0x. 
 
-I.e. firmware version 1.02 can be upgraded like FLASH firmware102.bin 0xfe59e98d
-
+I.e. example firmware version 1.2 with checksum 0xe6834aa8 can be upgraded with
+```console
+flash firmware12.bin 0xe6834aa8
+```
 ## Legacy version
 This version can run on MOS version 1.01 and will do a single upgrade to MOS version 1.02
 ### Installation

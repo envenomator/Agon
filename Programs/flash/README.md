@@ -18,7 +18,7 @@ I.e. to upgrade to example firmware version 1.2, with checksum 0xe6834aa8 can be
 ```console
 FLASH firmware12.bin 0xe6834aa8
 ```
-## Legacy version (MOS firmwares 1.00/1.01)
+## Legacy version (MOS firmware 1.00/1.01)
 This version can run on MOS version 1.00 or 1.01 and will do a single upgrade to MOS version 1.02
 ### Installation
 1. Place the flash_legacy.bin in the root directory of the microSD card

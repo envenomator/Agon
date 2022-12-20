@@ -5,6 +5,7 @@
 #include "sokobanprep.h"
 
 #define LEVELDATA		0x60000
+#define UNDOBUFFERSIZE	128
 
 #define NOSPRITE		255
 #define BITMAPNUMBER	7
@@ -51,6 +52,12 @@ typedef struct
 	char ch;
 	UINT8 tile_id;
 } chartotile;
+
+struct undoitem
+{
+	UINT8 movekey;	// the key pressed to initiate this move to potentially undo
+	BOOL  pushed;	// an item was pushed in this move to potentially undo
+};
 
 void print_playfieldText(VOID);
 //UINT16 read_numberoflevels(VOID);

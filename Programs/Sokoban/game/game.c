@@ -5,13 +5,8 @@
 #include <stdio.h>
 #include <string.h>
 
-struct undoitem
-{
-	UINT8 movekey;	// the key pressed to initiate this move to potentially undo
-	BOOL  pushed;	// an item was pushed in this move to potentially undo
-};
-
-struct undoitem undomove;			// a single undo makes it harder. A buffer could be easily created in future using this struct
+struct undoitem undomove[UNDOBUFFERSIZE];
+UINT8 undo_head;
 UINT8 num_undomoves;
 
 UINT32 bitmapbuffer[BITMAPSIZE];	// will hold one bitmap at a time, to transmit to the VDU
@@ -354,7 +349,7 @@ void undomove_sprites(UINT16 xn1, UINT16 yn1, UINT16 xn2, UINT16 yn2)
 	
 	for(n = 0; n < BITMAP_WIDTH; n++)
 	{
-		if((undomove.pushed) && (spriteid != NOSPRITE))
+		if((undomove[undo_head].pushed) && (spriteid != NOSPRITE))
 		{
 			vdp_spriteSelect(spriteid);
 			vdp_spriteMoveBySelected(dx, dy);
@@ -364,7 +359,7 @@ void undomove_sprites(UINT16 xn1, UINT16 yn1, UINT16 xn2, UINT16 yn2)
 	}
 
 	// set destination sprite frame
-	if((undomove.pushed) && (spriteid != NOSPRITE))
+	if((undomove[undo_head].pushed) && (spriteid != NOSPRITE))
 	{
 		vdp_spriteSelect(spriteid);
 		// Check if the sprite moved to a goal or floor
@@ -380,7 +375,7 @@ void undomove_sprites(UINT16 xn1, UINT16 yn1, UINT16 xn2, UINT16 yn2)
 		}
 	}
 	// update sprite number matrix
-	if(undomove.pushed)
+	if(undomove[undo_head].pushed)
 	{
 		if(spriteid != NOSPRITE)
 		{
@@ -478,7 +473,7 @@ void undomove_updatelevel(UINT16 xn1, UINT16 yn1, UINT16 xn2, UINT16 yn2, UINT16
 			break;
 	}
 	
-	if(undomove.pushed)
+	if(undomove[undo_head].pushed)
 	{
 		switch(n1)
 		{
@@ -529,8 +524,13 @@ void game_handleUndoMove(void)
 	{
 		xn2 = currentlevel.xpos;
 		yn2 = currentlevel.ypos;
+
+		// pop one move off circular buffer
+		if(undo_head) undo_head--;
+		else undo_head = UNDOBUFFERSIZE-1;		
+		// undo_head no points to previous move				
 		
-		switch(undomove.movekey)
+		switch(undomove[undo_head].movekey)
 		{
 			case 0x8: // undo LEFT
 				yn1 = yn2;
@@ -559,7 +559,8 @@ void game_handleUndoMove(void)
 		}
 		undomove_sprites(xn1,yn1,xn2,yn2);			
 		undomove_updatelevel(xn1, yn1, xn2, yn2, xn3, yn3);
-		num_undomoves = 0;
+		
+		num_undomoves--;
 	}
 }
 
@@ -607,9 +608,12 @@ BOOL game_handleKey(char key)
 	{
 		if(canmove(xn1,yn1,xn2,yn2))
 		{
-			undomove.movekey = key;
-			undomove.pushed = (currentlevel.data[yn1][xn1] == CHAR_BOX) || (currentlevel.data[yn1][xn1] == CHAR_BOXONGOAL);
-			num_undomoves = 1;
+			undomove[undo_head].movekey = key;
+			undomove[undo_head].pushed = (currentlevel.data[yn1][xn1] == CHAR_BOX) || (currentlevel.data[yn1][xn1] == CHAR_BOXONGOAL);
+			// rotate buffer always
+			if(++undo_head == UNDOBUFFERSIZE) undo_head = 0;
+			// maximize number of undo
+			if(++num_undomoves > UNDOBUFFERSIZE) num_undomoves = UNDOBUFFERSIZE;
 			
 			move_sprites(xn1,yn1,xn2,yn2);
 			move_updatelevel(xn1,yn1,xn2,yn2);
@@ -776,10 +780,12 @@ INT16 game_selectLevel(UINT8 levels, UINT16 previouslevel)
 			case 0x8:
 			case 0x0a:
 				if(lvl > 0) lvl --;
+				else lvl = levels-1;
 				break;
 			case 0x0b:
 			case 0x15:
 				if(lvl < levels-1) lvl++;
+				else lvl = 0;
 				break;
 			case 0xd:
 				selected = TRUE;
@@ -939,6 +945,8 @@ UINT8 game_readLevels(char *filename)
 void game_initLevel(UINT8 levelid)
 {
 	memcpy(&currentlevel, (void*)(LEVELDATA+(sizeof(struct sokobanlevel))*levelid), sizeof(struct sokobanlevel));
+	// initialize undo buffer
+	undo_head = 0;
 	num_undomoves = 0;
 }
 

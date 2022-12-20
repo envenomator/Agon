@@ -9,7 +9,6 @@
 int main(int argc, char * argv[]) {
 	UINT8 levels;
 	INT16 levelnumber = 0;
-	BOOL doneplaying = FALSE;
 	BOOL quit;
 	BOOL ingame;
 	char key;

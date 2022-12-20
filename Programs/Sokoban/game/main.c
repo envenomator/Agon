@@ -8,7 +8,7 @@
 
 int main(int argc, char * argv[]) {
 	UINT8 levels;
-	INT16 levelnumber = -1;
+	INT16 levelnumber = 0;
 	BOOL doneplaying = FALSE;
 	BOOL quit;
 	BOOL ingame;
@@ -22,12 +22,11 @@ int main(int argc, char * argv[]) {
 	{			
 		game_sendSpriteData();
 		
-		while(!doneplaying)
+		while(levelnumber >= 0)
 		{
 			levelnumber = game_selectLevel(levels, levelnumber); // returns -1 if abort, or valid number between 0-(levels-1)
 			if(levelnumber >= 0)
 			{
-
 				// Start game
 				ingame = TRUE;
 				vdp_mode(0);	// 640x480 pixels - more screen estate
@@ -51,7 +50,7 @@ int main(int argc, char * argv[]) {
 								game_initSprites();
 								game_displayLevel();
 							}
-							game_displayLevel();
+							//game_displayLevel();
 							break;
 						case 'h':
 							game_resetSprites();
@@ -61,12 +60,16 @@ int main(int argc, char * argv[]) {
 							vdp_cls();
 							game_initSprites();
 							game_displayLevel();
+							break;
 						case 'u':
 							game_handleUndoMove();
+							break;
 						default:
 							ingame = !game_handleKey(key);	// handleKey returns TRUE when game is finished
 							if(!ingame)
 							{
+								levelnumber++;
+								if(levelnumber == levels) levelnumber = 0;
 								game_resetSprites();
 								game_getResponse("Level complete!",0xd,27);
 							}
@@ -74,7 +77,6 @@ int main(int argc, char * argv[]) {
 					}						
 				}
 			}
-			else doneplaying = TRUE;
 		}
 
 		game_resetSprites();

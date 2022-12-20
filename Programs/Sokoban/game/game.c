@@ -742,8 +742,7 @@ INT16 game_selectLevel(UINT8 levels, UINT16 previouslevel)
 	vdp_cls();
 	vdp_cursorDisable();
 	
-	lvl = previouslevel + 1; // next level?
-	if(lvl == levels) lvl = 0;
+	lvl = previouslevel;
 	
 	game_resetSprites();			// clear out any onscreen sprites
 

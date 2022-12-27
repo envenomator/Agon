@@ -40,14 +40,18 @@
 ;* I2C Buffer
 I2C_BUFFERLENGTH	.equ	32
 ;* I2C status codes from I2C_SR
-I2C_BUSERROR		.equ 	00h
-I2C_START			.equ	08h
-I2C_REPEATED_START	.equ	10h
-I2C_AW_ACKED		.equ	18h
-I2C_AW_NACKED		.equ	20h
-I2C_DB_M_ACKED		.equ	28h
-I2C_DB_M_NACKED		.equ	30h
-I2C_M_ARBLOST		.equ	38h
+I2C_BUSERROR			.equ 	00h
+I2C_START				.equ	08h
+I2C_REPEATED_START		.equ	10h
+I2C_AW_ACKED			.equ	18h
+I2C_AW_NACKED			.equ	20h
+I2C_DB_M_ACKED			.equ	28h
+I2C_DB_M_NACKED			.equ	30h
+I2C_M_ARBLOST			.equ	38h
+I2C_MR_AR_ACK			.equ	40h
+I2C_MR_AR_NACK			.equ	48h
+I2C_MR_DBR_ACK			.equ	50h
+I2C_MR_DBR_NACK			.equ	58h
 
 ;* I2C STATES
 I2C_READY			.equ	00h
@@ -78,9 +82,9 @@ _i2c_handler:
 			;JR		Z, i2c_case_buserror
 			; All master
 			CP		I2C_START
-			JR		Z, i2c_casestart
+			JR		Z, i2c_case_master_start
 			CP		I2C_REPEATED_START
-			JR		Z, i2c_caserepstart
+			JR		Z, i2c_case_master_repstart
 			; Master transmitter
 			CP		I2C_AW_ACKED
 			JR		Z, i2c_case_aw_acked
@@ -92,11 +96,76 @@ _i2c_handler:
 			JR		Z, i2c_case_db_nacked
 			CP		I2C_M_ARBLOST
 			JR		Z, i2c_releasebus
-			
-			
+			; Master receiver
+			CP		I2C_MR_DBR_ACK
+			JR		Z, i2c_case_mr_dbr_ack
+			CP		I2C_MR_AR_ACK
+			JR		Z, i2c_case_mr_ar_ack
+			CP		I2C_MR_DBR_NACK
+			JR		Z, i2c_case_mr_dbr_nack
+			CP		I2C_MR_AR_NACK
+			JR		Z, i2c_case_mr_ar_nack
 			; case default - do nothing
 			JR		i2c_end
 
+i2c_case_mr_ar_nack:
+			JR		i2c_sendstop
+			
+i2c_case_mr_dbr_nack:
+			; calculate offset address into i2c_mbuffer
+			LD		HL, _i2c_mbuffer
+			LD		A, (_i2c_mbindex)
+			LD		B,A ; loop counter
+loop2:
+			XOR		A,A
+			OR		B
+			JR		Z, loop1end
+			INC		HL
+			DEC		B
+			JR		loop1
+loop2end:	
+			IN0		A,(I2C_DR)			; load byte from I2C Data Register
+			LD		(HL),A				; store in buffer at calculated index
+			LD		A, (_i2c_mbindex)
+			INC		A
+			LD		(_i2c_mbindex),A	; _mbindex++
+
+			JR		i2c_checkstop
+
+			
+i2c_case_mr_dbr_ack:
+			; calculate offset address into i2c_mbuffer
+			LD		HL, _i2c_mbuffer
+			LD		A, (_i2c_mbindex)
+			LD		B,A ; loop counter
+loop1:
+			XOR		A,A
+			OR		B
+			JR		Z, loop1end
+			INC		HL
+			DEC		B
+			JR		loop1
+loop1end:	
+			IN0		A,(I2C_DR)			; load byte from I2C Data Register
+			LD		(HL),A				; store in buffer at calculated index
+			LD		A, (_i2c_mbindex)
+			INC		A
+			LD		(_i2c_mbindex),A	; _mbindex++
+i2c_case_mr_ar_ack:
+			LD		A, (_i2c_mbindex)	; master buffer index
+			LD		L,A
+			LD		A, (_i2c_mbufferlength)
+			CP		L
+			JR		Z, i2c_replywithoutack
+			LD		A, I2C_CTL_IEN | I2C_CTL_ENAB | I2C_CTL_AAK
+			OUT0	(I2C_CTL),A		; set to Control register
+			JR		i2c_end
+
+i2c_replywithoutack:
+			LD		A, I2C_CTL_IEN | I2C_CTL_ENAB
+			OUT0	(I2C_CTL),A		; set to Control register
+			JR		i2c_end
+			
 i2c_case_buserror:
 			; perform software reset of the bus
 			XOR		A
@@ -106,8 +175,8 @@ i2c_case_buserror:
 			LD		(HL),A
 			JR		i2c_end
 			
-i2c_casestart:
-i2c_caserepstart:
+i2c_case_master_start:
+i2c_case_master_repstart:
 			LD		A, (_i2c_slarw)		; load slave address and r/w bit
 			OUT0	(I2C_DR), A		; store to I2C Data Register
 			LD		A, I2C_CTL_IEN | I2C_CTL_ENAB | I2C_CTL_AAK
@@ -122,10 +191,9 @@ i2c_case_db_acked:
 			CP		L
 			JR		Z, i2c_checkstop
 
+			; calculate offset address into i2c_mbuffer
 			LD		HL, _i2c_mbuffer
 			LD		A, (_i2c_mbindex)
-
-			; loop
 			LD		B,A ; loop counter
 loopx:
 			XOR		A,A

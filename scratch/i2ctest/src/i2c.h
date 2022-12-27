@@ -3,6 +3,9 @@
 
 #include <defines.h>
 
+
+extern volatile	UINT24 timer2;
+
 extern volatile char i2c_slarw;
 extern volatile char i2c_error;
 extern volatile char i2c_state;
@@ -25,6 +28,9 @@ extern void		i2c_handler(void);
 #define I2C_CTL_STP		(1<<4)
 #define I2C_CTL_IFLG	(1<<3)
 #define I2C_CTL_AAK		(1<<2)
+
+// ez80 PPD register bits
+#define CLK_PPD_I2C_OFF	(1<<2)
 
 // I2C return codes to caller
 #define RET_OK			0x00

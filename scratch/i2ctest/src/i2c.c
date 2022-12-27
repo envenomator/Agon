@@ -3,10 +3,7 @@
 #include <defines.h>
 #include "timer.h"
 
-extern volatile	UINT24 timer2;
-
-#define CLK_PPD_I2C_OFF	(1<<2)
-
+// Internal function
 void I2C_setfrequency(void)
 {
 	// Set I2C clock and sampling frequency
@@ -16,6 +13,15 @@ void I2C_setfrequency(void)
 	I2C_CCR |= (1<<3);
 }
 
+// Internal function
+void I2C_handletimeout(void)
+{
+	// reset the interface
+	I2C_CTL = 0;
+	init_I2C();
+}
+
+// Initializes the I2C bus
 void init_I2C(void)
 {
 	CLK_PPD1 = CLK_PPD_I2C_OFF;		// Power Down I2C block before enabling it, avoid locking bug
@@ -24,13 +30,11 @@ void init_I2C(void)
 	CLK_PPD1 = 0x0;					// Power up I2C block
 }
 
-void I2C_handletimeout(void)
-{
-	// reset the interface
-	I2C_CTL = 0;
-	init_I2C();
-}
-
+// Read length bytes from the I2C bus
+// stored to data buffer from the caller
+// using slave address
+//
+// returns 0 if OK, or specific error code
 UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length)
 {
 	UINT8 i;
@@ -46,7 +50,7 @@ UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length)
 		if(timer2 > I2C_TIMEOUTMS)
 		{
 			I2C_handletimeout();
-			return 10;
+			return RET_ARB_LOST;
 		}
 	}
 	I2C_setfrequency();
@@ -70,11 +74,10 @@ UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length)
 			if(timer2 > I2C_TIMEOUTMS)
 			{
 				I2C_handletimeout();
-				return 20;
+				return RET_SLA_NACK;
 			}
 		}
 		while(I2C_CTL & I2C_CTL_STA); // while start isn't finished
-		//delayms(1);
 		I2C_CTL = I2C_CTL_IEN | I2C_CTL_ENAB;
 	}
 	else
@@ -89,8 +92,7 @@ UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length)
 		if(timer2 > I2C_TIMEOUTMS)
 		{
 			I2C_handletimeout();
-			return 30;
-			//return i2c_mbindex;
+			return RET_ARB_LOST;
 		}
 	}
 	
@@ -98,6 +100,10 @@ UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length)
 	return i2c_mbindex;
 }
 
+// Write length bytes to the I2C bus
+// using slave address
+//
+// returns 0 if OK, or specific error code
 UINT8 I2C_write(UINT8 address, const char *bytearray, UINT8 length) {
 	UINT8 n,sentbytes;
 	
@@ -127,7 +133,7 @@ UINT8 I2C_write(UINT8 address, const char *bytearray, UINT8 length) {
 			if(timer2 > I2C_TIMEOUTMS)
 			{
 				I2C_handletimeout();
-				return 0;
+				return RET_SLA_NACK;
 			}
 		}
 		while(I2C_CTL & I2C_CTL_STA); // while start isn't finished
@@ -146,9 +152,10 @@ UINT8 I2C_write(UINT8 address, const char *bytearray, UINT8 length) {
 		if(timer2 > I2C_TIMEOUTMS)
 		{
 			I2C_handletimeout();
-			return i2c_mbindex;
+			return RET_DATA_NACK;
 		}
 	}
 	
-	return i2c_mbindex;
+	return RET_OK;
 }
+

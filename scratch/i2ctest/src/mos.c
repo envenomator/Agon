@@ -541,9 +541,11 @@ int mos_cmdI2C_send(char * ptr) {
 	printf("Sending %d - %d bytes sent\r\n",buffer[0], b);
 	
 	printf("%d bytes read, value %d\r\n",b, buffer[0]);
+	printf("IRQ - SR\r\n");
 	for(b = 0; b < 30; b++)
 	{
-		printf("%d - %02x\r\n",b,i2c_debug[b]);
+		if(i2c_debugcnt == b) break;
+		printf("%3d - %02x\r\n",b,i2c_debug[b]);
 	}
 
 	return 0;
@@ -567,11 +569,13 @@ int mos_cmdI2C_receive(char * ptr) {
 		printf("%d bytes read, value %d\r\n",b, buffer[0]);
 		delayms(500);
 	}*/
-	b = I2C_read(0x09, buffer, 1);
-	printf("%d bytes read, value %d\r\n",b, buffer[0]);
+	b = I2C_read(0x09, buffer, 2);
+	printf("%d bytes read, value 0x%02x - 0x%02x\r\n",b, buffer[0],buffer[1]);
+	printf("IRQ - SR\r\n");
 	for(b = 0; b < 30; b++)
 	{
-		printf("%d - %02x\r\n",b,i2c_debug[b]);
+		if(i2c_debugcnt == b) break;
+		printf("%3d - %02x\r\n",b,i2c_debug[b]);
 	}
 	
 	return 0;

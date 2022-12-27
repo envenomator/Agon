@@ -4,6 +4,7 @@ int LED = 16;
 int x = 0;
 int y = 0;
 byte buffer[32];
+byte value = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -11,9 +12,21 @@ void setup() {
   pinMode (LED, OUTPUT);
   // Start the I2C Bus as Slave on address 9
   Wire.begin(9); 
+  Wire.setTimeout(4000);
+ 
+  value = 0x55;
+  delay(500);  
   // Attach a function to trigger when something is received.
   Wire.onReceive(receiveEvent);
+  Wire.onRequest(requestEvent);
 }
+
+void requestEvent() {
+  // as expected by master
+  Wire.write(value);
+  Wire.write(0xAA);
+}
+
 void receiveEvent(int bytes) {
   //x = Wire.read();    // read one character from the I2C
   Wire.readBytes(buffer,2);
@@ -30,4 +43,5 @@ void loop() {
   {
     digitalWrite(LED, HIGH);
   }
+  delay(100);
 }

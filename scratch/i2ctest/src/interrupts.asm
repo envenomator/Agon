@@ -136,14 +136,14 @@ i2c_case_mr_dbr_nack: ; 58h
 			LD		HL, _i2c_mbuffer
 			LD		A, (_i2c_mbindex)
 			LD		B,A ; loop counter
-loop2:
+$$:
 			XOR		A,A
 			OR		B
-			JR		Z, loop2end
+			JR		Z, $F
 			INC		HL
 			DEC		B
-			JR		loop2
-loop2end:	
+			JR		$B
+$$:	
 			IN0		A,(I2C_DR)			; load byte from I2C Data Register
 			LD		(HL),A				; store in buffer at calculated index
 			LD		A, (_i2c_mbindex)
@@ -158,14 +158,14 @@ i2c_case_mr_dbr_ack: ; 50h
 			LD		HL, _i2c_mbuffer
 			LD		A, (_i2c_mbindex)
 			LD		B,A ; loop counter
-loop1:
+$$:
 			XOR		A,A
 			OR		B
-			JR		Z, loop1end
+			JR		Z, $F
 			INC		HL
 			DEC		B
-			JR		loop1
-loop1end:	
+			JR		$B
+$$:	
 			IN0		A,(I2C_DR)			; load byte from I2C Data Register
 			LD		(HL),A				; store in buffer at calculated index
 			LD		A, (_i2c_mbindex)

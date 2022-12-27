@@ -38,17 +38,6 @@
 			XDEF	_vdp_protocol_len
 			XDEF	_vdp_protocol_ptr
 			XDEF	_vdp_protocol_data
-
-			XDEF	_i2c_slarw
-			XDEF	_i2c_state
-			XDEF	_i2c_mbindex
-			XDEF	_i2c_sendstop
-			XDEF	_i2c_inrepstart
-			XDEF	_i2c_mbuffer
-			XDEF	_i2c_mbufferlength
-			XDEF	_i2c_debug
-			XDEF	_i2c_debugptr
-			XDEF	_i2c_debugcnt
 			
 			SEGMENT BSS		; This section is reset to 0 in cstartup.asm
 			
@@ -95,17 +84,6 @@ _vdp_protocol_ptr:	DS	3		; Pointer into data
 _vdp_protocol_data:	DS	VDPP_BUFFERLEN
 
 
-; I2C protocol variables
-_i2c_slarw:			DS	1		; 7bit slave address + R/W bit
-_i2c_state:			DS	1		; I2C current state
-_i2c_mbindex:		DS	1		; master buffer index
-_i2c_mbufferlength:	DS	1		; master buffer length
-_i2c_sendstop:		DS	1		; boolean - send stop?
-_i2c_inrepstart:	DS	1		; boolean - in repetitive start?
-_i2c_mbuffer:		DS	32		; master buffer
-_i2c_debug			DS 256	
-_i2c_debugptr		DS	3
-_i2c_debugcnt		DS	1
 
 		SECTION DATA		; This section is copied to RAM in cstartup.asm
 

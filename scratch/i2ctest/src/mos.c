@@ -62,8 +62,8 @@ static t_mosCommand mosCommands[] = {
 	{ "RENAME",	&mos_cmdREN },
 	{ "MKDIR", 	&mos_cmdMKDIR },
 	{ "SET",	&mos_cmdSET },
-	{ "I2C",	&mos_cmdI2C_receive },
-	{ "I2CSEND",	&mos_cmdI2C_send },
+	{ "IR",	&mos_cmdI2C_receive },
+	{ "IW",	&mos_cmdI2C_send },
 	
 };
 
@@ -517,8 +517,17 @@ int mos_cmdI2C_send(char * ptr) {
 	char buffer[3];
 	int b;
 	UINT8 address;
+
+	UINT24 	addr;
 	
-	buffer[0] = 1;
+	if(!mos_parseNumber(NULL, &addr)) {
+		addr = 0;
+	}
+	
+	b = (UINT8)addr;
+	
+
+	buffer[0] = b;
 	buffer[1] = 0xAA;
 	buffer[2] = 0x55;
 

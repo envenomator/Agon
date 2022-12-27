@@ -37,11 +37,11 @@ void receiveEvent(int bytes) {
 void loop() {
   if(buffer[0] == 0)
   {
-    digitalWrite(LED, LOW);
+    digitalWrite(LED, HIGH);
   }
   if(buffer[0] == 1)
   {
-    digitalWrite(LED, HIGH);
+    digitalWrite(LED, LOW);
   }
   delay(100);
 }

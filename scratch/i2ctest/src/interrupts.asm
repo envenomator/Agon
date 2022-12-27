@@ -78,8 +78,8 @@ _i2c_handler:
 			IN0		A, (I2C_SR)		; input I2C status register - switch case to this value
 
 			; Generic
-			;CP		I2C_BUSERROR
-			;JR		Z, i2c_case_buserror
+			CP		I2C_BUSERROR
+			JR		Z, i2c_case_buserror
 			; All master
 			CP		I2C_START
 			JR		Z, i2c_case_master_start
@@ -167,13 +167,14 @@ i2c_replywithoutack:
 			JR		i2c_end
 			
 i2c_case_buserror:
+			JR		i2c_sendstop
 			; perform software reset of the bus
-			XOR		A
-			OUT0	(I2C_SRR),A
-			LD		HL, _i2c_state
-			LD		A, I2C_READY	; READY state
-			LD		(HL),A
-			JR		i2c_end
+			;XOR		A
+			;OUT0	(I2C_SRR),A
+			;LD		HL, _i2c_state
+			;LD		A, I2C_READY	; READY state
+			;LD		(HL),A
+			;JR		i2c_end
 			
 i2c_case_master_start:
 i2c_case_master_repstart:

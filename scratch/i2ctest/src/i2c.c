@@ -21,13 +21,75 @@ void I2C_handletimeout(void)
 	init_I2C();
 }
 
+UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length)
+{
+	UINT8 i;
+	
+	// receive maximum of 32 bytes in a single I2C transaction
+	if(length > 32) return 0;
+	
+	// wait for READY status
+	timer2 = 0;
+	while(i2c_state)
+	{
+		// anything but ready (00)
+		if(timer2 > 25)
+		{
+			I2C_handletimeout();
+			return 0;
+		}
+	}
+	
+	i2c_state = 0x02;		// MRX mode
+	i2c_sendstop = 0x01;	// send stops
+	i2c_mbindex = 0;
+	i2c_mbufferlength = length-1;
+	i2c_slarw = 0x01;			// receive bit
+	i2c_slarw |= address << 1;	// shift 7-bit address one bit left
 
-UINT8 I2C_write(UINT8 slaveaddress, const char *bytearray, UINT8 numbytes) {
+	if(i2c_inrepstart == 1)
+	{
+		i2c_inrepstart = 0;
+		timer2 = 0;
+		do
+		{
+			I2C_DR = i2c_slarw;
+			if(timer2 > 25)
+			{
+				I2C_handletimeout();
+				return 0;
+			}
+		}
+		while(I2C_CTL & I2C_CTL_STA); // while start isn't finished
+		//delayms(1);
+		I2C_CTL = I2C_CTL_IEN | I2C_CTL_ENAB;
+	}
+	else
+	{
+		// send start condition
+		I2C_CTL = I2C_CTL_IEN | I2C_CTL_ENAB | I2C_CTL_STA;
+	}
+
+	timer2 = 0;
+	while(i2c_state == 0x02)
+	{
+		if(timer2 > 25)
+		{
+			I2C_handletimeout();
+			return i2c_mbindex;
+		}
+	}
+	
+	for(i = 0; i < i2c_mbindex; i++) data[i] = i2c_mbuffer[i];
+	return i2c_mbindex;
+}
+
+UINT8 I2C_write(UINT8 address, const char *bytearray, UINT8 length) {
 	UINT8 n,sentbytes;
 	
 	// send maximum of 32 bytes in a single I2C transaction
-	if(numbytes > 32) sentbytes = 32;
-	else sentbytes = numbytes;
+	if(length > 32) sentbytes = 32;
+	else sentbytes = length;
 	
 	// copy bytes to write buffer, set index and number
 	for(n = 0; n < sentbytes; n++) i2c_mbuffer[n] = bytearray[n];
@@ -40,7 +102,7 @@ UINT8 I2C_write(UINT8 slaveaddress, const char *bytearray, UINT8 numbytes) {
 	i2c_state = 0x01;		// MTX - Master Transmit Mode
 	i2c_sendstop = 0x01;	// Send stop at end-of-transmission
 		
-	i2c_slarw = slaveaddress << 1;	// shift one bit left, 0 on bit 0 == write action on I2C
+	i2c_slarw = address << 1;	// shift one bit left, 0 on bit 0 == write action on I2C
 	if(i2c_inrepstart == 1)
 	{
 		timer2 = 0;

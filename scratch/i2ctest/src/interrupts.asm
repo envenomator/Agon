@@ -167,14 +167,14 @@ i2c_replywithoutack:
 			JR		i2c_end
 			
 i2c_case_buserror:
-			JR		i2c_sendstop
+			;JR		i2c_sendstop
 			; perform software reset of the bus
-			;XOR		A
-			;OUT0	(I2C_SRR),A
-			;LD		HL, _i2c_state
-			;LD		A, I2C_READY	; READY state
-			;LD		(HL),A
-			;JR		i2c_end
+			XOR		A
+			OUT0	(I2C_SRR),A
+			LD		HL, _i2c_state
+			LD		A, I2C_READY	; READY state
+			LD		(HL),A
+			JR		i2c_end
 			
 i2c_case_master_start:
 i2c_case_master_repstart:

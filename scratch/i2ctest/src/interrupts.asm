@@ -238,16 +238,28 @@ i2c_sendstop:
 			; send stop
 			LD		A, I2C_CTL_IEN | I2C_CTL_ENAB | I2C_CTL_STP
 			OUT0	(I2C_CTL),A		; set to Control register
-			; maybe we should wait for the bus to stop here
+			
+			LD		L, 16			; rudimentary timeout, can't use timer2 during ISR
+sendstoploop:
+			DEC		L
+			JR		Z, i2c_handletimeout	; timeout
+			IN0		A,(I2C_CTL)
+			AND		I2C_CTL_STP			; STP bit still in place?
+			JR		NZ, sendstoploop	; then we need to wait some more
+			
 			LD		HL, _i2c_state
 			LD		A, I2C_READY	; READY state
 			LD		(HL),A
 			JR		i2c_end
+
+i2c_handletimeout:
+			CALL	_i2c_init
+			JR		i2c_releasebus
+			
 i2c_releasebus:
 			; relinquish the bus
 			LD		A, I2C_CTL_IEN | I2C_CTL_ENAB
 			OUT0	(I2C_CTL),A		; set to Control register
-			; maybe we should wait for the bus to stop here
 			LD		HL, _i2c_state
 			LD		A, I2C_READY	; READY state
 			LD		(HL),A
@@ -261,6 +273,17 @@ i2c_end:
 			RETI.L
 
 
+_i2c_init:
+			XOR		A,A
+			OUT0	(I2C_CTL),A		; reset
+			LD		A, 04h			; CLK_PPD_I2C_OFF, bit 2
+			OUT0	(CLK_PPD1),A	; power down clock to the I2C block
+			LD		A,I2C_CTL_ENAB	; enable the bus, before enabling the clock to the I2C block
+			OUT0	(I2C_CTL),A
+			XOR		A,A
+			OUT0	(CLK_PPD1),A	; enable clock to the I2C block
+			RET
+			
 ; AGON Vertical Blank Interrupt handler
 ;
 _vblank_handler:	DI

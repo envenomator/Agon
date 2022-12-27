@@ -523,7 +523,7 @@ int mos_cmdI2C(char * ptr) {
 	while(1)
 	{
 		b = I2C_write(0x09, buffer, 2);
-		printf("Sending %d - %d bytes sent\r\n",buffer[0],b);
+		printf("Sending %d - code %02x - %d bytes sent\r\n",buffer[0],I2C_CTL, b);
 		buffer[0] = (buffer[0] == 0)?1:0;
 		delayms(500);
 	}

@@ -30,6 +30,7 @@ I2C_ARBLOST_GCAR_ACK	.equ	78h ; slave code - not checked currently
 I2C_ARBLOST_SLAR_ACK	.equ	b0h ; slave code - not checked currently
 
 ;* Return status codes to read/write caller
+RET_OK					.equ	00h	; ok
 RET_SLA_NACK			.equ	01h	; address sent, nack received
 RET_DATA_NACK			.equ	02h ; data sent, nack received
 RET_ARB_LOST			.equ	04h ; arbitration lost
@@ -229,14 +230,14 @@ i2c_case_db_acked:
 			LD		HL, _i2c_mbuffer
 			LD		A, (_i2c_mbindex)
 			LD		B,A ; loop counter
-loopx:
+$$:
 			XOR		A,A
 			OR		B
-			JR		Z, loopxend
+			JR		Z, $F
 			INC		HL
 			DEC		B
-			JP		loopx
-loopxend:	
+			JP		$B
+$$:	
 			; Load indexed byte from buffer
 			LD		A, (HL)
 
@@ -296,12 +297,12 @@ i2c_sendstop:
 			OUT0	(I2C_CTL),A		; set to Control register
 			
 			LD		L, 16			; rudimentary timeout, can't use timer2 during ISR
-sendstoploop:
+$$:
 			DEC		L
 			JR		Z, i2c_handletimeout	; timeout
 			IN0		A,(I2C_CTL)
 			AND		I2C_CTL_STP			; STP bit still in place?
-			JR		NZ, sendstoploop	; then we need to wait some more
+			JR		NZ, $B	; then we need to wait some more
 			
 			LD		HL, _i2c_state
 			LD		A, I2C_READY	; READY state
@@ -325,11 +326,11 @@ i2c_end:
 			; DEBUG
 			LD		A,(_i2c_debugcnt)
 			CP		30
-			JR		NZ, contend
+			JR		NZ, $F
 			LD		A, I2C_CTL_ENAB | I2C_CTL_STP			
 			OUT0	(I2C_CTL),A		; set to Control register
 			
-contend:			
+$$:			
 			
 			POP		BC
 			POP		HL

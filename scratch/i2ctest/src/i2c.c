@@ -36,14 +36,14 @@ UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length)
 	UINT8 i;
 	
 	// receive maximum of 32 bytes in a single I2C transaction
-	if(length > 32) return 0;
+	if(length > I2C_MAX_BUFFERLENGTH) return 0;
 	
 	// wait for READY status
 	timer2 = 0;
 	while(i2c_state)
 	{
 		// anything but ready (00)
-		if(timer2 > 25)
+		if(timer2 > I2C_TIMEOUTMS)
 		{
 			I2C_handletimeout();
 			return 10;
@@ -51,12 +51,13 @@ UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length)
 	}
 	I2C_setfrequency();
 	
-	i2c_state = 0x02;		// MRX mode
+	i2c_state = I2C_MRX;		// MRX mode
 	i2c_sendstop = 0x01;	// send stops
+	i2c_error = RET_OK;
 	i2c_mbindex = 0;
 	i2c_mbufferlength = length-1;
 	//i2c_mbufferlength = length;
-	i2c_slarw = 0x01;			// receive bit
+	i2c_slarw = (1<<0);			// receive bit 0
 	i2c_slarw |= address << 1;	// shift 7-bit address one bit left
 
 	if(i2c_inrepstart == 1)
@@ -66,7 +67,7 @@ UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length)
 		do
 		{
 			I2C_DR = i2c_slarw;
-			if(timer2 > 25)
+			if(timer2 > I2C_TIMEOUTMS)
 			{
 				I2C_handletimeout();
 				return 20;
@@ -83,9 +84,9 @@ UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length)
 	}
 
 	timer2 = 0;
-	while(i2c_state == 0x02)
+	while(i2c_state == I2C_MRX)
 	{
-		if(timer2 > 25)
+		if(timer2 > I2C_TIMEOUTMS)
 		{
 			I2C_handletimeout();
 			return 30;
@@ -101,7 +102,7 @@ UINT8 I2C_write(UINT8 address, const char *bytearray, UINT8 length) {
 	UINT8 n,sentbytes;
 	
 	// send maximum of 32 bytes in a single I2C transaction
-	if(length > 32) sentbytes = 32;
+	if(length > I2C_MAX_BUFFERLENGTH) sentbytes = I2C_MAX_BUFFERLENGTH;
 	else sentbytes = length;
 	
 	// copy bytes to write buffer, set index and number
@@ -111,8 +112,9 @@ UINT8 I2C_write(UINT8 address, const char *bytearray, UINT8 length) {
 	
 	I2C_setfrequency();
 
-	i2c_state = 0x01;		// MTX - Master Transmit Mode
+	i2c_state = I2C_MTX;		// MTX - Master Transmit Mode
 	i2c_sendstop = 0x01;	// Send stop at end-of-transmission
+	i2c_error = RET_OK;
 		
 	i2c_slarw = address << 1;	// shift one bit left, 0 on bit 0 == write action on I2C
 	if(i2c_inrepstart == 1)
@@ -122,7 +124,7 @@ UINT8 I2C_write(UINT8 address, const char *bytearray, UINT8 length) {
 		{
 			i2c_inrepstart = 0;
 			I2C_DR = i2c_slarw;
-			if(timer2 > 25)
+			if(timer2 > I2C_TIMEOUTMS)
 			{
 				I2C_handletimeout();
 				return 0;
@@ -139,9 +141,9 @@ UINT8 I2C_write(UINT8 address, const char *bytearray, UINT8 length) {
 	}
 	
 	timer2 = 0;
-	while(i2c_state == 0x01) // while MTX
+	while(i2c_state == I2C_MTX) // while MTX
 	{
-		if(timer2 > 24)
+		if(timer2 > I2C_TIMEOUTMS)
 		{
 			I2C_handletimeout();
 			return i2c_mbindex;

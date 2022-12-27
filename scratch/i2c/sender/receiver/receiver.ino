@@ -11,7 +11,7 @@ void setup() {
   // Define the LED pin as Output
   pinMode (LED, OUTPUT);
   // Start the I2C Bus as Slave on address 9
-  Wire.begin(9); 
+  Wire.begin(9,21,22,400000); 
   Wire.setTimeout(4000);
  
   value = 0x55;

@@ -7,10 +7,20 @@ extern volatile	UINT24 timer2;
 
 #define CLK_PPD_I2C_OFF	(1<<2)
 
+void I2C_setfrequency(void)
+{
+	// Set I2C clock and sampling frequency
+	// N[2:0]==4 - 1.152Mhz sample rate
+	I2C_CCR = 0x04;
+	// M[6:3]==1 - 115Khz
+	I2C_CCR |= (1<<3);
+}
+
 void init_I2C(void)
 {
 	CLK_PPD1 = CLK_PPD_I2C_OFF;		// Power Down I2C block before enabling it, avoid locking bug
 	I2C_CTL = I2C_CTL_ENAB;			// Enable I2C block, don't enable interrupts yet
+	I2C_setfrequency();
 	CLK_PPD1 = 0x0;					// Power up I2C block
 }
 
@@ -39,8 +49,7 @@ UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length)
 			return 10;
 		}
 	}
-	// Set I2C clock and sampling frequency
-	I2C_CCR = 0x1C;			// 7 reserved bit, M=3, N=2. 57.6Khz, 1.152Mhz sampling frequency
+	I2C_setfrequency();
 	
 	i2c_state = 0x02;		// MRX mode
 	i2c_sendstop = 0x01;	// send stops
@@ -100,8 +109,7 @@ UINT8 I2C_write(UINT8 address, const char *bytearray, UINT8 length) {
 	i2c_mbindex = 0;											// interrupt routine will start sending from this index
 	i2c_mbufferlength = sentbytes;
 	
-	// Set I2C clock and sampling frequency
-	I2C_CCR = 0x1C;			// 7 reserved bit, M=3, N=2. 57.6Khz, 1.152Mhz sampling frequency
+	I2C_setfrequency();
 
 	i2c_state = 0x01;		// MTX - Master Transmit Mode
 	i2c_sendstop = 0x01;	// Send stop at end-of-transmission

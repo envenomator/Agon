@@ -516,8 +516,9 @@ int mos_cmdMKDIR(char * ptr) {
 int mos_cmdI2C_send(char * ptr) {
 	char buffer[3];
 	int b;
+	UINT8 address;
 	
-	buffer[0] = 0;
+	buffer[0] = 1;
 	buffer[1] = 0xAA;
 	buffer[2] = 0x55;
 
@@ -526,8 +527,8 @@ int mos_cmdI2C_send(char * ptr) {
 	i2c_debugptr = i2c_debug;
 	for(b = 0; b < 255; b++) i2c_debug[b] = 0xFF;
 
-	
-	printf("Writing alternating 0/1s to slave address 0x09\r\n");
+	b = 2;
+	address = 0x09;
 	/*
 	while(1)
 	{
@@ -537,10 +538,11 @@ int mos_cmdI2C_send(char * ptr) {
 		delayms(500);
 	}*/
 	
+	printf("Sending %d bytes to address 0x%02d\r\b",b,address);
 	b = I2C_write(0x09, buffer, 2);
-	printf("Sending %d - %d bytes sent\r\n",buffer[0], b);
+	if(b == 0) printf("Sent OK\r\n");
+	else printf("I2C error 0x%02x\r\n",i2c_error);
 	
-	printf("%d bytes read, value %d\r\n",b, buffer[0]);
 	printf("IRQ - SR\r\n");
 	for(b = 0; b < 30; b++)
 	{
@@ -554,8 +556,11 @@ int mos_cmdI2C_send(char * ptr) {
 int mos_cmdI2C_receive(char * ptr) {
 	UINT8 buffer[3];
 	UINT8 b;
+	UINT8 address;
 	
-	printf("Reading slave address 0x09\r\n");
+	b = 2;
+	address = 0x09;
+	printf("Reading %d bytes from 0x%02x\r\n",b,address);
 	
 	// DEBUG
 	i2c_debugcnt = 0;
@@ -569,8 +574,10 @@ int mos_cmdI2C_receive(char * ptr) {
 		printf("%d bytes read, value %d\r\n",b, buffer[0]);
 		delayms(500);
 	}*/
-	b = I2C_read(0x09, buffer, 2);
-	printf("%d bytes read, value 0x%02x - 0x%02x\r\n",b, buffer[0],buffer[1]);
+	b = I2C_read(address, buffer, 2);
+	if(b == 0) printf("Read OK - values 0x%02x, 0x%02x\r\n",buffer[0],buffer[1]);
+	else printf("I2C error 0x%02x\r\n",i2c_error);
+
 	printf("IRQ - SR\r\n");
 	for(b = 0; b < 30; b++)
 	{

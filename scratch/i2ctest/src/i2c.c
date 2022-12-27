@@ -97,7 +97,7 @@ UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length)
 	}
 	
 	for(i = 0; i < i2c_mbindex; i++) data[i] = i2c_mbuffer[i];
-	return i2c_mbindex;
+	return i2c_error;
 }
 
 // Write length bytes to the I2C bus
@@ -156,6 +156,6 @@ UINT8 I2C_write(UINT8 address, const char *bytearray, UINT8 length) {
 		}
 	}
 	
-	return RET_OK;
+	return i2c_error;
 }
 

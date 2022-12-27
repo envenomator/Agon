@@ -1,5 +1,5 @@
 ;
-; Title:	AGON I2C
+; Title:	AGON I2C - Interrupt vector and BSS variables
 ; Author:	Jeroen Venema
 ; Created:	27/12/2022
 ; Last Updated:	27/12/2022
@@ -20,11 +20,20 @@ I2C_AW_ACKED			.equ	18h
 I2C_AW_NACKED			.equ	20h
 I2C_DB_M_ACKED			.equ	28h
 I2C_DB_M_NACKED			.equ	30h
-I2C_M_ARBLOST			.equ	38h
 I2C_MR_AR_ACK			.equ	40h
 I2C_MR_AR_NACK			.equ	48h
 I2C_MR_DBR_ACK			.equ	50h
 I2C_MR_DBR_NACK			.equ	58h
+I2C_ARBLOST				.equ	38h
+I2C_ARBLOST_SLAW_ACK	.equ	68h	; slave code - not checked currently
+I2C_ARBLOST_GCAR_ACK	.equ	78h ; slave code - not checked currently
+I2C_ARBLOST_SLAR_ACK	.equ	b0h ; slave code - not checked currently
+
+;* Return status codes to read/write caller
+RET_SLA_NACK			.equ	01h	; address sent, nack received
+RET_DATA_NACK			.equ	02h ; data sent, nack received
+RET_ARB_LOST			.equ	04h ; arbitration lost
+RET_BUS_ERROR			.equ	08h ; Bus error
 
 ;* I2C STATES
 I2C_READY				.equ	00h
@@ -32,7 +41,6 @@ I2C_MTX					.equ	01h
 I2C_MRX					.equ	02h
 I2C_SRX					.equ	04h
 I2C_STX					.equ	08h
-I2C_ERROR				.equ	80h
 
 ;* I2C_CTL bits
 I2C_CTL_IEN				.equ	10000000b
@@ -45,6 +53,7 @@ I2C_CTL_AAK				.equ	00000100b
 			SEGMENT BSS		; This section is reset to 0 in cstartup.asm
 			
 			XDEF	_i2c_slarw
+			XDEF	_i2c_error
 			XDEF	_i2c_state
 			XDEF	_i2c_mbindex
 			XDEF	_i2c_sendstop
@@ -57,6 +66,7 @@ I2C_CTL_AAK				.equ	00000100b
 
 ; I2C protocol variables
 _i2c_slarw:			DS	1		; 7bit slave address + R/W bit
+_i2c_error:			DS	1		; Error report to caller application
 _i2c_state:			DS	1		; I2C current state
 _i2c_mbindex:		DS	1		; master buffer index
 _i2c_mbufferlength:	DS	1		; master buffer length
@@ -74,7 +84,7 @@ _i2c_debugcnt		DS	1
 
 			XDEF	_i2c_handler
 
-; AGON Test I2C Interrupt handler
+; AGON I2C Interrupt handler
 _i2c_handler:
 			DI
 			PUSH	AF
@@ -115,8 +125,6 @@ _i2c_handler:
 			JP		Z, i2c_case_aw_nacked
 			CP		I2C_DB_M_NACKED
 			JP		Z, i2c_case_db_nacked
-			CP		I2C_M_ARBLOST
-			JP		Z, i2c_releasebus
 			; Master receiver
 			CP		I2C_MR_DBR_ACK
 			JP		Z, i2c_case_mr_dbr_ack
@@ -126,6 +134,10 @@ _i2c_handler:
 			JP		Z, i2c_case_mr_dbr_nack
 			CP		I2C_MR_AR_NACK
 			JP		Z, i2c_case_mr_ar_nack
+			; Arbitration lost
+			CP		I2C_ARBLOST
+			JP		Z, i2c_case_arblost
+
 			; case default - do nothing
 			JP		i2c_end
 
@@ -196,17 +208,7 @@ i2c_replywithoutack:
 			LD		A, I2C_CTL_IEN | I2C_CTL_ENAB
 			OUT0	(I2C_CTL),A		; set to Control register
 			JP		i2c_end
-			
-i2c_case_buserror:
-			;JR		i2c_sendstop
-			; perform software reset of the bus
-			XOR		A
-			OUT0	(I2C_SRR),A
-			LD		HL, _i2c_state
-			LD		A, I2C_READY	; READY state
-			LD		(HL),A
-			JP		i2c_end
-			
+						
 i2c_case_master_start:
 i2c_case_master_repstart:
 			LD		A, (_i2c_slarw)		; load slave address and r/w bit
@@ -249,10 +251,31 @@ loopxend:
 			JP		i2c_end
 
 i2c_case_aw_nacked:
+			LD		A, RET_SLA_NACK
+			LD		(_i2c_error),A
+			JP		i2c_sendstop
+			
 i2c_case_db_nacked:
-			LD		A, I2C_ERROR
+			LD		A, RET_DATA_NACK
 			LD		(_i2c_state),A
 			JP 		i2c_sendstop
+
+i2c_case_arblost:
+			LD		A, RET_ARB_LOST
+			LD		(_i2c_state),A
+			JP 		i2c_releasebus
+
+i2c_case_buserror:
+			LD		A, RET_BUS_ERROR
+			LD		(_i2c_state),A
+			
+			; perform software reset of the bus
+			XOR		A
+			OUT0	(I2C_SRR),A
+			LD		HL, _i2c_state
+			LD		A, I2C_READY	; READY state
+			LD		(HL),A
+			JP		i2c_end
 
 i2c_checkstop:
 			LD		A,(_i2c_sendstop)

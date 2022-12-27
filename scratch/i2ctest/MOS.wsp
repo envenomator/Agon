@@ -31,6 +31,17 @@ WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPIGAAAAAA
 ptn_Child1=ViewFrame-0
 
 [WorkState_v1_2.Frames.ChildFrames.Document-1.ViewFrame-0]
+DocPathName=src\misc.asm
+DocTemplateIndex=0
+DocumentString=IDE.Document
+IsActiveChildFrame=False
+IsFrameVisible=True
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPKBAAAAAAKBAAAAAAHAEAAAAAPMAAAAAA
+
+[WorkState_v1_2.Frames.ChildFrames.Document-2]
+ptn_Child1=ViewFrame-0
+
+[WorkState_v1_2.Frames.ChildFrames.Document-2.ViewFrame-0]
 DocPathName=src\i2c.c
 DocTemplateIndex=0
 DocumentString=IDE.Document
@@ -38,10 +49,10 @@ IsActiveChildFrame=False
 IsFrameVisible=True
 WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPAAAAAAAAAAAAAAAAFGEAAAAAIABAAAAA
 
-[WorkState_v1_2.Frames.ChildFrames.Document-2]
+[WorkState_v1_2.Frames.ChildFrames.Document-3]
 ptn_Child1=ViewFrame-0
 
-[WorkState_v1_2.Frames.ChildFrames.Document-2.ViewFrame-0]
+[WorkState_v1_2.Frames.ChildFrames.Document-3.ViewFrame-0]
 DocPathName=src\interrupts.asm
 DocTemplateIndex=0
 DocumentString=IDE.Document
@@ -49,10 +60,10 @@ IsActiveChildFrame=False
 IsFrameVisible=True
 WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPKBAAAAAAKBAAAAAAPHEAAAAACCBAAAAA
 
-[WorkState_v1_2.Frames.ChildFrames.Document-3]
+[WorkState_v1_2.Frames.ChildFrames.Document-4]
 ptn_Child1=ViewFrame-0
 
-[WorkState_v1_2.Frames.ChildFrames.Document-3.ViewFrame-0]
+[WorkState_v1_2.Frames.ChildFrames.Document-4.ViewFrame-0]
 DocPathName=src\timer.c
 DocTemplateIndex=0
 DocumentString=IDE.Document
@@ -60,10 +71,10 @@ IsActiveChildFrame=False
 IsFrameVisible=True
 WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPEDAAAAAAEDAAAAAAJJEAAAAAMDBAAAAA
 
-[WorkState_v1_2.Frames.ChildFrames.Document-4]
+[WorkState_v1_2.Frames.ChildFrames.Document-5]
 ptn_Child1=ViewFrame-0
 
-[WorkState_v1_2.Frames.ChildFrames.Document-4.ViewFrame-0]
+[WorkState_v1_2.Frames.ChildFrames.Document-5.ViewFrame-0]
 DocPathName=.\main.c
 DocTemplateIndex=0
 DocumentString=IDE.Document
@@ -71,10 +82,10 @@ IsActiveChildFrame=False
 IsFrameVisible=True
 WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPOEAAAAAAOEAAAAAADLEAAAAAGFBAAAAA
 
-[WorkState_v1_2.Frames.ChildFrames.Document-5]
+[WorkState_v1_2.Frames.ChildFrames.Document-6]
 ptn_Child1=ViewFrame-0
 
-[WorkState_v1_2.Frames.ChildFrames.Document-5.ViewFrame-0]
+[WorkState_v1_2.Frames.ChildFrames.Document-6.ViewFrame-0]
 DocPathName=src\mos.c
 DocTemplateIndex=0
 DocumentString=IDE.Document
@@ -82,10 +93,10 @@ IsActiveChildFrame=False
 IsFrameVisible=True
 WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPCIAAAAAACIAAAAAANMEAAAAAKLBAAAAA
 
-[WorkState_v1_2.Frames.ChildFrames.Document-6]
+[WorkState_v1_2.Frames.ChildFrames.Document-7]
 ptn_Child1=ViewFrame-0
 
-[WorkState_v1_2.Frames.ChildFrames.Document-6.ViewFrame-0]
+[WorkState_v1_2.Frames.ChildFrames.Document-7.ViewFrame-0]
 DocPathName=src\mos.h
 DocTemplateIndex=0
 DocumentString=IDE.Document
@@ -93,10 +104,10 @@ IsActiveChildFrame=False
 IsFrameVisible=True
 WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPAAAAAAAAAAAAAAAALEEAAAAAIDBAAAAA
 
-[WorkState_v1_2.Frames.ChildFrames.Document-7]
+[WorkState_v1_2.Frames.ChildFrames.Document-8]
 ptn_Child1=ViewFrame-0
 
-[WorkState_v1_2.Frames.ChildFrames.Document-7.ViewFrame-0]
+[WorkState_v1_2.Frames.ChildFrames.Document-8.ViewFrame-0]
 DocPathName=SRC_ST~1\globals.asm
 DocTemplateIndex=0
 DocumentString=IDE.Document
@@ -104,25 +115,14 @@ IsActiveChildFrame=False
 IsFrameVisible=True
 WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPAAAAAAAAAAAAAAAAPHEAAAAACNAAAAAA
 
-[WorkState_v1_2.Frames.ChildFrames.Document-8]
+[WorkState_v1_2.Frames.ChildFrames.Document-9]
 ptn_Child1=ViewFrame-0
 
-[WorkState_v1_2.Frames.ChildFrames.Document-8.ViewFrame-0]
+[WorkState_v1_2.Frames.ChildFrames.Document-9.ViewFrame-0]
 DocPathName=src\i2c-asm.asm
 DocTemplateIndex=0
 DocumentString=IDE.Document
 IsActiveChildFrame=True
 IsFrameVisible=True
 WindowPlacement=MCAAAAAACAAAAAAADAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPAAAAAAAAAAAAAAAAJODAAAAABLAAAAAA
-
-[WorkState_v1_2.Frames.ChildFrames.Document-9]
-ptn_Child1=ViewFrame-0
-
-[WorkState_v1_2.Frames.ChildFrames.Document-9.ViewFrame-0]
-DocPathName=src\misc.asm
-DocTemplateIndex=0
-DocumentString=IDE.Document
-IsActiveChildFrame=False
-IsFrameVisible=True
-WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPKBAAAAAAKBAAAAAAHAEAAAAAPMAAAAAA
 

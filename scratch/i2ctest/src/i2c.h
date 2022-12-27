@@ -4,6 +4,7 @@
 #include <defines.h>
 
 extern volatile char i2c_slarw;
+extern volatile char i2c_error;
 extern volatile char i2c_state;
 extern volatile char i2c_sendstop;
 extern volatile char i2c_mbindex;

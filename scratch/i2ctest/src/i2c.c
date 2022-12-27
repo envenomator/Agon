@@ -36,14 +36,17 @@ UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length)
 		if(timer2 > 25)
 		{
 			I2C_handletimeout();
-			return 0;
+			return 10;
 		}
 	}
+	// Set I2C clock and sampling frequency
+	I2C_CCR = 0x1C;			// 7 reserved bit, M=3, N=2. 57.6Khz, 1.152Mhz sampling frequency
 	
 	i2c_state = 0x02;		// MRX mode
 	i2c_sendstop = 0x01;	// send stops
 	i2c_mbindex = 0;
 	i2c_mbufferlength = length-1;
+	//i2c_mbufferlength = length;
 	i2c_slarw = 0x01;			// receive bit
 	i2c_slarw |= address << 1;	// shift 7-bit address one bit left
 
@@ -57,7 +60,7 @@ UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length)
 			if(timer2 > 25)
 			{
 				I2C_handletimeout();
-				return 0;
+				return 20;
 			}
 		}
 		while(I2C_CTL & I2C_CTL_STA); // while start isn't finished
@@ -76,7 +79,8 @@ UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length)
 		if(timer2 > 25)
 		{
 			I2C_handletimeout();
-			return i2c_mbindex;
+			return 30;
+			//return i2c_mbindex;
 		}
 	}
 	
@@ -127,7 +131,7 @@ UINT8 I2C_write(UINT8 address, const char *bytearray, UINT8 length) {
 	}
 	
 	timer2 = 0;
-	while(i2c_mbindex != sentbytes)
+	while(i2c_state == 0x01) // while MTX
 	{
 		if(timer2 > 24)
 		{
@@ -136,5 +140,5 @@ UINT8 I2C_write(UINT8 address, const char *bytearray, UINT8 length) {
 		}
 	}
 	
-	return sentbytes;
+	return i2c_mbindex;
 }

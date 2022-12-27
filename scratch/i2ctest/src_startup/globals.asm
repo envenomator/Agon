@@ -46,7 +46,10 @@
 			XDEF	_i2c_inrepstart
 			XDEF	_i2c_mbuffer
 			XDEF	_i2c_mbufferlength
-
+			XDEF	_i2c_debug
+			XDEF	_i2c_debugptr
+			XDEF	_i2c_debugcnt
+			
 			SEGMENT BSS		; This section is reset to 0 in cstartup.asm
 			
 _sysvars:					; Please make sure the sysvar offsets match those in mos_api.inc
@@ -100,7 +103,10 @@ _i2c_mbufferlength:	DS	1		; master buffer length
 _i2c_sendstop:		DS	1		; boolean - send stop?
 _i2c_inrepstart:	DS	1		; boolean - in repetitive start?
 _i2c_mbuffer:		DS	32		; master buffer
-		
+_i2c_debug			DS 256	
+_i2c_debugptr		DS	3
+_i2c_debugcnt		DS	1
+
 		SECTION DATA		; This section is copied to RAM in cstartup.asm
 
 

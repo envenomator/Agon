@@ -11,6 +11,9 @@ extern volatile char i2c_sendstop;
 extern volatile char i2c_inrepstart;
 extern volatile char i2c_mbuffer[];
 extern volatile char i2c_mbufferlength;
+extern volatile char i2c_debug[];
+extern volatile char *i2c_debugptr;
+extern volatile char i2c_debugcnt;
 
 extern void		i2c_handler(void);
 
@@ -22,6 +25,7 @@ extern void		i2c_handler(void);
 #define I2C_CTL_AAK		(1<<2)
 
 void init_I2C(void);
-UINT8 I2C_write(UINT8 slaveaddress, const char *bytearray, UINT8 numbytes);
+UINT8 I2C_write(UINT8 address, const char *bytearray, UINT8 length);
+UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length);
 
 #endif _I2C_H_

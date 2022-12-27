@@ -62,7 +62,9 @@ static t_mosCommand mosCommands[] = {
 	{ "RENAME",	&mos_cmdREN },
 	{ "MKDIR", 	&mos_cmdMKDIR },
 	{ "SET",	&mos_cmdSET },
-	{ "I2C",	&mos_cmdI2C },	
+	{ "I2C",	&mos_cmdI2C_receive },
+	{ "I2CSEND",	&mos_cmdI2C_send },
+	
 };
 
 #define mosCommands_count (sizeof(mosCommands)/sizeof(t_mosCommand))
@@ -511,22 +513,67 @@ int mos_cmdMKDIR(char * ptr) {
 }
 
 
-int mos_cmdI2C(char * ptr) {
+int mos_cmdI2C_send(char * ptr) {
 	char buffer[3];
 	int b;
 	
 	buffer[0] = 0;
 	buffer[1] = 0xAA;
 	buffer[2] = 0x55;
+
+	// DEBUG
+	i2c_debugcnt = 0;
+	i2c_debugptr = i2c_debug;
+	for(b = 0; b < 255; b++) i2c_debug[b] = 0xFF;
+
 	
-	printf("Writing alternating 0/1s to slave address 0x09");
+	printf("Writing alternating 0/1s to slave address 0x09\r\n");
+	/*
 	while(1)
 	{
 		b = I2C_write(0x09, buffer, 2);
-		printf("Sending %d - code %02x - %d bytes sent\r\n",buffer[0],I2C_CTL, b);
+		printf("Sending %d - %d bytes sent\r\n",buffer[0], b);
 		buffer[0] = (buffer[0] == 0)?1:0;
 		delayms(500);
+	}*/
+	
+	b = I2C_write(0x09, buffer, 2);
+	printf("Sending %d - %d bytes sent\r\n",buffer[0], b);
+	
+	printf("%d bytes read, value %d\r\n",b, buffer[0]);
+	for(b = 0; b < 30; b++)
+	{
+		printf("%d - %02x\r\n",b,i2c_debug[b]);
 	}
+
+	return 0;
+}
+
+int mos_cmdI2C_receive(char * ptr) {
+	UINT8 buffer[3];
+	UINT8 b;
+	
+	printf("Reading slave address 0x09\r\n");
+	
+	// DEBUG
+	i2c_debugcnt = 0;
+	i2c_debugptr = i2c_debug;
+	for(b = 0; b < 255; b++) i2c_debug[b] = 0xFF;
+	
+	/*
+	while(1)
+	{
+		b = I2C_read(0x09, buffer, 1);
+		printf("%d bytes read, value %d\r\n",b, buffer[0]);
+		delayms(500);
+	}*/
+	b = I2C_read(0x09, buffer, 1);
+	printf("%d bytes read, value %d\r\n",b, buffer[0]);
+	for(b = 0; b < 30; b++)
+	{
+		printf("%d - %02x\r\n",b,i2c_debug[b]);
+	}
+	
 	return 0;
 }
 

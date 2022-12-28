@@ -61,22 +61,16 @@ I2C_CTL_AAK				.equ	00000100b
 			XDEF	_i2c_inrepstart
 			XDEF	_i2c_mbuffer
 			XDEF	_i2c_mbufferlength
-			XDEF	_i2c_debug
-			XDEF	_i2c_debugptr
-			XDEF	_i2c_debugcnt
 
 ; I2C protocol variables
-_i2c_slarw:			DS	1		; 7bit slave address + R/W bit
-_i2c_error:			DS	1		; Error report to caller application
-_i2c_state:			DS	1		; I2C current state
-_i2c_mbindex:		DS	1		; master buffer index
-_i2c_mbufferlength:	DS	1		; master buffer length
-_i2c_sendstop:		DS	1		; boolean - send stop?
-_i2c_inrepstart:	DS	1		; boolean - in repetitive start?
-_i2c_mbuffer:		DS	32		; master buffer
-_i2c_debug			DS 256	
-_i2c_debugptr		DS	3
-_i2c_debugcnt		DS	1
+_i2c_slarw:			DS	1					; 7bit slave address + R/W bit
+_i2c_error:			DS	1					; Error report to caller application
+_i2c_state:			DS	1					; I2C current state
+_i2c_mbindex:		DS	1					; master buffer index
+_i2c_mbufferlength:	DS	1					; master buffer length
+_i2c_sendstop:		DS	1					; boolean - send stop?
+_i2c_inrepstart:	DS	1					; boolean - in repetitive start?
+_i2c_mbuffer:		DS	I2C_BUFFERLENGTH	; master buffer
 			
 			.ASSUME	ADL = 1
 
@@ -84,6 +78,7 @@ _i2c_debugcnt		DS	1
 			SEGMENT .STARTUP
 
 			XDEF	_i2c_handler
+			XDEF	_i2c_init
 
 ; AGON I2C Interrupt handler
 _i2c_handler:
@@ -92,23 +87,16 @@ _i2c_handler:
 			PUSH	HL
 			PUSH	BC
 			
-			IN0		A, (I2C_SR)		; input I2C status register - switch case to this value
+			IN0		A, (I2C_SR)		; input I2C status register - switch case to this status value
+			CALL	i2c_handle_sr
 
-			;PUSH	AF
-			; DEBUG
-			;LD		HL, (_i2c_debugptr)
-			;LD		(HL),A
-			;LD		BC,HL
-			;INC		BC
-			;LD		HL, _i2c_debugptr
-			;LD		(HL),BC
-			
-			;LD		A, (_i2c_debugcnt)
-			;INC		A
-			;LD		(_i2c_debugcnt),A
-			
-			;POP		AF
+			POP		BC
+			POP		HL
+			POP		AF
+			EI
+			RETI.L
 
+i2c_handle_sr:
 			; Generic
 			CP		I2C_BUSERROR
 			JP		Z, i2c_case_buserror
@@ -138,34 +126,31 @@ _i2c_handler:
 			; Arbitration lost
 			CP		I2C_ARBLOST
 			JP		Z, i2c_case_arblost
-
 			; case default - do nothing
-			JP		i2c_end
+			RET
 
 i2c_case_mr_ar_nack: ; 48h
 			LD		A, I2C_CTL_IEN | I2C_CTL_ENAB | I2C_CTL_STA
-			JP		i2c_end
+			OUT0	(I2C_CTL),A		; set to Control register
+			RET
 			
 i2c_case_mr_dbr_nack: ; 58h
 			; calculate offset address into i2c_mbuffer
 			LD		HL, _i2c_mbuffer
 			LD		A, (_i2c_mbindex)
 			LD		B,A ; loop counter
-$$:
-			XOR		A,A
+$$:			XOR		A,A
 			OR		B
 			JR		Z, $F
 			INC		HL
 			DEC		B
 			JR		$B
-$$:	
-			IN0		A,(I2C_DR)			; load byte from I2C Data Register
+$$:			IN0		A,(I2C_DR)			; load byte from I2C Data Register
 			LD		(HL),A				; store in buffer at calculated index
 			LD		A, (_i2c_mbindex)
 			INC		A
 			LD		(_i2c_mbindex),A	; _mbindex++
 
-			;JP		i2c_checkstop
 			JP		i2c_sendstop
 			
 i2c_case_mr_dbr_ack: ; 50h
@@ -173,42 +158,30 @@ i2c_case_mr_dbr_ack: ; 50h
 			LD		HL, _i2c_mbuffer
 			LD		A, (_i2c_mbindex)
 			LD		B,A ; loop counter
-$$:
-			XOR		A,A
+$$:			XOR		A,A
 			OR		B
 			JR		Z, $F
 			INC		HL
 			DEC		B
 			JR		$B
-$$:	
-			IN0		A,(I2C_DR)			; load byte from I2C Data Register
+$$:			IN0		A,(I2C_DR)			; load byte from I2C Data Register
 			LD		(HL),A				; store in buffer at calculated index
 			LD		A, (_i2c_mbindex)
 			INC		A
 			LD		(_i2c_mbindex),A	; _mbindex++
-
-test:
-i2c_case_mr_ar_ack: ; 40h
-			;receive single byte
-			; Just send a NACK, to see how this fails
-			;LD		A, (_i2c_slarw)		; load slave address and r/w bit
-			;OUT0	(I2C_DR), A		; store to I2C Data Register
-			;LD		A, I2C_CTL_IEN | I2C_CTL_ENAB
-			;OUT0	(I2C_CTL),A		; set to Control register
-			
+			; intentionally falling through to next case
+i2c_case_mr_ar_ack: ; 40h		
 			LD		A, (_i2c_mbindex)	; master buffer index
 			LD		L,A
 			LD		A, (_i2c_mbufferlength)
 			CP		L
-			JR		Z, i2c_replywithoutack
-			LD		A, I2C_CTL_IEN | I2C_CTL_ENAB | I2C_CTL_AAK
+			JR		Z, $F
+			LD		A, I2C_CTL_IEN | I2C_CTL_ENAB | I2C_CTL_AAK	; reply with ACK
 			OUT0	(I2C_CTL),A		; set to Control register
-			JP		i2c_end
-
-i2c_replywithoutack:
-			LD		A, I2C_CTL_IEN | I2C_CTL_ENAB
+			RET
+$$:			LD		A, I2C_CTL_IEN | I2C_CTL_ENAB				; reply without ACK
 			OUT0	(I2C_CTL),A		; set to Control register
-			JP		i2c_end
+			RET
 						
 i2c_case_master_start:
 i2c_case_master_repstart:
@@ -216,7 +189,7 @@ i2c_case_master_repstart:
 			OUT0	(I2C_DR), A		; store to I2C Data Register
 			LD		A, I2C_CTL_IEN | I2C_CTL_ENAB | I2C_CTL_AAK
 			OUT0	(I2C_CTL),A		; set to Control register
-			JP		i2c_end
+			RET
 
 i2c_case_aw_acked:
 i2c_case_db_acked:
@@ -230,26 +203,23 @@ i2c_case_db_acked:
 			LD		HL, _i2c_mbuffer
 			LD		A, (_i2c_mbindex)
 			LD		B,A ; loop counter
-$$:
-			XOR		A,A
+$$:			XOR		A,A
 			OR		B
 			JR		Z, $F
 			INC		HL
 			DEC		B
 			JP		$B
-$$:	
-			; Load indexed byte from buffer
+$$:			; Load indexed byte from buffer
 			LD		A, (HL)
 
 			OUT0	(I2C_DR), A		; store to I2C Data Register
 			LD		A, (_i2c_mbindex)
 			INC		A
 			LD		(_i2c_mbindex),A	; _mbindex++
-			
-			
+				
 			LD		A, I2C_CTL_IEN | I2C_CTL_ENAB | I2C_CTL_AAK
 			OUT0	(I2C_CTL),A		; set to Control register
-			JP		i2c_end
+			RET
 
 i2c_case_aw_nacked:
 			LD		A, RET_SLA_NACK
@@ -276,7 +246,7 @@ i2c_case_buserror:
 			LD		HL, _i2c_state
 			LD		A, I2C_READY	; READY state
 			LD		(HL),A
-			JP		i2c_end
+			RET
 
 i2c_checkstop:
 			LD		A,(_i2c_sendstop)
@@ -288,17 +258,14 @@ i2c_checkstop:
 			LD		HL, _i2c_state
 			LD		A, I2C_READY	; READY state
 			LD		(HL),A
-			JP		i2c_end
+			RET
 			
 i2c_sendstop:
 			; send stop
-			;LD		A, I2C_CTL_IEN | I2C_CTL_ENAB | I2C_CTL_STP
 			LD		A, I2C_CTL_ENAB | I2C_CTL_STP			
-			OUT0	(I2C_CTL),A		; set to Control register
-			
+			OUT0	(I2C_CTL),A		; set to Control register			
 			LD		L, 16			; rudimentary timeout, can't use timer2 during ISR
-$$:
-			DEC		L
+$$:			DEC		L
 			JR		Z, i2c_handletimeout	; timeout
 			IN0		A,(I2C_CTL)
 			AND		I2C_CTL_STP			; STP bit still in place?
@@ -307,7 +274,7 @@ $$:
 			LD		HL, _i2c_state
 			LD		A, I2C_READY	; READY state
 			LD		(HL),A
-			JP		i2c_end
+			RET
 
 i2c_handletimeout:
 			CALL	_i2c_init
@@ -320,23 +287,7 @@ i2c_releasebus:
 			LD		HL, _i2c_state
 			LD		A, I2C_READY	; READY state
 			LD		(HL),A
-			JP		i2c_end
-
-i2c_end:
-			; DEBUG
-			;LD		A,(_i2c_debugcnt)
-			;CP		30
-			;JR		NZ, $F
-			;LD		A, I2C_CTL_ENAB | I2C_CTL_STP			
-			;OUT0	(I2C_CTL),A		; set to Control register
-			
-$$:			
-			
-			POP		BC
-			POP		HL
-			POP		AF
-			EI
-			RETI.L
+			RET
 
 
 _i2c_init:

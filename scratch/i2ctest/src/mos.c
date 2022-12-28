@@ -533,11 +533,6 @@ int mos_cmdI2C_send(char * ptr) {
 	buffer[1] = 0xAA;
 	buffer[2] = 0x55;
 
-	// DEBUG
-	i2c_debugcnt = 0;
-	i2c_debugptr = i2c_debug;
-	for(b = 0; b < 255; b++) i2c_debug[b] = 0xFF;
-
 	b = 2;
 	address = 0x09;
 	/*
@@ -554,13 +549,6 @@ int mos_cmdI2C_send(char * ptr) {
 	if(b == 0) printf("Sent OK\r\n");
 	else printf("I2C error 0x%02x\r\n",i2c_error);
 	
-	printf("IRQ - SR\r\n");
-	for(b = 0; b < 30; b++)
-	{
-		if(i2c_debugcnt == b) break;
-		printf("%3d - %02x\r\n",b,i2c_debug[b]);
-	}
-
 	return 0;
 }
 
@@ -572,12 +560,7 @@ int mos_cmdI2C_receive(char * ptr) {
 	b = 2;
 	address = 0x09;
 	printf("Reading %d bytes from 0x%02x\r\n",b,address);
-	
-	// DEBUG
-	i2c_debugcnt = 0;
-	i2c_debugptr = i2c_debug;
-	for(b = 0; b < 255; b++) i2c_debug[b] = 0xFF;
-	
+		
 	/*
 	while(1)
 	{
@@ -588,13 +571,6 @@ int mos_cmdI2C_receive(char * ptr) {
 	b = I2C_read(address, buffer, 2);
 	if(b == 0) printf("Read OK - values 0x%02x, 0x%02x\r\n",buffer[0],buffer[1]);
 	else printf("I2C error 0x%02x\r\n",i2c_error);
-
-	printf("IRQ - SR\r\n");
-	for(b = 0; b < 30; b++)
-	{
-		if(i2c_debugcnt == b) break;
-		printf("%3d - %02x\r\n",b,i2c_debug[b]);
-	}
 	
 	return 0;
 }

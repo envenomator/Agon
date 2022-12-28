@@ -15,9 +15,6 @@ extern volatile char i2c_sendstop;
 extern volatile char i2c_inrepstart;
 extern volatile char i2c_mbuffer[];
 extern volatile char i2c_mbufferlength;
-extern volatile char i2c_debug[];
-extern volatile char *i2c_debugptr;
-extern volatile char i2c_debugcnt;
 
 extern void		i2c_handler(void);
 

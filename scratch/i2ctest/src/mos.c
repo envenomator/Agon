@@ -36,6 +36,7 @@
 #include "ff.h"
 #include "timer.h"
 #include "i2c.h"
+#include "1602.h"
 
 extern int exec16(UINT24 addr, char * params);	// In misc.asm
 extern int exec24(UINT24 addr, char * params);	// In misc.asm
@@ -64,6 +65,7 @@ static t_mosCommand mosCommands[] = {
 	{ "SET",	&mos_cmdSET },
 	{ "IR",	&mos_cmdI2C_receive },
 	{ "IW",	&mos_cmdI2C_send },
+	{ "LCD",	&mos_cmdLCD },
 	
 };
 
@@ -514,7 +516,7 @@ int mos_cmdMKDIR(char * ptr) {
 
 
 int mos_cmdI2C_send(char * ptr) {
-	char buffer[3];
+	unsigned char buffer[3];
 	int b;
 	UINT8 address;
 
@@ -594,6 +596,22 @@ int mos_cmdI2C_receive(char * ptr) {
 		printf("%3d - %02x\r\n",b,i2c_debug[b]);
 	}
 	
+	return 0;
+}
+
+int mos_cmdLCD(char * ptr) {
+
+	lcd1602Init(0x3F);
+	//lcd1602Clear();
+	lcd1602WriteString("Hello I2C Agon!");
+	lcd1602SetCursor(0,1);
+	lcd1602WriteString(":-)");
+	
+	//delayms(3000);
+	//lcd1602Clear();
+	//delayms(20);
+	//lcd1602SetCursor(0,0);
+	//lcd1602WriteString("That'll do     ");
 	return 0;
 }
 

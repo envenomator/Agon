@@ -51,7 +51,7 @@ extern void		i2c_handler(void);
 #define I2C_STX					0x08
 
 void init_I2C(void);
-UINT8 I2C_write(UINT8 address, const char *bytearray, UINT8 length);
+UINT8 I2C_write(UINT8 address, const unsigned char *bytearray, UINT8 length);
 UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length);
 
 #endif _I2C_H_

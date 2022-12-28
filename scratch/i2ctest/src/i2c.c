@@ -104,7 +104,7 @@ UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length)
 // using slave address
 //
 // returns 0 if OK, or specific error code
-UINT8 I2C_write(UINT8 address, const char *bytearray, UINT8 length) {
+UINT8 I2C_write(UINT8 address, const unsigned char *bytearray, UINT8 length) {
 	UINT8 n,sentbytes;
 	
 	// send maximum of 32 bytes in a single I2C transaction

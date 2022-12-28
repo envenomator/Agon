@@ -13,6 +13,7 @@
 #ifndef AGONTIMER_H
 #define AGONTIMER_H
 
+void delay100us(UINT16 n);
 void delayms(int ms);
 
 #endif AGONTIMER_H

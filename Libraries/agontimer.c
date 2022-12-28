@@ -13,6 +13,15 @@
 
 #define TMR0_COUNTER_1ms	(unsigned short)(((18432000 / 1000) * 1) / 16)
 
+void delay100us(UINT16 n)
+{
+	n = n * 28;
+	while(n)
+	{
+		n--;
+	}
+}
+
 void delayms(int ms)
 {
 	unsigned short rr;

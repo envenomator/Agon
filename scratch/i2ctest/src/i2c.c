@@ -3,14 +3,24 @@
 #include <defines.h>
 #include "timer.h"
 
-// Internal function
-void I2C_setfrequency(void)
+// Set I2C master clock frequency
+void I2C_setfrequency(UINT8 id)
 {
 	// Set I2C clock and sampling frequency
-	// N[2:0]==4 - 1.152Mhz sample rate - at least 1Mhz as indicated by the datasheet
-	// M[6:3]==1 - 57.6Khz	- would have been lovely to run faster, but with the system clock at 18,432Mhz, the next stop is 115Khz
-	//                        which is just out of spec for standard 100Khz I2C.
-	I2C_CCR = (0x01<<3) | 0x04;
+	switch(id)
+	{
+		case(I2C_SPEED_115200):
+			I2C_CCR = (0x01<<3) | 0x03;	// 115.2KHz fast-mode (400KHz max), sampling at 4.6MHz
+			break;
+		case(I2C_SPEED_230400):
+			I2C_CCR = (0x01<<3) | 0x02;	// 230.4KHz fast-mode (400KHz max), sampling at 2.3Mhz
+			break;
+		case(I2C_SPEED_57600):
+		default:
+			id = 0;
+			I2C_CCR = (0x01<<3) | 0x04;	// 57.6KHz default standard-mode (100KHz max), sampling at 1.15Mhz
+	}
+	i2c_frequencyset = id;
 }
 
 // Internal function
@@ -24,10 +34,10 @@ void I2C_handletimeout(void)
 // Initializes the I2C bus
 void init_I2C(void)
 {
-	CLK_PPD1 = CLK_PPD_I2C_OFF;		// Power Down I2C block before enabling it, avoid locking bug
-	I2C_CTL = I2C_CTL_ENAB;			// Enable I2C block, don't enable interrupts yet
-	I2C_setfrequency();
-	CLK_PPD1 = 0x0;					// Power up I2C block
+	CLK_PPD1 = CLK_PPD_I2C_OFF;			// Power Down I2C block before enabling it, avoid locking bug
+	I2C_CTL = I2C_CTL_ENAB;				// Enable I2C block, don't enable interrupts yet
+	I2C_setfrequency(i2c_frequencyset);	// Illegal values handled as default frequency
+	CLK_PPD1 = 0x0;						// Power up I2C block
 }
 
 // Read length bytes from the I2C bus
@@ -41,7 +51,9 @@ UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length)
 	
 	// receive maximum of 32 bytes in a single I2C transaction
 	if(length > I2C_MAX_BUFFERLENGTH) return 0;
-	
+
+	if(i2c_frequencyset == 0) I2C_setfrequency(I2C_SPEED_57600);
+
 	// wait for READY status
 	timer2 = 0;
 	while(i2c_state)
@@ -53,7 +65,6 @@ UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length)
 			return RET_ARB_LOST;
 		}
 	}
-	I2C_setfrequency();
 	
 	i2c_state = I2C_MRX;		// MRX mode
 	i2c_sendstop = 0x01;	// send stops
@@ -115,8 +126,8 @@ UINT8 I2C_write(UINT8 address, const unsigned char *bytearray, UINT8 length) {
 	for(n = 0; n < sentbytes; n++) i2c_mbuffer[n] = bytearray[n];
 	i2c_mbindex = 0;											// interrupt routine will start sending from this index
 	i2c_mbufferlength = sentbytes;
-	
-	I2C_setfrequency();
+
+	if(i2c_frequencyset == 0) I2C_setfrequency(I2C_SPEED_57600);
 
 	i2c_state = I2C_MTX;		// MTX - Master Transmit Mode
 	i2c_sendstop = 0x01;	// Send stop at end-of-transmission
@@ -137,7 +148,6 @@ UINT8 I2C_write(UINT8 address, const unsigned char *bytearray, UINT8 length) {
 			}
 		}
 		while(I2C_CTL & I2C_CTL_STA); // while start isn't finished
-		//delayms(1);
 		I2C_CTL = I2C_CTL_IEN | I2C_CTL_ENAB;
 	}
 	else

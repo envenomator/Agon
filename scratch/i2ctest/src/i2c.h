@@ -9,6 +9,7 @@ extern volatile	UINT24 timer2;
 extern volatile char i2c_slarw;
 extern volatile char i2c_error;
 extern volatile char i2c_state;
+extern volatile char i2c_frequencyset;
 extern volatile char i2c_sendstop;
 extern volatile char i2c_mbindex;
 extern volatile char i2c_sendstop;
@@ -39,6 +40,10 @@ extern void		i2c_handler(void);
 // I2C constants
 #define I2C_MAX_BUFFERLENGTH	32
 #define I2C_TIMEOUTMS			25
+#define I2C_SPEED_NOTSET		0x00
+#define I2C_SPEED_57600			0x01
+#define I2C_SPEED_115200		0x02
+#define I2C_SPEED_230400		0x03
 
 // I2C role state
 #define I2C_READY				0x00
@@ -48,6 +53,7 @@ extern void		i2c_handler(void);
 #define I2C_STX					0x08
 
 void init_I2C(void);
+void I2C_setfrequency(UINT8 id);
 UINT8 I2C_write(UINT8 address, const unsigned char *bytearray, UINT8 length);
 UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length);
 

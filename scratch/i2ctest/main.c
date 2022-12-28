@@ -84,7 +84,7 @@ int main(void) {
 	init_timer2(1);									// Initialise Timer 2 @ 1ms interval
 	init_spi();										// Initialise SPI comms for the SD card interface
 
-	init_I2C();
+	init_I2C();										// Default frequency will be 57.6Khz
 
 	init_UART0();									// Initialise UART0 for the ESP32 interface
 	open_UART0(&pUART);								// Open the UART 

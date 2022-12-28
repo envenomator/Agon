@@ -55,6 +55,7 @@ I2C_CTL_AAK				.equ	00000100b
 			
 			XDEF	_i2c_slarw
 			XDEF	_i2c_error
+			XDEF	_i2c_frequencyset
 			XDEF	_i2c_state
 			XDEF	_i2c_mbindex
 			XDEF	_i2c_sendstop
@@ -65,6 +66,7 @@ I2C_CTL_AAK				.equ	00000100b
 ; I2C protocol variables
 _i2c_slarw:			DS	1					; 7bit slave address + R/W bit
 _i2c_error:			DS	1					; Error report to caller application
+_i2c_frequencyset	DS	1					; set frequency. 0 == nothing set, other values according to i2c.h	
 _i2c_state:			DS	1					; I2C current state
 _i2c_mbindex:		DS	1					; master buffer index
 _i2c_mbufferlength:	DS	1					; master buffer length

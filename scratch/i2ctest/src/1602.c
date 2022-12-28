@@ -18,7 +18,7 @@ static void I2C_writeCommand(unsigned char ucCMD)
 {
 	unsigned char ucmd;
 
-	ucmd = (ucCMD & 0xf0) | iBackLight; // most significant nibble sent first
+	ucmd = (ucCMD & 0xf0); //| iBackLight; // most significant nibble sent first
 	I2C_write(address, &ucmd, 1);
 	delay100us(PULSE_PERIOD/PERIOD100US); // manually pulse the clock line
 	ucmd |= 4; // enable pulse

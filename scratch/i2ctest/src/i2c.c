@@ -7,10 +7,10 @@
 void I2C_setfrequency(void)
 {
 	// Set I2C clock and sampling frequency
-	// N[2:0]==4 - 1.152Mhz sample rate
-	I2C_CCR = 0x04;
-	// M[6:3]==1 - 115Khz
-	I2C_CCR |= (1<<3);
+	// N[2:0]==4 - 1.152Mhz sample rate - at least 1Mhz as indicated by the datasheet
+	// M[6:3]==1 - 57.6Khz	- would have been lovely to run faster, but with the system clock at 18,432Mhz, the next stop is 115Khz
+	//                        which is just out of spec for standard 100Khz I2C.
+	I2C_CCR = (0x01<<3) | 0x04;
 }
 
 // Internal function

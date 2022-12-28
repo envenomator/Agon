@@ -605,13 +605,14 @@ int mos_cmdLCD(char * ptr) {
 	//lcd1602Clear();
 	lcd1602WriteString("Hello I2C Agon!");
 	lcd1602SetCursor(0,1);
-	lcd1602WriteString(":-)");
-	
-	//delayms(3000);
+	lcd1602WriteString(":-)123456789012");
+	/*
+	delayms(1000);
 	//lcd1602Clear();
-	//delayms(20);
-	//lcd1602SetCursor(0,0);
-	//lcd1602WriteString("That'll do     ");
+	//delayms(50);
+	lcd1602SetCursor(0,0);
+	lcd1602WriteString("123456789012345");
+	*/
 	return 0;
 }
 

@@ -11,6 +11,7 @@ ptn_Child11=Document-10
 ptn_Child12=Document-11
 ptn_Child13=Document-12
 ptn_Child14=Document-13
+ptn_Child15=Document-14
 ptn_Child2=Document-1
 ptn_Child3=Document-2
 ptn_Child4=Document-3
@@ -85,6 +86,17 @@ DocumentString=IDE.Document
 IsActiveChildFrame=False
 IsFrameVisible=True
 WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPKBAAAAAAKBAAAAAAPHEAAAAACCBAAAAA
+
+[WorkState_v1_2.Frames.ChildFrames.Document-14]
+ptn_Child1=ViewFrame-0
+
+[WorkState_v1_2.Frames.ChildFrames.Document-14.ViewFrame-0]
+DocPathName=SRC_ST~1\vectors16.asm
+DocTemplateIndex=0
+DocumentString=IDE.Document
+IsActiveChildFrame=False
+IsFrameVisible=True
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPIGAAAAAAIGAAAAAAKBDAAAAACEBAAAAA
 
 [WorkState_v1_2.Frames.ChildFrames.Document-2]
 ptn_Child1=ViewFrame-0

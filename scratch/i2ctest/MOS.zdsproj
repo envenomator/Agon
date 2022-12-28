@@ -279,10 +279,18 @@
 
 <!-- watch information -->
 <watch-elements>
+<watch-element expression="text" />
 </watch-elements>
 
 <!-- breakpoint information -->
 <breakpoints>
+<breakpoint temporary="false" enabled="false" >
+<line-number>63</line-number>
+<pathname>C:\source\Agon\scratch\i2ctest\src\1602.c</pathname>
+<address>43652</address>
+<command></command>
+<preserve-type>0</preserve-type>
+</breakpoint>
 </breakpoints>
 
 </project>

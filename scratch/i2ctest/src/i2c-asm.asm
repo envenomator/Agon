@@ -94,20 +94,20 @@ _i2c_handler:
 			
 			IN0		A, (I2C_SR)		; input I2C status register - switch case to this value
 
-			PUSH	AF
+			;PUSH	AF
 			; DEBUG
-			LD		HL, (_i2c_debugptr)
-			LD		(HL),A
-			LD		BC,HL
-			INC		BC
-			LD		HL, _i2c_debugptr
-			LD		(HL),BC
+			;LD		HL, (_i2c_debugptr)
+			;LD		(HL),A
+			;LD		BC,HL
+			;INC		BC
+			;LD		HL, _i2c_debugptr
+			;LD		(HL),BC
 			
-			LD		A, (_i2c_debugcnt)
-			INC		A
-			LD		(_i2c_debugcnt),A
+			;LD		A, (_i2c_debugcnt)
+			;INC		A
+			;LD		(_i2c_debugcnt),A
 			
-			POP		AF
+			;POP		AF
 
 			; Generic
 			CP		I2C_BUSERROR
@@ -324,11 +324,11 @@ i2c_releasebus:
 
 i2c_end:
 			; DEBUG
-			LD		A,(_i2c_debugcnt)
-			CP		30
-			JR		NZ, $F
-			LD		A, I2C_CTL_ENAB | I2C_CTL_STP			
-			OUT0	(I2C_CTL),A		; set to Control register
+			;LD		A,(_i2c_debugcnt)
+			;CP		30
+			;JR		NZ, $F
+			;LD		A, I2C_CTL_ENAB | I2C_CTL_STP			
+			;OUT0	(I2C_CTL),A		; set to Control register
 			
 $$:			
 			

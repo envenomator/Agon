@@ -12,6 +12,8 @@ ptn_Child12=Document-11
 ptn_Child13=Document-12
 ptn_Child14=Document-13
 ptn_Child15=Document-14
+ptn_Child16=Document-15
+ptn_Child17=Document-16
 ptn_Child2=Document-1
 ptn_Child3=Document-2
 ptn_Child4=Document-3
@@ -97,6 +99,28 @@ DocumentString=IDE.Document
 IsActiveChildFrame=True
 IsFrameVisible=True
 WindowPlacement=MCAAAAAACAAAAAAADAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPAAAAAAAAAAAAAAAAJODAAAAABLAAAAAA
+
+[WorkState_v1_2.Frames.ChildFrames.Document-15]
+ptn_Child1=ViewFrame-0
+
+[WorkState_v1_2.Frames.ChildFrames.Document-15.ViewFrame-0]
+DocPathName=SRC_ST~1\cstartup.asm
+DocTemplateIndex=0
+DocumentString=IDE.Document
+IsActiveChildFrame=False
+IsFrameVisible=True
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPAAAAAAAAAAAAAAAALGEAAAAACOAAAAAA
+
+[WorkState_v1_2.Frames.ChildFrames.Document-16]
+ptn_Child1=ViewFrame-0
+
+[WorkState_v1_2.Frames.ChildFrames.Document-16.ViewFrame-0]
+DocPathName=SRC_ST~1\init_params_f92.asm
+DocTemplateIndex=0
+DocumentString=IDE.Document
+IsActiveChildFrame=False
+IsFrameVisible=True
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPKBAAAAAAKBAAAAAAFIEAAAAAMPAAAAAA
 
 [WorkState_v1_2.Frames.ChildFrames.Document-2]
 ptn_Child1=ViewFrame-0

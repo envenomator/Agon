@@ -150,10 +150,9 @@ $$:			XOR		A,A
 			JP		$B
 $$:			IN0		A,(I2C_DR)			; load byte from I2C Data Register
 			LD		(HL),A				; store in buffer at calculated index
-			LD		A, (_i2c_mbindex)
-			INC		A
-			LD		(_i2c_mbindex),A	; _mbindex++
-
+			LD		HL, _i2c_mbindex
+			INC		(HL)				; _i2c_mbindex++
+			
 			JP		i2c_sendstop
 			
 i2c_case_mr_dbr_ack: ; 50h
@@ -169,9 +168,8 @@ $$:			XOR		A,A
 			JP		$B
 $$:			IN0		A,(I2C_DR)			; load byte from I2C Data Register
 			LD		(HL),A				; store in buffer at calculated index
-			LD		A, (_i2c_mbindex)
-			INC		A
-			LD		(_i2c_mbindex),A	; _mbindex++
+			LD		HL, _i2c_mbindex
+			INC		(HL)				; _i2c_mbindex++
 			; intentionally falling through to next case
 i2c_case_mr_ar_ack: ; 40h		
 			LD		A, (_i2c_mbindex)	; master buffer index
@@ -216,10 +214,8 @@ $$:			; Load indexed byte from buffer
 			LD		A, (HL)
 
 			OUT0	(I2C_DR), A		; store to I2C Data Register
-			LD		A, (_i2c_mbindex)
-			INC		A
-			LD		(_i2c_mbindex),A	; _mbindex++
-				
+			LD		HL, _i2c_mbindex
+			INC		(HL)				; _i2c_mbindex++
 			LD		A, I2C_CTL_IEN | I2C_CTL_ENAB | I2C_CTL_AAK
 			OUT0	(I2C_CTL),A		; set to Control register
 			RET

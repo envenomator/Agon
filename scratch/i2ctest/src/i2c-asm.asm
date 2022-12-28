@@ -227,17 +227,17 @@ i2c_case_aw_nacked:
 			
 i2c_case_db_nacked:
 			LD		A, RET_DATA_NACK
-			LD		(_i2c_state),A
+			LD		(_i2c_error),A
 			JP 		i2c_sendstop
 
 i2c_case_arblost:
 			LD		A, RET_ARB_LOST
-			LD		(_i2c_state),A
+			LD		(_i2c_error),A
 			JP 		i2c_releasebus
 
 i2c_case_buserror:
 			LD		A, RET_BUS_ERROR
-			LD		(_i2c_state),A
+			LD		(_i2c_error),A
 			
 			; perform software reset of the bus
 			XOR		A

@@ -583,9 +583,9 @@ int mos_cmdLCD(char * ptr) {
 	lcd1602SetCursor(0,1);
 	lcd1602WriteString(":-)123456789012");
 	
-	delayms(1000);
-	//lcd1602Clear();
-	//delayms(50);
+	delayms(2000);
+	lcd1602Clear();
+	delayms(50);
 	lcd1602SetCursor(0,0);
 	lcd1602WriteString("That'll do     ");
 	

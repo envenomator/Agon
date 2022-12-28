@@ -90,7 +90,7 @@ int i = 0;
 
 UINT8 lcd1602Clear(void)
 {
-	I2C_writeCommand(0x0E); // clear the screen
+	I2C_writeCommand(0x01); // clear the screen
 	return 0;
 
 } 

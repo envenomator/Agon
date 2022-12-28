@@ -11,7 +11,8 @@
 			INCLUDE "ez80f92.inc"
 
 ;* I2C Buffer
-I2C_BUFFERLENGTH	.equ	32
+I2C_BUFFERLENGTH		.equ	32
+
 ;* I2C status codes from I2C_SR
 I2C_BUSERROR			.equ 	00h
 I2C_START				.equ	08h
@@ -30,13 +31,13 @@ I2C_ARBLOST_GCAR_ACK	.equ	78h ; slave code - not checked currently
 I2C_ARBLOST_SLAR_ACK	.equ	b0h ; slave code - not checked currently
 
 ;* Return status codes to read/write caller
-RET_OK					.equ	00h	; ok
+RET_OK					.equ	00h	; ok - caller sets this at entry
 RET_SLA_NACK			.equ	01h	; address sent, nack received
 RET_DATA_NACK			.equ	02h ; data sent, nack received
 RET_ARB_LOST			.equ	04h ; arbitration lost
 RET_BUS_ERROR			.equ	08h ; Bus error
 
-;* I2C STATES
+;* I2C ROLE
 I2C_READY				.equ	00h
 I2C_MTX					.equ	01h
 I2C_MRX					.equ	02h
@@ -101,33 +102,33 @@ _i2c_handler:
 i2c_handle_sr:
 			; Generic
 			CP		I2C_BUSERROR
-			JP		Z, i2c_case_buserror
+			JR		Z, i2c_case_buserror
 			; All master
 			CP		I2C_START
-			JP		Z, i2c_case_master_start
+			JR		Z, i2c_case_master_start
 			CP		I2C_REPEATED_START
-			JP		Z, i2c_case_master_repstart
+			JR		Z, i2c_case_master_repstart
 			; Master transmitter
 			CP		I2C_AW_ACKED
-			JP		Z, i2c_case_aw_acked
+			JR		Z, i2c_case_aw_acked
 			CP		I2C_DB_M_ACKED
-			JP		Z, i2c_case_db_acked
+			JR		Z, i2c_case_db_acked
 			CP		I2C_AW_NACKED
-			JP		Z, i2c_case_aw_nacked
+			JR		Z, i2c_case_aw_nacked
 			CP		I2C_DB_M_NACKED
-			JP		Z, i2c_case_db_nacked
+			JR		Z, i2c_case_db_nacked
 			; Master receiver
 			CP		I2C_MR_DBR_ACK
-			JP		Z, i2c_case_mr_dbr_ack
+			JR		Z, i2c_case_mr_dbr_ack
 			CP		I2C_MR_AR_ACK
-			JP		Z, i2c_case_mr_ar_ack
+			JR		Z, i2c_case_mr_ar_ack
 			CP		I2C_MR_DBR_NACK
-			JP		Z, i2c_case_mr_dbr_nack
+			JR		Z, i2c_case_mr_dbr_nack
 			CP		I2C_MR_AR_NACK
-			JP		Z, i2c_case_mr_ar_nack
+			JR		Z, i2c_case_mr_ar_nack
 			; Arbitration lost
 			CP		I2C_ARBLOST
-			JP		Z, i2c_case_arblost
+			JR		Z, i2c_case_arblost
 			; case default - do nothing
 			RET
 
@@ -146,7 +147,7 @@ $$:			XOR		A,A
 			JR		Z, $F
 			INC		HL
 			DEC		B
-			JR		$B
+			JP		$B
 $$:			IN0		A,(I2C_DR)			; load byte from I2C Data Register
 			LD		(HL),A				; store in buffer at calculated index
 			LD		A, (_i2c_mbindex)
@@ -165,7 +166,7 @@ $$:			XOR		A,A
 			JR		Z, $F
 			INC		HL
 			DEC		B
-			JR		$B
+			JP		$B
 $$:			IN0		A,(I2C_DR)			; load byte from I2C Data Register
 			LD		(HL),A				; store in buffer at calculated index
 			LD		A, (_i2c_mbindex)
@@ -199,7 +200,7 @@ i2c_case_db_acked:
 			LD		L,A
 			LD		A, (_i2c_mbufferlength)
 			CP		L
-			JP		Z, i2c_checkstop
+			JR		Z, i2c_checkstop
 
 			; calculate offset address into i2c_mbuffer
 			LD		HL, _i2c_mbuffer
@@ -253,7 +254,7 @@ i2c_case_buserror:
 i2c_checkstop:
 			LD		A,(_i2c_sendstop)
 			CP		01h
-			JP		Z, i2c_sendstop
+			JR		Z, i2c_sendstop
 			; we are going to send start
 			LD		A, 1
 			LD		(_i2c_inrepstart), A

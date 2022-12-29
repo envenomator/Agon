@@ -30,8 +30,8 @@
 <file filter-key="">src\i2c-asm.asm</file>
 <file filter-key="">src\1602.c</file>
 <file filter-key="">src\agontimer.c</file>
-<file filter-key="flash">..\BBC Basic\Debug\BBC Basic.hex</file>
 <file filter-key="">src\dht20.c</file>
+<file filter-key="flash">..\BBC Basic\Debug\BBC Basic.hex</file>
 </files>
 
 <!-- configuration information -->

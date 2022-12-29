@@ -1,6 +1,16 @@
 #include "dht20.h"
 #include "timer.h"
 
+float    _humidity;
+float    _temperature;
+float    _humOffset;
+float    _tempOffset;
+
+UINT8  _status;
+UINT32 _lastRequest;
+UINT32 _lastRead;
+UINT8  _bits[7];
+
 //  set DHT20_WIRE_TIME_OUT to 0 to disable.
 //  note this timeout is commented in code below.
 #define DHT20_WIRE_TIME_OUT         250000    //  microseconds

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef DHT20_H
+#define DHT20_H
+
 #include <ez80.h>
 #include <defines.h>
 #include "i2c.h"
@@ -12,16 +14,6 @@
 #define DHT20_ERROR_BYTES_ALL_ZERO          -13
 #define DHT20_ERROR_READ_TIMEOUT            -14
 #define DHT20_ERROR_LASTREAD                -15
-
-float    _humidity;
-float    _temperature;
-float    _humOffset;
-float    _tempOffset;
-
-UINT8  _status;
-UINT32 _lastRequest;
-UINT32 _lastRead;
-UINT8  _bits[7];
 
 int DHT20_requestData();
 int DHT20_readData();
@@ -75,3 +67,5 @@ UINT8  _crc8(UINT8 *ptr, UINT8 len);
 
 //  use with care
 BOOL     DHT20_resetRegister(UINT8 reg);
+
+#endif DHT20_H

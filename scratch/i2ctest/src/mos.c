@@ -37,6 +37,7 @@
 #include "timer.h"
 #include "i2c.h"
 #include "1602.h"
+#include "dht20.h"
 
 extern int exec16(UINT24 addr, char * params);	// In misc.asm
 extern int exec24(UINT24 addr, char * params);	// In misc.asm
@@ -66,6 +67,7 @@ static t_mosCommand mosCommands[] = {
 	{ "IR",	&mos_cmdI2C_receive },
 	{ "IW",	&mos_cmdI2C_send },
 	{ "LCD",	&mos_cmdLCD },
+	{ "DHT",	&mos_cmdDHT },	
 	
 };
 
@@ -589,6 +591,51 @@ int mos_cmdLCD(char * ptr) {
 	lcd1602SetCursor(0,0);
 	lcd1602WriteString("That'll do     ");
 	
+	return 0;
+}
+
+int mos_cmdDHT(char * ptr) {
+
+	int status;
+	
+	printf("Type  Humidity Temp Status");
+	while(1)
+	{
+		status = DHT20_read();
+		printf("DHT20 ");
+		// DISPLAY DATA, sensor has only one decimal.
+		printf("%f ", DHT20_getHumidity());
+		printf("%f ", DHT20_getTemperature());
+		switch (status)
+		{
+		  case DHT20_OK:
+			printf("OK");
+			break;
+		  case DHT20_ERROR_CHECKSUM:
+			printf("Checksum error");
+			break;
+		  case DHT20_ERROR_CONNECT:
+			printf("Connect error");
+			break;
+		  case DHT20_MISSING_BYTES:
+			printf("Missing bytes");
+			break;
+		  case DHT20_ERROR_BYTES_ALL_ZERO:
+			printf("All bytes read zero");
+			break;
+		  case DHT20_ERROR_READ_TIMEOUT:
+			printf("Read time out");
+			break;
+		  case DHT20_ERROR_LASTREAD:
+			printf("Error read too fast");
+			break;
+		  default:
+			printf("Unknown error");
+			break;
+		}
+		printf("\r\n");
+		delayms(5000);
+	}
 	return 0;
 }
 

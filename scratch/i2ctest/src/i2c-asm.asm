@@ -13,23 +13,6 @@
 ;* I2C Buffer
 I2C_BUFFERLENGTH		.equ	32
 
-;* I2C status codes from I2C_SR
-I2C_BUSERROR			.equ 	00h
-I2C_START				.equ	08h
-I2C_REPEATED_START		.equ	10h
-I2C_AW_ACKED			.equ	18h
-I2C_AW_NACKED			.equ	20h
-I2C_DB_M_ACKED			.equ	28h
-I2C_DB_M_NACKED			.equ	30h
-I2C_MR_AR_ACK			.equ	40h
-I2C_MR_AR_NACK			.equ	48h
-I2C_MR_DBR_ACK			.equ	50h
-I2C_MR_DBR_NACK			.equ	58h
-I2C_ARBLOST				.equ	38h
-I2C_ARBLOST_SLAW_ACK	.equ	68h	; slave code - not checked currently
-I2C_ARBLOST_GCAR_ACK	.equ	78h ; slave code - not checked currently
-I2C_ARBLOST_SLAR_ACK	.equ	b0h ; slave code - not checked currently
-
 ;* Return status codes to read/write caller
 RET_OK					.equ	00h	; ok - caller sets this at entry
 RET_SLA_NACK			.equ	01h	; address sent, nack received
@@ -90,52 +73,70 @@ _i2c_handler:
 			PUSH	HL
 			PUSH	BC
 			
-			IN0		A, (I2C_SR)		; input I2C status register - switch case to this status value
-			CALL	i2c_handle_sr
+			IN0		A, (I2C_SR)				; input I2C status register - switch case to this status value
+			AND		11111000b				; cancel lower 3 bits, so we can use RRA. This will save 1 T-state
+			RRA
+			RRA
+			RRA								; bits [7:3] contain the jumpvector
+			CALL	i2c_handle_sr_vector
+			; and switch on the vectors in this table
+			DW		i2c_case_buserror		; 00h
+			DW		i2c_case_master_start	; 08h
+			DW		i2c_case_invalid		; 10h
+			DW		i2c_case_aw_acked		; 18h
+			DW		i2c_case_aw_nacked		; 20h
+			DW		i2c_case_db_acked		; 28h
+			DW		i2c_case_db_nacked		; 30h
+			DW		i2c_case_arblost		; 38h
+			DW		i2c_case_mr_ar_ack		; 40h
+			DW		i2c_case_mr_ar_nack		; 48h
+			DW		i2c_case_mr_dbr_ack		; 50h
+			DW		i2c_case_mr_dbr_nack	; 58h
+			DW		i2c_case_toimplement	; 60h
+			DW		i2c_case_toimplement	; 68h
+			DW		i2c_case_toimplement	; 70h
+			DW		i2c_case_toimplement	; 78h
+			DW		i2c_case_toimplement	; 80h
+			DW		i2c_case_toimplement	; 88h
+			DW		i2c_case_toimplement	; 90h
+			DW		i2c_case_toimplement	; 98h
+			DW		i2c_case_toimplement	; A0h
+			DW		i2c_case_toimplement	; A8h
+			DW		i2c_case_toimplement	; B0h
+			DW		i2c_case_toimplement	; B8h
+			DW		i2c_case_toimplement	; C0h
+			DW		i2c_case_toimplement	; C8h
+			DW		i2c_case_toimplement	; D0h
+			DW		i2c_case_toimplement	; D8h
+			DW		i2c_case_invalid		; E0h
+			DW		i2c_case_invalid		; E8h
+			DW		i2c_case_invalid		; F0h
+			DW		i2c_case_toimplement	; F8h
+
+i2c_handle_sr_vector:
+			EX		(SP), HL	; Swap HL with the contents of the top of the stack
+			ADD		A, A		; Multiply A by two
+			ADD		A, L 
+			LD		L, A 
+			ADC		A, H
+			SUB		L
+			LD		H, A		; Add 8bit A to HL 
+			LD		A, (HL)		; Fetch vector adress from the table
+			INC		HL
+			LD		H, (HL)
+			LD		L, A
+			EX		(SP), HL	; Swap this new address back, restores HL
+			RET					; Return program control to this new address		
+
+i2c_case_mr_ar_nack: ; 48h
+			LD		A, I2C_CTL_IEN | I2C_CTL_ENAB | I2C_CTL_STA
+			OUT0	(I2C_CTL),A		; set to Control register
 
 			POP		BC
 			POP		HL
 			POP		AF
 			EI
 			RETI.L
-
-i2c_handle_sr:
-			; Generic
-			CP		I2C_BUSERROR
-			JR		Z, i2c_case_buserror
-			; All master
-			CP		I2C_START
-			JR		Z, i2c_case_master_start
-			CP		I2C_REPEATED_START
-			JR		Z, i2c_case_master_repstart
-			; Master transmitter
-			CP		I2C_AW_ACKED
-			JR		Z, i2c_case_aw_acked
-			CP		I2C_DB_M_ACKED
-			JR		Z, i2c_case_db_acked
-			CP		I2C_AW_NACKED
-			JR		Z, i2c_case_aw_nacked
-			CP		I2C_DB_M_NACKED
-			JR		Z, i2c_case_db_nacked
-			; Master receiver
-			CP		I2C_MR_DBR_ACK
-			JR		Z, i2c_case_mr_dbr_ack
-			CP		I2C_MR_AR_ACK
-			JR		Z, i2c_case_mr_ar_ack
-			CP		I2C_MR_DBR_NACK
-			JR		Z, i2c_case_mr_dbr_nack
-			CP		I2C_MR_AR_NACK
-			JR		Z, i2c_case_mr_ar_nack
-			; Arbitration lost
-			CP		I2C_ARBLOST
-			JR		Z, i2c_case_arblost
-			; case default - do nothing
-			RET
-
-i2c_case_mr_ar_nack: ; 48h
-			LD		A, I2C_CTL_IEN | I2C_CTL_ENAB | I2C_CTL_STA
-			OUT0	(I2C_CTL),A		; set to Control register
-			RET
 			
 i2c_case_mr_dbr_nack: ; 58h
 			; calculate offset address into i2c_mbuffer
@@ -179,10 +180,21 @@ i2c_case_mr_ar_ack: ; 40h
 			JR		Z, $F
 			LD		A, I2C_CTL_IEN | I2C_CTL_ENAB | I2C_CTL_AAK	; reply with ACK
 			OUT0	(I2C_CTL),A		; set to Control register
-			RET
+
+			POP		BC
+			POP		HL
+			POP		AF
+			EI
+			RETI.L
+
 $$:			LD		A, I2C_CTL_IEN | I2C_CTL_ENAB				; reply without ACK
 			OUT0	(I2C_CTL),A		; set to Control register
-			RET
+
+			POP		BC
+			POP		HL
+			POP		AF
+			EI
+			RETI.L
 						
 i2c_case_master_start:
 i2c_case_master_repstart:
@@ -190,7 +202,12 @@ i2c_case_master_repstart:
 			OUT0	(I2C_DR), A		; store to I2C Data Register
 			LD		A, I2C_CTL_IEN | I2C_CTL_ENAB | I2C_CTL_AAK
 			OUT0	(I2C_CTL),A		; set to Control register
-			RET
+
+			POP		BC
+			POP		HL
+			POP		AF
+			EI
+			RETI.L
 
 i2c_case_aw_acked:
 i2c_case_db_acked:
@@ -218,7 +235,12 @@ $$:			; Load indexed byte from buffer
 			INC		(HL)				; _i2c_mbindex++
 			LD		A, I2C_CTL_IEN | I2C_CTL_ENAB | I2C_CTL_AAK
 			OUT0	(I2C_CTL),A		; set to Control register
-			RET
+
+			POP		BC
+			POP		HL
+			POP		AF
+			EI
+			RETI.L
 
 i2c_case_aw_nacked:
 			LD		A, RET_SLA_NACK
@@ -245,7 +267,12 @@ i2c_case_buserror:
 			LD		HL, _i2c_state
 			LD		A, I2C_READY	; READY state
 			LD		(HL),A
-			RET
+
+			POP		BC
+			POP		HL
+			POP		AF
+			EI
+			RETI.L
 
 i2c_checkstop:
 			LD		A,(_i2c_sendstop)
@@ -257,8 +284,13 @@ i2c_checkstop:
 			LD		HL, _i2c_state
 			LD		A, I2C_READY	; READY state
 			LD		(HL),A
-			RET
-			
+
+			POP		BC
+			POP		HL
+			POP		AF
+			EI
+			RETI.L
+
 i2c_sendstop:
 			; send stop
 			LD		A, I2C_CTL_ENAB | I2C_CTL_STP			
@@ -273,7 +305,12 @@ $$:			DEC		L
 			LD		HL, _i2c_state
 			LD		A, I2C_READY	; READY state
 			LD		(HL),A
-			RET
+
+			POP		BC
+			POP		HL
+			POP		AF
+			EI
+			RETI.L
 
 i2c_handletimeout:
 			CALL	_i2c_init
@@ -286,9 +323,20 @@ i2c_releasebus:
 			LD		HL, _i2c_state
 			LD		A, I2C_READY	; READY state
 			LD		(HL),A
-			RET
 
+			POP		BC
+			POP		HL
+			POP		AF
+			EI
+			RETI.L
 
+i2c_case_invalid:
+			JP		i2c_releasebus
+
+i2c_case_toimplement:
+			JP		i2c_releasebus
+			
+; User callable function, also used during interrupt
 _i2c_init:
 			XOR		A,A
 			OUT0	(I2C_CTL),A		; reset

@@ -52,7 +52,7 @@ UINT8 I2C_read(UINT8 address, UINT8* data, UINT8 length)
 	// receive maximum of 32 bytes in a single I2C transaction
 	if(length > I2C_MAX_BUFFERLENGTH) return 0;
 
-	if(i2c_frequencyset == 0) I2C_setfrequency(I2C_SPEED_57600);
+	if(i2c_frequencyset == 0) I2C_setfrequency(I2C_SPEED_230400);
 
 	// wait for READY status
 	timer2 = 0;
@@ -127,7 +127,7 @@ UINT8 I2C_write(UINT8 address, const unsigned char *bytearray, UINT8 length) {
 	i2c_mbindex = 0;											// interrupt routine will start sending from this index
 	i2c_mbufferlength = sentbytes;
 
-	if(i2c_frequencyset == 0) I2C_setfrequency(I2C_SPEED_57600);
+	if(i2c_frequencyset == 0) I2C_setfrequency(I2C_SPEED_230400);
 
 	i2c_state = I2C_MTX;		// MTX - Master Transmit Mode
 	i2c_sendstop = 0x01;	// Send stop at end-of-transmission

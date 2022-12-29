@@ -50,6 +50,7 @@ int DHT20_read()
   status = DHT20_requestData();
   if (status < 0) return status;
   //  wait for measurement ready
+  delayms(250);
   while (DHT20_isMeasuring());
   //  read the measurement
   status = DHT20_readData();
@@ -63,7 +64,7 @@ int DHT20_requestData()
 {
   UINT8 data[] = {0xAC,0x33,0x00};
   //  reset sensor if needed.
-  DHT20_resetSensor();
+  //DHT20_resetSensor();
   
   //  GET CONNECTION
   I2C_write(DHT20_ADDRESS, &data[0],1);

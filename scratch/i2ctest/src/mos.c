@@ -598,14 +598,13 @@ int mos_cmdDHT(char * ptr) {
 
 	int status;
 	
-	printf("Type  Humidity Temp Status");
+	printf("Humidity Temp Status\r\n");
 	while(1)
 	{
 		status = DHT20_read();
-		printf("DHT20 ");
 		// DISPLAY DATA, sensor has only one decimal.
-		printf("%f ", DHT20_getHumidity());
-		printf("%f ", DHT20_getTemperature());
+		printf("%8.1f ", DHT20_getHumidity());
+		printf("%4.1f ", DHT20_getTemperature());
 		switch (status)
 		{
 		  case DHT20_OK:

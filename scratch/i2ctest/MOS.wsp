@@ -120,9 +120,9 @@ ptn_Child1=ViewFrame-0
 DocPathName=src\mos.c
 DocTemplateIndex=0
 DocumentString=IDE.Document
-IsActiveChildFrame=True
+IsActiveChildFrame=False
 IsFrameVisible=True
-WindowPlacement=MCAAAAAACAAAAAAADAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPCIAAAAAACIAAAAAANMEAAAAAKLBAAAAA
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPCIAAAAAACIAAAAAANMEAAAAAKLBAAAAA
 
 [WorkState_v1_2.Frames.ChildFrames.Document-17]
 ptn_Child1=ViewFrame-0
@@ -197,9 +197,9 @@ ptn_Child1=ViewFrame-0
 DocPathName=src\i2c.c
 DocTemplateIndex=0
 DocumentString=IDE.Document
-IsActiveChildFrame=False
+IsActiveChildFrame=True
 IsFrameVisible=True
-WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPAAAAAAAAAAAAAAAAFGEAAAAAIABAAAAA
+WindowPlacement=MCAAAAAACAAAAAAADAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPAAAAAAAAAAAAAAAAFGEAAAAAIABAAAAA
 
 [WorkState_v1_2.Frames.ChildFrames.Document-7]
 ptn_Child1=ViewFrame-0

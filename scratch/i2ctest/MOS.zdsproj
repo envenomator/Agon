@@ -31,6 +31,7 @@
 <file filter-key="">src\1602.c</file>
 <file filter-key="">src\agontimer.c</file>
 <file filter-key="flash">..\BBC Basic\Debug\BBC Basic.hex</file>
+<file filter-key="">src\dht20.c</file>
 </files>
 
 <!-- configuration information -->
@@ -132,7 +133,7 @@
 <option name="warnisfatal" type="boolean" change-action="none">false</option>
 <option name="sort" type="string" change-action="none">NAME</option>
 <option name="padhex" type="boolean" change-action="build">false</option>
-<option name="fplib" type="string" change-action="build">None</option>
+<option name="fplib" type="string" change-action="build">Real</option>
 <option name="useadddirectives" type="boolean" change-action="build">false</option>
 <option name="linkconfig" type="string" change-action="build">Standard</option>
 <option name="flashinfo" type="string" change-action="build">000000-0000FF</option>

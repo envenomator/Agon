@@ -391,7 +391,8 @@ UINT8 vdp_cursorGetXpos(void)
 	
 	delay = 255;
 	while(delay--);
-	return(getsysvar8bit(sysvar_cursorX));
+	return(getsysvar_cursorX());
+
 }
 
 UINT8 vdp_cursorGetYpos(void)
@@ -404,7 +405,7 @@ UINT8 vdp_cursorGetYpos(void)
 	
 	delay = 255;
 	while(delay--);
-	return(getsysvar8bit(sysvar_cursorY));
+	return(getsysvar_cursorY());
 }
 
 char vdp_asciiCodeAt(unsigned char x, unsigned char y)
@@ -421,7 +422,7 @@ char vdp_asciiCodeAt(unsigned char x, unsigned char y)
 	
 	delay = 64000;
 	while(delay--);
-	return(getsysvar8bit(sysvar_scrchar));
+	return(getsysvar_scrchar());
 }
 
 void vdp_cursorDisable(void)

@@ -1,11 +1,6 @@
 # Agon
-## Proposed ESP32 Video changes
-In anticipation to Dean Belfeld's Quark GA version, I added a few routines to handle sprite VDU commands.
-It looks like sprite VDU have always been platform dependent, so it wouldn't hurt compatiblity to add specific sprite commands to Agon.
-My proposal is to add an additional command structure to existing VDU 23/0x17, where most SYS commands live. Extension 27/0x1B has been used by the Acorn BBC Basic, so this seems like a natural fit.
-
-I have defined 15 8bit commands to VDU 23, extension 27. BBC Basic has no way to capture return values from a VDU command.
-The following commands are structured in such a way to reflect this, and build up a bitmap/sprite in a series of commands in sequence.
+## ESP32 sprite commands
+Currently there are 16 8bit commands to VDU 23, extension 27. These commands are structured in a way to not require any return values from the VDU.
 
 ### Command structure
 | **    Command (8bit)   ** |          **    Description   **         |                    **    Parameters   **                    | **    Remarks   **                                                                                                    |

@@ -2,11 +2,11 @@
  * Title:			AGON timer interface
  * Author:			Jeroen Venema
  * Created:			06/11/2022
- * Last Updated:	22/01/2023
+ * Last Updated:	06/11/2022
  * 
  * Modinfo:
  * 06/11/2022:		Initial version
- * 22/01/2023:		Interrupt-based freerunning functions added for timer0
+ * 22/01/2023:		Interrupt-based freerunning functions added
  */
 
 #include <defines.h>

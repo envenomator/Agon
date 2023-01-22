@@ -10,12 +10,10 @@ void main(void)
 	
 	while(1)
 	{
-		// Produces a 500Hz signal, with 1ms pulses on Port C pins
-		
 		PC_DR = 0x00; // output 0s
-		delayms(1);
+		delay100us(5);
 		PC_DR = 0xFF; // output 1s
-		delayms(1);
+		delay100us(5);
 	}
 	
 	return;

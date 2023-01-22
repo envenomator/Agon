@@ -5,7 +5,7 @@
 ; SEARCHPATH="C:\ZiLOG\ZDSII_eZ80Acclaim!_5.3.4\lib"
 
 RANGE ROM $000000 : $01FFFF
-RANGE RAM $040000 : $0BFFFF
+RANGE RAM $050000 : $0BFFFF
 RANGE EXTIO $000000 : $00FFFF
 RANGE INTIO $000000 : $0000FF
 
@@ -23,7 +23,6 @@ DEFINE __len_bss = length of BSS
  ".\main.obj", \
  ".\vdp.obj", \
  ".\mos-interface.obj", \
- ".\mos-setvector.obj", \
  "C:\ZiLOG\ZDSII_eZ80Acclaim!_5.3.4\lib\std\chelpD.lib", \
  "C:\ZiLOG\ZDSII_eZ80Acclaim!_5.3.4\lib\std\crtD.lib", \
  "C:\ZiLOG\ZDSII_eZ80Acclaim!_5.3.4\lib\std\crtSD.lib", \

@@ -22,9 +22,8 @@ DEFINE __len_bss = length of BSS
  ".\init.obj", \
  ".\main.obj", \
  ".\vdp.obj", \
+ ".\agontimer.obj", \
  ".\mos-interface.obj", \
- ".\serial.obj", \
- ".\uart.obj", \
  "C:\ZiLOG\ZDSII_eZ80Acclaim!_5.3.4\lib\std\chelpD.lib", \
  "C:\ZiLOG\ZDSII_eZ80Acclaim!_5.3.4\lib\std\crtD.lib", \
  "C:\ZiLOG\ZDSII_eZ80Acclaim!_5.3.4\lib\std\crtSD.lib", \

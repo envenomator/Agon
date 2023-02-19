@@ -1,0 +1,4 @@
+			DEFINE .RESET, SPACE = ROM
+			SEGMENT .RESET
+.org 0
+db 1,2,3,4,5

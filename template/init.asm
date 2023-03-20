@@ -2,7 +2,7 @@
 ; Title:	Hello World - Initialisation Code
 ; Author:	Dean Belfield / Jeroen Venema
 ; Created:	22/11/2022
-; Last Updated: 25/11/2022
+; Last Updated: 20/03/2023
 ;
 ; Modinfo:
 ; 25/11/2022:	Added parameter parsing; now accepts CR or NUL as end of string markers

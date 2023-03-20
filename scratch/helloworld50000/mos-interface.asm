@@ -35,7 +35,7 @@ __putch:
 	ld 		iy,0
 	add 	iy, sp
 	ld 		a, (iy+6)
-	rst.lil	10h
+	rst.lis	10h
 	ld		hl,0
 	ld		l,a
 	ld		sp,iy

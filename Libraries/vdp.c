@@ -29,6 +29,12 @@ void vdp_mode(unsigned char mode)
     putch(mode);
 }
 
+void vdp_getMode(void) {
+	putch(23);
+	putch(0);
+	putch(0x86);
+}
+
 // Text functions
 void vdp_cls()
 {
@@ -387,7 +393,7 @@ UINT8 vdp_cursorGetXpos(void)
 	
 	putch(23);	// VDP command
 	putch(0);	// VDP command
-	putch(2);	// Request cursor position
+	putch(0x82);	// Request cursor position
 	
 	delay = 255;
 	while(delay--);
@@ -401,7 +407,7 @@ UINT8 vdp_cursorGetYpos(void)
 	
 	putch(23);	// VDP command
 	putch(0);	// VDP command
-	putch(2);	// Request cursor position
+	putch(0x82);	// Request cursor position
 	
 	delay = 255;
 	while(delay--);
@@ -414,7 +420,7 @@ char vdp_asciiCodeAt(unsigned char x, unsigned char y)
 	
 	putch(23);	// VDP command
 	putch(0);	// VDP command
-	putch(3);	// Request ascii code at position (x,y)
+	putch(0x83);	// Request ascii code at position (x,y)
 	putch(x);
 	putch(0);
 	putch(y);

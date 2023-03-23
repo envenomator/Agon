@@ -7,6 +7,7 @@
  * Modinfo:
  * 20/10/2022:		Initial version: text/graphics functions
  * 22/10/2022:		Bitmap/Sprite functions added
+ * 23/03/2023:      vdp_getMode function added, VDP 23,0,n commands changed to MOS 1.03
  */
 
 #include <defines.h>
@@ -17,6 +18,8 @@
 
 // Generic
 void vdp_mode(unsigned char mode);
+void vdp_getMode(void);
+
 //
 // extent: 0 = current text window, 1 = entire screen
 // direction: 0 = right, 1 = left, 2 = down, 3 = up

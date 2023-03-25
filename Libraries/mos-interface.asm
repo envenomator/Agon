@@ -524,9 +524,5 @@ _mos_setintvector:
 	ld		sp,ix
 	pop		ix
 	ret
-	SEGMENT DATA
-
-clock:
-	DB 43,0,0,0,0,0
 
 end

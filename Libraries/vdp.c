@@ -1,4 +1,5 @@
 #include <defines.h>
+#include "vdp.h"
 #include "mos-interface.h"
 
 // Generic functions
@@ -429,6 +430,11 @@ char vdp_asciiCodeAt(unsigned char x, unsigned char y)
 	delay = 64000;
 	while(delay--);
 	return(getsysvar_scrchar());
+}
+
+void  vdp_setpagedMode(bool mode) {
+	if(mode) putch(0x0E);
+	else putch(0x0F);
 }
 
 void vdp_cursorDisable(void)

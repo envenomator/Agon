@@ -8,7 +8,7 @@
  * 20/10/2022:		Initial version: text/graphics functions
  * 22/10/2022:		Bitmap/Sprite functions added
  * 23/03/2023:      vdp_getMode function added, VDP 23,0,n commands changed to MOS 1.03
- * 26/03/2023:      pagedMode support
+ * 26/03/2023:      pagedMode support, setPaletteColor support
  */
 
 #include <defines.h>

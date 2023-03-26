@@ -36,6 +36,15 @@ void vdp_getMode(void) {
 	putch(0x86);
 }
 
+void vdp_setPaletteColor(UINT8 index, UINT8 color, UINT8 r, UINT8 g, UINT8 b) {
+	putch(0x13); // VDU palette
+	putch(index);
+	putch(color); // 255 - set R/G/B colors, or <80 color lookup table
+	putch(r);
+	putch(g);
+	putch(b);
+}
+
 // Text functions
 void vdp_cls()
 {

@@ -312,7 +312,7 @@ void vdp_spriteSetFrameSelected(UINT8 framenumber)
 void vdp_spriteSetFrame(UINT8 id, UINT8 framenumber)
 {
 	vdp_spriteSelect(id);
-	vdp_spriteNextFrameSelected();
+	vdp_spriteSetFrameSelected(framenumber);
 	return;
 }
 

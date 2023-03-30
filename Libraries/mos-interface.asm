@@ -38,6 +38,10 @@
 	XDEF _mos_getrtc
 	XDEF _mos_setrtc
 	XDEF _mos_setintvector
+	XDEF _mos_uopen
+	XDEF _mos_uclose
+	XDEF _mos_ugetc
+	XDEF _mos_uputc
 
 	XDEF _getsysvar_vpd_pflags
 	XDEF _getsysvar_keyascii
@@ -522,6 +526,51 @@ _mos_setintvector:
 	ld a,	mos_setintvector
 	rst.lil	08h			; Set an interrupt vector (Requires MOS 1.03 or above)
 	ld		sp,ix
+	pop		ix
+	ret
+
+_mos_uopen:
+	push	ix
+	ld 		ix,0
+	add 	ix, sp
+	ld 		hl, (ix+6)	; Address of uart1 settings structure
+	push	ix
+	ld		ix, hl
+	ld		a, mos_uopen
+	rst.lil 08h
+	pop		ix
+	ld		sp,ix
+	pop		ix
+	ret
+
+_mos_uclose:
+	push	ix
+	ld		a, mos_uclose
+	rst.lil	08h
+	pop		ix
+	ret
+
+_mos_ugetc:
+	push	ix
+	ld		hl, 0
+	ld		a, mos_ugetc	; Read a byte from UART1
+	rst.lil	08h
+	ld		l, a
+	jr		nc, $F
+	ld		h, 1h			; error, return >255 in hl	
+$$:
+	pop		ix
+	ret
+
+_mos_uputc:
+	push	ix
+	ld		c, a
+	ld		a, mos_uputc
+	rst.lil	08h
+	ld		a, 1h
+	jr		nc, $F
+	xor		a,a				; error condition, return 0
+$$:
 	pop		ix
 	ret
 

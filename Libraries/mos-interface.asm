@@ -521,8 +521,8 @@ _mos_setintvector:
 	push	ix
 	ld 		ix,0
 	add 	ix, sp
-	ld 		e,	(ix+6)	; Interrupt vector number to set
-	ld		hl, (ix+7)	; Address of new interrupt vector
+	ld 		de,	(ix+6)	; Interrupt vector number to set
+	ld		hl, (ix+9)	; Address of new interrupt vector
 	ld a,	mos_setintvector
 	rst.lil	08h			; Set an interrupt vector (Requires MOS 1.03 or above)
 	ld		sp,ix

@@ -58,15 +58,26 @@
 #define vdp_pflag_mode          0x10
 #define vdp_pflag_rtc           0x20
 
-// UART settings structure
+// UART settings for open_UART1
+//
 typedef struct {
-   INT24    baudRate ;				// The baudrate to be used.
-   BYTE     dataBits ;				// The number of databits per character to be used.
-   BYTE     stopBits ;				// The number of stopbits to be used.
-   BYTE     parity ;				// The parity bit option to be used.
-   BYTE     flowcontrol ;           // Flowcontrol 0/1
-   BYTE     ier ;                   // Interrupt enable register bits
-} uartsettings ;
+   INT24 baudRate ;				//!< The baudrate to be used.
+   BYTE dataBits ;				//!< The number of databits per character to be used.
+   BYTE stopBits ;				//!< The number of stopbits to be used.
+   BYTE parity ;				   //!< The parity bit option to be used.
+   BYTE flowcontrol ;
+   BYTE eir ;
+} UART ;
+
+// UART settings structure
+//typedef struct {
+//   INT24    baudRate ;				// The baudrate to be used.
+//   BYTE     dataBits ;				// The number of databits per character to be used.
+//   BYTE     stopBits ;				// The number of stopbits to be used.
+//   BYTE     parity ;				// The parity bit option to be used.
+//   BYTE     flowcontrol ;           // Flowcontrol 0/1
+//   BYTE     ier ;                   // Interrupt enable register bits
+//} uartsettings ;
 
 // Generic IO
 extern int   putch(int a);
@@ -118,8 +129,9 @@ extern void   mos_getError(UINT8 code, char *buffer, UINT24 bufferlength);
 extern UINT8  mos_oscli(char *command, char **argv, UINT24 argc);
 extern UINT8  mos_getrtc(char *buffer);
 extern void   mos_setrtc(UINT8 *timedata);
+//extern void*  mos_setintvector(UINT8 vector, void(*handler)(void));
 extern void*  mos_setintvector(UINT8 vector, void(*handler)(void));
-extern UINT8  mos_uopen(uartsettings *settings);
+extern UINT8  mos_uopen(UART *settings);
 extern void   mos_uclose(void);
 extern int    mos_ugetc(void);                      // 0-255 valid character - >255 error
 extern UINT8  mos_uputc(int a);                     // returns 0 if error

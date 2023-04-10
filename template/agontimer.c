@@ -7,12 +7,13 @@
  * Modinfo:
  * 06/11/2022:		Initial version
  * 22/01/2023:		Interrupt-based freerunning functions added for timer0
+ * 10/04/2023:		Using mos_setintvector
  */
 
 #include <defines.h>
 #include <ez80.h>
-#include "mos-setvector.h"
 #include "agontimer.h"
+#include "mos-interface.h"
 
 #define TMR0_COUNTER_1ms	(unsigned short)(((18432000 / 1000) * 1) / 16)
 
@@ -25,7 +26,7 @@ void timer0_begin(int interval)
 	unsigned char tmp;
 	unsigned short rr;
 	
-	_timer0_prevhandler = mos_setvector(PRT0_IVECT, timer0_handler);
+	_timer0_prevhandler = mos_setintvector(PRT0_IVECT, timer0_handler);
 
 	timer0 = 0;
 	TMR0_CTL = 0x00;
@@ -39,7 +40,7 @@ void timer0_begin(int interval)
 void timer0_end(void)
 {
 	TMR0_CTL = 0;
-	mos_setvector(PRT0_IVECT, _timer0_prevhandler);
+	mos_setintvector(PRT0_IVECT, _timer0_prevhandler);
 }
 
 // delay for number of ms using TMR0

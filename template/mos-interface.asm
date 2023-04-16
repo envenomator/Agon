@@ -11,6 +11,7 @@
 ; 26/11/2022:       __putch, changed default routine entries to use IY
 ; 10/01/2023:		Added _getsysvar_cursorX/Y and _getsysvar_scrchar
 ; 23/02/2023:		Added _mos_save and _mos_del, also changed stackframe to use ix exclusively
+; 16/04/2023:		Added _mos_fread, _mos_fwrite and _mos_flseek
 	.include "mos_api.inc"
 
 	XDEF _putch
@@ -42,6 +43,9 @@
 	XDEF _mos_uclose
 	XDEF _mos_ugetc
 	XDEF _mos_uputc
+	XDEF _mos_fread
+	XDEF _mos_fwrite
+	XDEF _mos_flseek
 
 	XDEF _getsysvar_vpd_pflags
 	XDEF _getsysvar_keyascii
@@ -105,8 +109,8 @@ _waitvblank:
 	push	ix
 	ld		a, mos_sysvars
 	rst.lil	08h
-	ld		a, (ix + sysvar_time + 0)
-$$:	cp		a, (ix + sysvar_time + 0)
+	ld.lil	a, (ix + sysvar_time + 0)
+$$:	cp.lil	a, (ix + sysvar_time + 0)
 	jr		z, $B
 	pop		ix
 	ret
@@ -571,6 +575,48 @@ _mos_uputc:
 	jr		nc, $F
 	xor		a,a				; error condition, return 0
 $$:
+	pop		ix
+	ret
+
+_mos_fread:
+	push	ix
+	ld 		ix,0
+	add 	ix, sp
+	ld 		bc, (ix+6)	; file handle
+	ld		hl, (ix+9)	; buffer address
+	ld		de, (ix+12)	; number of bytes to read
+	ld a,	mos_fread
+	rst.lil	08h
+	ld		de, hl		; number of bytes read
+	ld		sp,ix
+	pop		ix
+	ret
+
+_mos_fwrite:
+	push	ix
+	ld 		ix,0
+	add 	ix, sp
+	ld 		bc, (ix+6)	; file handle
+	ld		hl, (ix+9)	; buffer address
+	ld		de, (ix+12)	; number of bytes to write
+	ld a,	mos_fwrite
+	rst.lil	08h
+	ld		de, hl		; number of bytes written
+	ld		sp,ix
+	pop		ix
+	ret
+
+_mos_flseek:
+	push	ix
+	ld 		ix,0
+	add 	ix, sp
+	ld 		bc, (ix+6)	; file handle
+	ld		de, 0
+	ld		e,  (ix+9)	; Most significant byte
+	ld		hl, (ix+10)	; Least significant bytes
+	ld a,	mos_flseek
+	rst.lil	08h
+	ld		sp,ix
 	pop		ix
 	ret
 

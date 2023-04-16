@@ -9,6 +9,7 @@
  * 22/10/2022:		Added waitvblank, mos_f* functions
  * 10/01/2023:      Added getsysvar_cursorX/Y functions, removed generic getsysvar8/16/24bit functions
  * 25/03/2023:      Added MOS 1.03 functions / sysvars
+ * 16/04/2023:      Added MOS 1.03RC4 mos_fread / mos_fwrite / mos_flseek functions
  */
 
 #ifndef MOS_H
@@ -69,16 +70,6 @@ typedef struct {
    BYTE eir ;
 } UART ;
 
-// UART settings structure
-//typedef struct {
-//   INT24    baudRate ;				// The baudrate to be used.
-//   BYTE     dataBits ;				// The number of databits per character to be used.
-//   BYTE     stopBits ;				// The number of stopbits to be used.
-//   BYTE     parity ;				// The parity bit option to be used.
-//   BYTE     flowcontrol ;           // Flowcontrol 0/1
-//   BYTE     ier ;                   // Interrupt enable register bits
-//} uartsettings ;
-
 // Generic IO
 extern int   putch(int a);
 extern char  getch(void);
@@ -129,11 +120,12 @@ extern void   mos_getError(UINT8 code, char *buffer, UINT24 bufferlength);
 extern UINT8  mos_oscli(char *command, char **argv, UINT24 argc);
 extern UINT8  mos_getrtc(char *buffer);
 extern void   mos_setrtc(UINT8 *timedata);
-//extern void*  mos_setintvector(UINT8 vector, void(*handler)(void));
 extern void*  mos_setintvector(UINT8 vector, void(*handler)(void));
 extern UINT8  mos_uopen(UART *settings);
 extern void   mos_uclose(void);
 extern int    mos_ugetc(void);                      // 0-255 valid character - >255 error
 extern UINT8  mos_uputc(int a);                     // returns 0 if error
-
+extern UINT24 mos_fread(UINT8 fh, char *buffer, UINT24 numbytes);
+extern UINT24 mos_fwrite(UINT8 fh, char *buffer, UINT24 numbytes);
+extern UINT8  mos_flseek(UINT8 fh, UINT32 offset);
 #endif MOS_H

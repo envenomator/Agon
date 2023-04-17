@@ -14,8 +14,13 @@
 
 #ifndef MOS_H
 #define MOS_H
+#ifndef AGON
+#include "./stdint.h"
+#endif
 
+#ifdef AGON
 #include <defines.h>
+#endif
 
 // File access modes - from mos_api.inc
 #define fa_read				    0x01
@@ -128,4 +133,4 @@ extern UINT8  mos_uputc(int a);                     // returns 0 if error
 extern UINT24 mos_fread(UINT8 fh, char *buffer, UINT24 numbytes);
 extern UINT24 mos_fwrite(UINT8 fh, char *buffer, UINT24 numbytes);
 extern UINT8  mos_flseek(UINT8 fh, UINT32 offset);
-#endif MOS_H
+#endif

@@ -12,6 +12,8 @@
 ; 10/01/2023:		Added _getsysvar_cursorX/Y and _getsysvar_scrchar
 ; 23/02/2023:		Added _mos_save and _mos_del, also changed stackframe to use ix exclusively
 ; 16/04/2023:		Added _mos_fread, _mos_fwrite and _mos_flseek
+; 18/04/2023:		_mos_flseek fix
+
 	.include "mos_api.inc"
 
 	XDEF _putch
@@ -612,8 +614,8 @@ _mos_flseek:
 	add 	ix, sp
 	ld 		bc, (ix+6)	; file handle
 	ld		de, 0
-	ld		e,  (ix+9)	; Most significant byte
-	ld		hl, (ix+10)	; Least significant bytes
+	ld		hl, (ix+9)  ; 24 least significant bits
+	ld		e,  (ix+12)	; 8 most most significant bits
 	ld a,	mos_flseek
 	rst.lil	08h
 	ld		sp,ix

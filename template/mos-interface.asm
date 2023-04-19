@@ -13,6 +13,7 @@
 ; 23/02/2023:		Added _mos_save and _mos_del, also changed stackframe to use ix exclusively
 ; 16/04/2023:		Added _mos_fread, _mos_fwrite and _mos_flseek
 ; 18/04/2023:		_mos_flseek fix
+; 19/04/2023:		_mos_getfil added
 
 	.include "mos_api.inc"
 
@@ -48,6 +49,7 @@
 	XDEF _mos_fread
 	XDEF _mos_fwrite
 	XDEF _mos_flseek
+	XDEF _mos_getfil
 
 	XDEF _getsysvar_vpd_pflags
 	XDEF _getsysvar_keyascii
@@ -618,6 +620,17 @@ _mos_flseek:
 	ld		e,  (ix+12)	; 8 most most significant bits
 	ld a,	mos_flseek
 	rst.lil	08h
+	ld		sp,ix
+	pop		ix
+	ret
+
+_mos_getfil:
+	push	ix
+	ld 		ix,0
+	add 	ix, sp
+	ld 		bc, (ix+6)	; File identifier
+	ld a,	mos_getfil
+	rst.lil	08h			; Get a pointer to the relevant FIL struct
 	ld		sp,ix
 	pop		ix
 	ret

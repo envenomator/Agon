@@ -10,17 +10,13 @@
  * 10/01/2023:      Added getsysvar_cursorX/Y functions, removed generic getsysvar8/16/24bit functions
  * 25/03/2023:      Added MOS 1.03 functions / sysvars
  * 16/04/2023:      Added MOS 1.03RC4 mos_fread / mos_fwrite / mos_flseek functions
+ * 19/04/2023:		Added mos_getfil
  */
 
 #ifndef MOS_H
 #define MOS_H
-#ifndef AGON
 #include "./stdint.h"
-#endif
-
-#ifdef AGON
 #include <defines.h>
-#endif
 
 // File access modes - from mos_api.inc
 #define fa_read				    0x01
@@ -74,6 +70,16 @@ typedef struct {
    BYTE flowcontrol ;
    BYTE eir ;
 } UART ;
+
+// File object structure (FIL)
+typedef struct {
+	BYTE *   fs;      // Pointer to the hosting volume of this object
+	UINT16   id;      // Hosting volume mount ID
+	BYTE     attr;    // Object attribute
+	BYTE     stat;    // Object chain status (b1-0: =0:not contiguous, =2:contiguous, =3:fragmented in this session, b2:sub-directory stretched)
+	UINT32   sclust;  // Object data start cluster (0:no cluster or root directory)
+	UINT32   objsize; // Object size (valid when sclust != 0)
+} FIL ;
 
 // Generic IO
 extern int   putch(int a);
@@ -133,4 +139,5 @@ extern UINT8  mos_uputc(int a);                     // returns 0 if error
 extern UINT24 mos_fread(UINT8 fh, char *buffer, UINT24 numbytes);
 extern UINT24 mos_fwrite(UINT8 fh, char *buffer, UINT24 numbytes);
 extern UINT8  mos_flseek(UINT8 fh, UINT32 offset);
+extern UINT8* mos_getfil(UINT8 fh);
 #endif

@@ -61,7 +61,6 @@
 #define vdp_pflag_rtc           0x20
 
 // UART settings for open_UART1
-//
 typedef struct {
    INT24 baudRate ;				//!< The baudrate to be used.
    BYTE dataBits ;				//!< The number of databits per character to be used.
@@ -71,15 +70,27 @@ typedef struct {
    BYTE eir ;
 } UART ;
 
+// File Object ID and allocation information (FFOBJID)
+typedef struct {
+	UINT24*  fs;		/* Pointer to the hosting volume of this object */
+	UINT16	id;		/* Hosting volume mount ID */
+	BYTE	   attr;		/* Object attribute */
+	BYTE	   stat;		/* Object chain status (b1-0: =0:not contiguous, =2:contiguous, =3:fragmented in this session, b2:sub-directory stretched) */
+	UINT32	sclust;	/* Object data start cluster (0:no cluster or root directory) */
+	UINT32	objsize;	/* Object size (valid when sclust != 0) */
+} FFOBJID;
+
 // File object structure (FIL)
 typedef struct {
-	BYTE *   fs;      // Pointer to the hosting volume of this object
-	UINT16   id;      // Hosting volume mount ID
-	BYTE     attr;    // Object attribute
-	BYTE     stat;    // Object chain status (b1-0: =0:not contiguous, =2:contiguous, =3:fragmented in this session, b2:sub-directory stretched)
-	UINT32   sclust;  // Object data start cluster (0:no cluster or root directory)
-	UINT32   objsize; // Object size (valid when sclust != 0)
-} FIL ;
+	FFOBJID	obj;     /* Object identifier (must be the 1st member to detect invalid object pointer) */
+	BYTE	   flag;    /* File status flags */
+	BYTE	   err;     /* Abort flag (error code) */
+	UINT32	fptr;    /* File read/write pointer (Zeroed on file open) */
+	UINT32	clust;   /* Current cluster of fpter (invalid when fptr is 0) */
+	UINT32	sect;    /* Sector number appearing in buf[] (0:invalid) */
+	UINT32	dir_sect;/* Sector number containing the directory entry (not used at exFAT) */ 
+	UINT24*	dir_ptr; /* Pointer to the directory entry in the win[] (not used at exFAT) */
+} FIL;
 
 // Generic IO
 extern int   putch(int a);
@@ -139,5 +150,5 @@ extern UINT8  mos_uputc(int a);                     // returns 0 if error
 extern UINT24 mos_fread(UINT8 fh, char *buffer, UINT24 numbytes);
 extern UINT24 mos_fwrite(UINT8 fh, char *buffer, UINT24 numbytes);
 extern UINT8  mos_flseek(UINT8 fh, UINT32 offset);
-extern UINT8* mos_getfil(UINT8 fh);
+extern FIL*   mos_getfil(UINT8 fh);
 #endif

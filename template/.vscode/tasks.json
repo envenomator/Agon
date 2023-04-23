@@ -1,0 +1,30 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "ZDS Rebuild all",
+            "type": "shell",
+            "command": "make rebuildall -f ${workspaceFolder}/${workspaceFolderBasename}.mak",
+            "options": {
+                "cwd": "${workspaceFolder}/Debug"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Upload Intel HEX file",
+            "type": "shell",
+            "command": "py.exe ./send.py ./Debug/${workspaceFolderBasename}.hex",
+            "group": "test",
+            "presentation": {
+              "reveal": "always",
+              "panel": "new",
+              "close": true
+            }
+        }
+}

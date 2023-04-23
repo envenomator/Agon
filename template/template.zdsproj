@@ -8,6 +8,8 @@
 <file filter-key="">.\mos-interface.asm</file>
 <file filter-key="">.\vdp.c</file>
 <file filter-key="">.\template.linkcmd</file>
+<file filter-key="">.\agontimer.c</file>
+<file filter-key="">.\agontimer-timer0.asm</file>
 </files>
 
 <!-- configuration information -->

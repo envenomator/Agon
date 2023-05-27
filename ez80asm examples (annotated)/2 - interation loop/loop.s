@@ -68,6 +68,9 @@ loop:
     ld a, ENDLOOP   ; We load the ENDLOOP label to the A register, where we can do a COMPARE statement to it
                     ; This is a convoluted example because the iteration counts up. Counting down is easier in assembly
                     ; because the DEC command for example immediately sets the zero flag in F.
+                    ; Because we are counting up, we need to do a COMPARE first that sets the flag before we can jump based on the zero flag
+                    ; When we would have counted down and used 'dec d', we could have jumped based on the zero flag right after the 'dec d' statement
+                    ; But this is just to show the different options and understand how things work
     cp a, d         ; Have we reached our intended loop end?
     jp nz, loop     ; if not, we will need to do another loop
 

@@ -1,41 +1,75 @@
 ; Title:    SNES Joystick button reader
 ; Author:   Jeroen Venema
 ; Created:  01/11/2022
-;
+; Updated:  04/06/2023 - ez80asm
+
 ; Prints out a string of 16 characters, each character representing a button of a SNES controller
 ; Connections to the SNES controller through level-shifters:
 ; CLOCK - PC0
 ; DATA  - PC1
 ; LATCH - PC2
 ;
-; Assembled using spasm-ng with 'spasm -E -T joyread.asm'
+    .assume adl=1
+    .org $040000
 
-    .ASSUME ADL=1
-    .org 40000h
+    jp start        ; We jump over the header, to make sure the header stays at the same location
+                    ; This leaves <some> space between the jump and the header to use for data, but not much.
+                    ; In that case, be careful that the header doesn't start at the next alignment and the program 
+                    ; isn't recognized by MOS as a valid executable. 
 
+; Quark MOS header 
+    .align 64       ; Quark MOS expects programs that it LOADs,to have a specific signature
+                    ; Starting from decimal 64 onwards
+    .db "MOS"       ; MOS header 'magic' characters
+    .db 00h         ; MOS header version 0 - the only in existence currently afaik
+    .db 01h         ; Flag for run mode (0: Z80, 1: ADL) - We start up in ADL mode here
+
+; Code
 start:
-    call _initjoystickpins
-displayread:
-    call _joyread
-    
-    ld b, 16        ; 16 characters to screen, 12 button bits and 4 non-used bits
-loop:
-    add hl,hl       ; shift hl right one bit, resulting bit in carry
+    ld hl, welcome
+    ld bc, 0
     ld a, 0
-    adc a, 30h      ; 30+NC = 30 ('0'), 30+C = 31 ('1')
-    rst.lis 10h     ; output to MOS
-    ld a,b
-    cp 1            ; last button to print?
-    jr z, creturn
-    dec b
-    jr loop
-creturn:
+    rst.lil 18h         ; print welcome message
+    call _initjoystickpins
+
+showbuttons:
+    call joyread   ; Joystick pins returned as bits in HL
+
+    ld a, h
+    call print8bit
+    ld a, l
+    call print8bit
+
     ld a, '\r'
-    rst.lis 10h     ; return to beginning of the line
+    rst.lil 10h
+    
+    call wait10ms
+    jr showbuttons
 
-    call wait10ms   ; wait before next poll to the controller, fast enough for demo
-
-    jp displayread
+; print an 8bit value in A as 0s and 1s to VDP
+print8bit:
+    push hl
+    push bc
+    ld b,8    ; loop counter
+    ld c,a    ; storage of input
+_print8bit_loop:
+    sla c     ; left shift one bit, to carry
+    ld a, '0'
+    adc a, 0  ; if carry, A == '1', else A == '0'
+    push hl
+    push bc
+    rst.lil 10h
+    pop bc
+    pop hl
+    ld a, b
+    cp a, 1
+    jr z, _print8bit_done
+    dec b
+    jr _print8bit_loop
+_print8bit_done:
+    pop bc
+    pop hl
+    ret
 
 _initjoystickpins:
     ld a,%11111000  ; latch/bit2 and clk/bit0 as output, data temp output, needs to stay high
@@ -54,6 +88,8 @@ _initjoystickpins:
     out0 (158),a
     ret
 
+; Joyread function
+;
 ; returns 16bit SNES code in HL
 ; bit layout:
 ; bit  0 - B
@@ -76,7 +112,7 @@ _initjoystickpins:
 ; Non-pressed buttons return 1
 ; Pressed buttons return a 0
 ;
-_joyread:
+joyread:
     ld a,%00000101
     out0 (158),a    ; latch high, clock stays high
     call wait12us
@@ -88,7 +124,7 @@ _joyread:
     ld b,16         ; read 16 bit
     ld hl,0         ; zero out result register HL
 
-joyloop:
+_joyloop:
     push bc
     srl h           ; shift HL right one bit, first run shifts only zeroes
     rr l
@@ -106,7 +142,7 @@ checkdone:
     out0 (158),a
     call wait6us
     pop bc
-    djnz joyloop
+    djnz _joyloop
     ret
 
 ; wait 6us at 18,432Mhz
@@ -132,3 +168,10 @@ wait10msloop:
     or e
     jr nz,wait10msloop
     ret
+
+welcome:
+    .db 12, "Button layout:\r\n\r\nbit  0 - B\r\nbit  1 - Y\r\nbit  2 - Select\r\nbit  3 - Start\r\nbit  4 - Up\r\n"
+    .db "bit  5 - Down\r\nbit  6 - Left\r\nbit  7 - Right\r\nbit  8 - A\r\n"
+    .db "bit  9 - X\r\nbit 10 - L\r\nbit 11 - R\r\nbit 12 - none - always high\r\n"
+    .db "bit 13 - none - always high\r\nbit 14 - none - always high\r\nbit 15 - none - always high\r\n"
+    .db "\r\nJoystick status bits:\r\n",0

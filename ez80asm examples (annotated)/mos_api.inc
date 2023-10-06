@@ -2,6 +2,7 @@
 ; Title:	AGON MOS - API for user projects
 ; Author:	Dean Belfield
 ;			Adapted for agon-ez80asm by Jeroen Venema
+;			Added MOS error codes for return in HL
 ; Created:	03/08/2022
 ; Last Updated:	10/08/2023
 ;
@@ -74,6 +75,30 @@ mos_flseek:			EQU	1Ch
 mos_setkbvector:	EQU	1Dh
 mos_getkbmap:		EQU	1Eh
 
+; MOS program exit codes
+;
+EXIT_OK:				EQU  0;	"OK",
+EXIT_ERROR_SD_ACCESS:	EQU	 1;	"Error accessing SD card",
+EXIT_ERROR_ASSERTION:	EQU  2;	"Assertion failed",
+EXIT_SD_CARDFAILURE:	EQU  3;	"SD card failure",
+EXIT_FILENOTFOUND:		EQU  4;	"Could not find file",
+EXIT_PATHNOTFOUND:		EQU  5;	"Could not find path",
+EXIT_INVALIDPATHNAME:	EQU  6;	"Invalid path name",
+EXIT_ACCESSDENIED_FULL:	EQU  7;	"Access denied or directory full",
+EXIT_ACCESSDENIED:		EQU  8;	"Access denied",
+EXIT_INVALIDOBJECT:		EQU  9;	"Invalid file/directory object",
+EXIT_SD_WRITEPROTECTED:	EQU 10;	"SD card is write protected",
+EXIT_INVALIDDRIVENUMBER:EQU 11;	"Logical drive number is invalid",
+EXIT_NOVOLUMEWORKAREA:	EQU 12;	"Volume has no work area",
+EXIT_NOVALIDFATVOLUME:	EQU 13;	"No valid FAT volume",
+EXIT_ERRORMKFS:			EQU 14;	"Error occurred during mkfs",
+EXIT_VOLUMETIMEOUT:		EQU 15;	"Volume timeout",
+EXIT_VOLUMELOCKED:		EQU 16;	"Volume locked",
+EXIT_LFNALLOCATION:		EQU 17;	"LFN working buffer could not be allocated",
+EXIT_MAXOPENFILES:		EQU 18;	"Too many open files",
+EXIT_INVALIDPARAMETER:	EQU 19;	"Invalid parameter",
+EXIT_INVALIDCOMMAND:	EQU 20;	"Invalid command",
+EXIT_INVALIDEXECUTABLE:	EQU 21;	"Invalid executable",
 ; FatFS file access functions
 ;
 ffs_fopen:			EQU	80h

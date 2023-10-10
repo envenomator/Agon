@@ -1,0 +1,9 @@
+_init $40045
+argv_ptrs_max $10
+_get_token $400a3
+argv_ptrs $400b9
+_main $400e9
+_parse_params $40070
+_skip_spaces $400b2
+_exec_name $40004
+_header $4000e

@@ -26,16 +26,16 @@ ZTPDIR = C:\ZiLOG\ZDSII_eZ80Acclaim!_5.3.5\ZTP2.5.1
 ZTPDIR_ESCSPACE = C:\ZiLOG\ZDSII_eZ80Acclaim!_5.3.5\ZTP2.5.1
 
 # project directory
-PRJDIR = C:\source\Agon\template
-PRJDIR_ESCSPACE = C:\source\Agon\template
+PRJDIR = C:\source\Agon\scratch\console-joystick
+PRJDIR_ESCSPACE = C:\source\Agon\scratch\console-joystick
 
 # intermediate files directory
-WORKDIR = C:\source\Agon\template\Debug
-WORKDIR_ESCSPACE = C:\source\Agon\template\Debug
+WORKDIR = C:\source\Agon\scratch\console-joystick\Debug
+WORKDIR_ESCSPACE = C:\source\Agon\scratch\console-joystick\Debug
 
 # output files directory
-OUTDIR = C:\source\Agon\template\Debug\
-OUTDIR_ESCSPACE = C:\source\Agon\template\Debug\
+OUTDIR = C:\source\Agon\scratch\console-joystick\Debug\
+OUTDIR_ESCSPACE = C:\source\Agon\scratch\console-joystick\Debug\
 
 # tools
 CC = @"$(BIN)\eZ80cc"
@@ -126,20 +126,28 @@ clean:
             $(RM) "$(WORKDIR)\agontimer-timer0.lis"
 	@if exist "$(WORKDIR)\agontimer-timer0.lst"  \
             $(RM) "$(WORKDIR)\agontimer-timer0.lst"
+	@if exist "$(WORKDIR)\mosextra.obj"  \
+            $(RM) "$(WORKDIR)\mosextra.obj"
+	@if exist "$(WORKDIR)\mosextra.lis"  \
+            $(RM) "$(WORKDIR)\mosextra.lis"
+	@if exist "$(WORKDIR)\mosextra.lst"  \
+            $(RM) "$(WORKDIR)\mosextra.lst"
 
 relist: 
-	$(AS) $(ASFLAGS) -relist:"C:\source\Agon\template\Debug\template.map" \
-            C:\source\Agon\template\init.asm
-	$(AS) $(ASFLAGS) -relist:"C:\source\Agon\template\Debug\template.map" \
-            C:\source\Agon\template\Debug\main.src
-	$(AS) $(ASFLAGS) -relist:"C:\source\Agon\template\Debug\template.map" \
-            C:\source\Agon\template\mos-interface.asm
-	$(AS) $(ASFLAGS) -relist:"C:\source\Agon\template\Debug\template.map" \
-            C:\source\Agon\template\Debug\vdp.src
-	$(AS) $(ASFLAGS) -relist:"C:\source\Agon\template\Debug\template.map" \
-            C:\source\Agon\template\Debug\agontimer.src
-	$(AS) $(ASFLAGS) -relist:"C:\source\Agon\template\Debug\template.map" \
-            C:\source\Agon\template\agontimer-timer0.asm
+	$(AS) $(ASFLAGS) -relist:"C:\source\Agon\scratch\console-joystick\Debug\template.map" \
+            C:\source\Agon\scratch\console-joystick\init.asm
+	$(AS) $(ASFLAGS) -relist:"C:\source\Agon\scratch\console-joystick\Debug\template.map" \
+            C:\source\Agon\scratch\console-joystick\Debug\main.src
+	$(AS) $(ASFLAGS) -relist:"C:\source\Agon\scratch\console-joystick\Debug\template.map" \
+            C:\source\Agon\scratch\console-joystick\mos-interface.asm
+	$(AS) $(ASFLAGS) -relist:"C:\source\Agon\scratch\console-joystick\Debug\template.map" \
+            C:\source\Agon\scratch\console-joystick\Debug\vdp.src
+	$(AS) $(ASFLAGS) -relist:"C:\source\Agon\scratch\console-joystick\Debug\template.map" \
+            C:\source\Agon\scratch\console-joystick\Debug\agontimer.src
+	$(AS) $(ASFLAGS) -relist:"C:\source\Agon\scratch\console-joystick\Debug\template.map" \
+            C:\source\Agon\scratch\console-joystick\agontimer-timer0.asm
+	$(AS) $(ASFLAGS) -relist:"C:\source\Agon\scratch\console-joystick\Debug\template.map" \
+            C:\source\Agon\scratch\console-joystick\mosextra.asm
 
 # pre-4.11.0 compatibility
 rebuildall: buildall 
@@ -152,7 +160,8 @@ OBJS =  \
             $(WORKDIR_ESCSPACE)\mos-interface.obj  \
             $(WORKDIR_ESCSPACE)\vdp.obj  \
             $(WORKDIR_ESCSPACE)\agontimer.obj  \
-            $(WORKDIR_ESCSPACE)\agontimer-timer0.obj
+            $(WORKDIR_ESCSPACE)\agontimer-timer0.obj  \
+            $(WORKDIR_ESCSPACE)\mosextra.obj
 
 template: $(OBJS)
 	 $(LD) $(LDFLAGS)
@@ -168,6 +177,8 @@ $(WORKDIR_ESCSPACE)\main.obj :  \
             $(INCLUDE_ESCSPACE)\std\Stdarg.h  \
             $(INCLUDE_ESCSPACE)\std\Stdio.h  \
             $(INCLUDE_ESCSPACE)\zilog\defines.h  \
+            $(INCLUDE_ESCSPACE)\zilog\eZ80F92.h  \
+            $(PRJDIR_ESCSPACE)\agontimer.h  \
             $(PRJDIR_ESCSPACE)\mos-interface.h  \
             $(PRJDIR_ESCSPACE)\stdint.h  \
             $(PRJDIR_ESCSPACE)\vdp.h
@@ -187,10 +198,29 @@ $(WORKDIR_ESCSPACE)\vdp.obj :  \
 	 $(CC) $(CFLAGS) "$(PRJDIR)\vdp.c"
 
 $(WORKDIR_ESCSPACE)\agontimer.obj :  \
-            $(PRJDIR_ESCSPACE)\agontimer.c
+            $(PRJDIR_ESCSPACE)\agontimer.c  \
+            $(INCLUDE_ESCSPACE)\zilog\cio.h  \
+            $(INCLUDE_ESCSPACE)\zilog\defines.h  \
+            $(INCLUDE_ESCSPACE)\zilog\eZ80190.h  \
+            $(INCLUDE_ESCSPACE)\zilog\eZ80F91.h  \
+            $(INCLUDE_ESCSPACE)\zilog\eZ80F92.h  \
+            $(INCLUDE_ESCSPACE)\zilog\eZ80F93.h  \
+            $(INCLUDE_ESCSPACE)\zilog\eZ80L92.h  \
+            $(INCLUDE_ESCSPACE)\zilog\ez80.h  \
+            $(INCLUDE_ESCSPACE)\zilog\gpio.h  \
+            $(INCLUDE_ESCSPACE)\zilog\uart.h  \
+            $(INCLUDE_ESCSPACE)\zilog\uartdefs.h  \
+            $(PRJDIR_ESCSPACE)\agontimer.h  \
+            $(PRJDIR_ESCSPACE)\mos-interface.h  \
+            $(PRJDIR_ESCSPACE)\stdint.h
 	 $(CC) $(CFLAGS) "$(PRJDIR)\agontimer.c"
 
 $(WORKDIR_ESCSPACE)\agontimer-timer0.obj :  \
-            $(PRJDIR_ESCSPACE)\agontimer-timer0.asm
+            $(PRJDIR_ESCSPACE)\agontimer-timer0.asm  \
+            $(INCLUDE_ESCSPACE)\zilog\ez80F92.inc
 	 $(AS) $(ASFLAGS) "$(PRJDIR)\agontimer-timer0.asm"
+
+$(WORKDIR_ESCSPACE)\mosextra.obj :  \
+            $(PRJDIR_ESCSPACE)\mosextra.asm
+	 $(AS) $(ASFLAGS) "$(PRJDIR)\mosextra.asm"
 

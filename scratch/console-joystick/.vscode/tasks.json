@@ -19,7 +19,7 @@
         {
             "label": "Upload Intel HEX file",
             "type": "shell",
-            "command": "py.exe ./send.py ./Debug/${workspaceFolderBasename}.hex",
+            "command": "py.exe ${workspacefolder}send.py ${workspacefolder}Debug/template.hex",            
             "group": "test",
             "presentation": {
               "reveal": "always",
@@ -27,4 +27,5 @@
               "close": true
             }
         }
+    ]
 }

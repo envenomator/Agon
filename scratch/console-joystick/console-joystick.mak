@@ -126,6 +126,12 @@ clean:
             $(RM) "$(WORKDIR)\agontimer-timer0.lis"
 	@if exist "$(WORKDIR)\agontimer-timer0.lst"  \
             $(RM) "$(WORKDIR)\agontimer-timer0.lst"
+	@if exist "$(WORKDIR)\mosextra.obj"  \
+            $(RM) "$(WORKDIR)\mosextra.obj"
+	@if exist "$(WORKDIR)\mosextra.lis"  \
+            $(RM) "$(WORKDIR)\mosextra.lis"
+	@if exist "$(WORKDIR)\mosextra.lst"  \
+            $(RM) "$(WORKDIR)\mosextra.lst"
 
 relist: 
 	$(AS) $(ASFLAGS) -relist:"C:\source\Agon\scratch\console-joystick\Debug\template.map" \
@@ -140,6 +146,8 @@ relist:
             C:\source\Agon\scratch\console-joystick\Debug\agontimer.src
 	$(AS) $(ASFLAGS) -relist:"C:\source\Agon\scratch\console-joystick\Debug\template.map" \
             C:\source\Agon\scratch\console-joystick\agontimer-timer0.asm
+	$(AS) $(ASFLAGS) -relist:"C:\source\Agon\scratch\console-joystick\Debug\template.map" \
+            C:\source\Agon\scratch\console-joystick\mosextra.asm
 
 # pre-4.11.0 compatibility
 rebuildall: buildall 
@@ -152,7 +160,8 @@ OBJS =  \
             $(WORKDIR_ESCSPACE)\mos-interface.obj  \
             $(WORKDIR_ESCSPACE)\vdp.obj  \
             $(WORKDIR_ESCSPACE)\agontimer.obj  \
-            $(WORKDIR_ESCSPACE)\agontimer-timer0.obj
+            $(WORKDIR_ESCSPACE)\agontimer-timer0.obj  \
+            $(WORKDIR_ESCSPACE)\mosextra.obj
 
 template: $(OBJS)
 	 $(LD) $(LDFLAGS)
@@ -168,6 +177,7 @@ $(WORKDIR_ESCSPACE)\main.obj :  \
             $(INCLUDE_ESCSPACE)\std\Stdarg.h  \
             $(INCLUDE_ESCSPACE)\std\Stdio.h  \
             $(INCLUDE_ESCSPACE)\zilog\defines.h  \
+            $(INCLUDE_ESCSPACE)\zilog\eZ80F92.h  \
             $(PRJDIR_ESCSPACE)\agontimer.h  \
             $(PRJDIR_ESCSPACE)\mos-interface.h  \
             $(PRJDIR_ESCSPACE)\stdint.h  \
@@ -209,4 +219,8 @@ $(WORKDIR_ESCSPACE)\agontimer-timer0.obj :  \
             $(PRJDIR_ESCSPACE)\agontimer-timer0.asm  \
             $(INCLUDE_ESCSPACE)\zilog\ez80F92.inc
 	 $(AS) $(ASFLAGS) "$(PRJDIR)\agontimer-timer0.asm"
+
+$(WORKDIR_ESCSPACE)\mosextra.obj :  \
+            $(PRJDIR_ESCSPACE)\mosextra.asm
+	 $(AS) $(ASFLAGS) "$(PRJDIR)\mosextra.asm"
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 if [ -z "$1" ]
 then
-    echo Usage: name_project [PROJECTNAME]
+    echo Usage: clone_project_from_template [PROJECTNAME]
     exit
 fi
 echo Copying template directory to \'$1\'

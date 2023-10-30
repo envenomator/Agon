@@ -1,0 +1,497 @@
+; Zilog eZ80 ANSI C Compiler Release 3.4
+; -nomodsect -optsize -noreduceopt -nopadbranch -debug
+; -peephole -globalopt -localcse -const=ROM 
+	FILE	"..\agontimer.c"
+	.assume ADL=1
+.DEBUG "C"
+	SEGMENT CODE
+.BEGREC "NONAME0",8
+.DEFINE "baudRate"
+.VALUE 0
+.CLASS 8
+.TYPE 4
+.ENDEF
+.DEFINE "dataBits"
+.VALUE 3
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "stopBits"
+.VALUE 4
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "parity"
+.VALUE 5
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "flowcontrol"
+.VALUE 6
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "eir"
+.VALUE 7
+.CLASS 8
+.TYPE 12
+.ENDEF
+.ENDREC "NONAME0"
+.BEGREC "NONAME1",15
+.DEFINE "fs"
+.VALUE 0
+.CLASS 8
+.TYPE 46
+.ENDEF
+.DEFINE "id"
+.VALUE 3
+.CLASS 8
+.TYPE 13
+.ENDEF
+.DEFINE "attr"
+.VALUE 5
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "stat"
+.VALUE 6
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "sclust"
+.VALUE 7
+.CLASS 8
+.TYPE 15
+.ENDEF
+.DEFINE "objsize"
+.VALUE 11
+.CLASS 8
+.TYPE 15
+.ENDEF
+.ENDREC "NONAME1"
+.BEGREC "NONAME2",36
+.DEFINE "obj"
+.VALUE 0
+.CLASS 8
+.TAG "NONAME1"
+.TYPE 8
+.ENDEF
+.DEFINE "flag"
+.VALUE 15
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "err"
+.VALUE 16
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "fptr"
+.VALUE 17
+.CLASS 8
+.TYPE 15
+.ENDEF
+.DEFINE "clust"
+.VALUE 21
+.CLASS 8
+.TYPE 15
+.ENDEF
+.DEFINE "sect"
+.VALUE 25
+.CLASS 8
+.TYPE 15
+.ENDEF
+.DEFINE "dir_sect"
+.VALUE 29
+.CLASS 8
+.TYPE 15
+.ENDEF
+.DEFINE "dir_ptr"
+.VALUE 33
+.CLASS 8
+.TYPE 46
+.ENDEF
+.ENDREC "NONAME2"
+	SEGMENT BSS
+__timer0_prevhandler:
+	DS	3
+.DEFINE "_timer0_prevhandler"
+.ALIAS "__timer0_prevhandler"
+.CLASS 83
+.VALUE __timer0_prevhandler
+.TYPE 33
+.ENDEF
+;    1	/*
+;    2	 * Title:			AGON timer interface
+;    3	 * Author:			Jeroen Venema
+;    4	 * Created:			06/11/2022
+;    5	 * Last Updated:	22/01/2023
+;    6	 * 
+;    7	 * Modinfo:
+;    8	 * 06/11/2022:		Initial version
+;    9	 * 22/01/2023:		Interrupt-based freerunning functions added for timer0
+;   10	 * 10/04/2023:		Using mos_setintvector
+;   11	 */
+;   12	
+;   13	#include <defines.h>
+;   14	#include <ez80.h>
+;   15	#include "agontimer.h"
+;   16	#include "mos-interface.h"
+;   17	
+;   18	#define TMR0_COUNTER_1ms	(unsigned short)(((18432000 / 1000) * 1) / 16)
+;   19	
+;   20	void *_timer0_prevhandler;						// used to (re)store the previous handler for the interrupt
+	SEGMENT CODE
+;   21	
+;   22	// start timer0 on a millisecond interval
+;   23	// this function registers an interrupt handler and requires timer0_end to de-register the handler after use
+;   24	void timer0_begin(int interval)
+;   25	{
+_timer0_begin:
+.DEFINE "_timer0_begin"
+
+.VALUE _timer0_begin
+
+.CLASS 2
+
+.TYPE 65
+
+.ENDEF
+
+.BEGFUNC "timer0_begin",25,"_timer0_begin"
+
+.LINE 25
+
+.DEFINE "interval"
+
+.CLASS 65
+
+.VALUE 6
+
+.TYPE 4
+
+.ENDEF
+
+.DEFINE "rr"
+
+.CLASS 65
+
+.VALUE -2
+
+.TYPE 13
+
+.ENDEF
+
+.DEFINE "tmp"
+
+.CLASS 65
+
+.VALUE -3
+
+.TYPE 12
+
+.ENDEF
+
+	PUSH	IX
+	LD	IX,0
+	ADD	IX,SP
+	PUSH	BC
+;   26		unsigned char tmp;
+;   27		unsigned short rr;
+;   28		
+;   29		_timer0_prevhandler = mos_setintvector(PRT0_IVECT, timer0_handler);
+.LINE 29
+
+	LD	BC,_timer0_handler
+	PUSH	BC
+	LD	BC,10
+	PUSH	BC
+	CALL	_mos_setintvector
+	POP	BC
+	POP	BC
+	LD	(__timer0_prevhandler),HL
+;   30	
+;   31		timer0 = 0;
+.LINE 31
+
+	LD	BC,0
+	LD	(_timer0),BC
+;   32		TMR0_CTL = 0x00;
+.LINE 32
+
+	XOR	A,A
+	OUT0	(128),A
+;   33		rr = (unsigned short)(((18432000 / 1000) * interval) / 16);
+.LINE 33
+
+	LD	BC,(IX+%6)
+	CALL	__itol
+	LD	E,A
+	LD	HL,BC
+	LD	BC,18432
+	XOR	A,A
+	CALL	__lmuls
+	LD	BC,16
+	XOR	A,A
+	CALL	__ldivs
+	LD	(IX+%FFFFFFFE),L
+	LD	(IX+%FFFFFFFF),H
+;   34		TMR0_RR_H = (unsigned char)(rr >> 8);
+.LINE 34
+
+	LD	BC,(IX+%FFFFFFFE)
+	CALL	__stoiu
+	LD	A,%8
+	CALL	__ishrs_b
+	LD	A,L
+	OUT0	(130),A
+;   35		TMR0_RR_L = (unsigned char)(rr);
+.LINE 35
+
+	LD	A,(IX+%FFFFFFFE)
+	OUT0	(129),A
+;   36		tmp = TMR0_CTL;
+.LINE 36
+
+	IN0	A,(128)
+	LD	(IX+%FFFFFFFD),A
+;   37	    TMR0_CTL = 0x57;
+.LINE 37
+
+	LD	A,%57
+	OUT0	(128),A
+;   38	}
+.LINE 38
+
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _timer0_begin ***************************
+;Name                         Addr/Register   Size   Type
+;_timer0                             IMPORT      3   variable
+;__timer0_prevhandler                STATIC      3   variable
+;_timer0_handler                     IMPORT  -----   function
+;_mos_setintvector                   IMPORT  -----   function
+;tmp                                   IX-3      1   variable
+;rr                                    IX-2      2   variable
+;interval                              IX+6      3   parameter
+
+
+; Stack Frame Size: 12 (bytes)
+;       Spill Code: 0 (instruction)
+
+
+.ENDFUNC "timer0_begin",38,"_timer0_begin"
+;   39	
+;   40	void timer0_end(void)
+;   41	{
+_timer0_end:
+.DEFINE "_timer0_end"
+
+.VALUE _timer0_end
+
+.CLASS 2
+
+.TYPE 65
+
+.ENDEF
+
+.BEGFUNC "timer0_end",41,"_timer0_end"
+
+	PUSH	IX
+	LD	IX,0
+	ADD	IX,SP
+;   42		TMR0_CTL = 0;
+.LINE 42
+
+	XOR	A,A
+	OUT0	(128),A
+;   43		mos_setintvector(PRT0_IVECT, _timer0_prevhandler);
+.LINE 43
+
+	LD	BC,(__timer0_prevhandler)
+	PUSH	BC
+	LD	BC,10
+	PUSH	BC
+	CALL	_mos_setintvector
+	POP	BC
+	POP	BC
+;   44	}
+.LINE 44
+
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _timer0_end ***************************
+;Name                         Addr/Register   Size   Type
+;__timer0_prevhandler                STATIC      3   variable
+;_mos_setintvector                   IMPORT  -----   function
+
+
+; Stack Frame Size: 6 (bytes)
+;       Spill Code: 0 (instruction)
+
+
+.ENDFUNC "timer0_end",44,"_timer0_end"
+;   45	
+;   46	// delay for number of ms using TMR0
+;   47	// this routine doesn't use the interrupt handler for TMR0
+;   48	void delayms(int ms)
+;   49	{
+_delayms:
+.DEFINE "_delayms"
+
+.VALUE _delayms
+
+.CLASS 2
+
+.TYPE 65
+
+.ENDEF
+
+.BEGFUNC "delayms",49,"_delayms"
+
+.LINE 49
+
+.DEFINE "ms"
+
+.CLASS 65
+
+.VALUE 6
+
+.TYPE 4
+
+.ENDEF
+
+.DEFINE "timer0"
+
+.CLASS 65
+
+.VALUE -2
+
+.TYPE 13
+
+.ENDEF
+
+	PUSH	IX
+	LD	IX,0
+	ADD	IX,SP
+	DEC	SP
+	DEC	SP
+;   50		unsigned short rr;
+;   51		UINT16 timer0;
+;   52	
+;   53		rr = TMR0_COUNTER_1ms - 19;	// 1,7% correction for cycles during while(ms) loop
+;   54		
+;   55		TMR0_CTL = 0x00;	// disable timer0
+.LINE 55
+
+	XOR	A,A
+	OUT0	(128),A
+;   56		
+;   57		while(ms)
+.LINE 57
+
+	JR	L_6
+L_7:
+;   58		{	
+;   59			TMR0_RR_H = (unsigned char)(rr >> 8);
+.LINE 59
+
+	LD	A,%4
+	OUT0	(130),A
+;   60			TMR0_RR_L = (unsigned char)(rr);
+.LINE 60
+
+	LD	A,%6D
+	OUT0	(129),A
+;   61					
+;   62			TMR0_CTL = 0x87; // enable, single pass, stop at 0, start countdown immediately
+.LINE 62
+
+	LD	A,%87
+	OUT0	(128),A
+;   63			do
+L_2:
+.LINE 63
+
+;   64			{
+;   65				timer0 = TMR0_DR_L;
+.LINE 65
+
+	IN0	A,(129)
+	LD	C,A
+	LD	B,%0
+	LD	HL,BC
+	LD	(IX+%FFFFFFFE),L
+	LD	(IX+%FFFFFFFF),H
+;   66				timer0 = timer0 | (TMR0_DR_H << 8);		
+.LINE 66
+
+	IN0	A,(130)
+	LD	C,A
+	LD	HL,BC
+	LD	H,L
+	LD	L,%0
+	LD	BC,(IX+%FFFFFFFE)
+	CALL	__sor
+	LD	(IX+%FFFFFFFE),L
+	LD	(IX+%FFFFFFFF),H
+;   67			}
+;   68			while(timer0);
+.LINE 68
+
+	LD	HL,(IX+%FFFFFFFE)
+	CALL	__scmpzero
+	JR	NZ,L_2
+;   69			ms--;
+.LINE 69
+
+	LD	BC,(IX+%6)
+	DEC	BC
+	LD	(IX+%6),BC
+;   70		}
+L_6:
+.LINE 70
+
+	LD	HL,(IX+%6)
+	CALL	__icmpzero
+	JR	NZ,L_7
+.LINE 71
+
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _delayms ***************************
+;Name                         Addr/Register   Size   Type
+;timer0                                IX-2      2   variable
+;ms                                    IX+6      3   parameter
+
+
+; Stack Frame Size: 11 (bytes)
+;       Spill Code: 0 (instruction)
+
+
+.ENDFUNC "delayms",71,"_delayms"
+	XREF _mos_setintvector:ROM
+	XREF _timer0_handler:ROM
+	XREF _timer0:ROM
+	XREF __ldivs:ROM
+	XREF __lmuls:ROM
+	XREF __sor:ROM
+	XREF __stoiu:ROM
+	XREF __itol:ROM
+	XREF __scmpzero:ROM
+	XREF __icmpzero:ROM
+	XREF __ishrs_b:ROM
+	XDEF _delayms
+	XDEF _timer0_end
+	XDEF _timer0_begin
+	XDEF __timer0_prevhandler
+	END

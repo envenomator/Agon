@@ -42,6 +42,3 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-
-# Debug directories
-Debug/

@@ -10,6 +10,7 @@
 <file filter-key="">.\template.linkcmd</file>
 <file filter-key="">.\agontimer.c</file>
 <file filter-key="">.\agontimer-timer0.asm</file>
+<file filter-key="">.\mosextra.asm</file>
 </files>
 
 <!-- configuration information -->

@@ -11,6 +11,7 @@
  * 25/03/2023:      Added MOS 1.03 functions / sysvars
  * 16/04/2023:      Added MOS 1.03RC4 mos_fread / mos_fwrite / mos_flseek functions
  * 19/04/2023:		Added mos_getfil
+ * 30/10/2023:		removed all sysvar functions -> struct sysvar_t created
  */
 
 #ifndef MOS_H
@@ -27,38 +28,40 @@
 #define fa_open_always		    0x10
 #define fa_open_append		    0x30
 
-// Indexes into sysvar - from mos_api.inc
-#define sysvar_time			    0x00    // 4: Clock timer in centiseconds (incremented by 2 every VBLANK)
-#define sysvar_vpd_pflags	    0x04    // 1: Flags to indicate completion of VDP commands
-#define sysvar_keyascii		    0x05    // 1: ASCII keycode, or 0 if no key is pressed
-#define sysvar_keymods		    0x06    // 1: Keycode modifiers
-#define sysvar_cursorX		    0x07    // 1: Cursor X position
-#define sysvar_cursorY		    0x08    // 1: Cursor Y position
-#define sysvar_scrchar		    0x09    // 1: Character read from screen
-#define sysvar_scrpixel		    0x0A    // 3: Pixel data read from screen (R,B,G)
-#define sysvar_audioChannel	    0x0D    // 1: Audio channel
-#define syscar_audioSuccess	    0x0E    // 1: Audio channel note queued (0 = no, 1 = yes)
-#define sysvar_scrWidth	        0x0F	// 2: Screen width in pixels
-#define sysvar_scrHeight	    0x11	// 2: Screen height in pixels
-#define sysvar_scrCols		    0x13	// 1: Screen columns in characters
-#define sysvar_scrRows		    0x14	// 1: Screen rows in characters
-#define sysvar_scrColours	    0x15	// 1: Number of colours displayed
-#define sysvar_scrpixelIndex    0x16	// 1: Index of pixel data read from screen
-#define sysvar_vkeycode	        0x17	// 1: Virtual key code from FabGL
-#define sysvar_vkeydown			0x18	// 1: Virtual key state from FabGL (0=up, 1=down)
-#define sysvar_vkeycount	    0x19	// 1: Incremented every time a key packet is received
-#define sysvar_rtc		        0x1A	// 8: Real time clock data
-#define sysvar_keydelay	        0x22	// 2: Keyboard repeat delay
-#define sysvar_keyrate		    0x24	// 2: Keyboard repeat reat
-#define sysvar_keyled		    0x26	// 1: Keyboard LED status
-
-// Flags for the VPD protocol - sysvar_vpd_pflags
-#define vdp_pflag_cursor        0x01
-#define vdp_pflag_scrchar       0x02
-#define vdp_pflag_point         0x04
-#define vdp_pflag_audio         0x08
-#define vdp_pflag_mode          0x10
-#define vdp_pflag_rtc           0x20
+typedef struct {
+	uint32_t clock;				// 4	Clock timer in centiseconds (incremented by 2 every VBLANK)
+	uint8_t vpd_protocol_flags;	// 1	Flags to indicate completion of VDP commands
+	uint8_t keyascii;			// 1	ASCII keycode, or 0 if no key is pressed
+	uint8_t keymods;			// 1	Keycode modifiers
+	uint8_t cursorX;			// 1	Cursor X position
+	uint8_t cursorY;			// 1	Cursor Y position
+	uint8_t scrchar;			// 1	Character read from screen
+	uint24_t scrpixel;			// 3	Pixel data read from screen (R,B,G)
+	uint8_t audioChannel;		// 1	Audio channel 
+	uint8_t audioSuccess;		// 1	Audio channel note queued (0 = no, 1 = yes)
+	uint16_t scrwidth;			// 2	Screen width in pixels
+	uint16_t scrheight;			// 2	Screen height in pixels
+	uint8_t scrcols;			// 1	Screen columns in characters
+	uint8_t scrrows;			// 1	Screen rows in characters
+	uint8_t scrcolours;			// 1	Number of colours displayed
+	uint8_t scrpixelIndex;		// 1	Index of pixel data read from screen
+	uint8_t keycode;			// 1	Virtual key code from FabGL
+	uint8_t keydown;			// 1	Virtual key state from FabGL (0=up, 1=down)
+	uint8_t keycount;			// 1	Incremented every time a key packet is received
+	uint8_t rtc[6];				// 6	Real time clock data
+	uint8_t rtc_spare[2];		// 2	Spare, previously used by rtc
+	uint16_t keydelay;			// 2	Keyboard repeat delay
+	uint16_t keyrate;			// 2	Keyboard repeat rate
+	uint8_t keyled;				// 1	Keyboard LED status
+	uint8_t scrmode;			// 1	Screen mode
+	uint8_t rtc_enable;			// 1	RTC enable status
+	uint16_t mouseX;			// 2	Mouse X position
+	uint16_t mouseY;			// 2	Mouse Y position
+	uint8_t mouseButtons;		// 1	Mouse left+right+middle buttons (bits 0-2, 0=up, 1=down)
+	uint8_t mouseWheel;			// 1	Mouse wheel delta
+	uint16_t mouseXDelta;		// 2	Mouse X delta
+	uint16_t mouseYDelta;		// 2	Mouse Y delta
+} sysvar_t;
 
 // UART settings for open_UART1
 typedef struct {
@@ -99,28 +102,7 @@ extern void  waitvblank(void);
 extern void  mos_puts(char * buffer, UINT24 size, char delimiter);
 
 // Get system variables
-extern UINT8  getsysvar_vpd_pflags();
-extern UINT8  getsysvar_keyascii();
-extern UINT8  getsysvar_keymods();
-extern UINT8  getsysvar_cursorX();
-extern UINT8  getsysvar_cursorY();
-extern UINT8  getsysvar_scrchar();
-extern UINT24 getsysvar_scrpixel();
-extern UINT8  getsysvar_audioChannel();
-extern UINT8  getsysvar_audioSuccess();
-extern UINT16 getsysvar_scrwidth();
-extern UINT16 getsysvar_scrheight();
-extern UINT8  getsysvar_scrCols();
-extern UINT8  getsysvar_scrRows();
-extern UINT8  getsysvar_scrColours();
-extern UINT8  getsysvar_scrpixelIndex();
-extern UINT8  getsysvar_vkeycode();
-extern UINT8  getsysvar_vkeydown();
-extern UINT8  getsysvar_vkeycount();
-extern UINT8* getsysvar_rtc();
-extern UINT16 getsysvar_keydelay();
-extern UINT16 getsysvar_keyrate();
-extern UINT8  getsysvar_keyled();
+extern sysvar_t* getsysvars(void);
 
 // MOS API calls
 extern UINT8  mos_load(char *filename, UINT24 address, UINT24 maxsize);

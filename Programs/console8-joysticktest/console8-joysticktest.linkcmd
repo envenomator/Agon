@@ -9,6 +9,7 @@ RANGE RAM $040000 : $0BFFFF
 RANGE EXTIO $000000 : $00FFFF
 RANGE INTIO $000000 : $0000FF
 
+CHANGE TEXT is DATA
 CHANGE CODE = RAM
 CHANGE STRSECT = RAM
 CHANGE DATA = RAM 
@@ -18,14 +19,13 @@ ORDER CODE,DATA
 DEFINE __low_bss = base of BSS
 DEFINE __len_bss = length of BSS
 
- "template"= \
+ "console8-joysticktest"= \
  ".\init.obj", \
  ".\main.obj", \
  ".\vdp.obj", \
  ".\mos-interface.obj", \
  ".\agontimer.obj", \
  ".\agontimer-timer0.obj", \
- ".\mosextra.obj", \
  "C:\ZiLOG\ZDSII_eZ80Acclaim!_5.3.5\lib\std\chelpD.lib", \
  "C:\ZiLOG\ZDSII_eZ80Acclaim!_5.3.5\lib\std\crtD.lib", \
  "C:\ZiLOG\ZDSII_eZ80Acclaim!_5.3.5\lib\std\crtSD.lib", \

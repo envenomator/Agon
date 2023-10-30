@@ -1,4 +1,4 @@
-Zilog eZ80 Macro Assembler Version 4.3 (19073001) RELISTED29-Oct-23     21:39:02     page:   1
+Zilog eZ80 Macro Assembler Version 4.3 (19073001) RELISTED30-Oct-23     11:29:32     page:   1
 
 
 PC     Object              I  Line    Source 
@@ -59,7 +59,7 @@ PC     Object              I  Line    Source
 040053 CD 77 00 04         A    54    			CALL	_clear_bss
 040057 E1                  A    55    			POP	HL
                            A    56    ;
-040058 DD21 36 1E 04       A    57    			LD	IX, argv_ptrs		; The argv 
+040058 DD21 1E 1D 04       A    57    			LD	IX, argv_ptrs		; The argv 
 04005D DDE5                A    58    			PUSH	IX			; Parameter 2: 
 04005F CD 96 00 04         A    59    			CALL	_parse_params		; Parse
 040063 0600                A    60    			LD	B, 0			; Clear B from 
@@ -86,13 +86,13 @@ PC     Object              I  Line    Source
 04007E B0                  A    81    			OR	A, B
 04007F C8                  A    82    			RET	Z			; BSS is zero-lengt
 040080 AF                  A    83    			XOR	A, A
-040081 32 3C 1F 04         A    84    			LD 	(__low_bss), A
+040081 32 24 1E 04         A    84    			LD 	(__low_bss), A
 040085 ED62                A    85    			SBC	HL, HL			; HL = 0
 040087 0B                  A    86    			DEC	BC			; 1st byte's taken 
 040088 ED42                A    87    			SBC	HL, BC
 04008A C8                  A    88    			RET	Z		  	; Just 1 byte ...
-04008B 21 3C 1F 04         A    89    			LD	HL, __low_bss		; Reset HL
-04008F 11 3D 1F 04         A    90    			LD	DE, __low_bss + 1	; [DE] = bs
+04008B 21 24 1E 04         A    89    			LD	HL, __low_bss		; Reset HL
+04008F 11 25 1E 04         A    90    			LD	DE, __low_bss + 1	; [DE] = bs
 040093 EDB0                A    91    			LDIR				; Clear this se
 040095 C9                  A    92    			RET
                            A    93    			
@@ -175,14 +175,14 @@ PC     Object              I  Line    Source
                            A   170    
                            A   171    ; Storage for the argv array pointers
                            A   172    ;
-041E36 000000 000000       A   173    argv_ptrs:		BLKP	argv_ptrs_max, 0
-041E3C 000000 000000 
-041E42 000000 000000 
-041E48 000000 000000 
-041E4E 000000 000000 
-041E54 000000 000000 
-041E5A 000000 000000 
-041E60 000000 000000 
+041D1E 000000 000000       A   173    argv_ptrs:		BLKP	argv_ptrs_max, 0
+041D24 000000 000000 
+041D2A 000000 000000 
+041D30 000000 000000 
+041D36 000000 000000 
+041D3C 000000 000000 
+041D42 000000 000000 
+041D48 000000 000000 
                            A   174    			
                            A   175    			END
 

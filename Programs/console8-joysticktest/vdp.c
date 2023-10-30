@@ -389,6 +389,7 @@ void vdp_spriteRefresh(void)
 UINT8 vdp_cursorGetXpos(void)
 {
 	unsigned int delay;
+	sysvar_t *sysvars = getsysvars();
 	
 	putch(23);	// VDP command
 	putch(0);	// VDP command
@@ -396,13 +397,13 @@ UINT8 vdp_cursorGetXpos(void)
 	
 	delay = 255;
 	while(delay--);
-	return(getsysvar_cursorX());
-
+	return(sysvars->cursorX);
 }
 
 UINT8 vdp_cursorGetYpos(void)
 {
 	unsigned int delay;
+	sysvar_t *sysvars = getsysvars();
 	
 	putch(23);	// VDP command
 	putch(0);	// VDP command
@@ -410,13 +411,14 @@ UINT8 vdp_cursorGetYpos(void)
 	
 	delay = 255;
 	while(delay--);
-	return(getsysvar_cursorY());
+	return(sysvars->cursorY);
 }
 
 char vdp_asciiCodeAt(unsigned char x, unsigned char y)
 {
 	unsigned int delay;
-	
+	sysvar_t *sysvars = getsysvars();
+
 	putch(23);	// VDP command
 	putch(0);	// VDP command
 	putch(0x83);	// Request ascii code at position (x,y)
@@ -427,7 +429,7 @@ char vdp_asciiCodeAt(unsigned char x, unsigned char y)
 	
 	delay = 64000;
 	while(delay--);
-	return(getsysvar_scrchar());
+	return(sysvars->scrchar);
 }
 
 void  vdp_setpagedMode(bool mode) {

@@ -1,4 +1,4 @@
-Zilog eZ80 Macro Assembler Version 4.3 (19073001) RELISTED29-Oct-23     21:39:02     page:   1
+Zilog eZ80 Macro Assembler Version 4.3 (19073001) RELISTED30-Oct-23     11:29:32     page:   1
 
 
 PC     Object              I  Line    Source 
@@ -197,22 +197,22 @@ PC     Object              I  Line    Source
                            A    14    
                            A    15    ; AGON Timer 0 Interrupt Handler
                            A    16    ;
-0414A7                     A    17    _timer0_handler:	
-0414A7 F3                  A    18    			DI
-0414A8 F5                  A    19    			PUSH	AF
-0414A9 ED3880              A    20    			IN0		A,(TMR0_CTL)		; Clear
-0414AC C5                  A    21    			PUSH	BC
-0414AD ED4B 66 1E 04       A    22    			LD		BC, (_timer0)		; Incre
-0414B2 03                  A    23    			INC		BC
-0414B3 ED43 66 1E 04       A    24    			LD		(_timer0), BC
-0414B8 C1                  A    25    			POP		BC
-0414B9 F1                  A    26    			POP		AF
-0414BA FB                  A    27    			EI
-0414BB 5BED4D              A    28    			RETI.L
+0413A7                     A    17    _timer0_handler:	
+0413A7 F3                  A    18    			DI
+0413A8 F5                  A    19    			PUSH	AF
+0413A9 ED3880              A    20    			IN0		A,(TMR0_CTL)		; Clear
+0413AC C5                  A    21    			PUSH	BC
+0413AD ED4B 4E 1D 04       A    22    			LD		BC, (_timer0)		; Incre
+0413B2 03                  A    23    			INC		BC
+0413B3 ED43 4E 1D 04       A    24    			LD		(_timer0), BC
+0413B8 C1                  A    25    			POP		BC
+0413B9 F1                  A    26    			POP		AF
+0413BA FB                  A    27    			EI
+0413BB 5BED4D              A    28    			RETI.L
                            A    29    	
                            A    30    			SEGMENT DATA
                            A    31    			
-041E66                     A    32    _timer0			DS	3
+041D4E                     A    32    _timer0			DS	3
 
 
 Errors: 0

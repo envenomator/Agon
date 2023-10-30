@@ -1,0 +1,1029 @@
+Zilog eZ80 Macro Assembler Version 4.3 (19073001) RELISTED30-Oct-23     11:29:32     page:   1
+
+
+PC     Object              I  Line    Source 
+                           A     1    ; Zilog eZ80 ANSI C Compiler Release 3.4
+                           A     2    ; -nomodsect -optsize -noreduceopt -nopadbranch
+                           A     3    ; -peephole -globalopt -localcse -const=ROM 
+                           A     4    	FILE	"..\main.c"
+                           A     5    	.assume ADL=1
+                           A     6    .DEBUG "C"
+                           A     7    	SEGMENT CODE
+                           A     8    .BEGREC "fmt_type",19
+                           A     9    .DEFINE "status"
+                           A    10    .VALUE 0
+                           A    11    .CLASS 8
+                           A    12    .TYPE 12
+                           A    13    .ENDEF
+                           A    14    .DEFINE "flags"
+                           A    15    .VALUE 1
+                           A    16    .CLASS 8
+                           A    17    .TYPE 12
+                           A    18    .ENDEF
+                           A    19    .DEFINE "size"
+                           A    20    .VALUE 2
+                           A    21    .CLASS 8
+                           A    22    .TYPE 2
+                           A    23    .ENDEF
+                           A    24    .DEFINE "chr"
+                           A    25    .VALUE 3
+                           A    26    .CLASS 8
+                           A    27    .TYPE 2
+                           A    28    .ENDEF
+                           A    29    .DEFINE "type"
+                           A    30    .VALUE 4
+                           A    31    .CLASS 8
+                           A    32    .TYPE 2
+                           A    33    .ENDEF
+                           A    34    .DEFINE "field_width"
+                           A    35    .VALUE 5
+                           A    36    .CLASS 8
+                           A    37    .TYPE 2
+                           A    38    .ENDEF
+                           A    39    .DEFINE "precision"
+                           A    40    .VALUE 6
+                           A    41    .CLASS 8
+                           A    42    .TYPE 2
+                           A    43    .ENDEF
+                           A    44    .DEFINE "set_begin"
+                           A    45    .VALUE 7
+                           A    46    .CLASS 8
+                           A    47    .TYPE 34
+                           A    48    .ENDEF
+                           A    49    .DEFINE "set_end"
+                           A    50    .VALUE 10
+                           A    51    .CLASS 8
+                           A    52    .TYPE 34
+                           A    53    .ENDEF
+                           A    54    .DEFINE "pad_whole"
+                           A    55    .VALUE 13
+                           A    56    .CLASS 8
+                           A    57    .TYPE 12
+                           A    58    .ENDEF
+                           A    59    .DEFINE "pad_pre_fract"
+                           A    60    .VALUE 14
+                           A    61    .CLASS 8
+                           A    62    .TYPE 12
+                           A    63    .ENDEF
+                           A    64    .DEFINE "pad_post_fract"
+                           A    65    .VALUE 15
+                           A    66    .CLASS 8
+                           A    67    .TYPE 12
+                           A    68    .ENDEF
+                           A    69    .DEFINE "pad_at"
+                           A    70    .VALUE 16
+                           A    71    .CLASS 8
+                           A    72    .TYPE 34
+                           A    73    .ENDEF
+                           A    74    .ENDREC "fmt_type"
+                           A    75    .BEGREC "flt_info",12
+                           A    76    .DEFINE "flags"
+                           A    77    .VALUE 0
+                           A    78    .CLASS 8
+                           A    79    .TYPE 12
+                           A    80    .ENDEF
+                           A    81    .DEFINE "exp"
+                           A    82    .VALUE 1
+                           A    83    .CLASS 8
+                           A    84    .TYPE 2
+                           A    85    .ENDEF
+                           A    86    .DEFINE "digits"
+                           A    87    .VALUE 2
+                           A    88    .CLASS 8
+                           A    89    .DIM 10
+                           A    90    .TYPE 108
+                           A    91    .ENDEF
+                           A    92    .ENDREC "flt_info"
+                           A    93    .BEGREC "NONAME0",51
+                           A    94    .DEFINE "clock"
+                           A    95    .VALUE 0
+                           A    96    .CLASS 8
+                           A    97    .TYPE 15
+                           A    98    .ENDEF
+                           A    99    .DEFINE "vpd_protocol_flags"
+                           A   100    .VALUE 4
+                           A   101    .CLASS 8
+                           A   102    .TYPE 12
+                           A   103    .ENDEF
+                           A   104    .DEFINE "keyascii"
+                           A   105    .VALUE 5
+                           A   106    .CLASS 8
+                           A   107    .TYPE 12
+                           A   108    .ENDEF
+                           A   109    .DEFINE "keymods"
+                           A   110    .VALUE 6
+                           A   111    .CLASS 8
+                           A   112    .TYPE 12
+                           A   113    .ENDEF
+                           A   114    .DEFINE "cursorX"
+                           A   115    .VALUE 7
+                           A   116    .CLASS 8
+                           A   117    .TYPE 12
+                           A   118    .ENDEF
+                           A   119    .DEFINE "cursorY"
+                           A   120    .VALUE 8
+                           A   121    .CLASS 8
+                           A   122    .TYPE 12
+                           A   123    .ENDEF
+                           A   124    .DEFINE "scrchar"
+                           A   125    .VALUE 9
+                           A   126    .CLASS 8
+                           A   127    .TYPE 12
+                           A   128    .ENDEF
+                           A   129    .DEFINE "scrpixel"
+                           A   130    .VALUE 10
+                           A   131    .CLASS 8
+                           A   132    .TYPE 14
+                           A   133    .ENDEF
+                           A   134    .DEFINE "audioChannel"
+                           A   135    .VALUE 13
+                           A   136    .CLASS 8
+                           A   137    .TYPE 12
+                           A   138    .ENDEF
+                           A   139    .DEFINE "audioSuccess"
+                           A   140    .VALUE 14
+                           A   141    .CLASS 8
+                           A   142    .TYPE 12
+                           A   143    .ENDEF
+                           A   144    .DEFINE "scrwidth"
+                           A   145    .VALUE 15
+                           A   146    .CLASS 8
+                           A   147    .TYPE 13
+                           A   148    .ENDEF
+                           A   149    .DEFINE "scrheight"
+                           A   150    .VALUE 17
+                           A   151    .CLASS 8
+                           A   152    .TYPE 13
+                           A   153    .ENDEF
+                           A   154    .DEFINE "scrcols"
+                           A   155    .VALUE 19
+                           A   156    .CLASS 8
+                           A   157    .TYPE 12
+                           A   158    .ENDEF
+                           A   159    .DEFINE "scrrows"
+                           A   160    .VALUE 20
+                           A   161    .CLASS 8
+                           A   162    .TYPE 12
+                           A   163    .ENDEF
+                           A   164    .DEFINE "scrcolours"
+                           A   165    .VALUE 21
+                           A   166    .CLASS 8
+                           A   167    .TYPE 12
+                           A   168    .ENDEF
+                           A   169    .DEFINE "scrpixelIndex"
+                           A   170    .VALUE 22
+                           A   171    .CLASS 8
+                           A   172    .TYPE 12
+                           A   173    .ENDEF
+                           A   174    .DEFINE "keycode"
+                           A   175    .VALUE 23
+                           A   176    .CLASS 8
+                           A   177    .TYPE 12
+                           A   178    .ENDEF
+                           A   179    .DEFINE "keydown"
+                           A   180    .VALUE 24
+                           A   181    .CLASS 8
+                           A   182    .TYPE 12
+                           A   183    .ENDEF
+                           A   184    .DEFINE "keycount"
+                           A   185    .VALUE 25
+                           A   186    .CLASS 8
+                           A   187    .TYPE 12
+                           A   188    .ENDEF
+                           A   189    .DEFINE "rtc"
+                           A   190    .VALUE 26
+                           A   191    .CLASS 8
+                           A   192    .DIM 6
+                           A   193    .TYPE 108
+                           A   194    .ENDEF
+                           A   195    .DEFINE "rtc_spare"
+                           A   196    .VALUE 32
+                           A   197    .CLASS 8
+                           A   198    .DIM 2
+                           A   199    .TYPE 108
+                           A   200    .ENDEF
+                           A   201    .DEFINE "keydelay"
+                           A   202    .VALUE 34
+                           A   203    .CLASS 8
+                           A   204    .TYPE 13
+                           A   205    .ENDEF
+                           A   206    .DEFINE "keyrate"
+                           A   207    .VALUE 36
+                           A   208    .CLASS 8
+                           A   209    .TYPE 13
+                           A   210    .ENDEF
+                           A   211    .DEFINE "keyled"
+                           A   212    .VALUE 38
+                           A   213    .CLASS 8
+                           A   214    .TYPE 12
+                           A   215    .ENDEF
+                           A   216    .DEFINE "scrmode"
+                           A   217    .VALUE 39
+                           A   218    .CLASS 8
+                           A   219    .TYPE 12
+                           A   220    .ENDEF
+                           A   221    .DEFINE "rtc_enable"
+                           A   222    .VALUE 40
+                           A   223    .CLASS 8
+                           A   224    .TYPE 12
+                           A   225    .ENDEF
+                           A   226    .DEFINE "mouseX"
+                           A   227    .VALUE 41
+                           A   228    .CLASS 8
+                           A   229    .TYPE 13
+                           A   230    .ENDEF
+                           A   231    .DEFINE "mouseY"
+                           A   232    .VALUE 43
+                           A   233    .CLASS 8
+                           A   234    .TYPE 13
+                           A   235    .ENDEF
+                           A   236    .DEFINE "mouseButtons"
+                           A   237    .VALUE 45
+                           A   238    .CLASS 8
+                           A   239    .TYPE 12
+                           A   240    .ENDEF
+                           A   241    .DEFINE "mouseWheel"
+                           A   242    .VALUE 46
+                           A   243    .CLASS 8
+                           A   244    .TYPE 12
+                           A   245    .ENDEF
+                           A   246    .DEFINE "mouseXDelta"
+                           A   247    .VALUE 47
+                           A   248    .CLASS 8
+                           A   249    .TYPE 13
+                           A   250    .ENDEF
+                           A   251    .DEFINE "mouseYDelta"
+                           A   252    .VALUE 49
+                           A   253    .CLASS 8
+                           A   254    .TYPE 13
+                           A   255    .ENDEF
+                           A   256    .ENDREC "NONAME0"
+                           A   257    .BEGREC "NONAME1",8
+                           A   258    .DEFINE "baudRate"
+                           A   259    .VALUE 0
+                           A   260    .CLASS 8
+                           A   261    .TYPE 4
+                           A   262    .ENDEF
+                           A   263    .DEFINE "dataBits"
+                           A   264    .VALUE 3
+                           A   265    .CLASS 8
+                           A   266    .TYPE 12
+                           A   267    .ENDEF
+                           A   268    .DEFINE "stopBits"
+                           A   269    .VALUE 4
+                           A   270    .CLASS 8
+                           A   271    .TYPE 12
+                           A   272    .ENDEF
+                           A   273    .DEFINE "parity"
+                           A   274    .VALUE 5
+                           A   275    .CLASS 8
+                           A   276    .TYPE 12
+                           A   277    .ENDEF
+                           A   278    .DEFINE "flowcontrol"
+                           A   279    .VALUE 6
+                           A   280    .CLASS 8
+                           A   281    .TYPE 12
+                           A   282    .ENDEF
+                           A   283    .DEFINE "eir"
+                           A   284    .VALUE 7
+                           A   285    .CLASS 8
+                           A   286    .TYPE 12
+                           A   287    .ENDEF
+                           A   288    .ENDREC "NONAME1"
+                           A   289    .BEGREC "NONAME2",15
+                           A   290    .DEFINE "fs"
+                           A   291    .VALUE 0
+                           A   292    .CLASS 8
+                           A   293    .TYPE 46
+                           A   294    .ENDEF
+                           A   295    .DEFINE "id"
+                           A   296    .VALUE 3
+                           A   297    .CLASS 8
+                           A   298    .TYPE 13
+                           A   299    .ENDEF
+                           A   300    .DEFINE "attr"
+                           A   301    .VALUE 5
+                           A   302    .CLASS 8
+                           A   303    .TYPE 12
+                           A   304    .ENDEF
+                           A   305    .DEFINE "stat"
+                           A   306    .VALUE 6
+                           A   307    .CLASS 8
+                           A   308    .TYPE 12
+                           A   309    .ENDEF
+                           A   310    .DEFINE "sclust"
+                           A   311    .VALUE 7
+                           A   312    .CLASS 8
+                           A   313    .TYPE 15
+                           A   314    .ENDEF
+                           A   315    .DEFINE "objsize"
+                           A   316    .VALUE 11
+                           A   317    .CLASS 8
+                           A   318    .TYPE 15
+                           A   319    .ENDEF
+                           A   320    .ENDREC "NONAME2"
+                           A   321    .BEGREC "NONAME3",36
+                           A   322    .DEFINE "obj"
+                           A   323    .VALUE 0
+                           A   324    .CLASS 8
+                           A   325    .TAG "NONAME2"
+                           A   326    .TYPE 8
+                           A   327    .ENDEF
+                           A   328    .DEFINE "flag"
+                           A   329    .VALUE 15
+                           A   330    .CLASS 8
+                           A   331    .TYPE 12
+                           A   332    .ENDEF
+                           A   333    .DEFINE "err"
+                           A   334    .VALUE 16
+                           A   335    .CLASS 8
+                           A   336    .TYPE 12
+                           A   337    .ENDEF
+                           A   338    .DEFINE "fptr"
+                           A   339    .VALUE 17
+                           A   340    .CLASS 8
+                           A   341    .TYPE 15
+                           A   342    .ENDEF
+                           A   343    .DEFINE "clust"
+                           A   344    .VALUE 21
+                           A   345    .CLASS 8
+                           A   346    .TYPE 15
+                           A   347    .ENDEF
+                           A   348    .DEFINE "sect"
+                           A   349    .VALUE 25
+                           A   350    .CLASS 8
+                           A   351    .TYPE 15
+                           A   352    .ENDEF
+                           A   353    .DEFINE "dir_sect"
+                           A   354    .VALUE 29
+                           A   355    .CLASS 8
+                           A   356    .TYPE 15
+                           A   357    .ENDEF
+                           A   358    .DEFINE "dir_ptr"
+                           A   359    .VALUE 33
+                           A   360    .CLASS 8
+                           A   361    .TYPE 46
+                           A   362    .ENDEF
+                           A   363    .ENDREC "NONAME3"
+                           A   364    ;    1	#include <stdio.h>
+                           A   365    ;    2	#include <ctype.h>
+                           A   366    ;    3	#include "mos-interface.h"
+                           A   367    ;    4	#include "vdp.h"
+                           A   368    ;    5	#include "agontimer.h"
+                           A   369    ;    6	#include <ez80f92.h>
+                           A   370    ;    7	
+                           A   371    ;    8	int main(int argc, char * argv[]) {
+0400E5                     A   372    _main:
+                           A   373    .DEFINE "_main"
+                           A   374    
+                           A   375    .VALUE _main
+                           A   376    
+                           A   377    .CLASS 2
+                           A   378    
+                           A   379    .TYPE 68
+                           A   380    
+                           A   381    .ENDEF
+                           A   382    
+                           A   383    .BEGFUNC "main",8,"_main"
+                           A   384    
+                           A   385    .LINE 8
+                           A   386    
+                           A   387    .DEFINE "argc"
+                           A   388    
+                           A   389    .CLASS 65
+                           A   390    
+                           A   391    .VALUE 6
+                           A   392    
+                           A   393    .TYPE 4
+                           A   394    
+                           A   395    .ENDEF
+                           A   396    
+                           A   397    .DEFINE "argv"
+                           A   398    
+                           A   399    .CLASS 65
+                           A   400    
+                           A   401    .VALUE 9
+                           A   402    
+                           A   403    .TYPE 290
+                           A   404    
+                           A   405    .ENDEF
+                           A   406    
+                           A   407    .DEFINE "direction"
+                           A   408    
+                           A   409    .CLASS 65
+                           A   410    
+                           A   411    .VALUE -1
+                           A   412    
+                           A   413    .TYPE 12
+                           A   414    
+                           A   415    .ENDEF
+                           A   416    
+                           A   417    .DEFINE "fire"
+                           A   418    
+                           A   419    .CLASS 65
+                           A   420    
+                           A   421    .VALUE -2
+                           A   422    
+                           A   423    .TYPE 12
+                           A   424    
+                           A   425    .ENDEF
+                           A   426    
+                           A   427    .DEFINE "sysvars"
+                           A   428    
+                           A   429    .CLASS 65
+                           A   430    
+                           A   431    .VALUE -41
+                           A   432    
+                           A   433    .TAG "NONAME0"
+                           A   434    
+                           A   435    .TYPE 40
+                           A   436    
+                           A   437    .ENDEF
+                           A   438    
+0400E5 DDE5                A   439    	PUSH	IX
+0400E7 DD210000 00         A   440    	LD	IX,0
+0400EC DD39                A   441    	ADD	IX,SP
+0400EE ED22D7              A   442    	LEA	HL,IX+%FFFFFFD7
+0400F1 F9                  A   443    	LD	SP,HL
+                           A   444    ;    9		uint8_t fire, direction;
+                           A   445    ;   10		sysvar_t* sysvars;
+                           A   446    ;   11		PC_DDR = 0xFF; // both joysticks
+                           A   447    .LINE 11
+                           A   448    
+0400F2 3EFF                A   449    	LD	A,%FF
+0400F4 ED399F              A   450    	OUT0	(159),A
+                           A   451    ;   12		PD_DDR |= 0xF0; // both joysticks, 
+                           A   452    .LINE 12
+                           A   453    
+0400F7 ED38A3              A   454    	IN0	A,(163)
+0400FA F6F0                A   455    	OR	A,%F0
+0400FC ED39A3              A   456    	OUT0	(163),A
+                           A   457    ;   13	
+                           A   458    ;   14		sysvars = getsysvars();
+                           A   459    .LINE 14
+                           A   460    
+0400FF CD 26 10 04         A   461    	CALL	_getsysvars
+040103 DD2FD7              A   462    	LD	(IX+%FFFFFFD7),HL
+                           A   463    ;   15		vdp_cls();
+                           A   464    .LINE 15
+                           A   465    
+040106 CD D8 05 04         A   466    	CALL	_vdp_cls
+                           A   467    ;   16		printf("Console8 joystick test\r\n\
+                           A   468    .LINE 16
+                           A   469    
+04010A 01 7F 15 04         A   470    	LD	BC,___print_uputch
+04010E ED43 51 1D 04       A   471    	LD	(___print_xputch),BC
+040113 01 54 1D 04         A   472    	LD	BC,L__0
+040117 C5                  A   473    	PUSH	BC
+040118 CD F3 13 04         A   474    	CALL	___print_sendstring
+04011C C1                  A   475    	POP	BC
+                           A   476    ;   17	
+                           A   477    ;   18		while(1) {
+04011D                     A   478    L_51:
+                           A   479    .LINE 18
+                           A   480    
+                           A   481    ;   19			fire = PD_DR;
+                           A   482    .LINE 19
+                           A   483    
+04011D ED38A2              A   484    	IN0	A,(162)
+040120 DD77FE              A   485    	LD	(IX+%FFFFFFFE),A
+                           A   486    ;   20			direction = PC_DR;
+                           A   487    .LINE 20
+                           A   488    
+040123 ED389E              A   489    	IN0	A,(158)
+040126 DD77FF              A   490    	LD	(IX+%FFFFFFFF),A
+                           A   491    ;   21			vdp_cursorGoto(0, 2);
+                           A   492    .LINE 21
+                           A   493    
+040129 01020000            A   494    	LD	BC,2
+04012D C5                  A   495    	PUSH	BC
+04012E 01000000            A   496    	LD	BC,0
+040132 C5                  A   497    	PUSH	BC
+040133 CD 20 06 04         A   498    	CALL	_vdp_cursorGoto
+040137 C1                  A   499    	POP	BC
+040138 C1                  A   500    	POP	BC
+                           A   501    ;   22			printf("  PORT1     PORT2\r\n\r
+                           A   502    .LINE 22
+                           A   503    
+040139 01 7F 15 04         A   504    	LD	BC,___print_uputch
+04013D ED43 51 1D 04       A   505    	LD	(___print_xputch),BC
+040142 01 6F 1D 04         A   506    	LD	BC,L__1
+040146 C5                  A   507    	PUSH	BC
+040147 CD F3 13 04         A   508    	CALL	___print_sendstring
+04014B C1                  A   509    	POP	BC
+                           A   510    ;   23			printf("   Up : %d    Up : %d\r
+                           A   511    .LINE 23
+                           A   512    
+04014C DD7EFF              A   513    	LD	A,(IX+%FFFFFFFF)
+04014F E602                A   514    	AND	A,%2
+040151 28 09               A   515    	JR	Z,L_2
+040153 01000000            A   516    	LD	BC,0
+040157 DD0FFB              A   517    	LD	(IX+%FFFFFFFB),BC
+04015A 18 07               A   518    	JR	L_3
+04015C                     A   519    L_2:
+04015C 01010000            A   520    	LD	BC,1
+040160 DD0FFB              A   521    	LD	(IX+%FFFFFFFB),BC
+040163                     A   522    L_3:
+040163 DD7EFF              A   523    	LD	A,(IX+%FFFFFFFF)
+040166 E601                A   524    	AND	A,%1
+040168 28 09               A   525    	JR	Z,L_6
+04016A 01000000            A   526    	LD	BC,0
+04016E DD0FF8              A   527    	LD	(IX+%FFFFFFF8),BC
+040171 18 07               A   528    	JR	L_7
+040173                     A   529    L_6:
+040173 01010000            A   530    	LD	BC,1
+040177 DD0FF8              A   531    	LD	(IX+%FFFFFFF8),BC
+04017A                     A   532    L_7:
+04017A 01 7F 15 04         A   533    	LD	BC,___print_uputch
+04017E ED43 51 1D 04       A   534    	LD	(___print_xputch),BC
+040183 01 85 1D 04         A   535    	LD	BC,L__4
+040187 C5                  A   536    	PUSH	BC
+040188 CD F3 13 04         A   537    	CALL	___print_sendstring
+04018C C1                  A   538    	POP	BC
+04018D DD07FB              A   539    	LD	BC,(IX+%FFFFFFFB)
+040190 CD 0B 1C 04         A   540    	CALL	__itol
+040194 C5D1                A   541    	LD	DE,BC
+040196 4F                  A   542    	LD	C,A
+040197 0600                A   543    	LD	B,%0
+040199 C5                  A   544    	PUSH	BC
+04019A D5                  A   545    	PUSH	DE
+04019B CD 77 16 04         A   546    	CALL	__u_itoa
+04019F C1                  A   547    	POP	BC
+0401A0 C1                  A   548    	POP	BC
+0401A1 01 8E 1D 04         A   549    	LD	BC,L__5
+0401A5 C5                  A   550    	PUSH	BC
+0401A6 CD F3 13 04         A   551    	CALL	___print_sendstring
+0401AA C1                  A   552    	POP	BC
+0401AB DD07F8              A   553    	LD	BC,(IX+%FFFFFFF8)
+0401AE CD 0B 1C 04         A   554    	CALL	__itol
+0401B2 C5D1                A   555    	LD	DE,BC
+0401B4 4F                  A   556    	LD	C,A
+0401B5 0600                A   557    	LD	B,%0
+0401B7 C5                  A   558    	PUSH	BC
+0401B8 D5                  A   559    	PUSH	DE
+0401B9 CD 77 16 04         A   560    	CALL	__u_itoa
+0401BD C1                  A   561    	POP	BC
+0401BE C1                  A   562    	POP	BC
+0401BF 01 98 1D 04         A   563    	LD	BC,L__6
+0401C3 C5                  A   564    	PUSH	BC
+0401C4 CD F3 13 04         A   565    	CALL	___print_sendstring
+0401C8 C1                  A   566    	POP	BC
+                           A   567    ;   24			printf(" Down : %d  Down : %d\r
+                           A   568    .LINE 24
+                           A   569    
+0401C9 DD7EFF              A   570    	LD	A,(IX+%FFFFFFFF)
+0401CC E608                A   571    	AND	A,%8
+0401CE 28 09               A   572    	JR	Z,L_10
+0401D0 01000000            A   573    	LD	BC,0
+0401D4 DD0FF5              A   574    	LD	(IX+%FFFFFFF5),BC
+0401D7 18 07               A   575    	JR	L_11
+0401D9                     A   576    L_10:
+0401D9 01010000            A   577    	LD	BC,1
+0401DD DD0FF5              A   578    	LD	(IX+%FFFFFFF5),BC
+0401E0                     A   579    L_11:
+0401E0 DD7EFF              A   580    	LD	A,(IX+%FFFFFFFF)
+0401E3 E604                A   581    	AND	A,%4
+0401E5 28 09               A   582    	JR	Z,L_14
+0401E7 01000000            A   583    	LD	BC,0
+0401EB DD0FF2              A   584    	LD	(IX+%FFFFFFF2),BC
+0401EE 18 07               A   585    	JR	L_15
+0401F0                     A   586    L_14:
+0401F0 01010000            A   587    	LD	BC,1
+0401F4 DD0FF2              A   588    	LD	(IX+%FFFFFFF2),BC
+0401F7                     A   589    L_15:
+0401F7 01 7F 15 04         A   590    	LD	BC,___print_uputch
+0401FB ED43 51 1D 04       A   591    	LD	(___print_xputch),BC
+040200 01 9B 1D 04         A   592    	LD	BC,L__9
+040204 C5                  A   593    	PUSH	BC
+040205 CD F3 13 04         A   594    	CALL	___print_sendstring
+040209 C1                  A   595    	POP	BC
+04020A DD07F5              A   596    	LD	BC,(IX+%FFFFFFF5)
+04020D CD 0B 1C 04         A   597    	CALL	__itol
+040211 C5D1                A   598    	LD	DE,BC
+040213 4F                  A   599    	LD	C,A
+040214 0600                A   600    	LD	B,%0
+040216 C5                  A   601    	PUSH	BC
+040217 D5                  A   602    	PUSH	DE
+040218 CD 77 16 04         A   603    	CALL	__u_itoa
+04021C C1                  A   604    	POP	BC
+04021D C1                  A   605    	POP	BC
+04021E 01 A4 1D 04         A   606    	LD	BC,L__10
+040222 C5                  A   607    	PUSH	BC
+040223 CD F3 13 04         A   608    	CALL	___print_sendstring
+040227 C1                  A   609    	POP	BC
+040228 DD07F2              A   610    	LD	BC,(IX+%FFFFFFF2)
+04022B CD 0B 1C 04         A   611    	CALL	__itol
+04022F C5D1                A   612    	LD	DE,BC
+040231 4F                  A   613    	LD	C,A
+040232 0600                A   614    	LD	B,%0
+040234 C5                  A   615    	PUSH	BC
+040235 D5                  A   616    	PUSH	DE
+040236 CD 77 16 04         A   617    	CALL	__u_itoa
+04023A C1                  A   618    	POP	BC
+04023B C1                  A   619    	POP	BC
+04023C 01 AE 1D 04         A   620    	LD	BC,L__11
+040240 C5                  A   621    	PUSH	BC
+040241 CD F3 13 04         A   622    	CALL	___print_sendstring
+040245 C1                  A   623    	POP	BC
+                           A   624    ;   25			printf(" Left : %d  Left : %d\r
+                           A   625    .LINE 25
+                           A   626    
+040246 DD7EFF              A   627    	LD	A,(IX+%FFFFFFFF)
+040249 E620                A   628    	AND	A,%20
+04024B 28 09               A   629    	JR	Z,L_18
+04024D 01000000            A   630    	LD	BC,0
+040251 DD0FEF              A   631    	LD	(IX+%FFFFFFEF),BC
+040254 18 07               A   632    	JR	L_19
+040256                     A   633    L_18:
+040256 01010000            A   634    	LD	BC,1
+04025A DD0FEF              A   635    	LD	(IX+%FFFFFFEF),BC
+04025D                     A   636    L_19:
+04025D DD7EFF              A   637    	LD	A,(IX+%FFFFFFFF)
+040260 E610                A   638    	AND	A,%10
+040262 28 09               A   639    	JR	Z,L_22
+040264 01000000            A   640    	LD	BC,0
+040268 DD0FEC              A   641    	LD	(IX+%FFFFFFEC),BC
+04026B 18 07               A   642    	JR	L_23
+04026D                     A   643    L_22:
+04026D 01010000            A   644    	LD	BC,1
+040271 DD0FEC              A   645    	LD	(IX+%FFFFFFEC),BC
+040274                     A   646    L_23:
+040274 01 7F 15 04         A   647    	LD	BC,___print_uputch
+040278 ED43 51 1D 04       A   648    	LD	(___print_xputch),BC
+04027D 01 B1 1D 04         A   649    	LD	BC,L__14
+040281 C5                  A   650    	PUSH	BC
+040282 CD F3 13 04         A   651    	CALL	___print_sendstring
+040286 C1                  A   652    	POP	BC
+040287 DD07EF              A   653    	LD	BC,(IX+%FFFFFFEF)
+04028A CD 0B 1C 04         A   654    	CALL	__itol
+04028E C5D1                A   655    	LD	DE,BC
+040290 4F                  A   656    	LD	C,A
+040291 0600                A   657    	LD	B,%0
+040293 C5                  A   658    	PUSH	BC
+040294 D5                  A   659    	PUSH	DE
+040295 CD 77 16 04         A   660    	CALL	__u_itoa
+040299 C1                  A   661    	POP	BC
+04029A C1                  A   662    	POP	BC
+04029B 01 BA 1D 04         A   663    	LD	BC,L__15
+04029F C5                  A   664    	PUSH	BC
+0402A0 CD F3 13 04         A   665    	CALL	___print_sendstring
+0402A4 C1                  A   666    	POP	BC
+0402A5 DD07EC              A   667    	LD	BC,(IX+%FFFFFFEC)
+0402A8 CD 0B 1C 04         A   668    	CALL	__itol
+0402AC C5D1                A   669    	LD	DE,BC
+0402AE 4F                  A   670    	LD	C,A
+0402AF 0600                A   671    	LD	B,%0
+0402B1 C5                  A   672    	PUSH	BC
+0402B2 D5                  A   673    	PUSH	DE
+0402B3 CD 77 16 04         A   674    	CALL	__u_itoa
+0402B7 C1                  A   675    	POP	BC
+0402B8 C1                  A   676    	POP	BC
+0402B9 01 C4 1D 04         A   677    	LD	BC,L__16
+0402BD C5                  A   678    	PUSH	BC
+0402BE CD F3 13 04         A   679    	CALL	___print_sendstring
+0402C2 C1                  A   680    	POP	BC
+                           A   681    ;   26			printf("Right : %d Right : %d\r
+                           A   682    .LINE 26
+                           A   683    
+0402C3 DD7EFF              A   684    	LD	A,(IX+%FFFFFFFF)
+0402C6 E680                A   685    	AND	A,%80
+0402C8 28 09               A   686    	JR	Z,L_26
+0402CA 01000000            A   687    	LD	BC,0
+0402CE DD0FE9              A   688    	LD	(IX+%FFFFFFE9),BC
+0402D1 18 07               A   689    	JR	L_27
+0402D3                     A   690    L_26:
+0402D3 01010000            A   691    	LD	BC,1
+0402D7 DD0FE9              A   692    	LD	(IX+%FFFFFFE9),BC
+0402DA                     A   693    L_27:
+0402DA DD7EFF              A   694    	LD	A,(IX+%FFFFFFFF)
+0402DD E640                A   695    	AND	A,%40
+0402DF 28 09               A   696    	JR	Z,L_30
+0402E1 01000000            A   697    	LD	BC,0
+0402E5 DD0FE6              A   698    	LD	(IX+%FFFFFFE6),BC
+0402E8 18 07               A   699    	JR	L_31
+0402EA                     A   700    L_30:
+0402EA 01010000            A   701    	LD	BC,1
+0402EE DD0FE6              A   702    	LD	(IX+%FFFFFFE6),BC
+0402F1                     A   703    L_31:
+0402F1 01 7F 15 04         A   704    	LD	BC,___print_uputch
+0402F5 ED43 51 1D 04       A   705    	LD	(___print_xputch),BC
+0402FA 01 C7 1D 04         A   706    	LD	BC,L__19
+0402FE C5                  A   707    	PUSH	BC
+0402FF CD F3 13 04         A   708    	CALL	___print_sendstring
+040303 C1                  A   709    	POP	BC
+040304 DD07E9              A   710    	LD	BC,(IX+%FFFFFFE9)
+040307 CD 0B 1C 04         A   711    	CALL	__itol
+04030B C5D1                A   712    	LD	DE,BC
+04030D 4F                  A   713    	LD	C,A
+04030E 0600                A   714    	LD	B,%0
+040310 C5                  A   715    	PUSH	BC
+040311 D5                  A   716    	PUSH	DE
+040312 CD 77 16 04         A   717    	CALL	__u_itoa
+040316 C1                  A   718    	POP	BC
+040317 C1                  A   719    	POP	BC
+040318 01 D0 1D 04         A   720    	LD	BC,L__20
+04031C C5                  A   721    	PUSH	BC
+04031D CD F3 13 04         A   722    	CALL	___print_sendstring
+040321 C1                  A   723    	POP	BC
+040322 DD07E6              A   724    	LD	BC,(IX+%FFFFFFE6)
+040325 CD 0B 1C 04         A   725    	CALL	__itol
+040329 C5D1                A   726    	LD	DE,BC
+04032B 4F                  A   727    	LD	C,A
+04032C 0600                A   728    	LD	B,%0
+04032E C5                  A   729    	PUSH	BC
+04032F D5                  A   730    	PUSH	DE
+040330 CD 77 16 04         A   731    	CALL	__u_itoa
+040334 C1                  A   732    	POP	BC
+040335 C1                  A   733    	POP	BC
+040336 01 DA 1D 04         A   734    	LD	BC,L__21
+04033A C5                  A   735    	PUSH	BC
+04033B CD F3 13 04         A   736    	CALL	___print_sendstring
+04033F C1                  A   737    	POP	BC
+                           A   738    ;   27			printf("BTN 1 : %d BTN 1 : %d\r
+                           A   739    .LINE 27
+                           A   740    
+040340 DD7EFE              A   741    	LD	A,(IX+%FFFFFFFE)
+040343 E620                A   742    	AND	A,%20
+040345 28 09               A   743    	JR	Z,L_34
+040347 01000000            A   744    	LD	BC,0
+04034B DD0FE3              A   745    	LD	(IX+%FFFFFFE3),BC
+04034E 18 07               A   746    	JR	L_35
+040350                     A   747    L_34:
+040350 01010000            A   748    	LD	BC,1
+040354 DD0FE3              A   749    	LD	(IX+%FFFFFFE3),BC
+040357                     A   750    L_35:
+040357 DD7EFE              A   751    	LD	A,(IX+%FFFFFFFE)
+04035A E610                A   752    	AND	A,%10
+04035C 28 09               A   753    	JR	Z,L_38
+04035E 01000000            A   754    	LD	BC,0
+040362 DD0FE0              A   755    	LD	(IX+%FFFFFFE0),BC
+040365 18 07               A   756    	JR	L_39
+040367                     A   757    L_38:
+040367 01010000            A   758    	LD	BC,1
+04036B DD0FE0              A   759    	LD	(IX+%FFFFFFE0),BC
+04036E                     A   760    L_39:
+04036E 01 7F 15 04         A   761    	LD	BC,___print_uputch
+040372 ED43 51 1D 04       A   762    	LD	(___print_xputch),BC
+040377 01 DD 1D 04         A   763    	LD	BC,L__24
+04037B C5                  A   764    	PUSH	BC
+04037C CD F3 13 04         A   765    	CALL	___print_sendstring
+040380 C1                  A   766    	POP	BC
+040381 DD07E3              A   767    	LD	BC,(IX+%FFFFFFE3)
+040384 CD 0B 1C 04         A   768    	CALL	__itol
+040388 C5D1                A   769    	LD	DE,BC
+04038A 4F                  A   770    	LD	C,A
+04038B 0600                A   771    	LD	B,%0
+04038D C5                  A   772    	PUSH	BC
+04038E D5                  A   773    	PUSH	DE
+04038F CD 77 16 04         A   774    	CALL	__u_itoa
+040393 C1                  A   775    	POP	BC
+040394 C1                  A   776    	POP	BC
+040395 01 E6 1D 04         A   777    	LD	BC,L__25
+040399 C5                  A   778    	PUSH	BC
+04039A CD F3 13 04         A   779    	CALL	___print_sendstring
+04039E C1                  A   780    	POP	BC
+04039F DD07E0              A   781    	LD	BC,(IX+%FFFFFFE0)
+0403A2 CD 0B 1C 04         A   782    	CALL	__itol
+0403A6 C5D1                A   783    	LD	DE,BC
+0403A8 4F                  A   784    	LD	C,A
+0403A9 0600                A   785    	LD	B,%0
+0403AB C5                  A   786    	PUSH	BC
+0403AC D5                  A   787    	PUSH	DE
+0403AD CD 77 16 04         A   788    	CALL	__u_itoa
+0403B1 C1                  A   789    	POP	BC
+0403B2 C1                  A   790    	POP	BC
+0403B3 01 F0 1D 04         A   791    	LD	BC,L__26
+0403B7 C5                  A   792    	PUSH	BC
+0403B8 CD F3 13 04         A   793    	CALL	___print_sendstring
+0403BC C1                  A   794    	POP	BC
+                           A   795    ;   28			printf("BTN 2 : %d BTN 2 : %d\r
+                           A   796    .LINE 28
+                           A   797    
+0403BD DD7EFE              A   798    	LD	A,(IX+%FFFFFFFE)
+0403C0 E680                A   799    	AND	A,%80
+0403C2 28 09               A   800    	JR	Z,L_42
+0403C4 01000000            A   801    	LD	BC,0
+0403C8 DD0FDD              A   802    	LD	(IX+%FFFFFFDD),BC
+0403CB 18 07               A   803    	JR	L_43
+0403CD                     A   804    L_42:
+0403CD 01010000            A   805    	LD	BC,1
+0403D1 DD0FDD              A   806    	LD	(IX+%FFFFFFDD),BC
+0403D4                     A   807    L_43:
+0403D4 DD7EFE              A   808    	LD	A,(IX+%FFFFFFFE)
+0403D7 E640                A   809    	AND	A,%40
+0403D9 28 09               A   810    	JR	Z,L_46
+0403DB 01000000            A   811    	LD	BC,0
+0403DF DD0FDA              A   812    	LD	(IX+%FFFFFFDA),BC
+0403E2 18 07               A   813    	JR	L_47
+0403E4                     A   814    L_46:
+0403E4 01010000            A   815    	LD	BC,1
+0403E8 DD0FDA              A   816    	LD	(IX+%FFFFFFDA),BC
+0403EB                     A   817    L_47:
+0403EB 01 7F 15 04         A   818    	LD	BC,___print_uputch
+0403EF ED43 51 1D 04       A   819    	LD	(___print_xputch),BC
+0403F4 01 F3 1D 04         A   820    	LD	BC,L__29
+0403F8 C5                  A   821    	PUSH	BC
+0403F9 CD F3 13 04         A   822    	CALL	___print_sendstring
+0403FD C1                  A   823    	POP	BC
+0403FE DD07DD              A   824    	LD	BC,(IX+%FFFFFFDD)
+040401 CD 0B 1C 04         A   825    	CALL	__itol
+040405 C5D1                A   826    	LD	DE,BC
+040407 4F                  A   827    	LD	C,A
+040408 0600                A   828    	LD	B,%0
+04040A C5                  A   829    	PUSH	BC
+04040B D5                  A   830    	PUSH	DE
+04040C CD 77 16 04         A   831    	CALL	__u_itoa
+040410 C1                  A   832    	POP	BC
+040411 C1                  A   833    	POP	BC
+040412 01 FC 1D 04         A   834    	LD	BC,L__30
+040416 C5                  A   835    	PUSH	BC
+040417 CD F3 13 04         A   836    	CALL	___print_sendstring
+04041B C1                  A   837    	POP	BC
+04041C DD07DA              A   838    	LD	BC,(IX+%FFFFFFDA)
+04041F CD 0B 1C 04         A   839    	CALL	__itol
+040423 C5D1                A   840    	LD	DE,BC
+040425 4F                  A   841    	LD	C,A
+040426 0600                A   842    	LD	B,%0
+040428 C5                  A   843    	PUSH	BC
+040429 D5                  A   844    	PUSH	DE
+04042A CD 77 16 04         A   845    	CALL	__u_itoa
+04042E C1                  A   846    	POP	BC
+04042F C1                  A   847    	POP	BC
+040430 01 06 1E 04         A   848    	LD	BC,L__31
+040434 C5                  A   849    	PUSH	BC
+040435 CD F3 13 04         A   850    	CALL	___print_sendstring
+040439 C1                  A   851    	POP	BC
+                           A   852    ;   29	
+                           A   853    ;   30			printf("\r\nPress ESC key to qu
+                           A   854    .LINE 30
+                           A   855    
+04043A 01 7F 15 04         A   856    	LD	BC,___print_uputch
+04043E ED43 51 1D 04       A   857    	LD	(___print_xputch),BC
+040443 01 09 1E 04         A   858    	LD	BC,L__32
+040447 C5                  A   859    	PUSH	BC
+040448 CD F3 13 04         A   860    	CALL	___print_sendstring
+04044C C1                  A   861    	POP	BC
+                           A   862    ;   31			if(sysvars->keyascii == 0x1B) b
+                           A   863    .LINE 31
+                           A   864    
+04044D DD31D7              A   865    	LD	IY,(IX+%FFFFFFD7)
+040450 FD7E05              A   866    	LD	A,(IY+%5)
+040453 FE1B                A   867    	CP	A,%1B
+040455 28 0E               A   868    	JR	Z,L_52
+                           A   869    ;   32			delayms(10);
+                           A   870    .LINE 32
+                           A   871    
+040457 010A0000            A   872    	LD	BC,10
+04045B C5                  A   873    	PUSH	BC
+04045C CD 45 13 04         A   874    	CALL	_delayms
+040460 C1                  A   875    	POP	BC
+040461 C3 1D 01 04         A   876    	JR	L_51
+                           A   877    ;   33		}
+040465                     A   878    L_52:
+                           A   879    .LINE 33
+                           A   880    
+                           A   881    ;   34		printf("\r\n");
+                           A   882    .LINE 34
+                           A   883    
+040465 01 7F 15 04         A   884    	LD	BC,___print_uputch
+040469 ED43 51 1D 04       A   885    	LD	(___print_xputch),BC
+04046E 01 21 1E 04         A   886    	LD	BC,L__34
+040472 C5                  A   887    	PUSH	BC
+040473 CD F3 13 04         A   888    	CALL	___print_sendstring
+040477 C1                  A   889    	POP	BC
+                           A   890    ;   35		return 0;
+                           A   891    .LINE 35
+                           A   892    
+040478 B7                  A   893    	OR	A,A
+040479 ED62                A   894    	SBC	HL,HL
+                           A   895    ;   36	}
+                           A   896    .LINE 36
+                           A   897    
+04047B DDF9                A   898    	LD	SP,IX
+04047D DDE1                A   899    	POP	IX
+04047F C9                  A   900    	RET	
+                           A   901    
+                           A   902    
+                           A   903    ;**************************** _main ***********
+                           A   904    ;Name                         Addr/Register   S
+                           A   905    ;_delayms                            IMPORT  --
+                           A   906    ;__u_itoa                            IMPORT  --
+                           A   907    ;_vdp_cursorGoto                     IMPORT  --
+                           A   908    ;___print_sendstring                 IMPORT  --
+                           A   909    ;___print_xputch                     IMPORT    
+                           A   910    ;___print_uputch                     IMPORT  --
+                           A   911    ;_vdp_cls                            IMPORT  --
+                           A   912    ;_getsysvars                         IMPORT  --
+                           A   913    ;sysvars                              IX-41    
+                           A   914    ;temp44                               IX-38    
+                           A   915    ;temp40                               IX-35    
+                           A   916    ;temp36                               IX-32    
+                           A   917    ;temp32                               IX-29    
+                           A   918    ;temp28                               IX-26    
+                           A   919    ;temp24                               IX-23    
+                           A   920    ;temp20                               IX-20    
+                           A   921    ;temp16                               IX-17    
+                           A   922    ;temp12                               IX-14    
+                           A   923    ;temp8                                IX-11    
+                           A   924    ;temp4                                 IX-8    
+                           A   925    ;temp0                                 IX-5    
+                           A   926    ;fire                                  IX-2    
+                           A   927    ;direction                             IX-1    
+                           A   928    ;argv                                  IX+9    
+                           A   929    ;argc                                  IX+6    
+                           A   930    
+                           A   931    
+                           A   932    ; Stack Frame Size: 53 (bytes)
+                           A   933    ;       Spill Code: 0 (instruction)
+                           A   934    
+                           A   935    
+                           A   936    .ENDFUNC "main",36,"_main"
+                           A   937    	SEGMENT STRSECT
+041D54                     A   938    L__0:
+041D54 436F6E73 6F6C6538   A   939    	DB	"Console8 joystick test"
+041D5C 206A6F79 73746963 
+041D64 6B207465 7374 
+041D6A 0D0A0D0A 00         A   940    	DB	13,10,13,10,0
+041D6F                     A   941    L__1:
+041D6F 2020504F 52543120   A   942    	DB	"  PORT1     PORT2"
+041D77 20202020 504F5254 
+041D7F 32 
+041D80 0D0A0D0A 00         A   943    	DB	13,10,13,10,0
+041D85                     A   944    L__4:
+041D85 20202055 70203A20   A   945    	DB	"   Up : "
+041D8D 00                  A   946    	DB	0
+041D8E                     A   947    L__5:
+041D8E 20202020 5570203A   A   948    	DB	"    Up : "
+041D96 20 
+041D97 00                  A   949    	DB	0
+041D98                     A   950    L__6:
+041D98 0D0A00              A   951    	DB	13,10,0
+041D9B                     A   952    L__9:
+041D9B 20446F77 6E203A20   A   953    	DB	" Down : "
+041DA3 00                  A   954    	DB	0
+041DA4                     A   955    L__10:
+041DA4 2020446F 776E203A   A   956    	DB	"  Down : "
+041DAC 20 
+041DAD 00                  A   957    	DB	0
+041DAE                     A   958    L__11:
+041DAE 0D0A00              A   959    	DB	13,10,0
+041DB1                     A   960    L__14:
+041DB1 204C6566 74203A20   A   961    	DB	" Left : "
+041DB9 00                  A   962    	DB	0
+041DBA                     A   963    L__15:
+041DBA 20204C65 6674203A   A   964    	DB	"  Left : "
+041DC2 20 
+041DC3 00                  A   965    	DB	0
+041DC4                     A   966    L__16:
+041DC4 0D0A00              A   967    	DB	13,10,0
+041DC7                     A   968    L__19:
+041DC7 52696768 74203A20   A   969    	DB	"Right : "
+041DCF 00                  A   970    	DB	0
+041DD0                     A   971    L__20:
+041DD0 20526967 6874203A   A   972    	DB	" Right : "
+041DD8 20 
+041DD9 00                  A   973    	DB	0
+041DDA                     A   974    L__21:
+041DDA 0D0A00              A   975    	DB	13,10,0
+041DDD                     A   976    L__24:
+041DDD 42544E20 31203A20   A   977    	DB	"BTN 1 : "
+041DE5 00                  A   978    	DB	0
+041DE6                     A   979    L__25:
+041DE6 2042544E 2031203A   A   980    	DB	" BTN 1 : "
+041DEE 20 
+041DEF 00                  A   981    	DB	0
+041DF0                     A   982    L__26:
+041DF0 0D0A00              A   983    	DB	13,10,0
+041DF3                     A   984    L__29:
+041DF3 42544E20 32203A20   A   985    	DB	"BTN 2 : "
+041DFB 00                  A   986    	DB	0
+041DFC                     A   987    L__30:
+041DFC 2042544E 2032203A   A   988    	DB	" BTN 2 : "
+041E04 20 
+041E05 00                  A   989    	DB	0
+041E06                     A   990    L__31:
+041E06 0D0A00              A   991    	DB	13,10,0
+041E09                     A   992    L__32:
+041E09 0D0A                A   993    	DB	13,10
+041E0B 50726573 73204553   A   994    	DB	"Press ESC key to quit"
+041E13 43206B65 7920746F 
+041E1B 20717569 74 
+041E20 00                  A   995    	DB	0
+041E21                     A   996    L__34:
+041E21 0D0A00              A   997    	DB	13,10,0
+                           A   998    	XREF _delayms:ROM
+                           A   999    	XREF _vdp_cursorGoto:ROM
+                           A  1000    	XREF _vdp_cls:ROM
+                           A  1001    	XREF _getsysvars:ROM
+                           A  1002    	XREF __u_itoa:ROM
+                           A  1003    	XREF ___print_sendstring:ROM
+                           A  1004    	XREF ___print_xputch:ROM
+                           A  1005    	XREF ___print_uputch:ROM
+                           A  1006    	XREF __itol:ROM
+                           A  1007    	XDEF _main
+                           A  1008    	END
+
+
+Errors: 0
+Warnings: 0
+Lines Assembled: 1009

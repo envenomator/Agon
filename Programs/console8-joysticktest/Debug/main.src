@@ -90,7 +90,171 @@
 .TYPE 108
 .ENDEF
 .ENDREC "flt_info"
-.BEGREC "NONAME0",8
+.BEGREC "NONAME0",51
+.DEFINE "clock"
+.VALUE 0
+.CLASS 8
+.TYPE 15
+.ENDEF
+.DEFINE "vpd_protocol_flags"
+.VALUE 4
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "keyascii"
+.VALUE 5
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "keymods"
+.VALUE 6
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "cursorX"
+.VALUE 7
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "cursorY"
+.VALUE 8
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "scrchar"
+.VALUE 9
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "scrpixel"
+.VALUE 10
+.CLASS 8
+.TYPE 14
+.ENDEF
+.DEFINE "audioChannel"
+.VALUE 13
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "audioSuccess"
+.VALUE 14
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "scrwidth"
+.VALUE 15
+.CLASS 8
+.TYPE 13
+.ENDEF
+.DEFINE "scrheight"
+.VALUE 17
+.CLASS 8
+.TYPE 13
+.ENDEF
+.DEFINE "scrcols"
+.VALUE 19
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "scrrows"
+.VALUE 20
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "scrcolours"
+.VALUE 21
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "scrpixelIndex"
+.VALUE 22
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "keycode"
+.VALUE 23
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "keydown"
+.VALUE 24
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "keycount"
+.VALUE 25
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "rtc"
+.VALUE 26
+.CLASS 8
+.DIM 6
+.TYPE 108
+.ENDEF
+.DEFINE "rtc_spare"
+.VALUE 32
+.CLASS 8
+.DIM 2
+.TYPE 108
+.ENDEF
+.DEFINE "keydelay"
+.VALUE 34
+.CLASS 8
+.TYPE 13
+.ENDEF
+.DEFINE "keyrate"
+.VALUE 36
+.CLASS 8
+.TYPE 13
+.ENDEF
+.DEFINE "keyled"
+.VALUE 38
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "scrmode"
+.VALUE 39
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "rtc_enable"
+.VALUE 40
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "mouseX"
+.VALUE 41
+.CLASS 8
+.TYPE 13
+.ENDEF
+.DEFINE "mouseY"
+.VALUE 43
+.CLASS 8
+.TYPE 13
+.ENDEF
+.DEFINE "mouseButtons"
+.VALUE 45
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "mouseWheel"
+.VALUE 46
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "mouseXDelta"
+.VALUE 47
+.CLASS 8
+.TYPE 13
+.ENDEF
+.DEFINE "mouseYDelta"
+.VALUE 49
+.CLASS 8
+.TYPE 13
+.ENDEF
+.ENDREC "NONAME0"
+.BEGREC "NONAME1",8
 .DEFINE "baudRate"
 .VALUE 0
 .CLASS 8
@@ -121,8 +285,8 @@
 .CLASS 8
 .TYPE 12
 .ENDEF
-.ENDREC "NONAME0"
-.BEGREC "NONAME1",15
+.ENDREC "NONAME1"
+.BEGREC "NONAME2",15
 .DEFINE "fs"
 .VALUE 0
 .CLASS 8
@@ -153,12 +317,12 @@
 .CLASS 8
 .TYPE 15
 .ENDEF
-.ENDREC "NONAME1"
-.BEGREC "NONAME2",36
+.ENDREC "NONAME2"
+.BEGREC "NONAME3",36
 .DEFINE "obj"
 .VALUE 0
 .CLASS 8
-.TAG "NONAME1"
+.TAG "NONAME2"
 .TYPE 8
 .ENDEF
 .DEFINE "flag"
@@ -196,7 +360,7 @@
 .CLASS 8
 .TYPE 46
 .ENDEF
-.ENDREC "NONAME2"
+.ENDREC "NONAME3"
 ;    1	#include <stdio.h>
 ;    2	#include <ctype.h>
 ;    3	#include "mos-interface.h"
@@ -204,9 +368,7 @@
 ;    5	#include "agontimer.h"
 ;    6	#include <ez80f92.h>
 ;    7	
-;    8	extern void setsysvar_keyascii(UINT8);
-;    9	
-;   10	int main(int argc, char * argv[]) {
+;    8	int main(int argc, char * argv[]) {
 _main:
 .DEFINE "_main"
 
@@ -218,9 +380,9 @@ _main:
 
 .ENDEF
 
-.BEGFUNC "main",10,"_main"
+.BEGFUNC "main",8,"_main"
 
-.LINE 10
+.LINE 8
 
 .DEFINE "argc"
 
@@ -262,24 +424,42 @@ _main:
 
 .ENDEF
 
+.DEFINE "sysvars"
+
+.CLASS 65
+
+.VALUE -41
+
+.TAG "NONAME0"
+
+.TYPE 40
+
+.ENDEF
+
 	PUSH	IX
 	LD	IX,0
 	ADD	IX,SP
-	LEA	HL,IX+%FFFFFFDA
+	LEA	HL,IX+%FFFFFFD7
 	LD	SP,HL
-;   11		uint8_t fire, direction;
-;   12		PC_DDR = 0xFF; // both joysticks
-.LINE 12
+;    9		uint8_t fire, direction;
+;   10		sysvar_t* sysvars;
+;   11		PC_DDR = 0xFF; // both joysticks
+.LINE 11
 
 	LD	A,%FF
 	OUT0	(159),A
-;   13		PD_DDR |= 0xF0; // both joysticks, leave non-joystick bits 0-3 as they are
-.LINE 13
+;   12		PD_DDR |= 0xF0; // both joysticks, leave non-joystick bits 0-3 as they are
+.LINE 12
 
 	IN0	A,(163)
 	OR	A,%F0
 	OUT0	(163),A
-;   14	
+;   13	
+;   14		sysvars = getsysvars();
+.LINE 14
+
+	CALL	_getsysvars
+	LD	(IX+%FFFFFFD7),HL
 ;   15		vdp_cls();
 .LINE 15
 
@@ -679,15 +859,12 @@ L_47:
 	PUSH	BC
 	CALL	___print_sendstring
 	POP	BC
-;   31			if(getsysvar_keyascii() == 0x1B) break;
+;   31			if(sysvars->keyascii == 0x1B) break;
 .LINE 31
 
-	CALL	_getsysvar_keyascii
-	UEXT	HL
-	LD	L,A
-	LD	BC,27
-	OR	A,A
-	SBC	HL,BC
+	LD	IY,(IX+%FFFFFFD7)
+	LD	A,(IY+%5)
+	CP	A,%1B
 	JR	Z,L_52
 ;   32			delayms(10);
 .LINE 32
@@ -726,13 +903,14 @@ L_52:
 ;**************************** _main ***************************
 ;Name                         Addr/Register   Size   Type
 ;_delayms                            IMPORT  -----   function
-;_getsysvar_keyascii                 IMPORT  -----   function
 ;__u_itoa                            IMPORT  -----   function
 ;_vdp_cursorGoto                     IMPORT  -----   function
 ;___print_sendstring                 IMPORT  -----   function
 ;___print_xputch                     IMPORT      3   variable
 ;___print_uputch                     IMPORT  -----   function
 ;_vdp_cls                            IMPORT  -----   function
+;_getsysvars                         IMPORT  -----   function
+;sysvars                              IX-41      3   variable
 ;temp44                               IX-38      3   variable
 ;temp40                               IX-35      3   variable
 ;temp36                               IX-32      3   variable
@@ -751,7 +929,7 @@ L_52:
 ;argc                                  IX+6      3   parameter
 
 
-; Stack Frame Size: 50 (bytes)
+; Stack Frame Size: 53 (bytes)
 ;       Spill Code: 0 (instruction)
 
 
@@ -820,7 +998,7 @@ L__34:
 	XREF _delayms:ROM
 	XREF _vdp_cursorGoto:ROM
 	XREF _vdp_cls:ROM
-	XREF _getsysvar_keyascii:ROM
+	XREF _getsysvars:ROM
 	XREF __u_itoa:ROM
 	XREF ___print_sendstring:ROM
 	XREF ___print_xputch:ROM

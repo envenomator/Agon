@@ -2,7 +2,7 @@
 ; Title:		AGON MOS - MOS assembly interface
 ; Author:		Jeroen Venema
 ; Created:		15/10/2022
-; Last Updated:	23/02/2023
+; Last Updated:	30/10/2023
 ; 
 ; Modinfo:
 ; 15/10/2022:		Added _putch, _getch
@@ -14,6 +14,7 @@
 ; 16/04/2023:		Added _mos_fread, _mos_fwrite and _mos_flseek
 ; 18/04/2023:		_mos_flseek fix
 ; 19/04/2023:		_mos_getfil added
+; 30/10/2023:		removed all sysvar functions -> struct sysvar_t created in mos-interface.h
 
 	.include "mos_api.inc"
 
@@ -51,28 +52,7 @@
 	XDEF _mos_flseek
 	XDEF _mos_getfil
 
-	XDEF _getsysvar_vpd_pflags
-	XDEF _getsysvar_keyascii
-	XDEF _getsysvar_keymods
-	XDEF _getsysvar_cursorX
-	XDEF _getsysvar_cursorY
-	XDEF _getsysvar_scrchar
-	XDEF _getsysvar_scrpixel
-	XDEF _getsysvar_audioChannel
-	XDEF _getsysvar_audioSuccess
-	XDEF _getsysvar_scrwidth
-	XDEF _getsysvar_scrheight
-	XDEF _getsysvar_scrCols
-	XDEF _getsysvar_scrRows
-	XDEF _getsysvar_scrColours
-	XDEF _getsysvar_scrpixelIndex
-	XDEF _getsysvar_vkeycode
-	XDEF _getsysvar_vkeydown
-	XDEF _getsysvar_vkeycount
-	XDEF _getsysvar_rtc
-	XDEF _getsysvar_keydelay
-	XDEF _getsysvar_keyrate
-	XDEF _getsysvar_keyled
+	XDEF _getsysvars
 	
 	segment CODE
 	.assume ADL=1
@@ -119,189 +99,12 @@ $$:	cp.lil	a, (ix + sysvar_time + 0)
 	pop		ix
 	ret
 
-_getsysvar_vpd_pflags:
+_getsysvars:
 	push	ix
 	ld		a, mos_sysvars
 	rst.lil	08h
-	ld		a, (ix+sysvar_vpd_pflags)
-	pop		ix
-	ret
-
-_getsysvar_keyascii:
 	push	ix
-	ld		a, mos_sysvars
-	rst.lil	08h
-	ld		a, (ix+sysvar_keyascii)
-	pop		ix
-	ret
-
-_getsysvar_keymods:
-	push	ix
-	ld		a, mos_sysvars
-	rst.lil	08h
-	ld		a, (ix+sysvar_keymods)
-	pop		ix
-	ret
-
-_getsysvar_cursorX:
-	push	ix
-	ld		a, mos_sysvars			; MOS Call for mos_sysvars
-	rst.lil	08h					; returns pointer to sysvars in ixu
-	ld		a, (ix+sysvar_cursorX)
-	pop		ix
-	ret
-
-_getsysvar_cursorY:
-	push 	ix
-	ld		a, mos_sysvars			; MOS Call for mos_sysvars
-	rst.lil	08h					; returns pointer to sysvars in ixu
-	ld		a, (ix+sysvar_cursorY)
-	pop		ix
-	ret
-
-_getsysvar_scrchar:
-	push	ix
-	ld		a, mos_sysvars
-	rst.lil	08h
-	ld		a, (ix+sysvar_scrchar)
-	pop		ix
-	ret
-
-_getsysvar_scrpixel:
-	push	ix
-	ld		a, mos_sysvars
-	rst.lil	08h
-	ld		hl, (ix+sysvar_scrpixel)
-	pop		ix
-	ret
-
-_getsysvar_audioChannel:
-	push	ix
-	ld		a, mos_sysvars
-	rst.lil	08h
-	ld		a, (ix+sysvar_audioChannel)
-	pop		ix
-	ret
-
-_getsysvar_audioSuccess:
-	push	ix
-	ld		a, mos_sysvars
-	rst.lil	08h
-	ld		a, (ix+sysvar_audioSuccess)
-	pop		ix
-	ret
-
-_getsysvar_scrwidth:
-	push	ix
-	ld		a, mos_sysvars			; MOS Call for mos_sysvars
-	rst.lil	08h					; returns pointer to sysvars in ixu
-	ld		hl,0
-	ld		l, (ix+sysvar_scrWidth)	; get current screenwidth
-	ld		h, (ix+sysvar_scrWidth+1)
-	pop		ix
-	ret
-
-_getsysvar_scrheight:
-	push 	ix
-	ld		a, mos_sysvars			; MOS Call for mos_sysvars
-	rst.lil	08h					; returns pointer to sysvars in ixu
-	ld		hl,0
-	ld		l, (ix+sysvar_scrHeight)	; get current screenHeight
-	ld		h, (ix+sysvar_scrHeight+1)
-	pop		ix
-	ret
-
-_getsysvar_scrCols:
-	push	ix
-	ld		a, mos_sysvars
-	rst.lil	08h
-	ld		a, (ix+sysvar_scrCols)
-	pop		ix
-	ret
-
-_getsysvar_scrRows:
-	push	ix
-	ld		a, mos_sysvars
-	rst.lil	08h
-	ld		a, (ix+sysvar_scrRows)
-	pop		ix
-	ret
-
-_getsysvar_scrColours:
-	push	ix
-	ld		a, mos_sysvars
-	rst.lil	08h
-	ld		a, (ix+sysvar_scrColours)
-	pop		ix
-	ret
-
-_getsysvar_scrpixelIndex:
-	push	ix
-	ld		a, mos_sysvars
-	rst.lil	08h
-	ld		a, (ix+sysvar_scrpixelIndex)
-	pop		ix
-	ret
-
-_getsysvar_vkeycode:
-	push	ix
-	ld		a, mos_sysvars
-	rst.lil	08h
-	ld		a, (ix+sysvar_vkeycode)
-	pop		ix
-	ret
-
-_getsysvar_vkeydown:
-	push	ix
-	ld		a, mos_sysvars
-	rst.lil	08h
-	ld		a, (ix+sysvar_vkeydown)
-	pop		ix
-	ret
-
-_getsysvar_vkeycount:
-	push	ix
-	ld		a, mos_sysvars
-	rst.lil	08h
-	ld		a, (ix+sysvar_vkeycount)
-	pop		ix
-	ret
-
-_getsysvar_rtc:
-	push	ix
-	ld		a, mos_sysvars
-	rst.lil	08h
-	ld		de, sysvar_rtc
-	add		ix, de
-	ld		hl, ix
-	pop		ix
-	ret
-
-_getsysvar_keydelay:
-	push	ix
-	ld		a, mos_sysvars			; MOS Call for mos_sysvars
-	rst.lil	08h						; returns pointer to sysvars in ixu
-	ld		hl,0
-	ld		l, (ix+sysvar_keydelay)
-	ld		h, (ix+sysvar_keydelay+1)
-	pop		ix
-	ret
-
-_getsysvar_keyrate:
-	push	ix
-	ld		a, mos_sysvars			; MOS Call for mos_sysvars
-	rst.lil	08h						; returns pointer to sysvars in ixu
-	ld		hl,0
-	ld		l, (ix+sysvar_keyrate)
-	ld		h, (ix+sysvar_keyrate+1)
-	pop		ix
-	ret
-
-_getsysvar_keyled:
-	push	ix
-	ld		a, mos_sysvars
-	rst.lil	08h
-	ld		a, (ix+sysvar_keyled)
+	pop		hl
 	pop		ix
 	ret
 

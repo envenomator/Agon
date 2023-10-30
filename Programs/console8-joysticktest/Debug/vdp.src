@@ -5,7 +5,171 @@
 	.assume ADL=1
 .DEBUG "C"
 	SEGMENT CODE
-.BEGREC "NONAME0",8
+.BEGREC "NONAME0",51
+.DEFINE "clock"
+.VALUE 0
+.CLASS 8
+.TYPE 15
+.ENDEF
+.DEFINE "vpd_protocol_flags"
+.VALUE 4
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "keyascii"
+.VALUE 5
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "keymods"
+.VALUE 6
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "cursorX"
+.VALUE 7
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "cursorY"
+.VALUE 8
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "scrchar"
+.VALUE 9
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "scrpixel"
+.VALUE 10
+.CLASS 8
+.TYPE 14
+.ENDEF
+.DEFINE "audioChannel"
+.VALUE 13
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "audioSuccess"
+.VALUE 14
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "scrwidth"
+.VALUE 15
+.CLASS 8
+.TYPE 13
+.ENDEF
+.DEFINE "scrheight"
+.VALUE 17
+.CLASS 8
+.TYPE 13
+.ENDEF
+.DEFINE "scrcols"
+.VALUE 19
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "scrrows"
+.VALUE 20
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "scrcolours"
+.VALUE 21
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "scrpixelIndex"
+.VALUE 22
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "keycode"
+.VALUE 23
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "keydown"
+.VALUE 24
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "keycount"
+.VALUE 25
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "rtc"
+.VALUE 26
+.CLASS 8
+.DIM 6
+.TYPE 108
+.ENDEF
+.DEFINE "rtc_spare"
+.VALUE 32
+.CLASS 8
+.DIM 2
+.TYPE 108
+.ENDEF
+.DEFINE "keydelay"
+.VALUE 34
+.CLASS 8
+.TYPE 13
+.ENDEF
+.DEFINE "keyrate"
+.VALUE 36
+.CLASS 8
+.TYPE 13
+.ENDEF
+.DEFINE "keyled"
+.VALUE 38
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "scrmode"
+.VALUE 39
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "rtc_enable"
+.VALUE 40
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "mouseX"
+.VALUE 41
+.CLASS 8
+.TYPE 13
+.ENDEF
+.DEFINE "mouseY"
+.VALUE 43
+.CLASS 8
+.TYPE 13
+.ENDEF
+.DEFINE "mouseButtons"
+.VALUE 45
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "mouseWheel"
+.VALUE 46
+.CLASS 8
+.TYPE 12
+.ENDEF
+.DEFINE "mouseXDelta"
+.VALUE 47
+.CLASS 8
+.TYPE 13
+.ENDEF
+.DEFINE "mouseYDelta"
+.VALUE 49
+.CLASS 8
+.TYPE 13
+.ENDEF
+.ENDREC "NONAME0"
+.BEGREC "NONAME1",8
 .DEFINE "baudRate"
 .VALUE 0
 .CLASS 8
@@ -36,8 +200,8 @@
 .CLASS 8
 .TYPE 12
 .ENDEF
-.ENDREC "NONAME0"
-.BEGREC "NONAME1",15
+.ENDREC "NONAME1"
+.BEGREC "NONAME2",15
 .DEFINE "fs"
 .VALUE 0
 .CLASS 8
@@ -68,12 +232,12 @@
 .CLASS 8
 .TYPE 15
 .ENDEF
-.ENDREC "NONAME1"
-.BEGREC "NONAME2",36
+.ENDREC "NONAME2"
+.BEGREC "NONAME3",36
 .DEFINE "obj"
 .VALUE 0
 .CLASS 8
-.TAG "NONAME1"
+.TAG "NONAME2"
 .TYPE 8
 .ENDEF
 .DEFINE "flag"
@@ -111,7 +275,7 @@
 .CLASS 8
 .TYPE 46
 .ENDEF
-.ENDREC "NONAME2"
+.ENDREC "NONAME3"
 ;    1	#include <defines.h>
 ;    2	#include "vdp.h"
 ;    3	#include "mos-interface.h"
@@ -4067,42 +4231,60 @@ _vdp_cursorGetXpos:
 
 .ENDEF
 
+.DEFINE "sysvars"
+
+.CLASS 65
+
+.VALUE -6
+
+.TAG "NONAME0"
+
+.TYPE 40
+
+.ENDEF
+
 	PUSH	IX
 	LD	IX,0
 	ADD	IX,SP
 	PUSH	BC
+	PUSH	BC
 ;  391		unsigned int delay;
-;  392		
-;  393		putch(23);	// VDP command
-.LINE 393
+;  392		sysvar_t *sysvars = getsysvars();
+.LINE 392
+
+	CALL	_getsysvars
+	LD	(IX+%FFFFFFFA),HL
+;  393		
+;  394		putch(23);	// VDP command
+.LINE 394
 
 	LD	BC,23
 	PUSH	BC
 	CALL	_putch
 	POP	BC
-;  394		putch(0);	// VDP command
-.LINE 394
+;  395		putch(0);	// VDP command
+.LINE 395
 
 	LD	BC,0
 	PUSH	BC
 	CALL	_putch
 	POP	BC
-;  395		putch(0x82);	// Request cursor position
-.LINE 395
+;  396		putch(0x82);	// Request cursor position
+.LINE 396
 
 	LD	BC,130
 	PUSH	BC
 	CALL	_putch
 	POP	BC
-;  396		
-;  397		delay = 255;
-.LINE 397
+;  397		
+;  398		delay = 255;
+.LINE 398
 
 	LD	BC,255
 	LD	(IX+%FFFFFFFD),BC
-;  398		while(delay--);
+;  399		while(delay--);
 L_56:
-.LINE 398
+.LINE 399
 
 	LD	HL,(IX+%FFFFFFFD)
 	LD	IY,(IX+%FFFFFFFD)
@@ -4110,11 +4292,11 @@ L_56:
 	LD	(IX+%FFFFFFFD),IY
 	CALL	__icmpzero
 	JR	NZ,L_56
-;  399		return(getsysvar_cursorX());
-.LINE 399
+;  400		return(sysvars->cursorX);
+.LINE 400
 
-	CALL	_getsysvar_cursorX
-;  400	
+	LD	IY,(IX+%FFFFFFFA)
+	LD	A,(IY+%7)
 ;  401	}
 .LINE 401
 
@@ -4125,12 +4307,13 @@ L_56:
 
 ;**************************** _vdp_cursorGetXpos ***************************
 ;Name                         Addr/Register   Size   Type
-;_getsysvar_cursorX                  IMPORT  -----   function
 ;_putch                              IMPORT  -----   function
+;_getsysvars                         IMPORT  -----   function
+;sysvars                               IX-6      3   variable
 ;delay                                 IX-3      3   variable
 
 
-; Stack Frame Size: 9 (bytes)
+; Stack Frame Size: 12 (bytes)
 ;       Spill Code: 0 (instruction)
 
 
@@ -4163,42 +4346,60 @@ _vdp_cursorGetYpos:
 
 .ENDEF
 
+.DEFINE "sysvars"
+
+.CLASS 65
+
+.VALUE -6
+
+.TAG "NONAME0"
+
+.TYPE 40
+
+.ENDEF
+
 	PUSH	IX
 	LD	IX,0
 	ADD	IX,SP
 	PUSH	BC
+	PUSH	BC
 ;  405		unsigned int delay;
-;  406		
-;  407		putch(23);	// VDP command
-.LINE 407
+;  406		sysvar_t *sysvars = getsysvars();
+.LINE 406
+
+	CALL	_getsysvars
+	LD	(IX+%FFFFFFFA),HL
+;  407		
+;  408		putch(23);	// VDP command
+.LINE 408
 
 	LD	BC,23
 	PUSH	BC
 	CALL	_putch
 	POP	BC
-;  408		putch(0);	// VDP command
-.LINE 408
+;  409		putch(0);	// VDP command
+.LINE 409
 
 	LD	BC,0
 	PUSH	BC
 	CALL	_putch
 	POP	BC
-;  409		putch(0x82);	// Request cursor position
-.LINE 409
+;  410		putch(0x82);	// Request cursor position
+.LINE 410
 
 	LD	BC,130
 	PUSH	BC
 	CALL	_putch
 	POP	BC
-;  410		
-;  411		delay = 255;
-.LINE 411
+;  411		
+;  412		delay = 255;
+.LINE 412
 
 	LD	BC,255
 	LD	(IX+%FFFFFFFD),BC
-;  412		while(delay--);
+;  413		while(delay--);
 L_61:
-.LINE 412
+.LINE 413
 
 	LD	HL,(IX+%FFFFFFFD)
 	LD	IY,(IX+%FFFFFFFD)
@@ -4206,12 +4407,13 @@ L_61:
 	LD	(IX+%FFFFFFFD),IY
 	CALL	__icmpzero
 	JR	NZ,L_61
-;  413		return(getsysvar_cursorY());
-.LINE 413
-
-	CALL	_getsysvar_cursorY
-;  414	}
+;  414		return(sysvars->cursorY);
 .LINE 414
+
+	LD	IY,(IX+%FFFFFFFA)
+	LD	A,(IY+%8)
+;  415	}
+.LINE 415
 
 	LD	SP,IX
 	POP	IX
@@ -4220,19 +4422,20 @@ L_61:
 
 ;**************************** _vdp_cursorGetYpos ***************************
 ;Name                         Addr/Register   Size   Type
-;_getsysvar_cursorY                  IMPORT  -----   function
 ;_putch                              IMPORT  -----   function
+;_getsysvars                         IMPORT  -----   function
+;sysvars                               IX-6      3   variable
 ;delay                                 IX-3      3   variable
 
 
-; Stack Frame Size: 9 (bytes)
+; Stack Frame Size: 12 (bytes)
 ;       Spill Code: 0 (instruction)
 
 
-.ENDFUNC "vdp_cursorGetYpos",414,"_vdp_cursorGetYpos"
-;  415	
-;  416	char vdp_asciiCodeAt(unsigned char x, unsigned char y)
-;  417	{
+.ENDFUNC "vdp_cursorGetYpos",415,"_vdp_cursorGetYpos"
+;  416	
+;  417	char vdp_asciiCodeAt(unsigned char x, unsigned char y)
+;  418	{
 _vdp_asciiCodeAt:
 .DEFINE "_vdp_asciiCodeAt"
 
@@ -4244,9 +4447,9 @@ _vdp_asciiCodeAt:
 
 .ENDEF
 
-.BEGFUNC "vdp_asciiCodeAt",417,"_vdp_asciiCodeAt"
+.BEGFUNC "vdp_asciiCodeAt",418,"_vdp_asciiCodeAt"
 
-.LINE 417
+.LINE 418
 
 .DEFINE "x"
 
@@ -4278,53 +4481,55 @@ _vdp_asciiCodeAt:
 
 .ENDEF
 
+.DEFINE "sysvars"
+
+.CLASS 65
+
+.VALUE -6
+
+.TAG "NONAME0"
+
+.TYPE 40
+
+.ENDEF
+
 	PUSH	IX
 	LD	IX,0
 	ADD	IX,SP
 	PUSH	BC
-;  418		unsigned int delay;
-;  419		
-;  420		putch(23);	// VDP command
+	PUSH	BC
+;  419		unsigned int delay;
+;  420		sysvar_t *sysvars = getsysvars();
 .LINE 420
+
+	CALL	_getsysvars
+	LD	(IX+%FFFFFFFA),HL
+;  421	
+;  422		putch(23);	// VDP command
+.LINE 422
 
 	LD	BC,23
 	PUSH	BC
 	CALL	_putch
 	POP	BC
-;  421		putch(0);	// VDP command
-.LINE 421
+;  423		putch(0);	// VDP command
+.LINE 423
 
 	LD	BC,0
 	PUSH	BC
 	CALL	_putch
 	POP	BC
-;  422		putch(0x83);	// Request ascii code at position (x,y)
-.LINE 422
+;  424		putch(0x83);	// Request ascii code at position (x,y)
+.LINE 424
 
 	LD	BC,131
 	PUSH	BC
 	CALL	_putch
 	POP	BC
-;  423		putch(x);
-.LINE 423
-
-	LD	A,(IX+%6)
-	UEXT	HL
-	LD	L,A
-	PUSH	HL
-	CALL	_putch
-	POP	BC
-;  424		putch(0);
-.LINE 424
-
-	LD	BC,0
-	PUSH	BC
-	CALL	_putch
-	POP	BC
-;  425		putch(y);
+;  425		putch(x);
 .LINE 425
 
-	LD	A,(IX+%9)
+	LD	A,(IX+%6)
 	UEXT	HL
 	LD	L,A
 	PUSH	HL
@@ -4337,15 +4542,31 @@ _vdp_asciiCodeAt:
 	PUSH	BC
 	CALL	_putch
 	POP	BC
-;  427		
-;  428		delay = 64000;
+;  427		putch(y);
+.LINE 427
+
+	LD	A,(IX+%9)
+	UEXT	HL
+	LD	L,A
+	PUSH	HL
+	CALL	_putch
+	POP	BC
+;  428		putch(0);
 .LINE 428
+
+	LD	BC,0
+	PUSH	BC
+	CALL	_putch
+	POP	BC
+;  429		
+;  430		delay = 64000;
+.LINE 430
 
 	LD	BC,64000
 	LD	(IX+%FFFFFFFD),BC
-;  429		while(delay--);
+;  431		while(delay--);
 L_66:
-.LINE 429
+.LINE 431
 
 	LD	HL,(IX+%FFFFFFFD)
 	LD	IY,(IX+%FFFFFFFD)
@@ -4353,12 +4574,13 @@ L_66:
 	LD	(IX+%FFFFFFFD),IY
 	CALL	__icmpzero
 	JR	NZ,L_66
-;  430		return(getsysvar_scrchar());
-.LINE 430
+;  432		return(sysvars->scrchar);
+.LINE 432
 
-	CALL	_getsysvar_scrchar
-;  431	}
-.LINE 431
+	LD	IY,(IX+%FFFFFFFA)
+	LD	A,(IY+%9)
+;  433	}
+.LINE 433
 
 	LD	SP,IX
 	POP	IX
@@ -4367,20 +4589,21 @@ L_66:
 
 ;**************************** _vdp_asciiCodeAt ***************************
 ;Name                         Addr/Register   Size   Type
-;_getsysvar_scrchar                  IMPORT  -----   function
 ;_putch                              IMPORT  -----   function
+;_getsysvars                         IMPORT  -----   function
+;sysvars                               IX-6      3   variable
 ;delay                                 IX-3      3   variable
 ;y                                     IX+9      1   parameter
 ;x                                     IX+6      1   parameter
 
 
-; Stack Frame Size: 15 (bytes)
+; Stack Frame Size: 18 (bytes)
 ;       Spill Code: 0 (instruction)
 
 
-.ENDFUNC "vdp_asciiCodeAt",431,"_vdp_asciiCodeAt"
-;  432	
-;  433	void  vdp_setpagedMode(bool mode) {
+.ENDFUNC "vdp_asciiCodeAt",433,"_vdp_asciiCodeAt"
+;  434	
+;  435	void  vdp_setpagedMode(bool mode) {
 _vdp_setpagedMode:
 .DEFINE "_vdp_setpagedMode"
 
@@ -4392,9 +4615,9 @@ _vdp_setpagedMode:
 
 .ENDEF
 
-.BEGFUNC "vdp_setpagedMode",433,"_vdp_setpagedMode"
+.BEGFUNC "vdp_setpagedMode",435,"_vdp_setpagedMode"
 
-.LINE 433
+.LINE 435
 
 .DEFINE "mode"
 
@@ -4409,8 +4632,8 @@ _vdp_setpagedMode:
 	PUSH	IX
 	LD	IX,0
 	ADD	IX,SP
-;  434		if(mode) putch(0x0E);
-.LINE 434
+;  436		if(mode) putch(0x0E);
+.LINE 436
 
 	LD	A,(IX+%6)
 	OR	A,A
@@ -4419,8 +4642,8 @@ _vdp_setpagedMode:
 	PUSH	BC
 	CALL	_putch
 	POP	BC
-;  435		else putch(0x0F);
-.LINE 435
+;  437		else putch(0x0F);
+.LINE 437
 
 	JR	L_71
 L_70:
@@ -4428,9 +4651,9 @@ L_70:
 	PUSH	BC
 	CALL	_putch
 	POP	BC
-;  436	}
+;  438	}
 L_71:
-.LINE 436
+.LINE 438
 
 	LD	SP,IX
 	POP	IX
@@ -4447,10 +4670,10 @@ L_71:
 ;       Spill Code: 0 (instruction)
 
 
-.ENDFUNC "vdp_setpagedMode",436,"_vdp_setpagedMode"
-;  437	
-;  438	void vdp_cursorDisable(void)
-;  439	{
+.ENDFUNC "vdp_setpagedMode",438,"_vdp_setpagedMode"
+;  439	
+;  440	void vdp_cursorDisable(void)
+;  441	{
 _vdp_cursorDisable:
 .DEFINE "_vdp_cursorDisable"
 
@@ -4462,34 +4685,34 @@ _vdp_cursorDisable:
 
 .ENDEF
 
-.BEGFUNC "vdp_cursorDisable",439,"_vdp_cursorDisable"
+.BEGFUNC "vdp_cursorDisable",441,"_vdp_cursorDisable"
 
 	PUSH	IX
 	LD	IX,0
 	ADD	IX,SP
-;  440		putch(23);
-.LINE 440
+;  442		putch(23);
+.LINE 442
 
 	LD	BC,23
 	PUSH	BC
 	CALL	_putch
 	POP	BC
-;  441		putch(1);
-.LINE 441
+;  443		putch(1);
+.LINE 443
 
 	LD	BC,1
 	PUSH	BC
 	CALL	_putch
 	POP	BC
-;  442		putch(0);
-.LINE 442
+;  444		putch(0);
+.LINE 444
 
 	LD	BC,0
 	PUSH	BC
 	CALL	_putch
 	POP	BC
-;  443	}
-.LINE 443
+;  445	}
+.LINE 445
 
 	LD	SP,IX
 	POP	IX
@@ -4505,10 +4728,10 @@ _vdp_cursorDisable:
 ;       Spill Code: 0 (instruction)
 
 
-.ENDFUNC "vdp_cursorDisable",443,"_vdp_cursorDisable"
-;  444	
-;  445	void vdp_cursorEnable(void)
-;  446	{
+.ENDFUNC "vdp_cursorDisable",445,"_vdp_cursorDisable"
+;  446	
+;  447	void vdp_cursorEnable(void)
+;  448	{
 _vdp_cursorEnable:
 .DEFINE "_vdp_cursorEnable"
 
@@ -4520,34 +4743,34 @@ _vdp_cursorEnable:
 
 .ENDEF
 
-.BEGFUNC "vdp_cursorEnable",446,"_vdp_cursorEnable"
+.BEGFUNC "vdp_cursorEnable",448,"_vdp_cursorEnable"
 
 	PUSH	IX
 	LD	IX,0
 	ADD	IX,SP
-;  447		putch(23);
-.LINE 447
+;  449		putch(23);
+.LINE 449
 
 	LD	BC,23
 	PUSH	BC
 	CALL	_putch
 	POP	BC
-;  448		putch(1);
-.LINE 448
-
-	LD	BC,1
-	PUSH	BC
-	CALL	_putch
-	POP	BC
-;  449		putch(1);
-.LINE 449
-
-	LD	BC,1
-	PUSH	BC
-	CALL	_putch
-	POP	BC
-;  450	}
+;  450		putch(1);
 .LINE 450
+
+	LD	BC,1
+	PUSH	BC
+	CALL	_putch
+	POP	BC
+;  451		putch(1);
+.LINE 451
+
+	LD	BC,1
+	PUSH	BC
+	CALL	_putch
+	POP	BC
+;  452	}
+.LINE 452
 
 	LD	SP,IX
 	POP	IX
@@ -4563,10 +4786,10 @@ _vdp_cursorEnable:
 ;       Spill Code: 0 (instruction)
 
 
-.ENDFUNC "vdp_cursorEnable",450,"_vdp_cursorEnable"
-;  451	
-;  452	void vdp_scroll(unsigned char extent, unsigned char direction, unsigned char speed)
-;  453	{
+.ENDFUNC "vdp_cursorEnable",452,"_vdp_cursorEnable"
+;  453	
+;  454	void vdp_scroll(unsigned char extent, unsigned char direction, unsigned char speed)
+;  455	{
 _vdp_scroll:
 .DEFINE "_vdp_scroll"
 
@@ -4578,9 +4801,9 @@ _vdp_scroll:
 
 .ENDEF
 
-.BEGFUNC "vdp_scroll",453,"_vdp_scroll"
+.BEGFUNC "vdp_scroll",455,"_vdp_scroll"
 
-.LINE 453
+.LINE 455
 
 .DEFINE "extent"
 
@@ -4615,22 +4838,22 @@ _vdp_scroll:
 	PUSH	IX
 	LD	IX,0
 	ADD	IX,SP
-;  454		putch(23);
-.LINE 454
+;  456		putch(23);
+.LINE 456
 
 	LD	BC,23
 	PUSH	BC
 	CALL	_putch
 	POP	BC
-;  455		putch(7);	// scroll
-.LINE 455
+;  457		putch(7);	// scroll
+.LINE 457
 
 	LD	BC,7
 	PUSH	BC
 	CALL	_putch
 	POP	BC
-;  456		putch(extent);
-.LINE 456
+;  458		putch(extent);
+.LINE 458
 
 	LD	A,(IX+%6)
 	UEXT	HL
@@ -4638,8 +4861,8 @@ _vdp_scroll:
 	PUSH	HL
 	CALL	_putch
 	POP	BC
-;  457		putch(direction);
-.LINE 457
+;  459		putch(direction);
+.LINE 459
 
 	LD	A,(IX+%9)
 	UEXT	HL
@@ -4647,8 +4870,8 @@ _vdp_scroll:
 	PUSH	HL
 	CALL	_putch
 	POP	BC
-;  458		putch(speed);
-.LINE 458
+;  460		putch(speed);
+.LINE 460
 
 	LD	A,(IX+%C)
 	UEXT	HL
@@ -4656,7 +4879,7 @@ _vdp_scroll:
 	PUSH	HL
 	CALL	_putch
 	POP	BC
-.LINE 459
+.LINE 461
 
 	LD	SP,IX
 	POP	IX
@@ -4675,10 +4898,8 @@ _vdp_scroll:
 ;       Spill Code: 0 (instruction)
 
 
-.ENDFUNC "vdp_scroll",459,"_vdp_scroll"
-	XREF _getsysvar_scrchar:ROM
-	XREF _getsysvar_cursorY:ROM
-	XREF _getsysvar_cursorX:ROM
+.ENDFUNC "vdp_scroll",461,"_vdp_scroll"
+	XREF _getsysvars:ROM
 	XREF _putch:ROM
 	XREF __imuls:ROM
 	XREF __ior:ROM

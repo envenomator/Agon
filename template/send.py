@@ -83,8 +83,13 @@ else:
   ihex.write_hex_file(file)
   file.seek(0)
 
+ser = serial.Serial()
+ser.baudrate = baudrate
+ser.port = serialport
+ser.setDTR(False)
+ser.setRTS(False)
 try:
-  with serial.Serial(serialport, baudrate,rtscts=False,dsrdtr=None,timeout=None) as ser:
+    ser.open()
     print('Opening serial port...')
     time.sleep(1)
     print('Sending data...')
@@ -98,8 +103,9 @@ try:
         ser.write(str(line).encode('ascii'))
         time.sleep(DEFAULT_LINE_WAITTIME)
 
-    time.sleep(1)
+    #time.sleep(1)
+    ser.close()
 except serial.SerialException:
-  errorexit('Error: serial port unavailable')
+    errorexit('Error: serial port unavailable')
 
 file.close()

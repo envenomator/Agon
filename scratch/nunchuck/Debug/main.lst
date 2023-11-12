@@ -1,0 +1,1143 @@
+Zilog eZ80 Macro Assembler Version 4.3 (19073001) RELISTED12-Nov-23     21:03:00     page:   1
+
+
+PC     Object              I  Line    Source 
+                           A     1    ; Zilog eZ80 ANSI C Compiler Release 3.4
+                           A     2    ; -nomodsect -optsize -noreduceopt -nopadbranch
+                           A     3    ; -peephole -globalopt -localcse -const=ROM 
+                           A     4    	FILE	"..\main.c"
+                           A     5    	.assume ADL=1
+                           A     6    .DEBUG "C"
+                           A     7    	SEGMENT CODE
+                           A     8    .BEGREC "fmt_type",19
+                           A     9    .DEFINE "status"
+                           A    10    .VALUE 0
+                           A    11    .CLASS 8
+                           A    12    .TYPE 12
+                           A    13    .ENDEF
+                           A    14    .DEFINE "flags"
+                           A    15    .VALUE 1
+                           A    16    .CLASS 8
+                           A    17    .TYPE 12
+                           A    18    .ENDEF
+                           A    19    .DEFINE "size"
+                           A    20    .VALUE 2
+                           A    21    .CLASS 8
+                           A    22    .TYPE 2
+                           A    23    .ENDEF
+                           A    24    .DEFINE "chr"
+                           A    25    .VALUE 3
+                           A    26    .CLASS 8
+                           A    27    .TYPE 2
+                           A    28    .ENDEF
+                           A    29    .DEFINE "type"
+                           A    30    .VALUE 4
+                           A    31    .CLASS 8
+                           A    32    .TYPE 2
+                           A    33    .ENDEF
+                           A    34    .DEFINE "field_width"
+                           A    35    .VALUE 5
+                           A    36    .CLASS 8
+                           A    37    .TYPE 2
+                           A    38    .ENDEF
+                           A    39    .DEFINE "precision"
+                           A    40    .VALUE 6
+                           A    41    .CLASS 8
+                           A    42    .TYPE 2
+                           A    43    .ENDEF
+                           A    44    .DEFINE "set_begin"
+                           A    45    .VALUE 7
+                           A    46    .CLASS 8
+                           A    47    .TYPE 34
+                           A    48    .ENDEF
+                           A    49    .DEFINE "set_end"
+                           A    50    .VALUE 10
+                           A    51    .CLASS 8
+                           A    52    .TYPE 34
+                           A    53    .ENDEF
+                           A    54    .DEFINE "pad_whole"
+                           A    55    .VALUE 13
+                           A    56    .CLASS 8
+                           A    57    .TYPE 12
+                           A    58    .ENDEF
+                           A    59    .DEFINE "pad_pre_fract"
+                           A    60    .VALUE 14
+                           A    61    .CLASS 8
+                           A    62    .TYPE 12
+                           A    63    .ENDEF
+                           A    64    .DEFINE "pad_post_fract"
+                           A    65    .VALUE 15
+                           A    66    .CLASS 8
+                           A    67    .TYPE 12
+                           A    68    .ENDEF
+                           A    69    .DEFINE "pad_at"
+                           A    70    .VALUE 16
+                           A    71    .CLASS 8
+                           A    72    .TYPE 34
+                           A    73    .ENDEF
+                           A    74    .ENDREC "fmt_type"
+                           A    75    .BEGREC "flt_info",12
+                           A    76    .DEFINE "flags"
+                           A    77    .VALUE 0
+                           A    78    .CLASS 8
+                           A    79    .TYPE 12
+                           A    80    .ENDEF
+                           A    81    .DEFINE "exp"
+                           A    82    .VALUE 1
+                           A    83    .CLASS 8
+                           A    84    .TYPE 2
+                           A    85    .ENDEF
+                           A    86    .DEFINE "digits"
+                           A    87    .VALUE 2
+                           A    88    .CLASS 8
+                           A    89    .DIM 10
+                           A    90    .TYPE 108
+                           A    91    .ENDEF
+                           A    92    .ENDREC "flt_info"
+                           A    93    .BEGREC "NONAME0",51
+                           A    94    .DEFINE "clock"
+                           A    95    .VALUE 0
+                           A    96    .CLASS 8
+                           A    97    .TYPE 15
+                           A    98    .ENDEF
+                           A    99    .DEFINE "vpd_protocol_flags"
+                           A   100    .VALUE 4
+                           A   101    .CLASS 8
+                           A   102    .TYPE 12
+                           A   103    .ENDEF
+                           A   104    .DEFINE "keyascii"
+                           A   105    .VALUE 5
+                           A   106    .CLASS 8
+                           A   107    .TYPE 12
+                           A   108    .ENDEF
+                           A   109    .DEFINE "keymods"
+                           A   110    .VALUE 6
+                           A   111    .CLASS 8
+                           A   112    .TYPE 12
+                           A   113    .ENDEF
+                           A   114    .DEFINE "cursorX"
+                           A   115    .VALUE 7
+                           A   116    .CLASS 8
+                           A   117    .TYPE 12
+                           A   118    .ENDEF
+                           A   119    .DEFINE "cursorY"
+                           A   120    .VALUE 8
+                           A   121    .CLASS 8
+                           A   122    .TYPE 12
+                           A   123    .ENDEF
+                           A   124    .DEFINE "scrchar"
+                           A   125    .VALUE 9
+                           A   126    .CLASS 8
+                           A   127    .TYPE 12
+                           A   128    .ENDEF
+                           A   129    .DEFINE "scrpixel"
+                           A   130    .VALUE 10
+                           A   131    .CLASS 8
+                           A   132    .TYPE 14
+                           A   133    .ENDEF
+                           A   134    .DEFINE "audioChannel"
+                           A   135    .VALUE 13
+                           A   136    .CLASS 8
+                           A   137    .TYPE 12
+                           A   138    .ENDEF
+                           A   139    .DEFINE "audioSuccess"
+                           A   140    .VALUE 14
+                           A   141    .CLASS 8
+                           A   142    .TYPE 12
+                           A   143    .ENDEF
+                           A   144    .DEFINE "scrwidth"
+                           A   145    .VALUE 15
+                           A   146    .CLASS 8
+                           A   147    .TYPE 13
+                           A   148    .ENDEF
+                           A   149    .DEFINE "scrheight"
+                           A   150    .VALUE 17
+                           A   151    .CLASS 8
+                           A   152    .TYPE 13
+                           A   153    .ENDEF
+                           A   154    .DEFINE "scrcols"
+                           A   155    .VALUE 19
+                           A   156    .CLASS 8
+                           A   157    .TYPE 12
+                           A   158    .ENDEF
+                           A   159    .DEFINE "scrrows"
+                           A   160    .VALUE 20
+                           A   161    .CLASS 8
+                           A   162    .TYPE 12
+                           A   163    .ENDEF
+                           A   164    .DEFINE "scrcolours"
+                           A   165    .VALUE 21
+                           A   166    .CLASS 8
+                           A   167    .TYPE 12
+                           A   168    .ENDEF
+                           A   169    .DEFINE "scrpixelIndex"
+                           A   170    .VALUE 22
+                           A   171    .CLASS 8
+                           A   172    .TYPE 12
+                           A   173    .ENDEF
+                           A   174    .DEFINE "keycode"
+                           A   175    .VALUE 23
+                           A   176    .CLASS 8
+                           A   177    .TYPE 12
+                           A   178    .ENDEF
+                           A   179    .DEFINE "keydown"
+                           A   180    .VALUE 24
+                           A   181    .CLASS 8
+                           A   182    .TYPE 12
+                           A   183    .ENDEF
+                           A   184    .DEFINE "keycount"
+                           A   185    .VALUE 25
+                           A   186    .CLASS 8
+                           A   187    .TYPE 12
+                           A   188    .ENDEF
+                           A   189    .DEFINE "rtc"
+                           A   190    .VALUE 26
+                           A   191    .CLASS 8
+                           A   192    .DIM 6
+                           A   193    .TYPE 108
+                           A   194    .ENDEF
+                           A   195    .DEFINE "rtc_spare"
+                           A   196    .VALUE 32
+                           A   197    .CLASS 8
+                           A   198    .DIM 2
+                           A   199    .TYPE 108
+                           A   200    .ENDEF
+                           A   201    .DEFINE "keydelay"
+                           A   202    .VALUE 34
+                           A   203    .CLASS 8
+                           A   204    .TYPE 13
+                           A   205    .ENDEF
+                           A   206    .DEFINE "keyrate"
+                           A   207    .VALUE 36
+                           A   208    .CLASS 8
+                           A   209    .TYPE 13
+                           A   210    .ENDEF
+                           A   211    .DEFINE "keyled"
+                           A   212    .VALUE 38
+                           A   213    .CLASS 8
+                           A   214    .TYPE 12
+                           A   215    .ENDEF
+                           A   216    .DEFINE "scrmode"
+                           A   217    .VALUE 39
+                           A   218    .CLASS 8
+                           A   219    .TYPE 12
+                           A   220    .ENDEF
+                           A   221    .DEFINE "rtc_enable"
+                           A   222    .VALUE 40
+                           A   223    .CLASS 8
+                           A   224    .TYPE 12
+                           A   225    .ENDEF
+                           A   226    .DEFINE "mouseX"
+                           A   227    .VALUE 41
+                           A   228    .CLASS 8
+                           A   229    .TYPE 13
+                           A   230    .ENDEF
+                           A   231    .DEFINE "mouseY"
+                           A   232    .VALUE 43
+                           A   233    .CLASS 8
+                           A   234    .TYPE 13
+                           A   235    .ENDEF
+                           A   236    .DEFINE "mouseButtons"
+                           A   237    .VALUE 45
+                           A   238    .CLASS 8
+                           A   239    .TYPE 12
+                           A   240    .ENDEF
+                           A   241    .DEFINE "mouseWheel"
+                           A   242    .VALUE 46
+                           A   243    .CLASS 8
+                           A   244    .TYPE 12
+                           A   245    .ENDEF
+                           A   246    .DEFINE "mouseXDelta"
+                           A   247    .VALUE 47
+                           A   248    .CLASS 8
+                           A   249    .TYPE 13
+                           A   250    .ENDEF
+                           A   251    .DEFINE "mouseYDelta"
+                           A   252    .VALUE 49
+                           A   253    .CLASS 8
+                           A   254    .TYPE 13
+                           A   255    .ENDEF
+                           A   256    .ENDREC "NONAME0"
+                           A   257    .BEGREC "NONAME1",8
+                           A   258    .DEFINE "baudRate"
+                           A   259    .VALUE 0
+                           A   260    .CLASS 8
+                           A   261    .TYPE 4
+                           A   262    .ENDEF
+                           A   263    .DEFINE "dataBits"
+                           A   264    .VALUE 3
+                           A   265    .CLASS 8
+                           A   266    .TYPE 12
+                           A   267    .ENDEF
+                           A   268    .DEFINE "stopBits"
+                           A   269    .VALUE 4
+                           A   270    .CLASS 8
+                           A   271    .TYPE 12
+                           A   272    .ENDEF
+                           A   273    .DEFINE "parity"
+                           A   274    .VALUE 5
+                           A   275    .CLASS 8
+                           A   276    .TYPE 12
+                           A   277    .ENDEF
+                           A   278    .DEFINE "flowcontrol"
+                           A   279    .VALUE 6
+                           A   280    .CLASS 8
+                           A   281    .TYPE 12
+                           A   282    .ENDEF
+                           A   283    .DEFINE "eir"
+                           A   284    .VALUE 7
+                           A   285    .CLASS 8
+                           A   286    .TYPE 12
+                           A   287    .ENDEF
+                           A   288    .ENDREC "NONAME1"
+                           A   289    .BEGREC "NONAME2",15
+                           A   290    .DEFINE "fs"
+                           A   291    .VALUE 0
+                           A   292    .CLASS 8
+                           A   293    .TYPE 46
+                           A   294    .ENDEF
+                           A   295    .DEFINE "id"
+                           A   296    .VALUE 3
+                           A   297    .CLASS 8
+                           A   298    .TYPE 13
+                           A   299    .ENDEF
+                           A   300    .DEFINE "attr"
+                           A   301    .VALUE 5
+                           A   302    .CLASS 8
+                           A   303    .TYPE 12
+                           A   304    .ENDEF
+                           A   305    .DEFINE "stat"
+                           A   306    .VALUE 6
+                           A   307    .CLASS 8
+                           A   308    .TYPE 12
+                           A   309    .ENDEF
+                           A   310    .DEFINE "sclust"
+                           A   311    .VALUE 7
+                           A   312    .CLASS 8
+                           A   313    .TYPE 15
+                           A   314    .ENDEF
+                           A   315    .DEFINE "objsize"
+                           A   316    .VALUE 11
+                           A   317    .CLASS 8
+                           A   318    .TYPE 15
+                           A   319    .ENDEF
+                           A   320    .ENDREC "NONAME2"
+                           A   321    .BEGREC "NONAME3",36
+                           A   322    .DEFINE "obj"
+                           A   323    .VALUE 0
+                           A   324    .CLASS 8
+                           A   325    .TAG "NONAME2"
+                           A   326    .TYPE 8
+                           A   327    .ENDEF
+                           A   328    .DEFINE "flag"
+                           A   329    .VALUE 15
+                           A   330    .CLASS 8
+                           A   331    .TYPE 12
+                           A   332    .ENDEF
+                           A   333    .DEFINE "err"
+                           A   334    .VALUE 16
+                           A   335    .CLASS 8
+                           A   336    .TYPE 12
+                           A   337    .ENDEF
+                           A   338    .DEFINE "fptr"
+                           A   339    .VALUE 17
+                           A   340    .CLASS 8
+                           A   341    .TYPE 15
+                           A   342    .ENDEF
+                           A   343    .DEFINE "clust"
+                           A   344    .VALUE 21
+                           A   345    .CLASS 8
+                           A   346    .TYPE 15
+                           A   347    .ENDEF
+                           A   348    .DEFINE "sect"
+                           A   349    .VALUE 25
+                           A   350    .CLASS 8
+                           A   351    .TYPE 15
+                           A   352    .ENDEF
+                           A   353    .DEFINE "dir_sect"
+                           A   354    .VALUE 29
+                           A   355    .CLASS 8
+                           A   356    .TYPE 15
+                           A   357    .ENDEF
+                           A   358    .DEFINE "dir_ptr"
+                           A   359    .VALUE 33
+                           A   360    .CLASS 8
+                           A   361    .TYPE 46
+                           A   362    .ENDEF
+                           A   363    .ENDREC "NONAME3"
+                           A   364    	SEGMENT BSS
+04175F                     A   365    _zeroJoyX:
+04175F                     A   366    	DS	1
+                           A   367    .DEFINE "zeroJoyX"
+                           A   368    .ALIAS "_zeroJoyX"
+                           A   369    .CLASS 83
+                           A   370    .VALUE _zeroJoyX
+                           A   371    .TYPE 12
+                           A   372    .ENDEF
+041760                     A   373    _zeroJoyY:
+041760                     A   374    	DS	1
+                           A   375    .DEFINE "zeroJoyY"
+                           A   376    .ALIAS "_zeroJoyY"
+                           A   377    .CLASS 83
+                           A   378    .VALUE _zeroJoyY
+                           A   379    .TYPE 12
+                           A   380    .ENDEF
+041761                     A   381    _lastJoyX:
+041761                     A   382    	DS	3
+                           A   383    .DEFINE "lastJoyX"
+                           A   384    .ALIAS "_lastJoyX"
+                           A   385    .CLASS 83
+                           A   386    .VALUE _lastJoyX
+                           A   387    .TYPE 4
+                           A   388    .ENDEF
+041764                     A   389    _lastJoyY:
+041764                     A   390    	DS	3
+                           A   391    .DEFINE "lastJoyY"
+                           A   392    .ALIAS "_lastJoyY"
+                           A   393    .CLASS 83
+                           A   394    .VALUE _lastJoyY
+                           A   395    .TYPE 4
+                           A   396    .ENDEF
+041767                     A   397    _joyX:
+041767                     A   398    	DS	1
+                           A   399    .DEFINE "joyX"
+                           A   400    .ALIAS "_joyX"
+                           A   401    .CLASS 83
+                           A   402    .VALUE _joyX
+                           A   403    .TYPE 12
+                           A   404    .ENDEF
+041768                     A   405    _joyY:
+041768                     A   406    	DS	1
+                           A   407    .DEFINE "joyY"
+                           A   408    .ALIAS "_joyY"
+                           A   409    .CLASS 83
+                           A   410    .VALUE _joyY
+                           A   411    .TYPE 12
+                           A   412    .ENDEF
+041769                     A   413    _buttonZ:
+041769                     A   414    	DS	1
+                           A   415    .DEFINE "buttonZ"
+                           A   416    .ALIAS "_buttonZ"
+                           A   417    .CLASS 83
+                           A   418    .VALUE _buttonZ
+                           A   419    .TYPE 12
+                           A   420    .ENDEF
+04176A                     A   421    _buttonC:
+04176A                     A   422    	DS	1
+                           A   423    .DEFINE "buttonC"
+                           A   424    .ALIAS "_buttonC"
+                           A   425    .CLASS 83
+                           A   426    .VALUE _buttonC
+                           A   427    .TYPE 12
+                           A   428    .ENDEF
+                           A   429    ;    1	#include <stdio.h>
+                           A   430    ;    2	#include <ctype.h>
+                           A   431    ;    3	#include "mos-interface.h"
+                           A   432    ;    4	#include "vdp.h"
+                           A   433    ;    5	#include "agontimer.h"
+                           A   434    ;    6	
+                           A   435    ;    7	#define DEFAULT_ZERO_JOY_X 124
+                           A   436    ;    8	#define DEFAULT_ZERO_JOY_Y 132
+                           A   437    ;    9	uint8_t zeroJoyX;
+                           A   438    ;   10	uint8_t zeroJoyY;
+                           A   439    ;   11	int lastJoyX;
+                           A   440    ;   12	int lastJoyY;
+                           A   441    ;   13	uint8_t joyX;
+                           A   442    ;   14	uint8_t joyY;
+                           A   443    ;   15	bool buttonZ;
+                           A   444    ;   16	bool buttonC;
+                           A   445    	SEGMENT CODE
+                           A   446    ;   17	
+                           A   447    ;   18	int readJoyX() {
+0400E5                     A   448    _readJoyX:
+                           A   449    .DEFINE "_readJoyX"
+                           A   450    
+                           A   451    .VALUE _readJoyX
+                           A   452    
+                           A   453    .CLASS 2
+                           A   454    
+                           A   455    .TYPE 68
+                           A   456    
+                           A   457    .ENDEF
+                           A   458    
+                           A   459    .BEGFUNC "readJoyX",18,"_readJoyX"
+                           A   460    
+0400E5 DDE5                A   461    	PUSH	IX
+0400E7 DD210000 00         A   462    	LD	IX,0
+0400EC DD39                A   463    	ADD	IX,SP
+                           A   464    ;   19		return (int) joyX;// - zeroJoyX;
+                           A   465    .LINE 19
+                           A   466    
+0400EE 3A 67 17 04         A   467    	LD	A,(_joyX)
+0400F2 B7ED62              A   468    	UEXT	HL
+0400F5 6F                  A   469    	LD	L,A
+                           A   470    ;   20	}
+                           A   471    .LINE 20
+                           A   472    
+0400F6 DDF9                A   473    	LD	SP,IX
+0400F8 DDE1                A   474    	POP	IX
+0400FA C9                  A   475    	RET	
+                           A   476    
+                           A   477    
+                           A   478    ;**************************** _readJoyX *******
+                           A   479    ;Name                         Addr/Register   S
+                           A   480    ;_joyX                               STATIC    
+                           A   481    
+                           A   482    
+                           A   483    ; Stack Frame Size: 6 (bytes)
+                           A   484    ;       Spill Code: 0 (instruction)
+                           A   485    
+                           A   486    
+                           A   487    .ENDFUNC "readJoyX",20,"_readJoyX"
+                           A   488    ;   21	
+                           A   489    ;   22	int readJoyY() {
+0400FB                     A   490    _readJoyY:
+                           A   491    .DEFINE "_readJoyY"
+                           A   492    
+                           A   493    .VALUE _readJoyY
+                           A   494    
+                           A   495    .CLASS 2
+                           A   496    
+                           A   497    .TYPE 68
+                           A   498    
+                           A   499    .ENDEF
+                           A   500    
+                           A   501    .BEGFUNC "readJoyY",22,"_readJoyY"
+                           A   502    
+0400FB DDE5                A   503    	PUSH	IX
+0400FD DD210000 00         A   504    	LD	IX,0
+040102 DD39                A   505    	ADD	IX,SP
+                           A   506    ;   23		return (int)joyY;// - zeroJoyY;
+                           A   507    .LINE 23
+                           A   508    
+040104 3A 68 17 04         A   509    	LD	A,(_joyY)
+040108 B7ED62              A   510    	UEXT	HL
+04010B 6F                  A   511    	LD	L,A
+                           A   512    ;   24	}
+                           A   513    .LINE 24
+                           A   514    
+04010C DDF9                A   515    	LD	SP,IX
+04010E DDE1                A   516    	POP	IX
+040110 C9                  A   517    	RET	
+                           A   518    
+                           A   519    
+                           A   520    ;**************************** _readJoyY *******
+                           A   521    ;Name                         Addr/Register   S
+                           A   522    ;_joyY                               STATIC    
+                           A   523    
+                           A   524    
+                           A   525    ; Stack Frame Size: 6 (bytes)
+                           A   526    ;       Spill Code: 0 (instruction)
+                           A   527    
+                           A   528    
+                           A   529    .ENDFUNC "readJoyY",24,"_readJoyY"
+                           A   530    ;   25	
+                           A   531    ;   26	void nunchuck_update(void) {
+040111                     A   532    _nunchuck_update:
+                           A   533    .DEFINE "_nunchuck_update"
+                           A   534    
+                           A   535    .VALUE _nunchuck_update
+                           A   536    
+                           A   537    .CLASS 2
+                           A   538    
+                           A   539    .TYPE 65
+                           A   540    
+                           A   541    .ENDEF
+                           A   542    
+                           A   543    .BEGFUNC "nunchuck_update",26,"_nunchuck_update
+                           A   544    
+                           A   545    .LINE 26
+                           A   546    
+                           A   547    .DEFINE "zero"
+                           A   548    
+                           A   549    .CLASS 65
+                           A   550    
+                           A   551    .VALUE -1
+                           A   552    
+                           A   553    .TYPE 12
+                           A   554    
+                           A   555    .ENDEF
+                           A   556    
+                           A   557    .DEFINE "values"
+                           A   558    
+                           A   559    .CLASS 65
+                           A   560    
+                           A   561    .VALUE -16
+                           A   562    
+                           A   563    .DIM 6
+                           A   564    
+                           A   565    .TYPE 108
+                           A   566    
+                           A   567    .ENDEF
+                           A   568    
+040111 DDE5                A   569    	PUSH	IX
+040113 DD210000 00         A   570    	LD	IX,0
+040118 DD39                A   571    	ADD	IX,SP
+04011A ED22F0              A   572    	LEA	HL,IX+%FFFFFFF0
+04011D F9                  A   573    	LD	SP,HL
+                           A   574    ;   27		unsigned char values[6];
+                           A   575    ;   28		unsigned char zero = 0;
+                           A   576    .LINE 28
+                           A   577    
+04011E DD36FF00            A   578    	LD	(IX+%FFFFFFFF),%0
+                           A   579    ;   29	
+                           A   580    ;   30		if(mos_i2c_read(0x52, 6, values) ==
+                           A   581    .LINE 30
+                           A   582    
+040122 ED65F0              A   583    	PEA	IX+%FFFFFFF0
+040125 01060000            A   584    	LD	BC,6
+040129 C5                  A   585    	PUSH	BC
+04012A 01520000            A   586    	LD	BC,82
+04012E C5                  A   587    	PUSH	BC
+04012F CD AF 11 04         A   588    	CALL	_mos_i2c_read
+040133 C1                  A   589    	POP	BC
+040134 C1                  A   590    	POP	BC
+040135 C1                  A   591    	POP	BC
+040136 B7                  A   592    	OR	A,A
+040137 C2 BF 01 04         A   593    	JR	NZ,L_11
+                           A   594    ;   31		{
+                           A   595    ;   32			lastJoyX = readJoyX();
+                           A   596    .LINE 32
+                           A   597    
+04013B CD E5 00 04         A   598    	CALL	_readJoyX
+04013F 22 61 17 04         A   599    	LD	(_lastJoyX),HL
+                           A   600    ;   33			lastJoyY = readJoyY();
+                           A   601    .LINE 33
+                           A   602    
+040143 CD FB 00 04         A   603    	CALL	_readJoyY
+040147 22 64 17 04         A   604    	LD	(_lastJoyY),HL
+                           A   605    ;   34	
+                           A   606    ;   35			joyX = (values[0]);
+                           A   607    .LINE 35
+                           A   608    
+04014B DD7EF0              A   609    	LD	A,(IX+%FFFFFFF0)
+04014E 32 67 17 04         A   610    	LD	(_joyX),A
+                           A   611    ;   36			joyY = (values[1]);
+                           A   612    .LINE 36
+                           A   613    
+040152 ED22F0              A   614    	LEA	HL,IX+%FFFFFFF0
+040155 23                  A   615    	INC	HL
+040156 7E                  A   616    	LD	A,(HL)
+040157 32 68 17 04         A   617    	LD	(_joyY),A
+                           A   618    ;   37	
+                           A   619    ;   38			buttonZ = !( values[5] & 0x01);
+                           A   620    .LINE 38
+                           A   621    
+04015B ED55F5              A   622    	LEA	IY,IX+%FFFFFFF5
+04015E DD3EF6              A   623    	LD	(IX+%FFFFFFF6),IY
+040161 DD27F6              A   624    	LD	HL,(IX+%FFFFFFF6)
+040164 7E                  A   625    	LD	A,(HL)
+040165 E601                A   626    	AND	A,%1
+040167 20 09               A   627    	JR	NZ,L_3
+040169 01010000            A   628    	LD	BC,1
+04016D DD0FFC              A   629    	LD	(IX+%FFFFFFFC),BC
+040170 18 07               A   630    	JR	L_4
+040172                     A   631    L_3:
+040172 01000000            A   632    	LD	BC,0
+040176 DD0FFC              A   633    	LD	(IX+%FFFFFFFC),BC
+040179                     A   634    L_4:
+040179 DD7EFC              A   635    	LD	A,(IX+%FFFFFFFC)
+04017C 32 69 17 04         A   636    	LD	(_buttonZ),A
+                           A   637    ;   39			buttonC = !((values[5] & 0x02) 
+                           A   638    .LINE 39
+                           A   639    
+040180 DD27F6              A   640    	LD	HL,(IX+%FFFFFFF6)
+040183 7E                  A   641    	LD	A,(HL)
+040184 CB3F                A   642    	SRL	A
+040186 E601                A   643    	AND	A,%1
+040188 B7ED62              A   644    	UEXT	HL
+04018B 6F                  A   645    	LD	L,A
+04018C CD B5 15 04         A   646    	CALL	__icmpzero
+040190 20 09               A   647    	JR	NZ,L_7
+040192 01010000            A   648    	LD	BC,1
+040196 DD0FF9              A   649    	LD	(IX+%FFFFFFF9),BC
+040199 18 07               A   650    	JR	L_8
+04019B                     A   651    L_7:
+04019B 01000000            A   652    	LD	BC,0
+04019F DD0FF9              A   653    	LD	(IX+%FFFFFFF9),BC
+0401A2                     A   654    L_8:
+0401A2 DD7EF9              A   655    	LD	A,(IX+%FFFFFFF9)
+0401A5 32 6A 17 04         A   656    	LD	(_buttonC),A
+                           A   657    ;   40	
+                           A   658    ;   41			mos_i2c_write(0x52, 1, &zero);
+                           A   659    .LINE 41
+                           A   660    
+0401A9 ED65FF              A   661    	PEA	IX+%FFFFFFFF
+0401AC 01010000            A   662    	LD	BC,1
+0401B0 C5                  A   663    	PUSH	BC
+0401B1 01520000            A   664    	LD	BC,82
+0401B5 C5                  A   665    	PUSH	BC
+0401B6 CD 94 11 04         A   666    	CALL	_mos_i2c_write
+0401BA C1                  A   667    	POP	BC
+0401BB C1                  A   668    	POP	BC
+0401BC C1                  A   669    	POP	BC
+                           A   670    ;   42		}
+                           A   671    ;   43		else {
+                           A   672    .LINE 43
+                           A   673    
+0401BD 18 13               A   674    	JR	L_12
+0401BF                     A   675    L_11:
+                           A   676    ;   44			printf("Error reading nunchuck\
+                           A   677    .LINE 44
+                           A   678    
+0401BF 01 9B 14 04         A   679    	LD	BC,___print_uputch
+0401C3 ED43 14 17 04       A   680    	LD	(___print_xputch),BC
+0401C8 01 1B 17 04         A   681    	LD	BC,L__5
+0401CC C5                  A   682    	PUSH	BC
+0401CD CD 0F 13 04         A   683    	CALL	___print_sendstring
+0401D1 C1                  A   684    	POP	BC
+                           A   685    ;   45		}
+                           A   686    ;   46	}
+0401D2                     A   687    L_12:
+                           A   688    .LINE 46
+                           A   689    
+0401D2 DDF9                A   690    	LD	SP,IX
+0401D4 DDE1                A   691    	POP	IX
+0401D6 C9                  A   692    	RET	
+                           A   693    
+                           A   694    
+                           A   695    ;**************************** _nunchuck_update 
+                           A   696    ;Name                         Addr/Register   S
+                           A   697    ;___print_sendstring                 IMPORT  --
+                           A   698    ;___print_xputch                     IMPORT    
+                           A   699    ;___print_uputch                     IMPORT  --
+                           A   700    ;_mos_i2c_write                      IMPORT  --
+                           A   701    ;_buttonC                            STATIC    
+                           A   702    ;_buttonZ                            STATIC    
+                           A   703    ;_joyY                               STATIC    
+                           A   704    ;_joyX                               STATIC    
+                           A   705    ;_lastJoyY                           STATIC    
+                           A   706    ;_lastJoyX                           STATIC    
+                           A   707    ;_mos_i2c_read                       IMPORT  --
+                           A   708    ;values                               IX-16    
+                           A   709    ;G_0                                  IX-10    
+                           A   710    ;temp9                                 IX-7    
+                           A   711    ;temp5                                 IX-4    
+                           A   712    ;zero                                  IX-1    
+                           A   713    
+                           A   714    
+                           A   715    ; Stack Frame Size: 22 (bytes)
+                           A   716    ;       Spill Code: 0 (instruction)
+                           A   717    
+                           A   718    
+                           A   719    .ENDFUNC "nunchuck_update",46,"_nunchuck_update
+                           A   720    	SEGMENT STRSECT
+04171B                     A   721    L__5:
+04171B 4572726F 72207265   A   722    	DB	"Error reading nunchuck"
+041723 6164696E 67206E75 
+04172B 6E636875 636B 
+041731 0D0A00              A   723    	DB	13,10,0
+                           A   724    	SEGMENT CODE
+                           A   725    ;   47	
+                           A   726    ;   48	void nunchuck_begin(void) {
+0401D7                     A   727    _nunchuck_begin:
+                           A   728    .DEFINE "_nunchuck_begin"
+                           A   729    
+                           A   730    .VALUE _nunchuck_begin
+                           A   731    
+                           A   732    .CLASS 2
+                           A   733    
+                           A   734    .TYPE 65
+                           A   735    
+                           A   736    .ENDEF
+                           A   737    
+                           A   738    .BEGFUNC "nunchuck_begin",48,"_nunchuck_begin"
+                           A   739    
+                           A   740    .LINE 48
+                           A   741    
+                           A   742    .DEFINE "init1"
+                           A   743    
+                           A   744    .CLASS 65
+                           A   745    
+                           A   746    .VALUE -2
+                           A   747    
+                           A   748    .DIM 2
+                           A   749    
+                           A   750    .TYPE 108
+                           A   751    
+                           A   752    .ENDEF
+                           A   753    
+                           A   754    .DEFINE "init2"
+                           A   755    
+                           A   756    .CLASS 65
+                           A   757    
+                           A   758    .VALUE -4
+                           A   759    
+                           A   760    .DIM 2
+                           A   761    
+                           A   762    .TYPE 108
+                           A   763    
+                           A   764    .ENDEF
+                           A   765    
+0401D7 DDE5                A   766    	PUSH	IX
+0401D9 DD210000 00         A   767    	LD	IX,0
+0401DE DD39                A   768    	ADD	IX,SP
+0401E0 C5                  A   769    	PUSH	BC
+0401E1 3B                  A   770    	DEC	SP
+                           A   771    ;   49		uint8_t cnt;
+                           A   772    ;   50		unsigned char init1[] = {0xF0, 0x55
+                           A   773    .LINE 50
+                           A   774    
+0401E2 ED12FE              A   775    	LEA	DE,IX+%FFFFFFFE
+0401E5 21 17 17 04         A   776    	LD	HL,_0temp13
+0401E9 01020000            A   777    	LD	BC,2
+0401ED EDB0                A   778    	LDIR	
+                           A   779    ;   51		unsigned char init2[] = {0xFb, 0x00
+                           A   780    .LINE 51
+                           A   781    
+0401EF ED12FC              A   782    	LEA	DE,IX+%FFFFFFFC
+0401F2 21 19 17 04         A   783    	LD	HL,_1temp14
+0401F6 01020000            A   784    	LD	BC,2
+0401FA EDB0                A   785    	LDIR	
+                           A   786    ;   52		cnt = 0;
+                           A   787    ;   53		//averagecounter = 0;
+                           A   788    ;   54		mos_i2c_open(3);
+                           A   789    .LINE 54
+                           A   790    
+0401FC 01030000            A   791    	LD	BC,3
+040200 C5                  A   792    	PUSH	BC
+040201 CD 6D 11 04         A   793    	CALL	_mos_i2c_open
+040205 C1                  A   794    	POP	BC
+                           A   795    ;   55		mos_i2c_write(0x52, 2, init1);
+                           A   796    .LINE 55
+                           A   797    
+040206 ED65FE              A   798    	PEA	IX+%FFFFFFFE
+040209 01020000            A   799    	LD	BC,2
+04020D C5                  A   800    	PUSH	BC
+04020E 01520000            A   801    	LD	BC,82
+040212 C5                  A   802    	PUSH	BC
+040213 CD 94 11 04         A   803    	CALL	_mos_i2c_write
+040217 C1                  A   804    	POP	BC
+040218 C1                  A   805    	POP	BC
+040219 C1                  A   806    	POP	BC
+                           A   807    ;   56		delayms(1);
+                           A   808    .LINE 56
+                           A   809    
+04021A 01010000            A   810    	LD	BC,1
+04021E C5                  A   811    	PUSH	BC
+04021F CD 61 12 04         A   812    	CALL	_delayms
+040223 C1                  A   813    	POP	BC
+                           A   814    ;   57		mos_i2c_write(0x52, 2, init2);
+                           A   815    .LINE 57
+                           A   816    
+040224 ED65FC              A   817    	PEA	IX+%FFFFFFFC
+040227 01020000            A   818    	LD	BC,2
+04022B C5                  A   819    	PUSH	BC
+04022C 01520000            A   820    	LD	BC,82
+040230 C5                  A   821    	PUSH	BC
+040231 CD 94 11 04         A   822    	CALL	_mos_i2c_write
+040235 C1                  A   823    	POP	BC
+040236 C1                  A   824    	POP	BC
+040237 C1                  A   825    	POP	BC
+                           A   826    ;   58		nunchuck_update();
+                           A   827    .LINE 58
+                           A   828    
+040238 CD 11 01 04         A   829    	CALL	_nunchuck_update
+                           A   830    ;   59	
+                           A   831    ;   60		//zeroJoyX = joyX;
+                           A   832    ;   61		//zeroJoyY = joyY;
+                           A   833    ;   62	}
+                           A   834    .LINE 62
+                           A   835    
+04023C DDF9                A   836    	LD	SP,IX
+04023E DDE1                A   837    	POP	IX
+040240 C9                  A   838    	RET	
+                           A   839    
+                           A   840    
+                           A   841    ;**************************** _nunchuck_begin *
+                           A   842    ;Name                         Addr/Register   S
+                           A   843    ;_delayms                            IMPORT  --
+                           A   844    ;_mos_i2c_write                      IMPORT  --
+                           A   845    ;_mos_i2c_open                       IMPORT  --
+                           A   846    ;_1temp14                            STATIC    
+                           A   847    ;_0temp13                            STATIC    
+                           A   848    ;init2                                 IX-4    
+                           A   849    ;init1                                 IX-2    
+                           A   850    
+                           A   851    
+                           A   852    ; Stack Frame Size: 10 (bytes)
+                           A   853    ;       Spill Code: 0 (instruction)
+                           A   854    
+                           A   855    
+                           A   856    .ENDFUNC "nunchuck_begin",62,"_nunchuck_begin"
+                           A   857    	SEGMENT TEXT
+041717                     A   858    _0temp13:
+041717 F0                  A   859    	DB	240
+041718 55                  A   860    	DB	85
+041719                     A   861    _1temp14:
+041719 FB                  A   862    	DB	251
+04171A 00                  A   863    	DB	0
+                           A   864    	SEGMENT CODE
+                           A   865    ;   63	
+                           A   866    ;   64	int main(int argc, char * argv[]) {
+040241                     A   867    _main:
+                           A   868    .DEFINE "_main"
+                           A   869    
+                           A   870    .VALUE _main
+                           A   871    
+                           A   872    .CLASS 2
+                           A   873    
+                           A   874    .TYPE 68
+                           A   875    
+                           A   876    .ENDEF
+                           A   877    
+                           A   878    .BEGFUNC "main",64,"_main"
+                           A   879    
+                           A   880    .LINE 64
+                           A   881    
+                           A   882    .DEFINE "argc"
+                           A   883    
+                           A   884    .CLASS 65
+                           A   885    
+                           A   886    .VALUE 6
+                           A   887    
+                           A   888    .TYPE 4
+                           A   889    
+                           A   890    .ENDEF
+                           A   891    
+                           A   892    .DEFINE "argv"
+                           A   893    
+                           A   894    .CLASS 65
+                           A   895    
+                           A   896    .VALUE 9
+                           A   897    
+                           A   898    .TYPE 290
+                           A   899    
+                           A   900    .ENDEF
+                           A   901    
+                           A   902    .DEFINE "x"
+                           A   903    
+                           A   904    .CLASS 65
+                           A   905    
+                           A   906    .VALUE -3
+                           A   907    
+                           A   908    .TYPE 4
+                           A   909    
+                           A   910    .ENDEF
+                           A   911    
+                           A   912    .DEFINE "y"
+                           A   913    
+                           A   914    .CLASS 65
+                           A   915    
+                           A   916    .VALUE -6
+                           A   917    
+                           A   918    .TYPE 4
+                           A   919    
+                           A   920    .ENDEF
+                           A   921    
+040241 DDE5                A   922    	PUSH	IX
+040243 DD210000 00         A   923    	LD	IX,0
+040248 DD39                A   924    	ADD	IX,SP
+04024A C5                  A   925    	PUSH	BC
+04024B C5                  A   926    	PUSH	BC
+                           A   927    ;   65		int x, y;
+                           A   928    ;   66	
+                           A   929    ;   67		nunchuck_begin();
+                           A   930    .LINE 67
+                           A   931    
+04024C CD D7 01 04         A   932    	CALL	_nunchuck_begin
+                           A   933    ;   68	
+                           A   934    ;   69		while(1) {
+040250                     A   935    L_28:
+                           A   936    .LINE 69
+                           A   937    
+                           A   938    ;   70			delayms(100);
+                           A   939    .LINE 70
+                           A   940    
+040250 01640000            A   941    	LD	BC,100
+040254 C5                  A   942    	PUSH	BC
+040255 CD 61 12 04         A   943    	CALL	_delayms
+040259 C1                  A   944    	POP	BC
+                           A   945    ;   71	
+                           A   946    ;   72			nunchuck_update();
+                           A   947    .LINE 72
+                           A   948    
+04025A CD 11 01 04         A   949    	CALL	_nunchuck_update
+                           A   950    ;   73			x = readJoyX();
+                           A   951    .LINE 73
+                           A   952    
+04025E CD E5 00 04         A   953    	CALL	_readJoyX
+040262 DD2FFD              A   954    	LD	(IX+%FFFFFFFD),HL
+                           A   955    ;   74			y = readJoyY();
+                           A   956    .LINE 74
+                           A   957    
+040265 CD FB 00 04         A   958    	CALL	_readJoyY
+040269 DD2FFA              A   959    	LD	(IX+%FFFFFFFA),HL
+                           A   960    ;   75	
+                           A   961    ;   76			//printf("X: %d Y: %d          
+                           A   962    ;   77		
+                           A   963    ;   78			vdp_cls();
+                           A   964    .LINE 78
+                           A   965    
+04026C CD 97 04 04         A   966    	CALL	_vdp_cls
+                           A   967    ;   79			if(x < 100) printf("Left ");
+                           A   968    .LINE 79
+                           A   969    
+040270 01640000            A   970    	LD	BC,100
+040274 DD27FD              A   971    	LD	HL,(IX+%FFFFFFFD)
+040277 B7                  A   972    	OR	A,A
+040278 ED42                A   973    	SBC	HL,BC
+04027A F2 91 02 04         A   974    	JP	P,L_18
+04027E 01 9B 14 04         A   975    	LD	BC,___print_uputch
+040282 ED43 14 17 04       A   976    	LD	(___print_xputch),BC
+040287 01 34 17 04         A   977    	LD	BC,L__9
+04028B C5                  A   978    	PUSH	BC
+04028C CD 0F 13 04         A   979    	CALL	___print_sendstring
+040290 C1                  A   980    	POP	BC
+040291                     A   981    L_18:
+                           A   982    ;   80			if(x > 136) printf("Right ");
+                           A   983    .LINE 80
+                           A   984    
+040291 DD07FD              A   985    	LD	BC,(IX+%FFFFFFFD)
+040294 21880000            A   986    	LD	HL,136
+040298 B7                  A   987    	OR	A,A
+040299 ED42                A   988    	SBC	HL,BC
+04029B CD DB 12 04         A   989    	CALL	__setflag
+04029F F2 B6 02 04         A   990    	JP	P,L_20
+0402A3 01 9B 14 04         A   991    	LD	BC,___print_uputch
+0402A7 ED43 14 17 04       A   992    	LD	(___print_xputch),BC
+0402AC 01 3A 17 04         A   993    	LD	BC,L__11
+0402B0 C5                  A   994    	PUSH	BC
+0402B1 CD 0F 13 04         A   995    	CALL	___print_sendstring
+0402B5 C1                  A   996    	POP	BC
+0402B6                     A   997    L_20:
+                           A   998    ;   81			if(y > 136) printf("Up ");
+                           A   999    .LINE 81
+                           A  1000    
+0402B6 DD07FA              A  1001    	LD	BC,(IX+%FFFFFFFA)
+0402B9 21880000            A  1002    	LD	HL,136
+0402BD B7                  A  1003    	OR	A,A
+0402BE ED42                A  1004    	SBC	HL,BC
+0402C0 CD DB 12 04         A  1005    	CALL	__setflag
+0402C4 F2 DB 02 04         A  1006    	JP	P,L_22
+0402C8 01 9B 14 04         A  1007    	LD	BC,___print_uputch
+0402CC ED43 14 17 04       A  1008    	LD	(___print_xputch),BC
+0402D1 01 41 17 04         A  1009    	LD	BC,L__13
+0402D5 C5                  A  1010    	PUSH	BC
+0402D6 CD 0F 13 04         A  1011    	CALL	___print_sendstring
+0402DA C1                  A  1012    	POP	BC
+0402DB                     A  1013    L_22:
+                           A  1014    ;   82			if(y < 100) printf("Down ");
+                           A  1015    .LINE 82
+                           A  1016    
+0402DB 01640000            A  1017    	LD	BC,100
+0402DF DD27FA              A  1018    	LD	HL,(IX+%FFFFFFFA)
+0402E2 B7                  A  1019    	OR	A,A
+0402E3 ED42                A  1020    	SBC	HL,BC
+0402E5 CD DB 12 04         A  1021    	CALL	__setflag
+0402E9 F2 00 03 04         A  1022    	JP	P,L_24
+0402ED 01 9B 14 04         A  1023    	LD	BC,___print_uputch
+0402F1 ED43 14 17 04       A  1024    	LD	(___print_xputch),BC
+0402F6 01 45 17 04         A  1025    	LD	BC,L__15
+0402FA C5                  A  1026    	PUSH	BC
+0402FB CD 0F 13 04         A  1027    	CALL	___print_sendstring
+0402FF C1                  A  1028    	POP	BC
+040300                     A  1029    L_24:
+                           A  1030    ;   83			if(buttonC) printf("Button C ")
+                           A  1031    .LINE 83
+                           A  1032    
+040300 3A 6A 17 04         A  1033    	LD	A,(_buttonC)
+040304 B7                  A  1034    	OR	A,A
+040305 28 13               A  1035    	JR	Z,L_26
+040307 01 9B 14 04         A  1036    	LD	BC,___print_uputch
+04030B ED43 14 17 04       A  1037    	LD	(___print_xputch),BC
+040310 01 4B 17 04         A  1038    	LD	BC,L__17
+040314 C5                  A  1039    	PUSH	BC
+040315 CD 0F 13 04         A  1040    	CALL	___print_sendstring
+040319 C1                  A  1041    	POP	BC
+04031A                     A  1042    L_26:
+                           A  1043    ;   84			if(buttonZ) printf("Button Z ")
+                           A  1044    .LINE 84
+                           A  1045    
+04031A 3A 69 17 04         A  1046    	LD	A,(_buttonZ)
+04031E B7                  A  1047    	OR	A,A
+04031F CA 50 02 04         A  1048    	JR	Z,L_28
+040323 01 9B 14 04         A  1049    	LD	BC,___print_uputch
+040327 ED43 14 17 04       A  1050    	LD	(___print_xputch),BC
+04032C 01 55 17 04         A  1051    	LD	BC,L__19
+040330 C5                  A  1052    	PUSH	BC
+040331 CD 0F 13 04         A  1053    	CALL	___print_sendstring
+040335 C1                  A  1054    	POP	BC
+                           A  1055    ;   85		}
+                           A  1056    .LINE 85
+                           A  1057    
+040336 C3 50 02 04         A  1058    	JR	L_28
+                           A  1059    ;   86		return 0;
+                           A  1060    ;   87	}
+                           A  1061    .LINE 87
+                           A  1062    
+04033A DDF9                A  1063    	LD	SP,IX
+04033C DDE1                A  1064    	POP	IX
+04033E C9                  A  1065    	RET	
+                           A  1066    
+                           A  1067    
+                           A  1068    ;**************************** _main ***********
+                           A  1069    ;Name                         Addr/Register   S
+                           A  1070    ;_buttonZ                            STATIC    
+                           A  1071    ;_buttonC                            STATIC    
+                           A  1072    ;___print_sendstring                 IMPORT  --
+                           A  1073    ;___print_xputch                     IMPORT    
+                           A  1074    ;___print_uputch                     IMPORT  --
+                           A  1075    ;_vdp_cls                            IMPORT  --
+                           A  1076    ;_delayms                            IMPORT  --
+                           A  1077    ;y                                     IX-6    
+                           A  1078    ;x                                     IX-3    
+                           A  1079    ;argv                                  IX+9    
+                           A  1080    ;argc                                  IX+6    
+                           A  1081    
+                           A  1082    
+                           A  1083    ; Stack Frame Size: 18 (bytes)
+                           A  1084    ;       Spill Code: 0 (instruction)
+                           A  1085    
+                           A  1086    
+                           A  1087    .ENDFUNC "main",87,"_main"
+                           A  1088    	SEGMENT STRSECT
+041734                     A  1089    L__9:
+041734 4C656674 20         A  1090    	DB	"Left "
+041739 00                  A  1091    	DB	0
+04173A                     A  1092    L__11:
+04173A 52696768 7420       A  1093    	DB	"Right "
+041740 00                  A  1094    	DB	0
+041741                     A  1095    L__13:
+041741 557020              A  1096    	DB	"Up "
+041744 00                  A  1097    	DB	0
+041745                     A  1098    L__15:
+041745 446F776E 20         A  1099    	DB	"Down "
+04174A 00                  A  1100    	DB	0
+04174B                     A  1101    L__17:
+04174B 42757474 6F6E2043   A  1102    	DB	"Button C "
+041753 20 
+041754 00                  A  1103    	DB	0
+041755                     A  1104    L__19:
+041755 42757474 6F6E205A   A  1105    	DB	"Button Z "
+04175D 20 
+04175E 00                  A  1106    	DB	0
+                           A  1107    	XREF _delayms:ROM
+                           A  1108    	XREF _vdp_cls:ROM
+                           A  1109    	XREF _mos_i2c_read:ROM
+                           A  1110    	XREF _mos_i2c_write:ROM
+                           A  1111    	XREF _mos_i2c_open:ROM
+                           A  1112    	XREF ___print_sendstring:ROM
+                           A  1113    	XREF ___print_xputch:ROM
+                           A  1114    	XREF ___print_uputch:ROM
+                           A  1115    	XREF __setflag:ROM
+                           A  1116    	XREF __icmpzero:ROM
+                           A  1117    	XDEF _main
+                           A  1118    	XDEF _nunchuck_begin
+                           A  1119    	XDEF _nunchuck_update
+                           A  1120    	XDEF _readJoyY
+                           A  1121    	XDEF _readJoyX
+                           A  1122    	XDEF _buttonC
+                           A  1123    	XDEF _buttonZ
+                           A  1124    	XDEF _joyY
+                           A  1125    	XDEF _joyX
+                           A  1126    	XDEF _lastJoyY
+                           A  1127    	XDEF _lastJoyX
+                           A  1128    	XDEF _zeroJoyY
+                           A  1129    	XDEF _zeroJoyX
+                           A  1130    	END
+
+
+Errors: 0
+Warnings: 0
+Lines Assembled: 1131

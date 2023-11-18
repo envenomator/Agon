@@ -66,10 +66,6 @@ mos_getfil:		EQU	19h
 mos_fread:		EQU	1Ah
 mos_fwrite:		EQU	1Bh
 mos_flseek:		EQU	1Ch
-mos_i2c_open:	EQU 1Fh
-mos_i2c_close:	EQU 20h
-mos_i2c_write:	EQU	21h
-mos_i2c_read:	EQU 22h
 
 ; FatFS file access functions
 ;

@@ -133,9 +133,4 @@ extern UINT24 mos_fread(UINT8 fh, char *buffer, UINT24 numbytes);
 extern UINT24 mos_fwrite(UINT8 fh, char *buffer, UINT24 numbytes);
 extern UINT8  mos_flseek(UINT8 fh, UINT32 offset);
 extern FIL*   mos_getfil(UINT8 fh);
-
-extern void   mos_i2c_open(UINT8 frequency);
-extern void   mos_i2c_close(void);
-extern UINT8  mos_i2c_write(UINT8 i2c_address, UINT8 size, unsigned char * buffer);
-extern UINT8  mos_i2c_read(UINT8 i2c_address, UINT8 size, unsigned char * buffer);
 #endif

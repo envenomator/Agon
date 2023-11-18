@@ -1,7 +1,7 @@
 {
-    "files.associations": {
-        "macro.h": "c",
-        "str2num.h": "c",
-        "mos-interface.h": "c"
-    }
+	"files.associations": {
+		"*.s": "ez80-asm",
+		"vdp_vdu.h": "c",
+		"mos_api.h": "c"
+	}
 }

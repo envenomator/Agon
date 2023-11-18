@@ -52,11 +52,6 @@
 	XDEF _mos_flseek
 	XDEF _mos_getfil
 
-	XDEF _mos_i2c_open
-	XDEF _mos_i2c_close
-	XDEF _mos_i2c_write
-	XDEF _mos_i2c_read
-	
 	XDEF _getsysvars
 	
 	segment CODE
@@ -443,50 +438,14 @@ _mos_getfil:
 	pop		ix
 	ret
 
-_mos_i2c_open:
-	push	ix
-	ld 		ix,0
-	add 	ix, sp
-	ld	c, (ix+6)
-	ld a,	mos_i2c_open
-	rst.lil	08h
-	ld		sp,ix
-	pop		ix
+po:
 	ret
-
-_mos_i2c_close:
-	push	ix
-	ld 		ix,0
-	add 	ix, sp
-	ld a,	mos_i2c_close
-	rst.lil	08h
-	ld		sp,ix
-	pop		ix
+pe:
 	ret
-_mos_i2c_write:
-	push	ix
-	ld 		ix,0
-	add 	ix, sp
-	ld		c, (ix+6)
-	ld		b, (ix+9)
-	ld		hl, (ix+12)
-	ld a,	mos_i2c_write
-	rst.lil	08h
-	ld		sp,ix
-	pop		ix
+p:
 	ret
-
-_mos_i2c_read:
-	push	ix
-	ld 		ix,0
-	add 	ix, sp
-	ld		c, (ix+6)
-	ld		b, (ix+9)
-	ld		hl, (ix+12)
-	ld a,	mos_i2c_read
-	rst.lil	08h
-	ld		sp,ix
-	pop		ix
+nc:
 	ret
-
+m:
+	ret
 end

@@ -1,4 +1,4 @@
-Zilog eZ80 Macro Assembler Version 4.3 (19073001) RELISTED17-Nov-23     15:10:05     page:   1
+Zilog eZ80 Macro Assembler Version 4.3 (19073001) RELISTED13-Nov-23     20:19:21     page:   1
 
 
 PC     Object              I  Line    Source 
@@ -192,27 +192,27 @@ PC     Object              I  Line    Source
                            A     9    			.ASSUME	ADL = 1
                            A    10    			SEGMENT CODE
                            A    11    			
-                           A    12    			XDEF	_timer1_handler
-                           A    13    			XDEF	_timer1
+                           A    12    			XDEF	_timer0_handler
+                           A    13    			XDEF	_timer0
                            A    14    
                            A    15    ; AGON Timer 0 Interrupt Handler
                            A    16    ;
-04154A                     A    17    _timer1_handler:	
-04154A F3                  A    18    			DI
-04154B F5                  A    19    			PUSH	AF
-04154C ED3883              A    20    			IN0		A,(TMR1_CTL)		; Clear
-04154F C5                  A    21    			PUSH	BC
-041550 ED4B 1E 1F 04       A    22    			LD		BC, (_timer1)		; Incre
-041555 03                  A    23    			INC		BC
-041556 ED43 1E 1F 04       A    24    			LD		(_timer1), BC
-04155B C1                  A    25    			POP		BC
-04155C F1                  A    26    			POP		AF
-04155D FB                  A    27    			EI
-04155E 5BED4D              A    28    			RETI.L
+041035                     A    17    _timer0_handler:	
+041035 F3                  A    18    			DI
+041036 F5                  A    19    			PUSH	AF
+041037 ED3880              A    20    			IN0		A,(TMR0_CTL)		; Clear
+04103A C5                  A    21    			PUSH	BC
+04103B ED4B 83 14 04       A    22    			LD		BC, (_timer0)		; Incre
+041040 03                  A    23    			INC		BC
+041041 ED43 83 14 04       A    24    			LD		(_timer0), BC
+041046 C1                  A    25    			POP		BC
+041047 F1                  A    26    			POP		AF
+041048 FB                  A    27    			EI
+041049 5BED4D              A    28    			RETI.L
                            A    29    	
                            A    30    			SEGMENT DATA
                            A    31    			
-041F1E                     A    32    _timer1			DS	3
+041483                     A    32    _timer0			DS	3
 
 
 Errors: 0

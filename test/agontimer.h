@@ -14,11 +14,11 @@
 #ifndef AGONTIMER_H
 #define AGONTIMER_H
 
-extern volatile UINT24 timer1;
-extern void	timer1_handler(void);
+extern volatile UINT24 timer0;
+extern void	timer0_handler(void);
 
-void timer1_begin(int interval);
-void timer1_end(void);
+void timer0_begin(int interval);
+void timer0_end(void);
 
 void delayms(int ms);
 

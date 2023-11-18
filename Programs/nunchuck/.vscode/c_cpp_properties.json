@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/home/jeroen/Agondev/include/"
+            ],
+            "defines": [],
+            "cStandard": "c17",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "linux-clang-x86",
+            "configurationProvider": "ms-vscode.makefile-tools",
+            "compilerPath": "/home/jeroen/Agondev/bin/ez80-clang"
+        }
+    ],
+    "version": 4
+}

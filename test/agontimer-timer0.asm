@@ -9,19 +9,19 @@
 			.ASSUME	ADL = 1
 			SEGMENT CODE
 			
-			XDEF	_timer1_handler
-			XDEF	_timer1
+			XDEF	_timer0_handler
+			XDEF	_timer0
 
 ; AGON Timer 0 Interrupt Handler
 ;
-_timer1_handler:	
+_timer0_handler:	
 			DI
 			PUSH	AF
-			IN0		A,(TMR1_CTL)		; Clear the timer interrupt
+			IN0		A,(TMR0_CTL)		; Clear the timer interrupt
 			PUSH	BC
-			LD		BC, (_timer1)		; Increment the delay timer
+			LD		BC, (_timer0)		; Increment the delay timer
 			INC		BC
-			LD		(_timer1), BC
+			LD		(_timer0), BC
 			POP		BC
 			POP		AF
 			EI
@@ -29,4 +29,4 @@ _timer1_handler:
 	
 			SEGMENT DATA
 			
-_timer1			DS	3
+_timer0			DS	3
